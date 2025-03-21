@@ -94,7 +94,7 @@ export default function Footer() {
                     }
                   }}
                 >
-                  LaundryPro
+                  Fresh Box
                 </Typography>
                 <Typography variant="body2" sx={{ opacity: 0.7, mb: 2 }}>
                   Professional laundry and dry cleaning services delivered to your doorstep. Quality care for all your garments.
@@ -130,7 +130,7 @@ export default function Footer() {
               
               {[
                 { icon: <PhoneIcon fontSize="small" sx={{ mr: 1, opacity: 0.7 }} />, text: "(800) 555-WASH" },
-                { icon: <EmailIcon fontSize="small" sx={{ mr: 1, opacity: 0.7 }} />, text: "info@laundrypro.com" },
+                { icon: <EmailIcon fontSize="small" sx={{ mr: 1, opacity: 0.7 }} />, text: "info@freshpro.com" },
                 { icon: <LocationIcon fontSize="small" sx={{ mr: 1, mt: 0.3, opacity: 0.7 }} />, text: "123 Clean Street\nLaundry City, LC 12345" }
               ].map((item, index) => (
                 <Fade key={index} in={animateIn} style={{ transitionDelay: `${200 + index * 100}ms` }}>
@@ -419,7 +419,7 @@ export default function Footer() {
             gap: 2 
           }}>
             <Typography variant="body2" sx={{ opacity: 0.7 }}>
-              © {new Date().getFullYear()} LaundryPro. All rights reserved.
+              © {new Date().getFullYear()} Fresh Box. All rights reserved.
             </Typography>
             <Box sx={{ display: 'flex', gap: 3 }}>
               <Link href="/privacy-policy" style={{ textDecoration: 'none' }}>

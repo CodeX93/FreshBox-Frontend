@@ -32,16 +32,16 @@ import {
   Phone as PhoneIcon,
   AlternateEmail as UsernameIcon,
   ArrowBack as ArrowBackIcon,
-  ArrowForward as ArrowForwardIcon
+  ArrowForward as ArrowForwardIcon,
+  VerifiedUser as VerifiedUserIcon
 } from '@mui/icons-material';
 import { useAuth } from '../../../contexts/AuthContext';
 
-
-const steps = ['Account Details', 'Personal Information', 'Review & Finish'];
+const steps = ['Account Details', 'Email Verification', 'Personal Information', 'Review & Finish'];
 
 export default function SignupPage() {
   const router = useRouter();
-  const { signup, googleSignIn, facebookSignIn, appleSignIn } = useAuth();
+  const { signup, googleSignIn, facebookSignIn, appleSignIn, requestEmailOtp, verifyEmailOtp } = useAuth();
   
   // Form state
   const [formData, setFormData] = useState({
@@ -50,7 +50,8 @@ export default function SignupPage() {
     confirmPassword: '',
     name: '',
     phoneNumber: '',
-    username: ''
+    username: '',
+    emailOtp: ''
   });
   
   // UI state
@@ -60,6 +61,8 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [verificationId, setVerificationId] = useState('');
 
   // Handle form input changes
   const handleInputChange = (e) => {
@@ -96,7 +99,14 @@ export default function SignupPage() {
       if (formData.password.length < 8) {
         return setError('Password must be at least 8 characters');
       }
+      
+      // Send OTP to email
+      handleSendEmailOtp();
+      return;
     } else if (activeStep === 1) {
+      // Email verification step is handled by handleVerifyEmailOtp
+      return;
+    } else if (activeStep === 2) {
       // Validate name
       if (!formData.name) {
         return setError('Full name is required');
@@ -112,19 +122,62 @@ export default function SignupPage() {
     setError('');
   };
 
+  // Handle sending email OTP
+  const handleSendEmailOtp = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      
+      // Call API to send OTP to email
+      const result = await requestEmailOtp(formData.email);
+      setVerificationId(result.verificationId);
+      
+      setSuccess('Verification code sent to your email');
+      setActiveStep(1); // Move to email verification step
+    } catch (error) {
+      setError(error.message || 'Failed to send verification code. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle verifying email OTP
+  const handleVerifyEmailOtp = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      setError('');
+      
+      // Call API to verify OTP
+      await verifyEmailOtp(formData.email, formData.emailOtp, verificationId);
+      
+      setEmailVerified(true);
+      setSuccess('Email verified successfully!');
+      setActiveStep(2); // Move to personal information step
+    } catch (error) {
+      setError(error.message || 'Invalid verification code. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Handle signup submission
   const handleSignup = async (e) => {
     e.preventDefault();
     setError('');
     
+    if (!emailVerified) {
+      return setError('Email verification is required');
+    }
+    
     try {
       setLoading(true);
-      await signup(formData.email, formData.password, formData.name);
+      await signup(formData.email, formData.password, formData.name, formData.username, formData.phoneNumber);
       setSuccess('Account created successfully!');
       
       // Redirect after successful signup
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push('/');
       }, 1500);
     } catch (error) {
       setError(error.message || 'Failed to create account. Please try again.');
@@ -277,6 +330,71 @@ export default function SignupPage() {
         );
       case 1:
         return (
+          <Box component="form" onSubmit={handleVerifyEmailOtp}>
+            <Box sx={{ textAlign: 'center', mb: 3 }}>
+              <VerifiedUserIcon color="primary" sx={{ fontSize: 60, mb: 2 }} />
+              <Typography variant="h6" gutterBottom>
+                Verify Your Email
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                We've sent a 6-digit verification code to {formData.email}
+              </Typography>
+            </Box>
+            
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="emailOtp"
+              label="Verification Code"
+              name="emailOtp"
+              autoFocus
+              value={formData.emailOtp}
+              onChange={handleInputChange}
+              placeholder="123456"
+              inputProps={{ maxLength: 6 }}
+              sx={{ mb: 3 }}
+            />
+            
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              disabled={loading || !formData.emailOtp.trim()}
+              sx={{ 
+                py: 1.5,
+                borderRadius: 2,
+                fontWeight: 600,
+                fontSize: '1rem',
+                mb: 2,
+                bgcolor: '#28ddcd',
+                '&:hover': {
+                  bgcolor: '#20c5b7'
+                }
+              }}
+            >
+              {loading ? <CircularProgress size={24} color="inherit" /> : 'Verify Email'}
+            </Button>
+            
+            <Box sx={{ textAlign: 'center', mt: 2 }}>
+              <Typography variant="body2" color="text.secondary">
+                Didn't receive the code?{' '}
+                <Button
+                  color="primary"
+                  size="small"
+                  onClick={handleSendEmailOtp}
+                  disabled={loading}
+                  sx={{ fontWeight: 600 }}
+                >
+                  Resend Code
+                </Button>
+              </Typography>
+            </Box>
+          </Box>
+        );
+      case 2:
+        return (
           <Box>
             <TextField
               margin="normal"
@@ -337,7 +455,7 @@ export default function SignupPage() {
             />
           </Box>
         );
-      case 2:
+      case 3:
         return (
           <Box>
             <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
@@ -353,7 +471,7 @@ export default function SignupPage() {
                 </Grid>
                 <Grid item xs={8}>
                   <Typography variant="body2" fontWeight={500}>
-                    {formData.email}
+                    {formData.email} <VerifiedUserIcon color="success" fontSize="small" sx={{ verticalAlign: 'text-bottom', ml: 0.5 }} />
                   </Typography>
                 </Grid>
                 
@@ -465,61 +583,65 @@ export default function SignupPage() {
           )}
 
           {/* Form Steps */}
-          <form onSubmit={activeStep === steps.length - 1 ? handleSignup : undefined}>
-            {getStepContent(activeStep)}
-            
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
-              <Button
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                startIcon={<ArrowBackIcon />}
-                sx={{ visibility: activeStep === 0 ? 'hidden' : 'visible' }}
-              >
-                Back
-              </Button>
+          {activeStep === 1 ? (
+            getStepContent(activeStep) // Email verification step has its own form and submit handler
+          ) : (
+            <form onSubmit={activeStep === steps.length - 1 ? handleSignup : undefined}>
+              {getStepContent(activeStep)}
               
-              {activeStep === steps.length - 1 ? (
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
                 <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  disabled={loading}
-                  sx={{ 
-                    py: 1.5,
-                    px: 4,
-                    borderRadius: 2,
-                    fontWeight: 600,
-                    fontSize: '1rem',
-                    bgcolor: '#28ddcd',
-                    '&:hover': {
-                      bgcolor: '#20c5b7'
-                    }
-                  }}
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  startIcon={<ArrowBackIcon />}
+                  sx={{ visibility: activeStep === 0 ? 'hidden' : 'visible' }}
                 >
-                  {loading ? <CircularProgress size={24} color="inherit" /> : 'Create Account'}
+                  Back
                 </Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleNext}
-                  endIcon={<ArrowForwardIcon />}
-                  sx={{ 
-                    py: 1.5,
-                    px: 4,
-                    borderRadius: 2,
-                    fontWeight: 600,
-                    bgcolor: '#28ddcd',
-                    '&:hover': {
-                      bgcolor: '#20c5b7'
-                    }
-                  }}
-                >
-                  Next
-                </Button>
-              )}
-            </Box>
-          </form>
+                
+                {activeStep === steps.length - 1 ? (
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    disabled={loading}
+                    sx={{ 
+                      py: 1.5,
+                      px: 4,
+                      borderRadius: 2,
+                      fontWeight: 600,
+                      fontSize: '1rem',
+                      bgcolor: '#28ddcd',
+                      '&:hover': {
+                        bgcolor: '#20c5b7'
+                      }
+                    }}
+                  >
+                    {loading ? <CircularProgress size={24} color="inherit" /> : 'Create Account'}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    endIcon={<ArrowForwardIcon />}
+                    sx={{ 
+                      py: 1.5,
+                      px: 4,
+                      borderRadius: 2,
+                      fontWeight: 600,
+                      bgcolor: '#28ddcd',
+                      '&:hover': {
+                        bgcolor: '#20c5b7'
+                      }
+                    }}
+                  >
+                    Next
+                  </Button>
+                )}
+              </Box>
+            </form>
+          )}
 
           {/* Social Signup Options - Only show on first step */}
           {activeStep === 0 && (

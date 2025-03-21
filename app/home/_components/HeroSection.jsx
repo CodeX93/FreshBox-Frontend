@@ -127,7 +127,7 @@ export default function HeroSection({
             sx={{
               borderRadius: 3,
               boxShadow: 6,
-              backgroundColor: 'rgba(255, 255, 255, 0.1)', // Slightly lighter for better contrast
+              backgroundColor: 'white', // Changed to solid white
               backdropFilter: 'blur(10px)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
             }}

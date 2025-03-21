@@ -1,6 +1,5 @@
 // auth.js - Authentication Context and Provider
 'use client';
-
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -9,7 +8,6 @@ const API_BASE_URL = 'http://localhost:5023';
 
 // Create Authentication Context
 const AuthContext = createContext({});
-
 console.log(AuthContext)
 
 export function AuthProvider({ children }) {
@@ -34,9 +32,24 @@ export function AuthProvider({ children }) {
   }, []);
 
   // Email/Password Registration
-  const signup = async (email, password, name) => {
+  const signup = async (email, password, name, username = '', phoneNumber = '') => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/auth/signup`, { email, password, name }, { withCredentials: true });
+      const userData = { 
+        email, 
+        password, 
+        name 
+      };
+      
+      // Add optional fields if provided
+      if (username) userData.username = username;
+      if (phoneNumber) userData.phoneNumber = phoneNumber;
+      
+      const response = await axios.post(
+        `${API_BASE_URL}/api/auth/signup`, 
+        userData, 
+        { withCredentials: true }
+      );
+      
       setUser(response.data.user);
       console.log(response.data);
       return response.data;
@@ -84,20 +97,111 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Verify Phone OTP
-  const verifyPhoneOtp = async (phoneNumber, otp, verificationId) => {
+  // Step 1: Only verify OTP without login or redirect
+  const verifyOtpOnly = async (phoneNumber, otp, verificationId) => {
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/api/auth/phone/verify-otp`, 
-        { phoneNumber, otp, verificationId }, 
+        `${API_BASE_URL}/api/auth/phone/verify-otp`,
+        { phoneNumber, otp, verificationId, skipLogin: true },
         { withCredentials: true }
       );
-      setUser(response.data.user);
+      
+      console.log('OTP verification only response:', response.data);
       return response.data;
     } catch (error) {
+      console.error('OTP verification error:', error.response?.data || error);
       throw error.response?.data || error;
     }
   };
+
+  // Step 2: Complete registration with name and login
+  const completePhoneRegistration = async (phoneNumber, otp, verificationId, name) => {
+    try {
+      if (!name || !name.trim()) {
+        throw new Error('Name is required to complete registration');
+      }
+      
+      const response = await axios.post(
+        `${API_BASE_URL}/api/auth/phone/complete-registration`,
+        { 
+          phoneNumber, 
+          otp, 
+          verificationId, 
+          name: name.trim() 
+        },
+        { withCredentials: true }
+      );
+      
+      console.log('Registration completion response:', response.data);
+      setUser(response.data.user);
+      return response.data;
+    } catch (error) {
+      console.error('Registration completion error:', error.response?.data || error);
+      throw error.response?.data || error;
+    }
+  };
+
+  // Original verifyPhoneOtp (kept for backward compatibility)
+  const verifyPhoneOtp = async (phoneNumber, otp, verificationId, name = '') => {
+    try {
+      // Include name in the request if provided
+      const requestData = { phoneNumber, otp, verificationId };
+      if (name && name.trim() !== '') {
+        requestData.name = name.trim();
+      }
+      
+      const response = await axios.post(
+        `${API_BASE_URL}/api/auth/phone/verify-otp`,
+        requestData,
+        { withCredentials: true }
+      );
+      
+      console.log('OTP verification response:', response.data);
+      setUser(response.data.user);
+      return response.data;
+    } catch (error) {
+      console.error('OTP verification error:', error.response?.data || error);
+      throw error.response?.data || error;
+    }
+  };
+
+
+
+  // Request email verification OTP
+const requestEmailOtp = async (email) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/api/auth/email/request-otp`,
+      { email },
+      { withCredentials: true }
+    );
+    
+    console.log('Email OTP request response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Email OTP request error:', error.response?.data || error);
+    throw error.response?.data || error;
+  }
+};
+
+// Verify email OTP
+const verifyEmailOtp = async (email, otp, verificationId) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/api/auth/email/verify-otp`,
+      { email, otp, verificationId },
+      { withCredentials: true }
+    );
+    
+    console.log('Email OTP verification response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Email OTP verification error:', error.response?.data || error);
+    throw error.response?.data || error;
+  }
+};
+
+
 
   // Logout function
   const logout = async () => {
@@ -120,6 +224,10 @@ export function AuthProvider({ children }) {
     appleSignIn,
     phoneSignIn,
     verifyPhoneOtp,
+    verifyOtpOnly,      
+    requestEmailOtp,
+    verifyEmailOtp,
+    completePhoneRegistration, // New function for second step with name
     isAuthenticated: !!user
   };
 

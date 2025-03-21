@@ -27,7 +27,9 @@ import {
   useMediaQuery,
   Avatar,
   Menu,
-  MenuItem
+  Badge,
+  MenuItem,
+  Tooltip
 } from '@mui/material';
 
 import {
@@ -44,7 +46,10 @@ import {
   AccountCircle as AccountCircleIcon,
   Logout as LogoutIcon,
   ShoppingBag as OrdersIcon,
-  Chat as ChatIcon
+  Chat as ChatIcon,
+  Dashboard as BasicPlanIcon,
+  Star as PremiumPlanIcon,
+  Business as EnterprisePlanIcon
 } from '@mui/icons-material';
 import Logo from '../Assets/logo.png';
 import { useAuth } from '../contexts/AuthContext';
@@ -63,19 +68,36 @@ const BorderedButton = ({ children, ...props }) => (
 const turquoiseColor = '#28ddcd';
 
 export default function Navbar() {
-  const { user, logout, isAuthenticated } = useAuth(); // Use the auth context
+  const { user, logout, isAuthenticated } = useAuth(); 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [servicesAnchorEl, setServicesAnchorEl] = useState(null);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [userMenuAnchorEl, setUserMenuAnchorEl] = useState(null); // For user menu
+  const [userMenuAnchorEl, setUserMenuAnchorEl] = useState(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  
+  const [unreadMessageCount, setUnreadMessageCount] = useState(0);
+  const [ongoingOrdersCount, setOngoingOrdersCount] = useState(0);
+  const [userPlan, setUserPlan] = useState('Basic'); // Default to Basic Plan
+
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 50,
   });
+
+  // Load user plan, unread message and ongoing order counts
+  useEffect(() => {
+    // Replace with actual API calls in production
+    const totalUnreadMessages = 5;
+    const totalOngoingOrders = 3;
+    
+    // Get user plan from user object if available, otherwise default to Basic
+    const plan = user?.plan || 'Basic';
+    
+    setUserPlan(plan);
+    setUnreadMessageCount(totalUnreadMessages);
+    setOngoingOrdersCount(totalOngoingOrders);
+  }, [user]);
 
   // Update scrolled state based on scroll position
   useEffect(() => {
@@ -93,11 +115,6 @@ export default function Navbar() {
   }, [scrolled]);
 
   const navItems = [
-    // { 
-    //   name: 'About Us', 
-    //   path: '/about', 
-      
-    // },
     { 
       name: 'Services & Pricing', 
       path: '/services', 
@@ -111,10 +128,6 @@ export default function Navbar() {
       name: 'Areas', 
       path: '/area' 
     },
-    // { 
-    //   name: 'Blog', 
-    //   path: '/blog' 
-    // },
   ];
 
   const serviceSubmenu = [
@@ -191,6 +204,32 @@ export default function Navbar() {
     return name ? name.charAt(0).toUpperCase() : 'U';
   };
 
+  // Get the plan icon based on the user's plan
+  const getPlanIcon = () => {
+    switch(userPlan) {
+      case 'Premium':
+        return <PremiumPlanIcon sx={{ fontSize: { md: '1.1rem', lg: '1.3rem' }, color: '#FFD700' }} />;
+      case 'Enterprise':
+        return <EnterprisePlanIcon sx={{ fontSize: { md: '1.1rem', lg: '1.3rem' }, color: '#6A0DAD' }} />;
+      case 'Basic':
+      default:
+        return <BasicPlanIcon sx={{ fontSize: { md: '1.1rem', lg: '1.3rem' }, color: '#1976d2' }} />;
+    }
+  };
+
+  // Get plan color based on the user's plan
+  const getPlanColor = () => {
+    switch(userPlan) {
+      case 'Premium':
+        return '#FFD700'; // Gold color for Premium
+      case 'Enterprise':
+        return '#6A0DAD'; // Purple color for Enterprise
+      case 'Basic':
+      default:
+        return '#1976d2'; // Blue color for Basic
+    }
+  };
+
   return (
     <>
       <AppBar
@@ -199,7 +238,7 @@ export default function Navbar() {
         sx={{
           transition: 'all 0.3s ease',
           bgcolor: trigger ? 'rgba(255, 255, 255, 0.97)' : 'transparent',
-          color: turquoiseColor, // Changed to turquoise for all states
+          color: turquoiseColor,
           backdropFilter: trigger ? 'blur(10px)' : 'blur(6px)',
           boxShadow: trigger ? '0px 2px 10px rgba(0, 0, 0, 0.08)' : 'none',
           borderBottom: trigger ? '1px solid rgba(230, 230, 230, 0.5)' : 'none',
@@ -213,7 +252,7 @@ export default function Navbar() {
               display: 'grid',
               gridTemplateColumns: { xs: '1fr auto', md: '200px 1fr 400px' },
               alignItems: 'center',
-              color: turquoiseColor, // Changed to turquoise
+              color: turquoiseColor,
               gap: 2
             }}
           >
@@ -258,7 +297,7 @@ export default function Navbar() {
                 variant="h5"
                 component="div"
                 sx={{ 
-                  color: turquoiseColor, // Changed to turquoise
+                  color: turquoiseColor,
                   ml: 1.5, 
                   fontWeight: 700, 
                   display: { xs: 'none', sm: 'block' },
@@ -284,7 +323,7 @@ export default function Navbar() {
                 onClick={toggleDrawer(true)}
                 sx={{ 
                   border: '1px solid',
-                  borderColor: turquoiseColor, // Changed to turquoise
+                  borderColor: turquoiseColor,
                   borderRadius: '8px',
                   p: 0.8
                 }}
@@ -315,7 +354,7 @@ export default function Navbar() {
                         px: { md: 1, lg: 1.5 },
                         py: 1,
                         borderRadius: '8px',
-                        color: turquoiseColor, // Changed to turquoise
+                        color: turquoiseColor,
                         fontSize: { md: '0.9rem', lg: '1.1rem' },
                         whiteSpace: 'nowrap',
                         '&:hover': {
@@ -462,7 +501,7 @@ export default function Navbar() {
                       px: { md: 1, lg: 1.5 },
                       py: 1,
                       fontSize: { md: '0.9rem', lg: '1.1rem' },
-                      color: turquoiseColor, // Changed to turquoise
+                      color: turquoiseColor,
                       borderRadius: '8px',
                       whiteSpace: 'nowrap',
                       '&:hover': {
@@ -486,7 +525,35 @@ export default function Navbar() {
             }}>
               {isAuthenticated ? (
                 <>
-                  {/* Added Orders Button */}
+                  {/* Plan indicator with Badge */}
+                  <Tooltip title={`${userPlan} Plan`}>
+                    <Button
+                      color="primary"
+                      component={Link}
+                      href="/plan"
+                      sx={{ 
+                        fontWeight: 600,
+                        borderRadius: '8px',
+                        px: { md: 0.5, lg: 1.5 },
+                        minWidth: { md: 'auto' },
+                        color: getPlanColor(),
+                        fontSize: { md: '0.7rem', lg: '0.9rem' },
+                        whiteSpace: 'nowrap',
+                        '&:hover': {
+                          bgcolor: 'rgba(25, 118, 210, 0.1)'
+                        },
+                        border: '1px solid',
+                        borderColor: getPlanColor()
+                      }}
+                    >
+                      {getPlanIcon()}
+                      <Box sx={{ ml: { md: 0.5, lg: 0.75 }, display: { md: 'none', lg: 'block' } }}>
+                        {userPlan} Plan
+                      </Box>
+                    </Button>
+                  </Tooltip>
+                  
+                  {/* Orders Button with Badge */}
                   <Button
                     color="primary"
                     component={Link}
@@ -496,7 +563,7 @@ export default function Navbar() {
                       borderRadius: '8px',
                       px: { md: 0.5, lg: 1.5 },
                       minWidth: { md: 'auto' },
-                      color: turquoiseColor, // Changed to turquoise
+                      color: turquoiseColor,
                       fontSize: { md: '0.7rem', lg: '0.9rem' },
                       whiteSpace: 'nowrap',
                       '&:hover': {
@@ -504,11 +571,13 @@ export default function Navbar() {
                       }
                     }}
                   >
-                    <OrdersIcon sx={{ fontSize: { md: '1.1rem', lg: '1.3rem' }, mr: { md: 0.5, lg: 0.75 } }} />
+                    <Badge badgeContent={ongoingOrdersCount} color="warning" sx={{padding: '2px'}}>
+                      <OrdersIcon sx={{ fontSize: { md: '1.1rem', lg: '1.3rem' }, mr: { md: 0.5, lg: 0.75 } }} />
+                    </Badge>
                     Orders
                   </Button>
                   
-                  {/* Added Chats Button */}
+                  {/* Chats Button with Badge */}
                   <Button
                     color="primary"
                     component={Link}
@@ -518,7 +587,7 @@ export default function Navbar() {
                       borderRadius: '8px',
                       px: { md: 0.5, lg: 1.5 },
                       minWidth: { md: 'auto' },
-                      color: turquoiseColor, // Changed to turquoise
+                      color: turquoiseColor,
                       fontSize: { md: '0.7rem', lg: '0.9rem' },
                       whiteSpace: 'nowrap',
                       '&:hover': {
@@ -526,7 +595,9 @@ export default function Navbar() {
                       }
                     }}
                   >
-                    <ChatIcon sx={{ fontSize: { md: '1.1rem', lg: '1.3rem' }, mr: { md: 0.5, lg: 0.75 } }} />
+                    <Badge badgeContent={unreadMessageCount} color="error" sx={{padding: '2px'}}>
+                      <ChatIcon sx={{ fontSize: { md: '1.1rem', lg: '1.3rem' }, mr: { md: 0.5, lg: 0.75 } }} />
+                    </Badge>
                     Chats
                   </Button>
                   
@@ -540,7 +611,7 @@ export default function Navbar() {
                       fontWeight: 600,
                       borderRadius: '8px',
                       px: { md: 0.5, lg: 1.5 },
-                      color: turquoiseColor, // Changed to turquoise
+                      color: turquoiseColor,
                       fontSize: { md: '0.7rem', lg: '0.9rem' },
                       whiteSpace: 'nowrap',
                       textTransform: 'none',
@@ -588,21 +659,12 @@ export default function Navbar() {
                     </MenuItem>
                     <MenuItem 
                       component={Link}
-                      href="/orders"
+                      href="/plan"
                       onClick={handleUserMenuClose}
                       sx={{ py: 1.5 }}
                     >
-                      <OrdersIcon sx={{ mr: 1.5, fontSize: '1.25rem', color: turquoiseColor }} />
-                      <Typography>My Orders</Typography>
-                    </MenuItem>
-                    <MenuItem 
-                      component={Link}
-                      href="/chats"
-                      onClick={handleUserMenuClose}
-                      sx={{ py: 1.5 }}
-                    >
-                      <ChatIcon sx={{ mr: 1.5, fontSize: '1.25rem', color: turquoiseColor }} />
-                      <Typography>My Chats</Typography>
+                      {getPlanIcon()}
+                      <Typography sx={{ ml: 1.5 }}>{userPlan} Plan</Typography>
                     </MenuItem>
                     <Divider />
                     <MenuItem 
@@ -624,340 +686,347 @@ export default function Navbar() {
                     borderRadius: '8px',
                     px: { md: 0.5, lg: 1.5 },
                     py: { md: 0.5, lg: 0.75 },
-                    color: turquoiseColor, // Changed to turquoise
+                    color: turquoiseColor,
                     fontSize: { md: '0.7rem', lg: '0.9rem' },
                     whiteSpace: 'nowrap',
-                    borderColor: turquoiseColor // Changed to turquoise
+                    borderColor: turquoiseColor
                   }}
                 >
                   <LoginIcon sx={{ fontSize: { md: '1.1rem', lg: '1.3rem' }, mr: { md: 0.5, lg: 0.75 } }} />
                   Log In
                 </BorderedButton>
               )}
-              
-              {/* <Button
-                variant="contained"
-                color="secondary"
-                component={Link}
-                href="/schedule"
-                sx={{ 
-                  color: 'white',
-                  fontWeight: 600,
-                  px: { md: 0.75, lg: 2 },
-                  py: { md: 0.5, lg: 0.75 },
-                  fontSize: { md: '0.7rem', lg: '0.9rem' },
-                  borderRadius: '8px',
-                  whiteSpace: 'nowrap',
-                  boxShadow: '0 4px 14px 0 rgba(0, 0, 0, 0.1)',
-                  bgcolor: '#28ddcd',
-                  '&:hover': {
-                    bgcolor: '#20c5b7',
-                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)',
-                    transform: 'translateY(-2px)'
-                  },
-                  transition: 'all 0.3s ease',
-                  ml: { lg: 1 }
-                }}
-              >
-                <ScheduleIcon sx={{ fontSize: { md: '1.1rem', lg: '1.3rem' }, mr: { md: 0.5, lg: 0.75 } }} />
-                Schedule Pickup
-              </Button> */}
             </Box>
           </Toolbar>
         </Container>
       </AppBar>
 
       {/* Mobile drawer menu */}
-      <Drawer
-        anchor="right"
-        open={drawerOpen}
-        onClose={toggleDrawer(false)}
-        sx={{
-          '& .MuiDrawer-paper': { 
-            width: { xs: '85%', sm: 350 },
-            boxSizing: 'border-box',
-            borderTopLeftRadius: '12px',
-            borderBottomLeftRadius: '12px',
-          },
-        }}
-      >
-        <Box
+     
+{/* Mobile drawer menu */}
+<Drawer
+  anchor="right"
+  open={drawerOpen}
+  onClose={toggleDrawer(false)}
+  sx={{
+    '& .MuiDrawer-paper': { 
+      width: { xs: '85%', sm: 350 },
+      boxSizing: 'border-box',
+      borderTopLeftRadius: '12px',
+      borderBottomLeftRadius: '12px',
+    },
+  }}
+>
+  <Box
+    sx={{ 
+      height: '100%', 
+      display: 'flex', 
+      flexDirection: 'column' 
+    }}
+  >
+    <Box sx={{ 
+      p: 3, 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'space-between',
+      borderBottom: '1px solid',
+      borderColor: 'grey.100'
+    }}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        {/* Mobile menu logo */}
+        <Box 
           sx={{ 
-            height: '100%', 
-            display: 'flex', 
-            flexDirection: 'column' 
+            position: 'relative',
+            width: 40,
+            height: 40,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '50%',
+            overflow: 'hidden'
           }}
         >
-          <Box sx={{ 
-            p: 3, 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'space-between',
-            borderBottom: '1px solid',
-            borderColor: 'grey.100'
-          }}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              {/* Mobile menu logo */}
-              <Box 
-                sx={{ 
-                  position: 'relative',
-                  width: 40,
-                  height: 40,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: '50%',
-                  overflow: 'hidden'
-                }}
-              >
-                <Image
-                  src={Logo}
-                  alt="Fresh Box Logo"
-                  fill
-                  priority
-                  sizes="40px"
-                  style={{
-                    objectFit: 'cover',
-                  }}
-                />
-              </Box>
-              <Typography variant="h6" component="div" sx={{ ml: 1.5, fontWeight: 700, color: turquoiseColor }}>
-                Fresh Box
-              </Typography>
-            </Box>
-            <IconButton onClick={toggleDrawer(false)} sx={{ color: turquoiseColor }}>
-              <ExpandLessIcon />
-            </IconButton>
-          </Box>
-
-          <Box sx={{ flexGrow: 1, overflowY: 'auto', p: 2 }}>
-            <List>
-              {/* Add Orders and Chats links in mobile menu for authenticated users */}
-              {isAuthenticated && (
-                <>
-                  <Box>
-                    <ListItem 
-                      button 
-                      component={Link}
-                      href="/orders"
-                      onClick={toggleDrawer(false)}
-                      sx={{ 
-                        borderRadius: '8px',
-                        mb: 1,
-                        py: 1.5
-                      }}
-                    >
-                      <ListItemIcon sx={{ minWidth: 40, color: turquoiseColor }}>
-                        <OrdersIcon />
-                      </ListItemIcon>
-                      <ListItemText 
-                        primary="My Orders"
-                        primaryTypographyProps={{ fontWeight: 600, fontSize: '1.1rem', color: turquoiseColor }}
-                      />
-                    </ListItem>
-                    <Divider sx={{ my: 1.5 }} />
-                  </Box>
-                  <Box>
-                    <ListItem 
-                      button 
-                      component={Link}
-                      href="/chats"
-                      onClick={toggleDrawer(false)}
-                      sx={{ 
-                        borderRadius: '8px',
-                        mb: 1,
-                        py: 1.5
-                      }}
-                    >
-                      <ListItemIcon sx={{ minWidth: 40, color: turquoiseColor }}>
-                        <ChatIcon />
-                      </ListItemIcon>
-                      <ListItemText 
-                        primary="My Chats"
-                        primaryTypographyProps={{ fontWeight: 600, fontSize: '1.1rem', color: turquoiseColor }}
-                      />
-                    </ListItem>
-                    <Divider sx={{ my: 1.5 }} />
-                  </Box>
-                </>
-              )}
-
-              {navItems.map((item) => (
-                item.hasSubmenu ? (
-                  <Box key={item.name}>
-                    <ListItem 
-                      button 
-                      onClick={toggleMobileServicesMenu}
-                      sx={{ 
-                        borderRadius: '8px',
-                        mb: 1,
-                        py: 1.5
-                      }}
-                    >
-                      <ListItemText 
-                        primary={item.name} 
-                        primaryTypographyProps={{ fontWeight: 600, fontSize: '1.1rem', color: turquoiseColor }}
-                      />
-                      {mobileServicesOpen ? 
-                        <ExpandLessIcon sx={{ color: turquoiseColor }} /> : 
-                        <ExpandMoreIcon sx={{ color: turquoiseColor }} />
-                      }
-                    </ListItem>
-                    <Collapse in={mobileServicesOpen} timeout="auto" unmountOnExit>
-                      <List component="div" disablePadding>
-                        {serviceSubmenu.map((submenuItem) => (
-                          <ListItem 
-                            key={submenuItem.name}
-                            button
-                            component={Link}
-                            href={submenuItem.path}
-                            onClick={toggleDrawer(false)}
-                            sx={{ 
-                              pl: 4,
-                              borderRadius: '8px',
-                              mb: 0.5,
-                              py: 1
-                            }}
-                          >
-                            <ListItemIcon sx={{ minWidth: 40, color: turquoiseColor }}>
-                              {submenuItem.icon}
-                            </ListItemIcon>
-                            <ListItemText 
-                              primary={submenuItem.name}
-                              secondary={submenuItem.description}
-                              primaryTypographyProps={{ fontWeight: 500, fontSize: '1rem' }}
-                              secondaryTypographyProps={{ fontSize: '0.75rem' }}
-                            />
-                          </ListItem>
-                        ))}
-                        <ListItem 
-                          button
-                          component={Link}
-                          href="/services"
-                          onClick={toggleDrawer(false)}
-                          sx={{ 
-                            pl: 4,
-                            borderRadius: '8px',
-                            mb: 0.5,
-                            py: 1,
-                            color: turquoiseColor
-                          }}
-                        >
-                          <ListItemText 
-                            primary="View All Services & Pricing"
-                            primaryTypographyProps={{ fontWeight: 600, fontSize: '1rem' }}
-                          />
-                        </ListItem>
-                      </List>
-                    </Collapse>
-                    <Divider sx={{ my: 1.5 }} />
-                  </Box>
-                ) : (
-                  <Box key={item.name}>
-                    <ListItem 
-                      button 
-                      component={Link}
-                      href={item.path}
-                      onClick={toggleDrawer(false)}
-                      sx={{ 
-                        borderRadius: '8px',
-                        mb: 1,
-                        py: 1.5
-                      }}
-                    >
-                      <ListItemText 
-                        primary={item.name}
-                        primaryTypographyProps={{ fontWeight: 600, fontSize: '1.1rem', color: turquoiseColor }}
-                      />
-                    </ListItem>
-                    <Divider sx={{ my: 1.5 }} />
-                  </Box>
-                )
-              ))}
-            </List>
-          </Box>
-
-          <Box sx={{ p: 3, borderTop: '1px solid', borderColor: 'grey.100' }}>
-            {isAuthenticated ? (
-              <>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  component={Link}
-                  href="/profile"
-                  startIcon={<AccountCircleIcon />}
-                  sx={{ 
-                    mb: 2,
-                    borderRadius: '8px',
-                    py: 1.2,
-                    fontSize: '1rem',
-                    color: turquoiseColor,
-                    borderColor: turquoiseColor
-                  }}
-                >
-                  {user?.name || 'My Profile'}
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="error"
-                  fullWidth
-                  onClick={handleLogout}
-                  startIcon={<LogoutIcon />}
-                  sx={{ 
-                    mb: 2,
-                    borderRadius: '8px',
-                    py: 1.2,
-                    fontSize: '1rem'
-                  }}
-                >
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <Button
-                variant="outlined"
-                color="primary"
-                fullWidth
-                component={Link}
-                href="/auth/login"
-                startIcon={<LoginIcon />}
-                sx={{ 
-                  mb: 2,
-                  borderRadius: '8px',
-                  py: 1.2,
-                  fontSize: '1rem',
-                  color: turquoiseColor,
-                  borderColor: turquoiseColor
-                }}
-              >
-                Log In
-              </Button>
-            )}
-            
-            <Button
-              variant="contained"
-              color="secondary"
-              fullWidth
-              component={Link}
-              href="/schedule"
-              startIcon={<ScheduleIcon />}
-              sx={{ 
-                color: 'white',
-                borderRadius: '8px',
-                py: 1.2,
-                fontSize: '1rem',
-                bgcolor: turquoiseColor,
-                '&:hover': {
-                  bgcolor: '#20c5b7'
-                }
-              }}
-            >
-              Schedule Pickup
-            </Button>
-          </Box>
+          <Image
+            src={Logo}
+            alt="Fresh Box Logo"
+            fill
+            priority
+            sizes="40px"
+            style={{
+              objectFit: 'cover',
+            }}
+          />
         </Box>
-      </Drawer>
-    </>
-  );
+        <Typography variant="h6" component="div" sx={{ ml: 1.5, fontWeight: 700, color: turquoiseColor }}>
+          Fresh Box
+        </Typography>
+      </Box>
+      <IconButton onClick={toggleDrawer(false)} sx={{ color: turquoiseColor }}>
+        <ExpandLessIcon />
+      </IconButton>
+    </Box>
+
+    <Box sx={{ flexGrow: 1, overflowY: 'auto', p: 2 }}>
+      <List>
+        {/* Add Plan link in mobile menu for authenticated users */}
+        {isAuthenticated && (
+          <>
+            <Box>
+              <ListItem 
+                button 
+                component={Link}
+                href="/plan"
+                onClick={toggleDrawer(false)}
+                sx={{ 
+                  borderRadius: '8px',
+                  mb: 1,
+                  py: 1.5,
+                  border: '1px solid',
+                  borderColor: getPlanColor()
+                }}
+              >
+                <ListItemIcon sx={{ minWidth: 40, color: getPlanColor() }}>
+                  {getPlanIcon()}
+                </ListItemIcon>
+                <ListItemText 
+                  primary={`${userPlan} Plan`}
+                  primaryTypographyProps={{ fontWeight: 600, fontSize: '1.1rem', color: getPlanColor() }}
+                />
+              </ListItem>
+              <Divider sx={{ my: 1.5 }} />
+            </Box>
+            <Box>
+              <ListItem 
+                button 
+                component={Link}
+                href="/orders"
+                onClick={toggleDrawer(false)}
+                sx={{ 
+                  borderRadius: '8px',
+                  mb: 1,
+                  py: 1.5
+                }}
+              >
+                <ListItemIcon sx={{ minWidth: 40, color: turquoiseColor }}>
+                  <Badge badgeContent={ongoingOrdersCount} color="warning" sx={{padding: '2px'}}>
+                    <OrdersIcon />
+                  </Badge>
+                </ListItemIcon>
+                <ListItemText 
+                  primary="My Orders"
+                  primaryTypographyProps={{ fontWeight: 600, fontSize: '1.1rem', color: turquoiseColor }}
+                />
+              </ListItem>
+              <Divider sx={{ my: 1.5 }} />
+            </Box>
+            <Box>
+              <ListItem 
+                button 
+                component={Link}
+                href="/chats"
+                onClick={toggleDrawer(false)}
+                sx={{ 
+                  borderRadius: '8px',
+                  mb: 1,
+                  py: 1.5
+                }}
+              >
+                <ListItemIcon sx={{ minWidth: 40, color: turquoiseColor }}>
+                  <Badge badgeContent={unreadMessageCount} color="error" sx={{padding: '2px'}}>
+                    <ChatIcon />
+                  </Badge>
+                </ListItemIcon>
+                <ListItemText 
+                  primary="My Chats"
+                  primaryTypographyProps={{ fontWeight: 600, fontSize: '1.1rem', color: turquoiseColor }}
+                />
+              </ListItem>
+              <Divider sx={{ my: 1.5 }} />
+            </Box>
+          </>
+        )}
+
+        {/* Navigation items */}
+        {navItems.map((item) => (
+          item.hasSubmenu ? (
+            <Box key={item.name}>
+              <ListItem 
+                button 
+                onClick={toggleMobileServicesMenu}
+                sx={{ 
+                  borderRadius: '8px',
+                  mb: 1,
+                  py: 1.5
+                }}
+              >
+                <ListItemText 
+                  primary={item.name} 
+                  primaryTypographyProps={{ fontWeight: 600, fontSize: '1.1rem', color: turquoiseColor }}
+                />
+                {mobileServicesOpen ? 
+                  <ExpandLessIcon sx={{ color: turquoiseColor }} /> : 
+                  <ExpandMoreIcon sx={{ color: turquoiseColor }} />
+                }
+              </ListItem>
+              <Collapse in={mobileServicesOpen} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {serviceSubmenu.map((submenuItem) => (
+                    <ListItem 
+                      key={submenuItem.name}
+                      button
+                      component={Link}
+                      href={submenuItem.path}
+                      onClick={toggleDrawer(false)}
+                      sx={{ 
+                        pl: 4,
+                        borderRadius: '8px',
+                        mb: 0.5,
+                        py: 1
+                      }}
+                    >
+                      <ListItemIcon sx={{ minWidth: 40, color: turquoiseColor }}>
+                        {submenuItem.icon}
+                      </ListItemIcon>
+                      <ListItemText 
+                        primary={submenuItem.name}
+                        secondary={submenuItem.description}
+                        primaryTypographyProps={{ fontWeight: 500, fontSize: '1rem' }}
+                        secondaryTypographyProps={{ fontSize: '0.75rem' }}
+                      />
+                    </ListItem>
+                  ))}
+                  <ListItem 
+                    button
+                    component={Link}
+                    href="/services"
+                    onClick={toggleDrawer(false)}
+                    sx={{ 
+                      pl: 4,
+                      borderRadius: '8px',
+                      mb: 0.5,
+                      py: 1,
+                      color: turquoiseColor
+                    }}
+                  >
+                    <ListItemText 
+                      primary="View All Services & Pricing"
+                      primaryTypographyProps={{ fontWeight: 600, fontSize: '1rem' }}
+                    />
+                  </ListItem>
+                </List>
+              </Collapse>
+              <Divider sx={{ my: 1.5 }} />
+            </Box>
+          ) : (
+            <Box key={item.name}>
+              <ListItem 
+                button 
+                component={Link}
+                href={item.path}
+                onClick={toggleDrawer(false)}
+                sx={{ 
+                  borderRadius: '8px',
+                  mb: 1,
+                  py: 1.5
+                }}
+              >
+                <ListItemText 
+                  primary={item.name}
+                  primaryTypographyProps={{ fontWeight: 600, fontSize: '1.1rem', color: turquoiseColor }}
+                />
+              </ListItem>
+              <Divider sx={{ my: 1.5 }} />
+            </Box>
+          )
+        ))}
+      </List>
+    </Box>
+
+    <Box sx={{ p: 3, borderTop: '1px solid', borderColor: 'grey.100' }}>
+      {isAuthenticated ? (
+        <>
+          <Button
+            variant="outlined"
+            color="primary"
+            fullWidth
+            component={Link}
+            href="/profile"
+            startIcon={<AccountCircleIcon />}
+            sx={{ 
+              mb: 2,
+              borderRadius: '8px',
+              py: 1.2,
+              fontSize: '1rem',
+              color: turquoiseColor,
+              borderColor: turquoiseColor
+            }}
+          >
+            {user?.name || 'My Profile'}
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            fullWidth
+            onClick={handleLogout}
+            startIcon={<LogoutIcon />}
+            sx={{ 
+              mb: 2,
+              borderRadius: '8px',
+              py: 1.2,
+              fontSize: '1rem'
+            }}
+          >
+            Logout
+          </Button>
+        </>
+      ) : (
+        <Button
+          variant="outlined"
+          color="primary"
+          fullWidth
+          component={Link}
+          href="/auth/login"
+          startIcon={<LoginIcon />}
+          sx={{ 
+            mb: 2,
+            borderRadius: '8px',
+            py: 1.2,
+            fontSize: '1rem',
+            color: turquoiseColor,
+            borderColor: turquoiseColor
+          }}
+        >
+          Log In
+        </Button>
+      )}
+      
+      <Button
+        variant="contained"
+        color="secondary"
+        fullWidth
+        component={Link}
+        href="/schedule"
+        startIcon={<ScheduleIcon />}
+        sx={{ 
+          color: 'white',
+          borderRadius: '8px',
+          py: 1.2,
+          fontSize: '1rem',
+          bgcolor: turquoiseColor,
+          '&:hover': {
+            bgcolor: '#20c5b7'
+          }
+        }}
+      >
+        Schedule Pickup
+      </Button>
+    </Box>
+  </Box>
+</Drawer>
+</>
+  )
 }
+
+ 
+
+      

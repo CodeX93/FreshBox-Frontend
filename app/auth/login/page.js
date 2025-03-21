@@ -27,13 +27,22 @@ import {
   Google as GoogleIcon,
   Facebook as FacebookIcon,
   Apple as AppleIcon,
-  Phone as PhoneIcon
+  Phone as PhoneIcon,
+  Person as PersonIcon
 } from '@mui/icons-material';
 import {useAuth} from '../../../contexts/AuthContext'
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, googleSignIn, facebookSignIn, appleSignIn, phoneSignIn, verifyPhoneOtp } = useAuth();
+  const { 
+    login, 
+    googleSignIn, 
+    facebookSignIn, 
+    appleSignIn, 
+    phoneSignIn, 
+    verifyOtpOnly,
+    completePhoneRegistration 
+  } = useAuth();
   
   // State for authentication method tabs
   const [authMethod, setAuthMethod] = useState('email');
@@ -46,10 +55,11 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   
   // Phone authentication state
-  const [phoneStep, setPhoneStep] = useState(1); // 1 for phone input, 2 for OTP
+  const [phoneStep, setPhoneStep] = useState(1); // 1 for phone input, 2 for OTP, 3 for name
   const [phoneNumber, setPhoneNumber] = useState('');
   const [otp, setOtp] = useState('');
   const [verificationId, setVerificationId] = useState('');
+  const [userName, setUserName] = useState('');
   
   // General state
   const [loading, setLoading] = useState(false);
@@ -60,6 +70,7 @@ export default function LoginPage() {
   const handleAuthMethodChange = (event, newValue) => {
     setAuthMethod(newValue);
     setError('');
+    setSuccess('');
   };
 
   // Handle email/password input changes
@@ -80,6 +91,7 @@ export default function LoginPage() {
   const handleEmailLogin = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
     try {
@@ -135,6 +147,7 @@ export default function LoginPage() {
   const handleRequestOtp = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
     try {
@@ -152,18 +165,38 @@ export default function LoginPage() {
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
     try {
-      await verifyPhoneOtp(phoneNumber, otp, verificationId);
-      setSuccess('Phone verification successful!');
-      
-      // Redirect after successful verification
-      setTimeout(() => {
-        router.push('/dashboard');
-      }, 1000);
+      // Only verify the OTP without logging in
+      await verifyOtpOnly(phoneNumber, otp, verificationId);
+      setPhoneStep(3); // Move to name input step
+      setSuccess('Phone number verified! Please enter your name to continue.');
     } catch (error) {
       setError(error.message || 'Invalid verification code.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmitUserInfo = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    setLoading(true);
+
+    try {
+      // Complete the registration with name and log in
+      await completePhoneRegistration(phoneNumber, otp, verificationId, userName);
+      setSuccess('Registration successful!');
+      
+      // Redirect after successful registration
+      setTimeout(() => {
+        router.push('/home');
+      }, 1000);
+    } catch (error) {
+      setError(error.message || 'Failed to complete registration.');
     } finally {
       setLoading(false);
     }
@@ -332,7 +365,7 @@ export default function LoginPage() {
           {/* Phone Authentication Form */}
           {authMethod === 'phone' && (
             <>
-              {phoneStep === 1 ? (
+              {phoneStep === 1 && (
                 <Box component="form" onSubmit={handleRequestOtp} noValidate>
                   <TextField
                     margin="normal"
@@ -361,7 +394,7 @@ export default function LoginPage() {
                     fullWidth
                     variant="contained"
                     color="primary"
-                    disabled={loading}
+                    disabled={loading || !phoneNumber.trim()}
                     sx={{ 
                       py: 1.5,
                       borderRadius: 2,
@@ -376,7 +409,9 @@ export default function LoginPage() {
                     {loading ? <CircularProgress size={24} color="inherit" /> : 'Send Verification Code'}
                   </Button>
                 </Box>
-              ) : (
+              )}
+              
+              {phoneStep === 2 && (
                 <Box component="form" onSubmit={handleVerifyOtp} noValidate>
                   <Typography variant="body1" gutterBottom>
                     We've sent a verification code to {phoneNumber}
@@ -402,7 +437,7 @@ export default function LoginPage() {
                     fullWidth
                     variant="contained"
                     color="primary"
-                    disabled={loading}
+                    disabled={loading || !otp.trim()}
                     sx={{ 
                       py: 1.5,
                       borderRadius: 2,
@@ -431,6 +466,56 @@ export default function LoginPage() {
                     }}
                   >
                     Back
+                  </Button>
+                </Box>
+              )}
+              
+              {phoneStep === 3 && (
+                <Box component="form" onSubmit={handleSubmitUserInfo} noValidate>
+                  <Typography variant="body1" gutterBottom sx={{ mb: 2 }}>
+                    Great! Your phone number has been verified. Please enter your name to complete setup:
+                  </Typography>
+                  
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="userName"
+                    label="Your Name"
+                    name="userName"
+                    autoFocus
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                    placeholder="John Doe"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PersonIcon color="primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{ mb: 3 }}
+                  />
+                  
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    disabled={loading || !userName.trim()}
+                    sx={{ 
+                      py: 1.5,
+                      borderRadius: 2,
+                      fontWeight: 600,
+                      fontSize: '1rem',
+                      mb: 2,
+                      bgcolor: '#28ddcd',
+                      '&:hover': {
+                        bgcolor: '#20c5b7'
+                      }
+                    }}
+                  >
+                    {loading ? <CircularProgress size={24} color="inherit" /> : 'Complete Registration'}
                   </Button>
                 </Box>
               )}
