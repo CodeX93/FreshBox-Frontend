@@ -1,6 +1,4 @@
-// next.config.js
-import { withNetlify } from '@netlify/next';
-
+// next.config.mjs
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -8,4 +6,4 @@ const nextConfig = {
   },
 };
 
-export default withNetlify(nextConfig);
+export default nextConfig;
