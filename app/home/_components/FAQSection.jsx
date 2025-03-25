@@ -406,7 +406,43 @@ const FAQSection = () => {
                                     {highlightText(faq.question, searchQuery)}
                                   </Typography>
                                 </Box>
+                                <motion.div
+                                  animate={{ rotate: expandedPanel === `panel${index}` ? 180 : 0 }}
+                                  transition={{ duration: 0.3 }}
+                                  style={{ marginLeft: 16 }}
+                                >
+                                  <KeyboardArrowDownIcon
+                                    sx={{
+                                      color: expandedPanel === `panel${index}` ? theme.palette.primary.main : '#a0aec0',
+                                      fontSize: 28
+                                    }}
+                                  />
+                                </motion.div>
                               </Box>
+                              
+                              {/* Answer section - This was missing in your code */}
+                              <AnimatePresence>
+                                {expandedPanel === `panel${index}` && (
+                                  <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                  >
+                                    <Box sx={{ mt: 2, ml: 8 }}>
+                                      <Typography
+                                        variant="body1"
+                                        sx={{
+                                          color: '#4a5568',
+                                          lineHeight: 1.7
+                                        }}
+                                      >
+                                        {highlightText(faq.answer, searchQuery)}
+                                      </Typography>
+                                    </Box>
+                                  </motion.div>
+                                )}
+                              </AnimatePresence>
                             </Box>
                           </React.Fragment>
                         </motion.div>
@@ -417,6 +453,95 @@ const FAQSection = () => {
               </AnimatePresence>
             </Grid>
           </Grid>
+          
+          {/* Contact CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.6 }}
+          >
+            <Box
+              sx={{
+                textAlign: 'center',
+                py: 5,
+                px: 4,
+                borderRadius: 4,
+                backgroundColor: theme.palette.primary.main,
+                color: '#ffffff',
+                maxWidth: 800,
+                mx: 'auto',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+            >
+              {/* Decorative circles */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: -30,
+                  left: -30,
+                  width: 100,
+                  height: 100,
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(255,255,255,0.1)'
+                }}
+              />
+              <Box
+                sx={{
+                  position: 'absolute',
+                  bottom: -20,
+                  right: -20,
+                  width: 80,
+                  height: 80,
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(255,255,255,0.1)'
+                }}
+              />
+              
+              <Box sx={{ position: 'relative', zIndex: 1 }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mb: 3
+                  }}
+                >
+                  <MessageIcon sx={{ fontSize: 32, mr: 1.5 }} />
+                  <Typography variant="h5" component="h3" sx={{ fontWeight: 600 }}>
+                    Still have questions?
+                  </Typography>
+                </Box>
+                
+                <Typography variant="body1" sx={{ mb: 4, maxWidth: 600, mx: 'auto' }}>
+                  Our support team is here to help. Contact us anytime and we'll get back to you as soon as possible.
+                </Typography>
+                
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button
+                    variant="contained"
+                    size="large"
+                    sx={{
+                      py: 1.5,
+                      px: 4,
+                      fontSize: '1rem',
+                      fontWeight: 600,
+                      backgroundColor: theme.palette.secondary.main, // Using your yellow color
+                      color: '#ffffff',
+                      '&:hover': {
+                        backgroundColor: theme.palette.secondary.dark
+                      }
+                    }}
+                  >
+                    Contact Support
+                  </Button>
+                </motion.div>
+              </Box>
+            </Box>
+          </motion.div>
         </Container>
       </Box>
     </ThemeProvider>
