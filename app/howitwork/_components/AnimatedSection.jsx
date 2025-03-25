@@ -1,9 +1,11 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { motion, useAnimation, useInView } from 'framer-motion';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from '../../../contexts/Theme'; // Update this path
 
-// Wrapper component that adds animations to sections
+// Wrapper component that adds animations to sections with theme context
 const AnimatedSection = ({
   children,
   backgroundColor = 'transparent',
@@ -20,7 +22,6 @@ const AnimatedSection = ({
   // Set up the animation variants based on direction
   const getAnimationVariants = () => {
     const distance = 100;
-    
     const variants = {
       hidden: {},
       visible: {
@@ -51,10 +52,9 @@ const AnimatedSection = ({
       default:
         variants.hidden = { opacity: 0, y: distance };
     }
-    
     return variants;
   };
-
+  
   useEffect(() => {
     if (isInView) {
       controls.start('visible');
@@ -62,44 +62,63 @@ const AnimatedSection = ({
       controls.start('hidden');
     }
   }, [isInView, controls]);
-
-  // Determine text color based on background
+  
+  // Determine text color based on background using theme colors
   const getTextColor = () => {
     // Dark backgrounds that need white text
-    const darkBackgrounds = ['#28ddcd', '#0D3B6E', '#1976d2', '#115293'];
+    const darkBackgrounds = [
+      theme.palette.primary.main, // '#28ddcd'
+      theme.palette.primary.dark, // '#0D3B6E'
+      theme.palette.secondary.dark, // If you add this later
+      '#1976d2',
+      '#115293'
+    ];
     
-    // Check if backgroundColor is one of the dark ones
-    if (darkBackgrounds.includes(backgroundColor)) {
+    // Check if backgroundColor is one of the dark ones or matches a theme color
+    if (darkBackgrounds.includes(backgroundColor) || 
+        backgroundColor === theme.palette.primary.main || 
+        backgroundColor === theme.palette.primary.dark) {
       return 'white';
     }
     
     // For transparent or light backgrounds, use default text color
     return 'inherit';
   };
-
+  
+  // Check if backgroundColor is a theme color key and convert it
+  const resolveBackgroundColor = () => {
+    if (backgroundColor === 'primary.main') return theme.palette.primary.main;
+    if (backgroundColor === 'primary.light') return theme.palette.primary.light;
+    if (backgroundColor === 'primary.dark') return theme.palette.primary.dark;
+    if (backgroundColor === 'secondary.main') return theme.palette.secondary.main;
+    return backgroundColor;
+  };
+  
   return (
-    <Box
-      id={id}
-      component={motion.div}
-      ref={ref}
-      initial="hidden"
-      animate={controls}
-      variants={getAnimationVariants()}
-      sx={{
-        minHeight: '100vh',
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: backgroundColor,
-        color: getTextColor(), // Dynamically set text color based on background
-        overflow: 'hidden',
-        py: 8,
-        ...props.sx
-      }}
-      {...props}
-    >
-      {children}
-    </Box>
+    <ThemeProvider theme={theme}>
+      <Box
+        id={id}
+        component={motion.div}
+        ref={ref}
+        initial="hidden"
+        animate={controls}
+        variants={getAnimationVariants()}
+        sx={{
+          minHeight: '100vh',
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: resolveBackgroundColor(),
+          color: getTextColor(),
+          overflow: 'hidden',
+          py: 8,
+          ...props.sx
+        }}
+        {...props}
+      >
+        {children}
+      </Box>
+    </ThemeProvider>
   );
 };
 

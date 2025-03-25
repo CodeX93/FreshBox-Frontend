@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { 
   Box, 
   Typography, 
@@ -8,17 +8,18 @@ import {
   Chip,
   Button,
   ButtonGroup,
-  useTheme,
   Fade,
   Divider,
   Tabs,
-  Tab
+  Tab,
+  ThemeProvider
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import PendingIcon from '@mui/icons-material/Pending';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import { theme } from '../../../contexts/Theme'; // Import your theme context
 
 // Mock ZIP code data with neighborhoods
 const ZIP_CODE_DATA = {
@@ -61,7 +62,7 @@ const ZIP_CODE_DATA = {
 };
 
 const AvailabilitySection = () => {
-  const theme = useTheme();
+  // Use your theme instead of useTheme hook
   const [activeTab, setActiveTab] = useState(0);
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
 
@@ -140,264 +141,275 @@ const AvailabilitySection = () => {
   const activeData = getActiveData();
 
   return (
-    <Box 
-      sx={{ 
-        py: 8,
-        backgroundColor: '#fff'
-      }}
-    >
-      <Container maxWidth="lg">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <motion.div variants={itemVariants}>
-            <Typography 
-              variant="h3" 
-              component="h2" 
-              align="center" 
-              gutterBottom
-              sx={{ 
-                fontWeight: 700,
-                mb: 2 
-              }}
-            >
-              Service Availability by Area
-            </Typography>
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <Typography 
-              variant="h6" 
-              align="center" 
-              color="text.secondary"
-              sx={{ mb: 5, maxWidth: '700px', mx: 'auto' }}
-            >
-              Browse our service coverage by ZIP code and neighborhood
-            </Typography>
-          </motion.div>
-
-          <motion.div 
-            variants={itemVariants}
-            sx={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center',
-              mb: 4 
-            }}
+    <ThemeProvider theme={theme}>
+      <Box 
+        sx={{ 
+          py: 8,
+          backgroundColor: '#fff'
+        }}
+      >
+        <Container maxWidth="lg">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
           >
-            <Paper 
-              elevation={1}
-              sx={{ 
-                borderRadius: '24px', 
-                overflow: 'hidden',
-                mb: 4
-              }}
-            >
-              <Tabs 
-                value={activeTab} 
-                onChange={handleTabChange}
-                variant="fullWidth"
-                TabIndicatorProps={{
-                  style: {
-                    display: 'none',
-                  }
-                }}
-                sx={{
-                  '& .MuiTab-root': {
-                    py: 2,
-                    minWidth: { xs: '100px', sm: '150px' },
-                    backgroundColor: theme.palette.grey[100],
-                    '&.Mui-selected': {
-                      backgroundColor: theme.palette.background.paper,
-                      color: theme.palette.primary.main,
-                      fontWeight: 600
-                    },
-                  }
+            <motion.div variants={itemVariants}>
+              <Typography 
+                variant="h2" // Using h2 from your theme
+                component="h2" 
+                align="center" 
+                gutterBottom
+                sx={{ 
+                  mb: 2 
+                  // Using theme fontWeight instead of hardcoded 700
                 }}
               >
-                <Tab 
-                  label={
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <CheckCircleIcon fontSize="small" />
-                      <Typography>Available</Typography>
-                      <Chip 
-                        label={ZIP_CODE_DATA.AVAILABLE.length} 
-                        size="small" 
-                        color={activeTab === 0 ? "primary" : "default"}
-                        sx={{ ml: 0.5 }}
-                      />
-                    </Box>
-                  } 
-                />
-                <Tab 
-                  label={
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <PendingIcon fontSize="small" />
-                      <Typography>Coming Soon</Typography>
-                      <Chip 
-                        label={ZIP_CODE_DATA.COMING_SOON.length} 
-                        size="small" 
-                        color={activeTab === 1 ? "primary" : "default"}
-                        sx={{ ml: 0.5 }}
-                      />
-                    </Box>
-                  }
-                />
-                <Tab 
-                  label={
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <ErrorIcon fontSize="small" />
-                      <Typography>Waitlist</Typography>
-                      <Chip 
-                        label={ZIP_CODE_DATA.WAITLIST.length} 
-                        size="small" 
-                        color={activeTab === 2 ? "primary" : "default"}
-                        sx={{ ml: 0.5 }}
-                      />
-                    </Box>
-                  }
-                />
-              </Tabs>
-            </Paper>
+                Service Availability by Area
+              </Typography>
+            </motion.div>
 
-            <ButtonGroup 
-              variant="outlined" 
-              size="small" 
-              sx={{ mb: 4 }}
-            >
-              <Button 
-                onClick={() => setViewMode('grid')}
-                variant={viewMode === 'grid' ? 'contained' : 'outlined'}
+            <motion.div variants={itemVariants}>
+              <Typography 
+                variant="h6" 
+                align="center" 
+                color="text.secondary"
+                sx={{ mb: 5, maxWidth: '700px', mx: 'auto' }}
               >
-                Grid View
-              </Button>
-              <Button 
-                onClick={() => setViewMode('list')}
-                variant={viewMode === 'list' ? 'contained' : 'outlined'}
-              >
-                List View
-              </Button>
-            </ButtonGroup>
-          </motion.div>
+                Browse our service coverage by ZIP code and neighborhood
+              </Typography>
+            </motion.div>
 
-          {viewMode === 'grid' ? (
-            <Grid container spacing={2}>
-              {activeData.map((item, index) => (
-                <Grid item xs={6} sm={4} md={3} key={item.zip}>
-                  <motion.div
-                    variants={itemVariants}
-                    whileHover={{ 
-                      scale: 1.03,
-                      boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)' 
-                    }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 10 }}
-                  >
-                    <Paper
-                      elevation={2}
-                      sx={{
-                        p: 2,
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        textAlign: 'center',
-                        borderRadius: 2,
-                        border: `1px solid ${theme.palette.divider}`,
-                        transition: 'all 0.3s ease-in-out'
-                      }}
-                    >
-                      <Typography variant="h6" fontWeight={600} gutterBottom>
-                        {item.zip}
-                      </Typography>
-                      <Typography 
-                        variant="body2" 
-                        color="text.secondary" 
-                        sx={{ mb: 2 }}
-                      >
-                        {item.neighborhood}
-                      </Typography>
-                      {renderStatusChip(activeStatus, item.eta)}
-                    </Paper>
-                  </motion.div>
-                </Grid>
-              ))}
-            </Grid>
-          ) : (
-            <Paper 
-              elevation={3}
+            <motion.div 
+              variants={itemVariants}
               sx={{ 
-                borderRadius: 2,
-                overflow: 'hidden'
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center',
+                mb: 4 
               }}
             >
-              <Box sx={{ p: 3, backgroundColor: theme.palette.grey[50] }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <PlaylistAddCheckIcon color="primary" />
-                  <Typography variant="h6" component="h3" fontWeight={600}>
-                    {activeTab === 0 ? 'Available Areas' : 
-                     activeTab === 1 ? 'Coming Soon Areas' : 'Waitlist Only Areas'}
-                  </Typography>
-                </Box>
-                <Typography variant="body2" color="text.secondary">
-                  {activeTab === 0 ? 'These areas have active service with same or next-day availability' : 
-                   activeTab === 1 ? 'Service is coming to these areas soon - join the waitlist for priority access' : 
-                   'These areas are not currently scheduled for service, but adding your name to the waitlist helps us prioritize expansion'}
-                </Typography>
-              </Box>
-              <Divider />
-              <Box sx={{ p: 2 }}>
+              <Paper 
+                elevation={1}
+                sx={{ 
+                  borderRadius: '24px', 
+                  overflow: 'hidden',
+                  mb: 4
+                }}
+              >
+                <Tabs 
+                  value={activeTab} 
+                  onChange={handleTabChange}
+                  variant="fullWidth"
+                  TabIndicatorProps={{
+                    style: {
+                      display: 'none',
+                    }
+                  }}
+                  sx={{
+                    '& .MuiTab-root': {
+                      py: 2,
+                      minWidth: { xs: '100px', sm: '150px' },
+                      backgroundColor: theme.palette.grey[100],
+                      '&.Mui-selected': {
+                        backgroundColor: theme.palette.background.paper,
+                        color: theme.palette.primary.main, // Using your primary turquoise
+                        fontWeight: 600
+                      },
+                    }
+                  }}
+                >
+                  <Tab 
+                    label={
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <CheckCircleIcon fontSize="small" />
+                        <Typography>Available</Typography>
+                        <Chip 
+                          label={ZIP_CODE_DATA.AVAILABLE.length} 
+                          size="small" 
+                          color={activeTab === 0 ? "primary" : "default"}
+                          sx={{ ml: 0.5 }}
+                        />
+                      </Box>
+                    } 
+                  />
+                  <Tab 
+                    label={
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <PendingIcon fontSize="small" />
+                        <Typography>Coming Soon</Typography>
+                        <Chip 
+                          label={ZIP_CODE_DATA.COMING_SOON.length} 
+                          size="small" 
+                          color={activeTab === 1 ? "primary" : "default"}
+                          sx={{ ml: 0.5 }}
+                        />
+                      </Box>
+                    }
+                  />
+                  <Tab 
+                    label={
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <ErrorIcon fontSize="small" />
+                        <Typography>Waitlist</Typography>
+                        <Chip 
+                          label={ZIP_CODE_DATA.WAITLIST.length} 
+                          size="small" 
+                          color={activeTab === 2 ? "primary" : "default"}
+                          sx={{ ml: 0.5 }}
+                        />
+                      </Box>
+                    }
+                  />
+                </Tabs>
+              </Paper>
+
+              <ButtonGroup 
+                variant="outlined" 
+                size="small" 
+                sx={{ mb: 4 }}
+              >
+                <Button 
+                  onClick={() => setViewMode('grid')}
+                  variant={viewMode === 'grid' ? 'contained' : 'outlined'}
+                  sx={{
+                    // Using your theme colors
+                    color: viewMode === 'grid' ? '#fff' : theme.palette.primary.main,
+                    backgroundColor: viewMode === 'grid' ? theme.palette.primary.main : 'transparent',
+                    '&:hover': {
+                      backgroundColor: viewMode === 'grid' ? theme.palette.primary.dark : theme.palette.primary.light,
+                    }
+                  }}
+                >
+                  Grid View
+                </Button>
+                <Button 
+                  onClick={() => setViewMode('list')}
+                  variant={viewMode === 'list' ? 'contained' : 'outlined'}
+                  sx={{
+                    // Using your theme colors
+                    color: viewMode === 'list' ? '#fff' : theme.palette.primary.main,
+                    backgroundColor: viewMode === 'list' ? theme.palette.primary.main : 'transparent',
+                    '&:hover': {
+                      backgroundColor: viewMode === 'list' ? theme.palette.primary.dark : theme.palette.primary.light,
+                    }
+                  }}
+                >
+                  List View
+                </Button>
+              </ButtonGroup>
+            </motion.div>
+
+            {viewMode === 'grid' ? (
+              <Grid container spacing={2}>
                 {activeData.map((item, index) => (
-                  <React.Fragment key={item.zip}>
+                  <Grid item xs={6} sm={4} md={3} key={item.zip}>
                     <motion.div
                       variants={itemVariants}
-                      whileHover={{ backgroundColor: theme.palette.action.hover }}
+                      whileHover={{ 
+                        scale: 1.03,
+                        boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)' 
+                      }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 10 }}
                     >
-                      <Box 
-                        sx={{ 
-                          py: 2, 
-                          px: 1,
-                          display: 'flex', 
-                          justifyContent: 'space-between',
+                      <Paper
+                        elevation={2}
+                        sx={{
+                          p: 2,
+                          height: '100%',
+                          display: 'flex',
+                          flexDirection: 'column',
                           alignItems: 'center',
-                          borderRadius: 1,
-                          transition: 'background-color 0.2s'
+                          justifyContent: 'center',
+                          textAlign: 'center',
+                          borderRadius: 2,
+                          border: `1px solid ${theme.palette.divider}`,
+                          transition: 'all 0.3s ease-in-out'
                         }}
                       >
-                        <Box>
-                          <Typography 
-                            variant="subtitle1" 
-                            component="span" 
-                            sx={{ fontWeight: 600, mr: 1 }}
-                          >
-                            {item.zip}
-                          </Typography>
-                          <Typography 
-                            variant="body2" 
-                            component="span" 
-                            color="text.secondary"
-                          >
-                            {item.neighborhood}
-                          </Typography>
-                        </Box>
-                        <Box>
-                          {renderStatusChip(activeStatus, item.eta)}
-                        </Box>
-                      </Box>
+                        <Typography variant="h6" fontWeight={600} gutterBottom>
+                          {item.zip}
+                        </Typography>
+                        <Typography 
+                          variant="body2" 
+                          color="text.secondary" 
+                          sx={{ mb: 2 }}
+                        >
+                          {item.neighborhood}
+                        </Typography>
+                        {renderStatusChip(activeStatus, item.eta)}
+                      </Paper>
                     </motion.div>
-                    {index < activeData.length - 1 && <Divider />}
-                  </React.Fragment>
+                  </Grid>
                 ))}
-              </Box>
-            </Paper>
-          )}
-        </motion.div>
-      </Container>
-    </Box>
+              </Grid>
+            ) : (
+              <Paper 
+                elevation={3}
+                sx={{ 
+                  borderRadius: 2,
+                  overflow: 'hidden'
+                }}
+              >
+                <Box sx={{ p: 3, backgroundColor: theme.palette.grey[50] }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                    <PlaylistAddCheckIcon sx={{ color: theme.palette.primary.main }} />
+                    <Typography variant="h6" component="h3" fontWeight={600}>
+                      {activeTab === 0 ? 'Available Areas' : 
+                      activeTab === 1 ? 'Coming Soon Areas' : 'Waitlist Only Areas'}
+                    </Typography>
+                  </Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {activeTab === 0 ? 'These areas have active service with same or next-day availability' : 
+                    activeTab === 1 ? 'Service is coming to these areas soon - join the waitlist for priority access' : 
+                    'These areas are not currently scheduled for service, but adding your name to the waitlist helps us prioritize expansion'}
+                  </Typography>
+                </Box>
+                <Divider />
+                <Box sx={{ p: 2 }}>
+                  {activeData.map((item, index) => (
+                    <React.Fragment key={item.zip}>
+                      <motion.div
+                        variants={itemVariants}
+                        whileHover={{ backgroundColor: theme.palette.action.hover }}
+                      >
+                        <Box 
+                          sx={{ 
+                            py: 2, 
+                            px: 1,
+                            display: 'flex', 
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            borderRadius: 1,
+                            transition: 'background-color 0.2s'
+                          }}
+                        >
+                          <Box>
+                            <Typography 
+                              variant="subtitle1" 
+                              component="span" 
+                              sx={{ fontWeight: 600, mr: 1 }}
+                            >
+                              {item.zip}
+                            </Typography>
+                          </Box>
+                          <Box>
+                            {renderStatusChip(activeStatus, item.eta)}
+                          </Box>
+                        </Box>
+                      </motion.div>
+                      {index < activeData.length - 1 && <Divider />}
+                    </React.Fragment>
+                  ))}
+                </Box>
+              </Paper>
+            )}
+          </motion.div>
+        </Container>
+      </Box>
+    </ThemeProvider>
   );
 };
 
-export default AvailabilitySection;
+export default AvailabilitySection;  

@@ -14,15 +14,16 @@ import {
   TableHead,
   TableRow,
   Chip,
-  useTheme,
+  useMediaQuery,
   Fade,
-  useMediaQuery
+  ThemeProvider
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { theme } from '../../../contexts/Theme'; // Import your theme context
 
 // Mock schedule data
 const SCHEDULE_DATA = [
@@ -61,7 +62,7 @@ const SCHEDULE_DATA = [
 ];
 
 const ScheduleSection = () => {
-  const theme = useTheme();
+  // Using the imported theme instead of useTheme hook
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [expanded, setExpanded] = useState(false);
 
@@ -87,199 +88,205 @@ const ScheduleSection = () => {
   };
 
   return (
-    <Box 
-      sx={{ 
-        py: 8,
-        backgroundColor: theme.palette.grey[50]
-      }}
-    >
-      <Container maxWidth="lg">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <motion.div variants={itemVariants}>
-            <Typography 
-              variant="h3" 
-              component="h2" 
-              align="center" 
-              gutterBottom
-              sx={{ 
-                fontWeight: 700,
-                mb: 2 
-              }}
-            >
-              Pickup & Delivery Schedule
-            </Typography>
-          </motion.div>
-          
-          <motion.div variants={itemVariants}>
-            <Typography 
-              variant="h6" 
-              align="center" 
-              color="text.secondary"
-              sx={{ mb: 5, maxWidth: '700px', mx: 'auto' }}
-            >
-              Our convenient scheduling covers different neighborhoods on different days
-            </Typography>
-          </motion.div>
-
-          {isMobile ? (
-            // Mobile accordion view
+    <ThemeProvider theme={theme}>
+      <Box 
+        sx={{ 
+          py: 8,
+          backgroundColor: theme.palette.grey[50]
+        }}
+      >
+        <Container maxWidth="lg">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             <motion.div variants={itemVariants}>
-              <Box>
-                {SCHEDULE_DATA.map((area, index) => (
-                  <Accordion
-                    key={index}
-                    expanded={expanded === `panel${index}`}
-                    onChange={handleChange(`panel${index}`)}
-                    sx={{ 
-                      mb: 2,
-                      borderRadius: expanded === `panel${index}` ? '12px 12px 0 0' : '12px',
-                      '&:before': { display: 'none' },
-                      boxShadow: theme.shadows[2]
-                    }}
-                  >
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls={`panel${index}bh-content`}
-                      id={`panel${index}bh-header`}
+              <Typography 
+                variant="h2" // Using h2 from your theme
+                component="h2" 
+                align="center" 
+                gutterBottom
+                sx={{ mb: 2 }}
+                // Using theme typography instead of hardcoded fontWeight
+              >
+                Pickup & Delivery Schedule
+              </Typography>
+            </motion.div>
+            
+            <motion.div variants={itemVariants}>
+              <Typography 
+                variant="h6" 
+                align="center" 
+                color="text.secondary"
+                sx={{ mb: 5, maxWidth: '700px', mx: 'auto' }}
+              >
+                Our convenient scheduling covers different neighborhoods on different days
+              </Typography>
+            </motion.div>
+
+            {isMobile ? (
+              // Mobile accordion view
+              <motion.div variants={itemVariants}>
+                <Box>
+                  {SCHEDULE_DATA.map((area, index) => (
+                    <Accordion
+                      key={index}
+                      expanded={expanded === `panel${index}`}
+                      onChange={handleChange(`panel${index}`)}
                       sx={{ 
+                        mb: 2,
                         borderRadius: expanded === `panel${index}` ? '12px 12px 0 0' : '12px',
-                        backgroundColor: theme.palette.background.paper,
-                        '&:hover': {
-                          backgroundColor: theme.palette.action.hover
-                        }
+                        '&:before': { display: 'none' },
+                        boxShadow: theme.shadows[2]
                       }}
                     >
-                      <Typography variant="h6" component="h3" sx={{ fontWeight: 600 }}>
-                        {area.area}
-                      </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails sx={{ pt: 2, pb: 3 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                        <CalendarTodayIcon color="primary" sx={{ mr: 1 }} />
-                        <Typography variant="body1" fontWeight={500}>
-                          Pickup Days: {area.pickupDays.join(', ')}
-                        </Typography>
-                      </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                        <LocalShippingIcon color="primary" sx={{ mr: 1 }} />
-                        <Typography variant="body1" fontWeight={500}>
-                          Delivery Days: {area.deliveryDays.join(', ')}
-                        </Typography>
-                      </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                        <AccessTimeIcon color="primary" sx={{ mr: 1 }} />
-                        <Typography variant="body1" fontWeight={500}>
-                          Pickup Times: {area.pickupTimes}
-                        </Typography>
-                      </Box>
-                      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                        {area.sameDayAvailable && (
-                          <Chip 
-                            label="Same-Day Available" 
-                            color="success" 
-                            variant="outlined"
-                            size="small"
-                          />
-                        )}
-                        {area.expressAvailable && (
-                          <Chip 
-                            label="Express Service" 
-                            color="info" 
-                            variant="outlined"
-                            size="small"
-                          />
-                        )}
-                      </Box>
-                    </AccordionDetails>
-                  </Accordion>
-                ))}
-              </Box>
-            </motion.div>
-          ) : (
-            // Desktop table view
-            <motion.div variants={itemVariants}>
-              <TableContainer 
-                component={Paper} 
-                elevation={3}
-                sx={{ 
-                  borderRadius: 2,
-                  overflow: 'hidden',
-                  mb: 4
-                }}
-              >
-                <Table sx={{ minWidth: 650 }} aria-label="schedule table">
-                  <TableHead sx={{ backgroundColor: theme.palette.primary.light }}>
-                    <TableRow>
-                      <TableCell sx={{ fontWeight: 700, color: 'white' }}>Neighborhood</TableCell>
-                      <TableCell sx={{ fontWeight: 700, color: 'white' }}>Pickup Days</TableCell>
-                      <TableCell sx={{ fontWeight: 700, color: 'white' }}>Delivery Days</TableCell>
-                      <TableCell sx={{ fontWeight: 700, color: 'white' }}>Pickup Times</TableCell>
-                      <TableCell sx={{ fontWeight: 700, color: 'white' }}>Service Options</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {SCHEDULE_DATA.map((row, index) => (
-                      <TableRow
-                        key={index}
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon sx={{ color: theme.palette.primary.main }} />}
+                        aria-controls={`panel${index}bh-content`}
+                        id={`panel${index}bh-header`}
                         sx={{ 
-                          '&:nth-of-type(odd)': { backgroundColor: theme.palette.action.hover },
-                          '&:last-child td, &:last-child th': { border: 0 },
-                          transition: 'background-color 0.3s',
+                          borderRadius: expanded === `panel${index}` ? '12px 12px 0 0' : '12px',
+                          backgroundColor: theme.palette.background.paper,
                           '&:hover': {
-                            backgroundColor: theme.palette.action.selected
+                            backgroundColor: theme.palette.action.hover
                           }
                         }}
                       >
-                        <TableCell component="th" scope="row" sx={{ fontWeight: 600 }}>
-                          {row.area}
-                        </TableCell>
-                        <TableCell>{row.pickupDays.join(', ')}</TableCell>
-                        <TableCell>{row.deliveryDays.join(', ')}</TableCell>
-                        <TableCell>{row.pickupTimes}</TableCell>
-                        <TableCell>
-                          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                            {row.sameDayAvailable && (
-                              <Chip 
-                                label="Same-Day Available" 
-                                color="success" 
-                                size="small"
-                              />
-                            )}
-                            {row.expressAvailable && (
-                              <Chip 
-                                label="Express Service" 
-                                color="info" 
-                                size="small"
-                              />
-                            )}
-                          </Box>
-                        </TableCell>
+                        <Typography variant="h6" component="h3" sx={{ fontWeight: 600 }}>
+                          {area.area}
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails sx={{ pt: 2, pb: 3 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                          <CalendarTodayIcon sx={{ mr: 1, color: theme.palette.primary.main }} />
+                          <Typography variant="body1" fontWeight={500}>
+                            Pickup Days: {area.pickupDays.join(', ')}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                          <LocalShippingIcon sx={{ mr: 1, color: theme.palette.primary.main }} />
+                          <Typography variant="body1" fontWeight={500}>
+                            Delivery Days: {area.deliveryDays.join(', ')}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                          <AccessTimeIcon sx={{ mr: 1, color: theme.palette.primary.main }} />
+                          <Typography variant="body1" fontWeight={500}>
+                            Pickup Times: {area.pickupTimes}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                          {area.sameDayAvailable && (
+                            <Chip 
+                              label="Same-Day Available" 
+                              color="success" 
+                              variant="outlined"
+                              size="small"
+                            />
+                          )}
+                          {area.expressAvailable && (
+                            <Chip 
+                              label="Express Service" 
+                              sx={{ 
+                                borderColor: theme.palette.primary.main,
+                                color: theme.palette.primary.main
+                              }}
+                              variant="outlined"
+                              size="small"
+                            />
+                          )}
+                        </Box>
+                      </AccordionDetails>
+                    </Accordion>
+                  ))}
+                </Box>
+              </motion.div>
+            ) : (
+              // Desktop table view
+              <motion.div variants={itemVariants}>
+                <TableContainer 
+                  component={Paper} 
+                  elevation={3}
+                  sx={{ 
+                    borderRadius: 2,
+                    overflow: 'hidden',
+                    mb: 4
+                  }}
+                >
+                  <Table sx={{ minWidth: 650 }} aria-label="schedule table">
+                    <TableHead sx={{ backgroundColor: theme.palette.primary.main }}>
+                      <TableRow>
+                        <TableCell sx={{ fontWeight: 700, color: 'white' }}>Neighborhood</TableCell>
+                        <TableCell sx={{ fontWeight: 700, color: 'white' }}>Pickup Days</TableCell>
+                        <TableCell sx={{ fontWeight: 700, color: 'white' }}>Delivery Days</TableCell>
+                        <TableCell sx={{ fontWeight: 700, color: 'white' }}>Pickup Times</TableCell>
+                        <TableCell sx={{ fontWeight: 700, color: 'white' }}>Service Options</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </motion.div>
-          )}
+                    </TableHead>
+                    <TableBody>
+                      {SCHEDULE_DATA.map((row, index) => (
+                        <TableRow
+                          key={index}
+                          sx={{ 
+                            '&:nth-of-type(odd)': { backgroundColor: theme.palette.action.hover },
+                            '&:last-child td, &:last-child th': { border: 0 },
+                            transition: 'background-color 0.3s',
+                            '&:hover': {
+                              backgroundColor: theme.palette.action.selected
+                            }
+                          }}
+                        >
+                          <TableCell component="th" scope="row" sx={{ fontWeight: 600 }}>
+                            {row.area}
+                          </TableCell>
+                          <TableCell>{row.pickupDays.join(', ')}</TableCell>
+                          <TableCell>{row.deliveryDays.join(', ')}</TableCell>
+                          <TableCell>{row.pickupTimes}</TableCell>
+                          <TableCell>
+                            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                              {row.sameDayAvailable && (
+                                <Chip 
+                                  label="Same-Day Available" 
+                                  color="success" 
+                                  size="small"
+                                />
+                              )}
+                              {row.expressAvailable && (
+                                <Chip 
+                                  label="Express Service" 
+                                  sx={{ 
+                                    backgroundColor: theme.palette.primary.main,
+                                    color: 'white'
+                                  }}
+                                  size="small"
+                                />
+                              )}
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </motion.div>
+            )}
 
-          <motion.div 
-            variants={itemVariants}
-            sx={{ mt: 4 }}
-          >
-            <Fade in timeout={1000}>
-              <Typography variant="body2" color="text.secondary" align="center">
-                Schedule is subject to change on holidays. All pickups must be scheduled at least 2 hours in advance.
-              </Typography>
-            </Fade>
+            <motion.div 
+              variants={itemVariants}
+              sx={{ mt: 4 }}
+            >
+              <Fade in timeout={1000}>
+                <Typography variant="body2" color="text.secondary" align="center">
+                  Schedule is subject to change on holidays. All pickups must be scheduled at least 2 hours in advance.
+                </Typography>
+              </Fade>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      </Container>
-    </Box>
+        </Container>
+      </Box>
+    </ThemeProvider>
   );
 };
 

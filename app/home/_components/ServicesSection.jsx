@@ -13,8 +13,8 @@ import {
   Chip,
   Paper,
   Stack,
-  useTheme,
-  useMediaQuery
+  useMediaQuery,
+  ThemeProvider
 } from '@mui/material';
 import Link from 'next/link';
 import { 
@@ -23,6 +23,7 @@ import {
   ArrowForward as ArrowForwardIcon,
   ArrowBack as ArrowBackIcon
 } from '@mui/icons-material';
+import { theme } from '../../../contexts/Theme'; // Import your theme context
 
 const services = [
   {
@@ -52,7 +53,6 @@ const services = [
 ];
 
 const FeaturedService = ({ service, index, inView }) => {
-  const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [expanded, setExpanded] = useState(false);
@@ -138,16 +138,16 @@ const FeaturedService = ({ service, index, inView }) => {
           >
             <Chip
               label={service.name}
-              color="primary"
-              size="medium"
               sx={{
                 fontWeight: 'bold',
                 color: 'white',
                 px: 1,
+                backgroundColor: theme.palette.primary.main, // Using your turquoise color
                 '& .MuiChip-label': {
                   px: 1,
                 },
               }}
+              size="medium"
             />
           </Box>
         </CardMedia>
@@ -172,7 +172,7 @@ const FeaturedService = ({ service, index, inView }) => {
               gutterBottom
               sx={{
                 fontWeight: 700,
-                color: theme.palette.primary.main,
+                color: theme.palette.primary.main, // Using your turquoise color
                 mb: 2,
               }}
             >
@@ -200,7 +200,7 @@ const FeaturedService = ({ service, index, inView }) => {
                         width: 6,
                         height: 6,
                         borderRadius: '50%',
-                        bgcolor: theme.palette.primary.main,
+                        bgcolor: theme.palette.primary.main, // Using your turquoise color
                         mr: 1.5,
                       }}
                     />
@@ -218,7 +218,6 @@ const FeaturedService = ({ service, index, inView }) => {
               <Button
                 fullWidth={isSmallMobile}
                 variant="outlined"
-                color="primary"
                 onClick={() => setExpanded(!expanded)}
                 startIcon={
                   <KeyboardArrowDownIcon
@@ -228,7 +227,15 @@ const FeaturedService = ({ service, index, inView }) => {
                     }}
                   />
                 }
-                sx={{ fontWeight: 600 }}
+                sx={{ 
+                  fontWeight: 600,
+                  borderColor: theme.palette.primary.main, // Using your turquoise color
+                  color: theme.palette.primary.main, // Using your turquoise color
+                  '&:hover': {
+                    borderColor: theme.palette.primary.dark,
+                    backgroundColor: `${theme.palette.primary.main}10`,
+                  }
+                }}
               >
                 {expanded ? 'Less Info' : 'More Info'}
               </Button>
@@ -238,9 +245,14 @@ const FeaturedService = ({ service, index, inView }) => {
                 component={Link}
                 href={`/services/${service.slug}`}
                 variant="contained"
-                color="primary"
                 endIcon={<ChevronRightIcon />}
-                sx={{ fontWeight: 600 }}
+                sx={{ 
+                  fontWeight: 600,
+                  backgroundColor: theme.palette.primary.main, // Using your turquoise color
+                  '&:hover': {
+                    backgroundColor: theme.palette.primary.dark,
+                  }
+                }}
               >
                 Details
               </Button>
@@ -253,7 +265,6 @@ const FeaturedService = ({ service, index, inView }) => {
 };
 
 const ServiceScroller = ({ inView }) => {
-  const theme = useTheme();
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState('right');
@@ -337,6 +348,7 @@ const ServiceScroller = ({ inView }) => {
             borderRadius: '50%',
             bgcolor: 'rgba(255, 255, 255, 0.8)',
             boxShadow: theme.shadows[4],
+            color: theme.palette.primary.main, // Using your turquoise color
             '&:hover': {
               bgcolor: 'white',
               boxShadow: theme.shadows[8],
@@ -355,6 +367,7 @@ const ServiceScroller = ({ inView }) => {
             borderRadius: '50%',
             bgcolor: 'rgba(255, 255, 255, 0.8)',
             boxShadow: theme.shadows[4],
+            color: theme.palette.primary.main, // Using your turquoise color
             '&:hover': {
               bgcolor: 'white',
               boxShadow: theme.shadows[8],
@@ -396,7 +409,7 @@ const ServiceScroller = ({ inView }) => {
               width: isSmallMobile ? 10 : 12,
               height: isSmallMobile ? 10 : 12,
               borderRadius: '50%',
-              bgcolor: index === activeIndex ? theme.palette.primary.main : theme.palette.grey[300],
+              bgcolor: index === activeIndex ? theme.palette.primary.main : theme.palette.grey[300], // Using your turquoise color
               cursor: 'pointer',
               transition: 'background-color 0.3s',
               '&:hover': {
@@ -415,7 +428,6 @@ const ServiceScroller = ({ inView }) => {
 };
 
 export default function ServicesSection() {
-  const theme = useTheme();
   const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef(null);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -441,246 +453,254 @@ export default function ServicesSection() {
   }, []);
 
   return (
-    <Box
-      ref={sectionRef}
-      sx={{
-        position: 'relative',
-        width: '100%',
-        py: isSmallMobile ? 4 : isMobile ? 6 : 8,
-        minHeight: { xs: 'auto', md: '100vh' },
-        bgcolor: theme.palette.background.default,
-        overflow: 'hidden',
-      }}
-    >
-      {/* Background decoration */}
+    <ThemeProvider theme={theme}>
       <Box
+        ref={sectionRef}
         sx={{
-          position: 'absolute',
-          top: -100,
-          right: -100,
-          width: 300,
-          height: 300,
-          borderRadius: '50%',
-          background: `linear-gradient(135deg, ${theme.palette.primary.light}33, ${theme.palette.primary.main}1A)`,
-          filter: 'blur(60px)',
-          zIndex: 0,
+          position: 'relative',
+          width: '100%',
+          py: isSmallMobile ? 4 : isMobile ? 6 : 8,
+          minHeight: { xs: 'auto', md: '100vh' },
+          bgcolor: theme.palette.background.default,
+          overflow: 'hidden',
         }}
-      />
-      <Box
-        sx={{
-          position: 'absolute',
-          bottom: -50,
-          left: -50,
-          width: 200,
-          height: 200,
-          borderRadius: '50%',
-          background: `linear-gradient(135deg, ${theme.palette.secondary.light}33, ${theme.palette.secondary.main}1A)`,
-          filter: 'blur(40px)',
-          zIndex: 0,
-        }}
-      />
+      >
+        {/* Background decoration */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: -100,
+            right: -100,
+            width: 300,
+            height: 300,
+            borderRadius: '50%',
+            background: `linear-gradient(135deg, ${theme.palette.primary.light}33, ${theme.palette.primary.main}1A)`, // Using your turquoise color
+            filter: 'blur(60px)',
+            zIndex: 0,
+          }}
+        />
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: -50,
+            left: -50,
+            width: 200,
+            height: 200,
+            borderRadius: '50%',
+            background: `linear-gradient(135deg, ${theme.palette.secondary.light}33, ${theme.palette.secondary.main}1A)`, // Using your secondary yellow color
+            filter: 'blur(40px)',
+            zIndex: 0,
+          }}
+        />
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6 }}
-        >
-          <Box sx={{ textAlign: 'center', mb: isSmallMobile ? 3 : isMobile ? 4 : 6 }}>
-            <Typography
-              variant="overline"
-              component="span"
-              sx={{
-                color: theme.palette.primary.main,
-                fontWeight: 600,
-                letterSpacing: 1.5,
-                mb: 1,
-                display: 'block',
-                fontSize: isSmallMobile ? '0.65rem' : '0.75rem',
-              }}
-            >
-              PROFESSIONAL CARE
-            </Typography>
-            <Typography
-              variant={isSmallMobile ? "h4" : isMobile ? "h3" : "h3"}
-              component="h2"
-              sx={{
-                fontWeight: 700,
-                mb: 2,
-                background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                position: 'relative',
-                display: 'inline-block',
-              }}
-            >
-              Our Services
-              <Box
-                component={motion.div}
-                animate={isInView ? { width: '100%' } : { width: 0 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-                sx={{
-                  position: 'absolute',
-                  bottom: -4,
-                  left: 0,
-                  height: 2,
-                  bgcolor: theme.palette.primary.main,
-                }}
-              />
-            </Typography>
-            <Typography 
-              variant="body1" 
-              sx={{ 
-                maxWidth: 600, 
-                mx: 'auto', 
-                mb: 4,
-                px: isSmallMobile ? 2 : 0
-              }}
-            >
-              We offer a wide range of cleaning services to keep your garments looking their best.
-              Each service is tailored to meet specific fabric care requirements.
-            </Typography>
-          </Box>
-        </motion.div>
-
-        {/* Featured Service Carousel */}
-        <ServiceScroller inView={isInView} />
-
-        {/* Service Cards */}
-        <Box sx={{ mt: isSmallMobile ? 4 : 8 }}>
-          <Grid container spacing={isSmallMobile ? 2 : 4}>
-            {services.map((service, index) => (
-              <Grid item xs={12} sm={6} md={3} key={service.slug}>
-                <motion.div
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
-                  style={{ height: '100%' }}
-                >
-                  <Card
-                    sx={{
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      borderRadius: 3,
-                      overflow: 'hidden',
-                      boxShadow: theme.shadows[3],
-                      transition: 'all 0.3s ease',
-                      ':hover': {
-                        transform: 'translateY(-8px)',
-                        boxShadow: theme.shadows[10],
-                      },
-                    }}
-                  >
-                    <CardMedia
-                      sx={{
-                        height: 180,
-                        position: 'relative',
-                      }}
-                      image={`/images/services/${service.slug}.jpg`}
-                      title={service.name}
-                    >
-                      <Box
-                        sx={{
-                          position: 'absolute',
-                          inset: 0,
-                          background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
-                        }}
-                      />
-                      <Box
-                        sx={{
-                          position: 'absolute',
-                          bottom: 0,
-                          left: 0,
-                          p: isSmallMobile ? 1.5 : 2,
-                        }}
-                      >
-                        <Typography 
-                          variant={isSmallMobile ? "subtitle1" : "h6"} 
-                          sx={{ color: 'white', fontWeight: 600 }}
-                        >
-                          {service.name}
-                        </Typography>
-                      </Box>
-                    </CardMedia>
-                    <CardContent sx={{ flexGrow: 1, p: isSmallMobile ? 2 : 3 }}>
-                      <Typography variant="body2" color="text.secondary">
-                        {service.description}
-                      </Typography>
-
-                      <Box sx={{ mt: 2 }}>
-                        <Button
-                          component={Link}
-                          href={`/services/${service.slug}`}
-                          color="primary"
-                          endIcon={<ChevronRightIcon />}
-                          sx={{ fontWeight: 600, p: 0 }}
-                        >
-                          Learn More
-                        </Button>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-
-        {/* Call to Action */}
-        <Box sx={{ textAlign: 'center', mt: isSmallMobile ? 4 : isMobile ? 6 : 8 }}>
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+            transition={{ duration: 0.6 }}
           >
-            <Paper
-              sx={{
-                p: isSmallMobile ? 3 : isMobile ? 4 : 6,
-                borderRadius: 4,
-                background: `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`,
-                boxShadow: theme.shadows[10],
-                mx: isSmallMobile ? 1 : 0,
-              }}
-            >
-              <Typography 
-                variant={isSmallMobile ? "h6" : "h5"} 
-                sx={{ 
-                  color: 'white', 
-                  fontWeight: 600, 
-                  mb: isSmallMobile ? 2 : 3,
-                  px: isSmallMobile ? 1 : 0
-                }}
-              >
-                Ready to experience our premium cleaning services?
-              </Typography>
-              <Button
-                component={Link}
-                href="/services"
-                variant="contained"
-                color="secondary"
-                size={isSmallMobile ? "medium" : "large"}
-                endIcon={<ChevronRightIcon />}
+            <Box sx={{ textAlign: 'center', mb: isSmallMobile ? 3 : isMobile ? 4 : 6 }}>
+              <Typography
+                variant="overline"
+                component="span"
                 sx={{
-                  px: isSmallMobile ? 3 : 4,
-                  py: isSmallMobile ? 1 : 1.5,
+                  color: theme.palette.primary.main, // Using your turquoise color
                   fontWeight: 600,
-                  borderRadius: 2,
-                  boxShadow: theme.shadows[8],
-                  background: 'white',
-                  color: theme.palette.primary.main,
-                  '&:hover': {
-                    background: theme.palette.grey[100],
-                    boxShadow: theme.shadows[12],
-                  },
+                  letterSpacing: 1.5,
+                  mb: 1,
+                  display: 'block',
+                  fontSize: isSmallMobile ? '0.65rem' : '0.75rem',
                 }}
               >
-                View All Services
-              </Button>
-            </Paper>
+                PROFESSIONAL CARE
+              </Typography>
+              <Typography
+                variant={isSmallMobile ? "h4" : isMobile ? "h3" : "h2"} // Using h2 from your theme
+                component="h2"
+                sx={{
+                  fontWeight: 700,
+                  mb: 2,
+                  background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`, // Using your turquoise color
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  position: 'relative',
+                  display: 'inline-block',
+                }}
+              >
+                Our Services
+                <Box
+                  component={motion.div}
+                  animate={isInView ? { width: '100%' } : { width: 0 }}
+                  transition={{ delay: 0.4, duration: 0.8 }}
+                  sx={{
+                    position: 'absolute',
+                    bottom: -4,
+                    left: 0,
+                    height: 2,
+                    bgcolor: theme.palette.primary.main, // Using your turquoise color
+                  }}
+                />
+              </Typography>
+              <Typography 
+                variant="body1" 
+                sx={{ 
+                  maxWidth: 600, 
+                  mx: 'auto', 
+                  mb: 4,
+                  px: isSmallMobile ? 2 : 0
+                }}
+              >
+                We offer a wide range of cleaning services to keep your garments looking their best.
+                Each service is tailored to meet specific fabric care requirements.
+              </Typography>
+            </Box>
           </motion.div>
-        </Box>
-      </Container>
-    </Box>
+
+          {/* Featured Service Carousel */}
+          <ServiceScroller inView={isInView} />
+
+          {/* Service Cards */}
+          <Box sx={{ mt: isSmallMobile ? 4 : 8 }}>
+            <Grid container spacing={isSmallMobile ? 2 : 4}>
+              {services.map((service, index) => (
+                <Grid item xs={12} sm={6} md={3} key={service.slug}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
+                    style={{ height: '100%' }}
+                  >
+                    <Card
+                      sx={{
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        borderRadius: 3,
+                        overflow: 'hidden',
+                        boxShadow: theme.shadows[3],
+                        transition: 'all 0.3s ease',
+                        ':hover': {
+                          transform: 'translateY(-8px)',
+                          boxShadow: theme.shadows[10],
+                        },
+                      }}
+                    >
+                      <CardMedia
+                        sx={{
+                          height: 180,
+                          position: 'relative',
+                        }}
+                        image={`/images/services/${service.slug}.jpg`}
+                        title={service.name}
+                      >
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            inset: 0,
+                            background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
+                          }}
+                        />
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            bottom: 0,
+                            left: 0,
+                            p: isSmallMobile ? 1.5 : 2,
+                          }}
+                        >
+                          <Typography 
+                            variant={isSmallMobile ? "subtitle1" : "h6"} 
+                            sx={{ color: 'white', fontWeight: 600 }}
+                          >
+                            {service.name}
+                          </Typography>
+                        </Box>
+                      </CardMedia>
+                      <CardContent sx={{ flexGrow: 1, p: isSmallMobile ? 2 : 3 }}>
+                        <Typography variant="body2" color="text.secondary">
+                          {service.description}
+                        </Typography>
+
+                        <Box sx={{ mt: 2 }}>
+                          <Button
+                            component={Link}
+                            href={`/services/${service.slug}`}
+                            endIcon={<ChevronRightIcon />}
+                            sx={{ 
+                              fontWeight: 600, 
+                              p: 0,
+                              color: theme.palette.primary.main, // Using your turquoise color
+                              '&:hover': {
+                                color: theme.palette.primary.dark,
+                                backgroundColor: 'transparent',
+                              }
+                            }}
+                          >
+                            Learn More
+                          </Button>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+
+          {/* Call to Action */}
+          <Box sx={{ textAlign: 'center', mt: isSmallMobile ? 4 : isMobile ? 6 : 8 }}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              <Paper
+                sx={{
+                  p: isSmallMobile ? 3 : isMobile ? 4 : 6,
+                  borderRadius: 4,
+                  background: `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`, // Using your turquoise color
+                  boxShadow: theme.shadows[10],
+                  mx: isSmallMobile ? 1 : 0,
+                }}
+              >
+                <Typography 
+                  variant={isSmallMobile ? "h6" : "h5"} 
+                  sx={{ 
+                    color: 'white', 
+                    fontWeight: 600, 
+                    mb: isSmallMobile ? 2 : 3,
+                    px: isSmallMobile ? 1 : 0
+                  }}
+                >
+                  Ready to experience our premium cleaning services?
+                </Typography>
+                <Button
+                  component={Link}
+                  href="/services"
+                  variant="contained"
+                  size={isSmallMobile ? "medium" : "large"}
+                  endIcon={<ChevronRightIcon />}
+                  sx={{
+                    px: isSmallMobile ? 3 : 4,
+                    py: isSmallMobile ? 1 : 1.5,
+                    fontWeight: 600,
+                    borderRadius: 2,
+                    boxShadow: theme.shadows[8],
+                    background: theme.palette.secondary.main, // Using your secondary yellow color
+                    color: 'white',
+                    '&:hover': {
+                      background: theme.palette.secondary.dark,
+                      boxShadow: theme.shadows[12],
+                    },
+                  }}
+                >
+                  View All Services
+                </Button>
+              </Paper>
+            </motion.div>
+          </Box>
+        </Container>
+      </Box>
+    </ThemeProvider>
   );
 }

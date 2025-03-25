@@ -11,11 +11,12 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  useTheme,
+  ThemeProvider,
 } from '@mui/material';
 import { Check as CheckIcon } from '@mui/icons-material';
 import { keyframes } from '@emotion/react';
 import { styled } from '@mui/material/styles';
+import { theme } from '../../../contexts/Theme'; // Import your theme context
 
 // Animation keyframes
 const fadeIn = keyframes`
@@ -40,12 +41,12 @@ const pulse = keyframes`
 `;
 
 // Styled components
-const AnimatedBox = styled(Box)(({ theme, delay = 0 }) => ({
+const AnimatedBox = styled(Box)(({ delay = 0 }) => ({
   opacity: 0,
   animation: `${fadeIn} 0.6s ease-out ${delay}s forwards`,
 }));
 
-const AnimatedListItem = styled(ListItem)(({ theme, delay = 0 }) => ({
+const AnimatedListItem = styled(ListItem)(({ delay = 0 }) => ({
   opacity: 0,
   animation: `${slideInFromLeft} 0.5s ease-out ${delay}s forwards`,
   transition: 'all 0.3s ease',
@@ -54,18 +55,18 @@ const AnimatedListItem = styled(ListItem)(({ theme, delay = 0 }) => ({
   },
 }));
 
-const AnimatedUnderline = styled(Box)(({ theme }) => ({
+const AnimatedUnderline = styled(Box)(() => ({
   position: 'absolute',
   bottom: -4,
   left: 0,
   height: 3,
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: theme.palette.primary.main, // Using your turquoise color
   width: 0,
   animation: `${growWidth} 0.8s ease-out 0.5s forwards`,
   borderRadius: 2,
 }));
 
-const AnimatedPaper = styled(Paper)(({ theme }) => ({
+const AnimatedPaper = styled(Paper)(() => ({
   position: 'relative',
   overflow: 'hidden',
   transition: 'all 0.3s ease',
@@ -75,7 +76,7 @@ const AnimatedPaper = styled(Paper)(({ theme }) => ({
   },
 }));
 
-const TestimonialBox = styled(Box)(({ theme, delay = 0 }) => ({
+const TestimonialBox = styled(Box)(({ delay = 0 }) => ({
   opacity: 0,
   animation: `${fadeIn} 0.6s ease-out ${delay}s forwards`,
   transition: 'all 0.3s ease',
@@ -84,18 +85,18 @@ const TestimonialBox = styled(Box)(({ theme, delay = 0 }) => ({
   },
 }));
 
-const GradientLine = styled(Box)(({ theme }) => ({
+const GradientLine = styled(Box)(() => ({
   position: 'absolute',
   bottom: 0,
   left: 0,
   width: 0,
   height: 4,
-  background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+  background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`, // Using your turquoise and yellow colors
   animation: `${growWidth} 1.5s ease-out 1s forwards`,
 }));
 
-const AnimatedCheckIcon = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.success.light,
+const AnimatedCheckIcon = styled(Box)(() => ({
+  backgroundColor: theme.palette.primary.light, // Using your turquoise light color
   padding: theme.spacing(0.5),
   borderRadius: '50%',
   display: 'flex',
@@ -103,14 +104,13 @@ const AnimatedCheckIcon = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   transition: 'all 0.3s ease',
   '&:hover': {
-    backgroundColor: theme.palette.success.main,
+    backgroundColor: theme.palette.primary.main, // Using your turquoise color
     animation: `${pulse} 0.5s ease infinite`,
   },
 }));
 
 // Component
 export default function QualityPromiseSection() {
-  const theme = useTheme();
   const [isVisible, setIsVisible] = useState(false);
   
   useEffect(() => {
@@ -127,7 +127,7 @@ export default function QualityPromiseSection() {
 
   const testimonials = [
     {
-      quote: "The convenience of LaundryPro has completely changed my weekly routine. I get so much time back!",
+      quote: "The convenience of LaundryHeap has completely changed my weekly routine. I get so much time back!",
       author: "Michael T."
     },
     {
@@ -137,133 +137,146 @@ export default function QualityPromiseSection() {
   ];
 
   return (
-    <Box sx={{ 
-      width: '100%', 
-      py: 8, 
-      bgcolor: 'primary.50', 
-      minHeight: '100vh',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      {/* Decorative background elements */}
-      <Box sx={{
-        position: 'absolute',
-        top: '10%',
-        left: '5%',
-        width: 150,
-        height: 150,
-        borderRadius: '50%',
-        bgcolor: 'primary.100',
-        opacity: 0.3,
-        animation: `${fadeIn} 1s ease-out 0.2s forwards`,
-        zIndex: 0
-      }} />
-      
-      <Box sx={{
-        position: 'absolute',
-        bottom: '15%',
-        right: '8%',
-        width: 200,
-        height: 200,
-        borderRadius: '50%',
-        bgcolor: 'secondary.100',
-        opacity: 0.2,
-        animation: `${fadeIn} 1s ease-out 0.4s forwards`,
-        zIndex: 0
-      }} />
+    <ThemeProvider theme={theme}>
+      <Box sx={{ 
+        width: '100%', 
+        py: 8, 
+        // Light turquoise background based on your primary color
+        bgcolor: `${theme.palette.primary.main}10`, 
+        minHeight: '100vh',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        {/* Decorative background elements */}
+        <Box sx={{
+          position: 'absolute',
+          top: '10%',
+          left: '5%',
+          width: 150,
+          height: 150,
+          borderRadius: '50%',
+          bgcolor: `${theme.palette.primary.main}20`, // Light turquoise
+          opacity: 0.3,
+          animation: `${fadeIn} 1s ease-out 0.2s forwards`,
+          zIndex: 0
+        }} />
+        
+        <Box sx={{
+          position: 'absolute',
+          bottom: '15%',
+          right: '8%',
+          width: 200,
+          height: 200,
+          borderRadius: '50%',
+          bgcolor: `${theme.palette.secondary.main}20`, // Light yellow
+          opacity: 0.2,
+          animation: `${fadeIn} 1s ease-out 0.4s forwards`,
+          zIndex: 0
+        }} />
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-        <Grid container spacing={6} alignItems="center">
-          <Grid item xs={12} lg={6}>
-            <AnimatedBox delay={0.1}>
-              <Box sx={{ position: 'relative', display: 'inline-block', mb: 2 }}>
-                <Typography variant="h3" component="h2" sx={{ fontWeight: 'bold' }}>
-                  Our Quality Promise
-                </Typography>
-                <AnimatedUnderline />
-              </Box>
-            </AnimatedBox>
-            
-            <AnimatedBox delay={0.3}>
-              <Typography variant="body1" sx={{ fontSize: '1.125rem', mb: 3 }}>
-                At LaundryPro, we're committed to providing the highest quality laundry and dry cleaning services available.
-              </Typography>
-            </AnimatedBox>
-            
-            <List disablePadding>
-              {qualityPromises.map((promise, index) => (
-                <AnimatedListItem 
-                  key={index} 
-                  disableGutters 
-                  sx={{ py: 0.75 }}
-                  delay={0.4 + index * 0.1}
-                >
-                  <ListItemIcon sx={{ minWidth: 36 }}>
-                    <AnimatedCheckIcon>
-                      <CheckIcon fontSize="small" color="success" />
-                    </AnimatedCheckIcon>
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary={promise} 
-                    primaryTypographyProps={{ 
-                      sx: { 
-                        transition: 'color 0.3s ease',
-                        '&:hover': { color: 'primary.main' } 
-                      } 
-                    }} 
-                  />
-                </AnimatedListItem>
-              ))}
-            </List>
-          </Grid>
-          
-          <Grid item xs={12} lg={6}>
-            <AnimatedBox delay={0.5}>
-              <AnimatedPaper sx={{ p: 3, borderRadius: 4, position: 'relative' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                  <Box 
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+          <Grid container spacing={6} alignItems="center">
+            <Grid item xs={12} lg={6}>
+              <AnimatedBox delay={0.1}>
+                <Box sx={{ position: 'relative', display: 'inline-block', mb: 2 }}>
+                  <Typography 
+                    variant="h2" // Using h2 from your theme
+                    component="h2" 
                     sx={{ 
-                      color: 'warning.main', 
-                      fontSize: '1.25rem', 
-                      mr: 1,
-                      display: 'flex', 
-                      alignItems: 'center',
-                      transition: 'transform 0.3s ease',
-                      '&:hover': { 
-                        transform: 'scale(1.1)'
-                      }
+                      // Using theme typography
+                      color: theme.palette.text.primary
                     }}
                   >
-                    ★★★★★
-                  </Box>
-                  <Typography sx={{ fontWeight: 600 }}>
-                    4.8/5 from 2,000+ reviews
+                    Our Quality Promise
                   </Typography>
+                  <AnimatedUnderline />
                 </Box>
-                
-                {testimonials.map((testimonial, index) => (
-                  <TestimonialBox key={index} delay={0.7 + index * 0.2}>
-                    {index > 0 && <Divider sx={{ my: 2 }} />}
-                    <Typography variant="body2" sx={{ 
-                      fontStyle: 'italic', 
-                      mb: 1,
-                      transition: 'color 0.3s ease',
-                      '&:hover': { color: 'text.primary' }
-                    }}>
-                      "{testimonial.quote}"
-                    </Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                      {testimonial.author}
-                    </Typography>
-                  </TestimonialBox>
+              </AnimatedBox>
+              
+              <AnimatedBox delay={0.3}>
+                <Typography variant="body1" sx={{ fontSize: '1.125rem', mb: 3 }}>
+                  At LaundryHeap, we're committed to providing the highest quality laundry and dry cleaning services available.
+                </Typography>
+              </AnimatedBox>
+              
+              <List disablePadding>
+                {qualityPromises.map((promise, index) => (
+                  <AnimatedListItem 
+                    key={index} 
+                    disableGutters 
+                    sx={{ py: 0.75 }}
+                    delay={0.4 + index * 0.1}
+                  >
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <AnimatedCheckIcon>
+                        <CheckIcon 
+                          fontSize="small" 
+                          sx={{ color: '#fff' }} // White to contrast with turquoise background
+                        />
+                      </AnimatedCheckIcon>
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary={promise} 
+                      primaryTypographyProps={{ 
+                        sx: { 
+                          transition: 'color 0.3s ease',
+                          '&:hover': { color: theme.palette.primary.main } // Using your turquoise color
+                        } 
+                      }} 
+                    />
+                  </AnimatedListItem>
                 ))}
-                
-                <GradientLine />
-              </AnimatedPaper>
-            </AnimatedBox>
+              </List>
+            </Grid>
+            
+            <Grid item xs={12} lg={6}>
+              <AnimatedBox delay={0.5}>
+                <AnimatedPaper sx={{ p: 3, borderRadius: 4, position: 'relative' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <Box 
+                      sx={{ 
+                        color: theme.palette.secondary.main, // Using your secondary yellow color for stars
+                        fontSize: '1.25rem', 
+                        mr: 1,
+                        display: 'flex', 
+                        alignItems: 'center',
+                        transition: 'transform 0.3s ease',
+                        '&:hover': { 
+                          transform: 'scale(1.1)'
+                        }
+                      }}
+                    >
+                      ★★★★★
+                    </Box>
+                    <Typography sx={{ fontWeight: 600 }}>
+                      4.8/5 from 2,000+ reviews
+                    </Typography>
+                  </Box>
+                  
+                  {testimonials.map((testimonial, index) => (
+                    <TestimonialBox key={index} delay={0.7 + index * 0.2}>
+                      {index > 0 && <Divider sx={{ my: 2 }} />}
+                      <Typography variant="body2" sx={{ 
+                        fontStyle: 'italic', 
+                        mb: 1,
+                        transition: 'color 0.3s ease',
+                        '&:hover': { color: theme.palette.text.primary }
+                      }}>
+                        "{testimonial.quote}"
+                      </Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        {testimonial.author}
+                      </Typography>
+                    </TestimonialBox>
+                  ))}
+                  
+                  <GradientLine />
+                </AnimatedPaper>
+              </AnimatedBox>
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-    </Box>
+        </Container>
+      </Box>
+    </ThemeProvider>
   );
 }
