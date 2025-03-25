@@ -539,10 +539,10 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
           </Container>
         </Box>
 
-        {/* Phase 4 - Right text, Left image */}
+        {/* Phase 2 - Right text, Left image */}
         <Box
-          id="phase-4"
-          ref={phaseFourRef}
+          id="phase-2"
+          ref={phaseTwoRef}
           sx={{
             minHeight: '100vh',
             display: 'flex',
@@ -557,7 +557,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
               <Grid item xs={12} md={6}>
                 <motion.div
                   initial="hidden"
-                  animate={phaseFourControls}
+                  animate={phaseTwoControls}
                   variants={imageFrameVariants}
                 >
                   <Paper
@@ -567,7 +567,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                       background: 'white',
                       borderRadius: 3,
                       overflow: 'hidden',
-                      transform: 'rotate(-2deg)',
+                      transform: 'rotate(2deg)',
                       position: 'relative',
                       '&::before': {
                         content: '""',
@@ -585,8 +585,8 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                   >
                     <Box
                       component="img"
-                      src={processes[1].imagePath}
-                      alt={processes[1].title}
+                      src={processes[2].imagePath}
+                      alt={processes[2].title}
                       sx={{
                         width: '100%',
                         height: 'auto',
@@ -695,6 +695,8 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
             </Grid>
           </Container>
         </Box>
+
+      
 
         {/* Phase 3 - Left text, Right image */}
         <Box
@@ -853,10 +855,13 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
           </Container>
         </Box>
 
-        {/* Phase 2 - Right text, Left image */}
-        <Box
-          id="phase-2"
-          ref={phaseTwoRef}
+
+
+
+          {/* Phase 4 - Right text, Left image */}
+          <Box
+          id="phase-4"
+          ref={phaseFourRef}
           sx={{
             minHeight: '100vh',
             display: 'flex',
@@ -871,7 +876,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
               <Grid item xs={12} md={6}>
                 <motion.div
                   initial="hidden"
-                  animate={phaseTwoControls}
+                  animate={phaseFourControls}
                   variants={imageFrameVariants}
                 >
                   <Paper
@@ -881,7 +886,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                       background: 'white',
                       borderRadius: 3,
                       overflow: 'hidden',
-                      transform: 'rotate(2deg)',
+                      transform: 'rotate(-2deg)',
                       position: 'relative',
                       '&::before': {
                         content: '""',
@@ -899,8 +904,8 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                   >
                     <Box
                       component="img"
-                      src={processes[2].imagePath}
-                      alt={processes[2].title}
+                      src={processes[1].imagePath}
+                      alt={processes[1].title}
                       sx={{
                         width: '100%',
                         height: 'auto',
@@ -1009,6 +1014,8 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
             </Grid>
           </Container>
         </Box>
+
+        
       </Box>
     </ThemeProvider>
   );
