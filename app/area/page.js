@@ -41,7 +41,7 @@ const AreaPage = () => {
       {/* Waitlist signup for non-covered areas */}
       <WaitlistSection />
     </Box>
-    <Footer/>
+    
     </>
   );
 };

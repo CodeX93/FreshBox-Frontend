@@ -410,7 +410,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                       background: 'white',
                       borderRadius: 3,
                       overflow: 'hidden',
-                      transform: 'rotate(-2deg)',
+                      transform: 'rotate(2deg)',
                       position: 'relative',
                       '&::before': {
                         content: '""',
@@ -428,8 +428,8 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                   >
                     <Box
                       component="img"
-                      src={processes[3].imagePath}
-                      alt={processes[3].title}
+                      src={processes[0].imagePath}
+                      alt={processes[0].title}
                       sx={{
                         width: '100%',
                         height: 'auto',
@@ -442,97 +442,6 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                       }}
                     />
                   </Paper>
-                </motion.div>
-              </Grid>
-              
-              <Grid item xs={12} md={6}>
-                <motion.div
-                  initial="hidden"
-                  animate={phaseFourControls}
-                  variants={fadeInRightVariants}
-                >
-                  <Box sx={{ position: 'relative', mb: 3 }}>
-                    <Box
-                      sx={{
-                        width: 70,
-                        height: 70,
-                        borderRadius: '50%',
-                        backgroundColor: theme.palette.primary.main,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-                        mb: 2
-                      }}
-                    >
-                      <Typography
-                        variant="h4"
-                        component="span"
-                        sx={{
-                          fontWeight: 'bold',
-                          color: 'white'
-                        }}
-                      >
-                        4
-                      </Typography>
-                    </Box>
-
-                    <Typography 
-                      variant="h3" 
-                      component="h2"
-                      sx={{ 
-                        fontWeight: 700,
-                        mb: 3,
-                        color: theme.palette.primary.dark
-                      }}
-                    >
-                      {processes[3].title}
-                    </Typography>
-                  </Box>
-
-                  <Typography 
-                    variant="body1"
-                    sx={{ 
-                      mb: 4,
-                      fontSize: '1.1rem',
-                      lineHeight: 1.7,
-                      color: '#4a5568'
-                    }}
-                  >
-                    {processes[3].detailedDescription}
-                  </Typography>
-
-                  <Box sx={{ mb: 4 }}>
-                    <Typography 
-                      variant="h6" 
-                      component="h4"
-                      sx={{ 
-                        fontWeight: 600,
-                        mb: 3,
-                        color: theme.palette.primary.dark
-                      }}
-                    >
-                      Key Features:
-                    </Typography>
-
-                    <Box component="ul" sx={{ pl: 2 }}>
-                      {processes[3].features.map((feature, index) => (
-                        <Box 
-                          component={motion.li}
-                          custom={index}
-                          initial="hidden"
-                          animate={phaseFourControls}
-                          variants={featureItemVariants}
-                          key={index}
-                          sx={{ mb: 1 }}
-                        >
-                          <Typography variant="body1" sx={{ color: '#4a5568' }}>
-                            {feature}
-                          </Typography>
-                        </Box>
-                      ))}
-                    </Box>
-                  </Box>
                 </motion.div>
               </Grid>
             </Grid>
@@ -696,8 +605,6 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
           </Container>
         </Box>
 
-      
-
         {/* Phase 3 - Left text, Right image */}
         <Box
           id="phase-3"
@@ -855,11 +762,8 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
           </Container>
         </Box>
 
-
-
-
-          {/* Phase 4 - Right text, Left image */}
-          <Box
+        {/* Phase 4 - Right text, Left image */}
+        <Box
           id="phase-4"
           ref={phaseFourRef}
           sx={{
@@ -886,7 +790,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                       background: 'white',
                       borderRadius: 3,
                       overflow: 'hidden',
-                      transform: 'rotate(-2deg)',
+                      transform: 'rotate(2deg)',
                       position: 'relative',
                       '&::before': {
                         content: '""',
@@ -904,8 +808,8 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                   >
                     <Box
                       component="img"
-                      src={processes[1].imagePath}
-                      alt={processes[1].title}
+                      src={processes[3].imagePath}
+                      alt={processes[3].title}
                       sx={{
                         width: '100%',
                         height: 'auto',
@@ -924,7 +828,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
               <Grid item xs={12} md={6}>
                 <motion.div
                   initial="hidden"
-                  animate={phaseTwoControls}
+                  animate={phaseFourControls}
                   variants={fadeInRightVariants}
                 >
                   <Box sx={{ position: 'relative', mb: 3 }}>
@@ -949,7 +853,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                           color: 'white'
                         }}
                       >
-                        2
+                        4
                       </Typography>
                     </Box>
 
@@ -962,7 +866,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         color: theme.palette.primary.dark
                       }}
                     >
-                      {processes[1].title}
+                      {processes[3].title}
                     </Typography>
                   </Box>
 
@@ -975,7 +879,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                       color: '#4a5568'
                     }}
                   >
-                    {processes[1].detailedDescription}
+                    {processes[3].detailedDescription}
                   </Typography>
 
                   <Box sx={{ mb: 4 }}>
@@ -992,12 +896,12 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                     </Typography>
 
                     <Box component="ul" sx={{ pl: 2 }}>
-                      {processes[1].features.map((feature, index) => (
+                      {processes[3].features.map((feature, index) => (
                         <Box 
                           component={motion.li}
                           custom={index}
                           initial="hidden"
-                          animate={phaseTwoControls}
+                          animate={phaseFourControls}
                           variants={featureItemVariants}
                           key={index}
                           sx={{ mb: 1 }}
@@ -1014,8 +918,6 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
             </Grid>
           </Container>
         </Box>
-
-        
       </Box>
     </ThemeProvider>
   );

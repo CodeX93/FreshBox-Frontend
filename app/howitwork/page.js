@@ -145,7 +145,7 @@ const HowItWorksPage = () => {
           </Box> */}
         </motion.div>
       </Box>
-      <Footer />
+      
     </>
   );
 };
