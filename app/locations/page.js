@@ -13,9 +13,9 @@ import AvailabilityList from './_components/AvailablitySection';
 import ExpansionPlans from './_components/ExpanstionPlan';
 import WaitlistSection from './_components/WaitlistSection';
 import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+
 // Main Page component that assembles all sections
-const AreaPage = () => {
+const LocationPage = () => {
   return (
     <>
     <Navbar/>
@@ -46,4 +46,4 @@ const AreaPage = () => {
   );
 };
 
-export default AreaPage;
+export default LocationPage;

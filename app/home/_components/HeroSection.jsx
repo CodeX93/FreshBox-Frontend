@@ -3,34 +3,23 @@
 import { 
   Box,
   Typography,
-  Card,
-  CardContent,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextField,
-  InputAdornment,
-  FormHelperText,
   Button,
   Container,
   ThemeProvider
 } from '@mui/material';
 import {
-  ChevronRight as ChevronRightIcon,
-  LocationOn as MapPinIcon,
-  Error as AlertCircleIcon
+  ChevronRight as ChevronRightIcon
 } from '@mui/icons-material';
 import { theme } from '../../../contexts/Theme'; // Import your theme context
+import { useRouter } from 'next/navigation';
 
-export default function HeroSection({ 
-  zipCode, 
-  setZipCode,
-  selectedService,
-  setSelectedService,
-  handleSubmit,
-  zipError 
-}) {
+export default function HeroSection() {
+  const router = useRouter();
+
+  const handleGetStarted = () => {
+    router.push('/howitwork');
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -119,7 +108,7 @@ export default function HeroSection({
               variant="h5" 
               sx={{ 
                 opacity: 0.9, 
-                mb: 4,
+                mb: 6,
                 fontSize: { xs: '1.25rem', md: '1.5rem' },
                 textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
               }}
@@ -127,130 +116,30 @@ export default function HeroSection({
               Professional cleaning services at your doorstep
             </Typography>
             
-            <Card
-              elevation={6}
+            <Button
+              variant="contained"
+              size="large"
+              onClick={handleGetStarted}
               sx={{
-                borderRadius: 3,
-                backgroundColor: 'white',
-                overflow: 'visible', // Allow for shadow to be fully visible
+                py: { xs: 1.5, md: 2 },
+                px: { xs: 4, md: 6 },
+                fontSize: { xs: '1.1rem', md: '1.25rem' },
+                fontWeight: 600,
+                borderRadius: 2,
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                backgroundColor: theme.palette.primary.main,
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.mainHover,
+                  boxShadow: '0 6px 20px rgba(0, 0, 0, 0.3)',
+                  transform: 'translateY(-2px)',
+                },
+                transition: 'all 0.3s ease',
               }}
+              endIcon={<ChevronRightIcon sx={{ fontSize: { xs: '1.5rem', md: '1.75rem' } }} />}
             >
-              <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                <Typography 
-                  variant="h5" 
-                  sx={{ 
-                    color: 'text.primary', 
-                    fontWeight: 700, 
-                    mb: 3,
-                    fontSize: { xs: '1.25rem', md: '1.5rem' },
-                  }}
-                >
-                  Schedule Your First Pickup
-                </Typography>
-                
-                <FormControl fullWidth sx={{ mb: 3 }}>
-                  <InputLabel id="service-select-label">Service</InputLabel>
-                  <Select
-                    labelId="service-select-label"
-                    value={selectedService}
-                    label="Service"
-                    onChange={(e) => setSelectedService(e.target.value)}
-                    sx={{ 
-                      height: 48, // Fixed height
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'rgba(0, 0, 0, 0.23)',
-                      },
-                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderColor: theme.palette.primary.main,
-                      },
-                    }}
-                  >
-                    <MenuItem value="dry-cleaning">Dry Cleaning</MenuItem>
-                    <MenuItem value="wash-fold">Wash & Fold</MenuItem>
-                    <MenuItem value="laundry">Laundry</MenuItem>
-                    <MenuItem value="household">Household Items</MenuItem>
-                  </Select>
-                </FormControl>
-                
-                <Box 
-                  component="form" 
-                  onSubmit={handleSubmit} 
-                  sx={{ 
-                    display: 'flex', 
-                    flexDirection: { xs: 'column', sm: 'row' }, 
-                    gap: 2,
-                    alignItems: 'stretch', // Ensure equal height
-                  }}
-                >
-                  <FormControl fullWidth error={!!zipError}>
-                    <TextField
-                      placeholder="ZIP Code"
-                      variant="outlined"
-                      value={zipCode}
-                      onChange={(e) => {
-                        // Only allow numbers and limit to 5 digits
-                        const value = e.target.value.replace(/[^\d]/g, '').slice(0, 5);
-                        setZipCode(value);
-                        if (zipError) zipError = '';
-                      }}
-                      inputProps={{ 
-                        maxLength: 5, 
-                        'aria-label': 'Enter your ZIP code',
-                      }}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <MapPinIcon color="action" />
-                          </InputAdornment>
-                        ),
-                        sx: { height: 48 } // Fixed height to match button
-                      }}
-                      sx={{
-                        '& .MuiOutlinedInput-root': {
-                          height: 48, // Fixed height
-                          '&.Mui-focused fieldset': {
-                            borderColor: theme.palette.primary.main,
-                          },
-                        },
-                      }}
-                    />
-                    {zipError && (
-                      <FormHelperText sx={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        color: 'error.main',
-                        mt: 0.5 
-                      }}>
-                        <AlertCircleIcon sx={{ fontSize: 14, mr: 0.5 }} />
-                        {zipError}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{
-                      height: 48, // Fixed height to match input
-                      px: 3,
-                      fontSize: '0.95rem',
-                      fontWeight: 600,
-                      display: 'flex',
-                      alignItems: 'center',
-                      whiteSpace: 'nowrap',
-                      backgroundColor: theme.palette.primary.main,
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: theme.palette.primary.dark,
-                      },
-                      minWidth: { xs: '100%', sm: 'auto' },
-                    }}
-                  >
-                    Schedule Pickup
-                    <ChevronRightIcon sx={{ ml: 0.5 }} />
-                  </Button>
-                </Box>
-              </CardContent>
-            </Card>
+              Get Started
+            </Button>
           </Box>
         </Container>
       </Box>

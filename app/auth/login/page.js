@@ -4,20 +4,17 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
-  Container, 
   Box, 
   Paper, 
   Typography, 
   TextField, 
   Button, 
   Divider, 
-  Grid,
   IconButton,
   InputAdornment,
   Alert,
-  Tabs,
-  Tab,
-  CircularProgress
+  CircularProgress,
+  Stack
 } from '@mui/material';
 import { 
   Email as EmailIcon, 
@@ -202,59 +199,95 @@ export default function LoginPage() {
     }
   };
 
+  // Common button styles for social logins
+  const socialButtonStyle = {
+    py: { xs: 1.25, sm: 1.5 },
+    height: { xs: '48px', sm: '56px' },
+    borderRadius: 2,
+    borderColor: 'grey.300',
+    color: 'text.primary',
+    justifyContent: 'center',
+    textAlign: 'center',
+    textTransform: 'none',
+    fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' },
+    fontWeight: 500,
+    '&:hover': {
+      bgcolor: 'rgba(0, 0, 0, 0.04)',
+      borderColor: 'grey.400'
+    },
+    '& .MuiButton-startIcon': {
+      marginRight: { xs: 1, sm: 1.5 },
+      marginLeft: '-24px',
+      position: 'absolute',
+      left: { xs: 16, sm: 24 },
+      '& .MuiSvgIcon-root': {
+        fontSize: { xs: '1.25rem', sm: '1.5rem' }
+      }
+    }
+  };
+
   return (
-    <Container maxWidth="sm" sx={{ py: 8 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        width: '100%',
+        px: { xs: 2, sm: 3 },
+        py: { xs: 2, sm: 4 },
+        bgcolor: '#f8f9fa'
+      }}
+    >
       <Paper 
         elevation={3} 
         sx={{ 
           borderRadius: 2, 
           overflow: 'hidden',
           border: '1px solid',
-          borderColor: 'grey.200'
+          borderColor: 'grey.200',
+          boxShadow: { xs: 1, sm: 3 },
+          width: '100%',
+          maxWidth: '400px',
+          mx: 'auto'
         }}
       >
-        {/* Header */}
-        <Box 
-          sx={{ 
-            bgcolor: '#28ddcd', 
-            color: 'white', 
-            p: 3, 
+        {/* Header with yellow accent on left */}
+        <Box sx={{ display: 'flex', position: 'relative' }}>
+          <Box sx={{ 
+            width: { xs: '8px', sm: '12px' }, 
+            backgroundColor: '#ffc107', 
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0
+          }} />
+          <Box sx={{ 
+            p: { xs: 2, sm: 2.5, md: 3 }, 
+            width: '100%',
             textAlign: 'center'
-          }}
-        >
-          <Typography variant="h4" fontWeight={700} gutterBottom>
-            Welcome Back
-          </Typography>
-          <Typography variant="body1">
-            Sign in to your Fresh Box account
-          </Typography>
+          }}>
+            <Typography 
+              variant="h4" 
+              fontWeight={700} 
+              gutterBottom
+              sx={{ 
+                fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2.125rem' },
+                letterSpacing: '-0.5px'
+              }}
+            >
+              Welcome back!
+            </Typography>
+          </Box>
         </Box>
 
-        {/* Authentication Methods Tabs */}
-        <Tabs 
-          value={authMethod} 
-          onChange={handleAuthMethodChange} 
-          variant="fullWidth" 
-          sx={{ borderBottom: 1, borderColor: 'divider' }}
-        >
-          <Tab 
-            icon={<EmailIcon fontSize="small" />} 
-            label="Email" 
-            value="email" 
-            iconPosition="start"
-            sx={{ fontWeight: 600 }}
-          />
-          <Tab 
-            icon={<PhoneIcon fontSize="small" />} 
-            label="Phone" 
-            value="phone" 
-            iconPosition="start"
-            sx={{ fontWeight: 600 }}
-          />
-        </Tabs>
-
         {/* Form Content */}
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ 
+          px: { xs: 2, sm: 2.5, md: 3 }, 
+          pb: { xs: 2, sm: 2.5, md: 3 }, 
+          pt: 1,
+          width: '100%'
+        }}>
           {/* Alert Messages */}
           {error && (
             <Alert severity="error" sx={{ mb: 3 }}>
@@ -276,20 +309,27 @@ export default function LoginPage() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Email"
                 name="email"
                 autoComplete="email"
                 autoFocus
                 value={emailLoginData.email}
                 onChange={handleEmailLoginChange}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <EmailIcon color="primary" />
-                    </InputAdornment>
-                  ),
+                sx={{ 
+                  mb: 2,
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 1.5,
+                    height: { xs: '50px', sm: '56px' }
+                  }
                 }}
-                sx={{ mb: 2 }}
+                variant="outlined"
+                size="medium"
+                InputProps={{
+                  sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
+                }}
+                InputLabelProps={{
+                  sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
+                }}
               />
               
               <TextField
@@ -304,38 +344,51 @@ export default function LoginPage() {
                 value={emailLoginData.password}
                 onChange={handleEmailLoginChange}
                 InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LockIcon color="primary" />
-                    </InputAdornment>
-                  ),
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
                         onClick={handleTogglePasswordVisibility}
                         edge="end"
+                        size="medium"
+                        sx={{ 
+                          mr: { xs: '-8px', sm: '-4px' },
+                          p: { xs: 0.5, sm: 1 }
+                        }}
                       >
                         {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                       </IconButton>
                     </InputAdornment>
                   ),
+                  sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
                 }}
-                sx={{ mb: 2 }}
+                InputLabelProps={{
+                  sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
+                }}
+                sx={{ 
+                  mb: 2,
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 1.5,
+                    height: { xs: '50px', sm: '56px' }
+                  }
+                }}
+                variant="outlined"
+                size="medium"
               />
               
-              <Box sx={{ textAlign: 'right', mb: 2 }}>
+              <Box sx={{ textAlign: 'center', mb: { xs: 2, sm: 3 } }}>
                 <Link href="/auth/forgot-password" passHref>
                   <Typography 
                     component="span"
-                    color="primary" 
+                    color="#e6b012" 
                     fontWeight={600}
                     sx={{ 
                       cursor: 'pointer',
-                      '&:hover': { textDecoration: 'underline' }
+                      '&:hover': { textDecoration: 'underline' },
+                      fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' }
                     }}
                   >
-                    Forgot password?
+                    I forgot my password
                   </Typography>
                 </Link>
               </Box>
@@ -344,20 +397,21 @@ export default function LoginPage() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                color="primary"
                 disabled={loading}
                 sx={{ 
-                  py: 1.5,
+                  py: { xs: 1.25, sm: 1.5 },
                   borderRadius: 2,
                   fontWeight: 600,
-                  fontSize: '1rem',
-                  bgcolor: '#28ddcd',
+                  fontSize: { xs: '0.9rem', sm: '1rem' },
+                  mb: { xs: 2, sm: 3 },
+                  bgcolor: '#e6b012',
                   '&:hover': {
-                    bgcolor: '#20c5b7'
-                  }
+                    bgcolor: '#d4a010'
+                  },
+                  height: { xs: '48px', sm: '56px' }
                 }}
               >
-                {loading ? <CircularProgress size={24} color="inherit" /> : 'Sign In'}
+                {loading ? <CircularProgress size={24} color="inherit" /> : 'Log in'}
               </Button>
             </Box>
           )}
@@ -379,30 +433,34 @@ export default function LoginPage() {
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     placeholder="+1 (234) 567-8900"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <PhoneIcon color="primary" />
-                        </InputAdornment>
-                      ),
+                    sx={{ 
+                      mb: { xs: 2, sm: 3 },
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 1.5,
+                        height: { xs: '50px', sm: '56px' }
+                      }
                     }}
-                    sx={{ mb: 3 }}
+                    InputProps={{
+                      sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
+                    }}
+                    InputLabelProps={{
+                      sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
+                    }}
                   />
                   
                   <Button
                     type="submit"
                     fullWidth
                     variant="contained"
-                    color="primary"
                     disabled={loading || !phoneNumber.trim()}
                     sx={{ 
                       py: 1.5,
                       borderRadius: 2,
                       fontWeight: 600,
                       fontSize: '1rem',
-                      bgcolor: '#28ddcd',
+                      bgcolor: '#e6b012',
                       '&:hover': {
-                        bgcolor: '#20c5b7'
+                        bgcolor: '#d4a010'
                       }
                     }}
                   >
@@ -413,7 +471,11 @@ export default function LoginPage() {
               
               {phoneStep === 2 && (
                 <Box component="form" onSubmit={handleVerifyOtp} noValidate>
-                  <Typography variant="body1" gutterBottom>
+                  <Typography 
+                    variant="body1" 
+                    gutterBottom
+                    sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' } }}
+                  >
                     We've sent a verification code to {phoneNumber}
                   </Typography>
                   
@@ -429,14 +491,25 @@ export default function LoginPage() {
                     onChange={(e) => setOtp(e.target.value)}
                     placeholder="123456"
                     inputProps={{ maxLength: 6 }}
-                    sx={{ mb: 3 }}
+                    sx={{ 
+                      mb: { xs: 2, sm: 3 },
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 1.5,
+                        height: { xs: '50px', sm: '56px' }
+                      }
+                    }}
+                    InputProps={{
+                      sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
+                    }}
+                    InputLabelProps={{
+                      sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
+                    }}
                   />
                   
                   <Button
                     type="submit"
                     fullWidth
                     variant="contained"
-                    color="primary"
                     disabled={loading || !otp.trim()}
                     sx={{ 
                       py: 1.5,
@@ -444,9 +517,9 @@ export default function LoginPage() {
                       fontWeight: 600,
                       fontSize: '1rem',
                       mb: 2,
-                      bgcolor: '#28ddcd',
+                      bgcolor: '#e6b012',
                       '&:hover': {
-                        bgcolor: '#20c5b7'
+                        bgcolor: '#d4a010'
                       }
                     }}
                   >
@@ -456,7 +529,6 @@ export default function LoginPage() {
                   <Button
                     fullWidth
                     variant="outlined"
-                    color="primary"
                     onClick={() => setPhoneStep(1)}
                     sx={{ 
                       py: 1.5,
@@ -472,7 +544,14 @@ export default function LoginPage() {
               
               {phoneStep === 3 && (
                 <Box component="form" onSubmit={handleSubmitUserInfo} noValidate>
-                  <Typography variant="body1" gutterBottom sx={{ mb: 2 }}>
+                  <Typography 
+                    variant="body1" 
+                    gutterBottom 
+                    sx={{ 
+                      mb: 2,
+                      fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' }
+                    }}
+                  >
                     Great! Your phone number has been verified. Please enter your name to complete setup:
                   </Typography>
                   
@@ -487,21 +566,25 @@ export default function LoginPage() {
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
                     placeholder="John Doe"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <PersonIcon color="primary" />
-                        </InputAdornment>
-                      ),
+                    sx={{ 
+                      mb: { xs: 2, sm: 3 },
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 1.5,
+                        height: { xs: '50px', sm: '56px' }
+                      }
                     }}
-                    sx={{ mb: 3 }}
+                    InputProps={{
+                      sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
+                    }}
+                    InputLabelProps={{
+                      sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
+                    }}
                   />
                   
                   <Button
                     type="submit"
                     fullWidth
                     variant="contained"
-                    color="primary"
                     disabled={loading || !userName.trim()}
                     sx={{ 
                       py: 1.5,
@@ -509,9 +592,9 @@ export default function LoginPage() {
                       fontWeight: 600,
                       fontSize: '1rem',
                       mb: 2,
-                      bgcolor: '#28ddcd',
+                      bgcolor: '#e6b012',
                       '&:hover': {
-                        bgcolor: '#20c5b7'
+                        bgcolor: '#d4a010'
                       }
                     }}
                   >
@@ -522,99 +605,128 @@ export default function LoginPage() {
             </>
           )}
 
-          {/* Social Login Options */}
-          <Box sx={{ mt: 3 }}>
-            <Divider sx={{ mb: 3 }}>
-              <Typography color="text.secondary" variant="body2">
-                OR CONTINUE WITH
+          {/* Sign Up Link */}
+          <Box sx={{ textAlign: 'center', mb: { xs: 2, sm: 3 } }}>
+            <Typography 
+              variant="body1"
+              sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' } }}
+            >
+              Don't have an account?{' '}
+              <Link href="/auth/register" passHref>
+                <Typography 
+                  component="span" 
+                  color="#e6b012"
+                  fontWeight={600}
+                  sx={{ 
+                    cursor: 'pointer',
+                    '&:hover': { textDecoration: 'underline' },
+                    fontSize: 'inherit'
+                  }}
+                >
+                  Sign up
+                </Typography>
+              </Link>
+              .
+            </Typography>
+          </Box>
+
+          {/* Social Login Options - Vertical alignment */}
+          <Box sx={{ mt: { xs: 1, sm: 2 } }}>
+            <Divider sx={{ mb: { xs: 2, sm: 3 } }}>
+              <Typography 
+                color="text.secondary" 
+                variant="body2"
+                sx={{ 
+                  fontSize: { xs: '0.8rem', sm: '0.85rem' },
+                  px: { xs: 1, sm: 2 }
+                }}
+              >
+                Or
               </Typography>
             </Divider>
             
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  color="primary"
-                  onClick={handleGoogleLogin}
-                  startIcon={<GoogleIcon />}
-                  sx={{ 
-                    py: 1.5,
-                    borderRadius: 2,
-                    borderColor: 'grey.300',
-                    color: 'text.primary',
-                    '&:hover': {
-                      bgcolor: 'rgba(0, 0, 0, 0.04)'
-                    }
-                  }}
-                >
-                  Google
-                </Button>
-              </Grid>
-              <Grid item xs={4}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  color="primary"
-                  onClick={handleFacebookLogin}
-                  startIcon={<FacebookIcon />}
-                  sx={{ 
-                    py: 1.5,
-                    borderRadius: 2,
-                    borderColor: 'grey.300',
-                    color: 'text.primary',
-                    '&:hover': {
-                      bgcolor: 'rgba(0, 0, 0, 0.04)'
-                    }
-                  }}
-                >
-                  Facebook
-                </Button>
-              </Grid>
-              <Grid item xs={4}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  color="primary"
-                  onClick={handleAppleLogin}
-                  startIcon={<AppleIcon />}
-                  sx={{ 
-                    py: 1.5,
-                    borderRadius: 2,
-                    borderColor: 'grey.300',
-                    color: 'text.primary',
-                    '&:hover': {
-                      bgcolor: 'rgba(0, 0, 0, 0.04)'
-                    }
-                  }}
-                >
-                  Apple
-                </Button>
-              </Grid>
-            </Grid>
+            <Stack 
+              spacing={{ xs: 1, sm: 1.5 }} 
+              direction="column" 
+              width="100%"
+            >
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={handleGoogleLogin}
+                startIcon={<GoogleIcon />}
+                sx={socialButtonStyle}
+              >
+                Continue with Google
+              </Button>
+              
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={handleAppleLogin}
+                startIcon={<AppleIcon />}
+                sx={socialButtonStyle}
+              >
+                Continue with Apple
+              </Button>
+              
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={handleFacebookLogin}
+                startIcon={<FacebookIcon />}
+                sx={socialButtonStyle}
+              >
+                Continue with Facebook
+              </Button>
+            </Stack>
           </Box>
-        </Box>
 
-        {/* Footer */}
-        <Box sx={{ p: 3, bgcolor: 'grey.50', borderTop: '1px solid', borderColor: 'grey.200', textAlign: 'center' }}>
-          <Typography variant="body1">
-            Don't have an account?{' '}
-            <Link href="/auth/register" passHref>
-              <Typography 
-                component="span" 
-                color="primary" 
-                fontWeight={600}
+          {/* Phone Auth Tab - Only shown if not already selected */}
+          {authMethod !== 'phone' && (
+            <Box sx={{ mt: { xs: 2, sm: 3 }, textAlign: 'center' }}>
+              <Button
+                variant="text"
+                color="primary"
+                onClick={() => setAuthMethod('phone')}
+                startIcon={<PhoneIcon sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' } }} />}
                 sx={{ 
-                  cursor: 'pointer',
-                  '&:hover': { textDecoration: 'underline' }
+                  color: '#28ddcd',
+                  textTransform: 'none',
+                  fontWeight: 500,
+                  fontSize: { xs: '0.8rem', sm: '0.85rem', md: '0.9rem' },
+                  py: 0.5,
+                  justifyContent: 'center'
                 }}
               >
-                Sign up
-              </Typography>
-            </Link>
-          </Typography>
+                Login with phone number instead
+              </Button>
+            </Box>
+          )}
+          
+          {/* Email Auth Tab - Only shown if not already selected */}
+          {authMethod !== 'email' && (
+            <Box sx={{ mt: { xs: 2, sm: 3 }, textAlign: 'center' }}>
+              <Button
+                variant="text"
+                color="primary"
+                onClick={() => setAuthMethod('email')}
+                startIcon={<EmailIcon sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' } }} />}
+                sx={{ 
+                  color: '#28ddcd',
+                  textTransform: 'none',
+                  fontWeight: 500,
+                  fontSize: { xs: '0.8rem', sm: '0.85rem', md: '0.9rem' },
+                  py: 0.5,
+                  justifyContent: 'center'
+                }}
+              >
+                Login with email instead
+              </Button>
+            </Box>
+          )}
         </Box>
       </Paper>
-    </Container>
+    </Box>
   );
 }

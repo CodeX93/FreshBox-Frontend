@@ -5,7 +5,9 @@ export const theme = createTheme({
     primary: {
       main: '#28ddcd', // LaundryHeap's primary Turqoise blue
       light: '#E3F2FD',
-      dark: '#0D3B6E'
+      dark: '#0D3B6E',
+      white: '#ffffff',
+    mainHover:'#0f8b8e'
     },
     secondary: {
       main: '#FFC107' // Accent yellow
