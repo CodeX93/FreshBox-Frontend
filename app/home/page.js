@@ -72,7 +72,7 @@ export default function Home() {
       <WhyChooseUsSection />
       <GetStartedSection />
       <FAQSection />
-      <Footer />
+      
       
       {/* Inline floating button */}
       {showButton && (
