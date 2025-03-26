@@ -33,23 +33,23 @@ export default function HeroSection() {
       >
         {/* Background Video */}
         <Box
-          component="iframe"
-          src="https://www.youtube.com/embed/F-AiKOv2b_A?autoplay=1&mute=1&loop=1&playlist=F-AiKOv2b_A&controls=0&showinfo=0&modestbranding=1"
-          allow="autoplay"
-          frameBorder="0"
-          allowFullScreen
-          sx={{
-            width: '100%',
-            height: '100%',
-            pointerEvents: 'none',
-            objectFit: 'cover',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            zIndex: 0,
-            display: { xs: 'none', md: 'block' }, // Hide on mobile to improve performance
-          }}
-        />
+  component="iframe"
+  src="https://www.youtube.com/embed/F-AiKOv2b_A?autoplay=1&mute=1&loop=1&playlist=F-AiKOv2b_A&controls=0&showinfo=0&modestbranding=1"
+  allow="autoplay"
+  frameBorder="0"
+  allowFullScreen
+  sx={{
+    width: '100%',
+    height: '100%',
+    pointerEvents: 'none',
+    objectFit: 'cover',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 0,
+  }}
+/>
+
 
         {/* Fallback Background Image */}
         <Box
