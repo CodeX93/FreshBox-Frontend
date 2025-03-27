@@ -7,7 +7,8 @@ export const theme = createTheme({
       light: '#E3F2FD',
       dark: '#0D3B6E',
       white: '#ffffff',
-    mainHover:'#0f8b8e'
+    mainHover:'#0f8b8e',
+    black:'#000000'
     },
     secondary: {
       main: '#FFC107' // Accent yellow

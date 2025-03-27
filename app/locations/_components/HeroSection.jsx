@@ -8,7 +8,9 @@ import {
   Paper,
   Grid,
   Fade,
-  ThemeProvider
+  ThemeProvider,
+  useTheme,
+  useMediaQuery
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -16,6 +18,8 @@ import { theme } from '../../../contexts/Theme'; // Import your theme context
 
 const HeroSection = () => {
   const [zipCode, setZipCode] = useState('');
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   
   const handleZipCodeChange = (e) => {
     // Only allow numbers and limit to 5 digits
@@ -33,6 +37,11 @@ const HeroSection = () => {
         sx={{
           width: '100%',
           minHeight: '60vh',
+          // Add top padding to account for Navbar height
+          pt: { 
+            xs: isMobile ? '80px' : '100px',  // Adjust based on your Navbar's mobile height
+            md: '120px'  // Adjust based on your Navbar's desktop height
+          },
           // Change gradient to use your theme colors
           backgroundImage: `linear-gradient(to right, ${theme.palette.primary.light}30, ${theme.palette.primary.light}10)`,
           display: 'flex',
@@ -46,7 +55,7 @@ const HeroSection = () => {
             <Grid item xs={12}>
               <Fade in timeout={1000}>
                 <Typography 
-                  variant="h1" // Using h1 from your theme
+                  variant="h1"
                   component="h1" 
                   align="center"
                   sx={{ 
@@ -111,17 +120,17 @@ const HeroSection = () => {
                         flexGrow: 1,
                         '& .MuiOutlinedInput-root': {
                           '&.Mui-focused fieldset': {
-                            borderColor: theme.palette.primary.main, // Use your turquoise for focused outline
+                            borderColor: theme.palette.primary.main,
                           },
                         },
                         '& .MuiInputLabel-root.Mui-focused': {
-                          color: theme.palette.primary.main, // Use your turquoise for focused label
+                          color: theme.palette.primary.main,
                         }
                       }}
                     />
                     <Button 
                       variant="contained" 
-                      color="primary" // This will use your primary turquoise color
+                      color="primary"
                       size="large"
                       disabled={zipCode.length !== 5}
                       component={motion.button}
@@ -133,9 +142,9 @@ const HeroSection = () => {
                         fontWeight: 600,
                         whiteSpace: 'nowrap',
                         minWidth: { xs: '100%', sm: 'auto' },
-                        backgroundColor: theme.palette.primary.main, // Explicitly set to your turquoise
+                        backgroundColor: theme.palette.primary.main,
                         '&:hover': {
-                          backgroundColor: theme.palette.primary.dark, // Darker shade for hover
+                          backgroundColor: theme.palette.primary.dark,
                         }
                       }}
                     >

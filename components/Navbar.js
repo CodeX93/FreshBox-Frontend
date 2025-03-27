@@ -75,18 +75,18 @@ const NavButton = ({ children, ...props }) => {
       color="inherit"
       {...otherProps}
       sx={{ 
-        mx: { sm: 0.25, md: 0.5, lg: 1 },
+        mx: { sm: 0.25, md: 0.25, lg: 0.5 },
         fontWeight: 600,
-        px: { sm: 0.5, md: 1, lg: 1.5 },
-        py: 1,
-        borderRadius: '8px',
+        px: { sm: 0.25, md: 0.5, lg: 1 },
+        py: 0.75, // Reduced vertical padding
+        borderRadius: '6px',
         color: 'white',
-        fontSize: { sm: '0.8rem', md: '0.9rem', lg: '1rem' },
+        fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' }, // Slightly smaller font
         whiteSpace: 'nowrap',
         transition: 'all 0.3s ease',
         '&:hover': {
           bgcolor: 'rgba(255, 255, 255, 0.2)',
-          transform: 'translateY(-2px)',
+          transform: 'translateY(-1px)',
         },
         ...(props.sx || {})
       }}
@@ -118,11 +118,11 @@ const GettingStartedSubMenu = [
 
 const CommercialSubMenu = [
   { name: 'Commercial Laundry Service', path: '/commercial', icon: <CommercialIcon />, description: 'Full-service solutions for businesses' },
-  { name: 'Airbnb Laundry', path: '/airbnb', icon: <AirbnbIcon />, description: 'Specialized service for rental properties' },
-  { name: 'Massage & Spa Laundry', path: '/spa', icon: <MassageSpa />, description: 'Luxury care for spa linens' },
-  { name: 'Healthcare Laundry', path: '/healthcare', icon: <HealthcareIcon />, description: 'Sanitized solutions for medical facilities' },
-  { name: 'Gym Towel Laundry Service', path: '/gym', icon: <GymIcon />, description: 'Fresh towels for fitness centers' },
-  { name: 'Request a Commercial Quote', path: '/quote', icon: <RequestQuoteIcon />, description: 'Get a customized business quote' },
+  { name: 'Airbnb Laundry', path: '/commercial', icon: <AirbnbIcon />, description: 'Specialized service for rental properties' },
+  { name: 'Massage & Spa Laundry', path: '/commercial', icon: <MassageSpa />, description: 'Luxury care for spa linens' },
+  { name: 'Healthcare Laundry', path: '/commercial', icon: <HealthcareIcon />, description: 'Sanitized solutions for medical facilities' },
+  { name: 'Gym Towel Laundry Service', path: '/commercial', icon: <GymIcon />, description: 'Fresh towels for fitness centers' },
+  { name: 'Request a Commercial Quote', path: '/commercial', icon: <RequestQuoteIcon />, description: 'Get a customized business quote' },
 ];
 
 export default function Navbar() {
@@ -254,7 +254,7 @@ export default function Navbar() {
   overflow: 'hidden',
   boxShadow: trigger ? '0 4px 8px rgba(0,0,0,0.1)' : 'none',
   transition: 'all 0.3s ease',
-  mr: { xs: 1.5, sm: 2.5 }
+  mr: { xs: 1.5, sm: 1.2 }
 }}>
   <Image
     src={Logo} // Path to your SVG file
@@ -264,7 +264,7 @@ export default function Navbar() {
     sizes="(max-width: 600px) 70px, (max-width: 900px) 90px, (max-width: 1200px) 100px, 100px"
     style={{
       objectFit: 'contain',
-      padding: '4px',
+      padding: '0px',
       maxWidth: '100px',
       maxHeight: '100px'
     }}
@@ -278,7 +278,7 @@ export default function Navbar() {
           color: 'white',
           fontWeight: 700, 
           display: { xs: 'none', sm: 'block' },
-          fontSize: { xs: '1rem', sm: '1.2rem', md: '1.4rem', lg: '1.6rem' },
+          fontSize: { xs: '1rem', sm: '1.2rem', md: '1.4rem', lg: '1.4rem' },
           fontFamily: '"Poppins", sans-serif',
           letterSpacing: '-0.5px',
           textShadow: trigger ? '0 2px 4px rgba(0,0,0,0.1)' : 'none',
@@ -315,7 +315,7 @@ export default function Navbar() {
             elevation={3}
             sx={{ 
               mt: 1.5, 
-              width: { sm: 300, md: 320, lg: 350 },
+              width: { sm: 280, md: 300, lg: 320 }, // Slightly reduced width
               overflow: 'hidden',
               borderRadius: '12px',
               border: '1px solid',
@@ -326,13 +326,24 @@ export default function Navbar() {
             <ClickAwayListener onClickAway={handleClose}>
               <Box>
                 <Box sx={{ 
-                  p: 2, 
+                  p: 1.5, // Reduced padding
                   bgcolor: TURQUOISE, 
                   color: 'white',
-                  backgroundImage: 'linear-gradient(135deg, #28ddcd, #20c5b7)'
+                  backgroundImage: 'linear-gradient(135deg, #28ddcd,rgb(255, 255, 255))'
                 }}>
-                  <Typography variant="h6" fontWeight={600}>{title}</Typography>
-                  <Typography variant="body2">
+                  <Typography 
+                    variant="h6" 
+                    fontWeight={600} 
+                    sx={{ fontSize: { xs: '1rem', sm: '1.1rem' } }} // Reduced font size
+                  >
+                    {title}
+                  </Typography>
+                  <Typography 
+                    variant="body2" 
+                    sx={{ 
+                      fontSize: { xs: '0.75rem', sm: '0.8rem' } // Reduced font size
+                    }}
+                  >
                     {description}
                   </Typography>
                 </Box>
@@ -348,7 +359,7 @@ export default function Navbar() {
                         alignItems: 'flex-start',
                         textDecoration: 'none',
                         color: 'text.primary',
-                        p: 2,
+                        p: 1.5, // Reduced padding
                         transition: 'all 0.3s ease',
                         '&:hover': {
                           bgcolor: 'rgba(40, 221, 205, 0.1)',
@@ -369,16 +380,16 @@ export default function Navbar() {
                         className="icon-container"
                         sx={{ 
                           color: 'white', 
-                          mr: 2,
+                          mr: 1.5, // Reduced margin
                           transition: 'all 0.3s ease',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           bgcolor: TURQUOISE,
-                          p: 1,
+                          p: 0.75, // Reduced padding
                           borderRadius: '8px',
-                          width: 40,
-                          height: 40
+                          width: 36, // Slightly smaller
+                          height: 36 // Slightly smaller
                         }}
                       >
                         {submenuItem.icon}
@@ -387,12 +398,22 @@ export default function Navbar() {
                         <Typography 
                           className="item-title"
                           fontWeight={600} 
-                          sx={{ mb: 0.5, transition: 'all 0.3s ease' }}
+                          sx={{ 
+                            mb: 0.25, // Reduced margin
+                            transition: 'all 0.3s ease',
+                            fontSize: { xs: '0.9rem', sm: '0.95rem' } // Reduced font size
+                          }}
                         >
                           {submenuItem.name}
                         </Typography>
                         {submenuItem.description && (
-                          <Typography variant="body2" color="text.secondary">
+                          <Typography 
+                            variant="body2" 
+                            color="text.secondary"
+                            sx={{ 
+                              fontSize: { xs: '0.7rem', sm: '0.75rem' } // Reduced font size
+                            }}
+                          >
                             {submenuItem.description}
                           </Typography>
                         )}
@@ -404,7 +425,7 @@ export default function Navbar() {
                   ))}
                 </Box>
                 {allLink && (
-                  <Box sx={{ p: 2, bgcolor: 'grey.50', borderTop: '1px solid', borderColor: 'grey.100' }}>
+                  <Box sx={{ p: 1.5, bgcolor: 'grey.50', borderTop: '1px solid', borderColor: 'grey.100' }}>
                     <Button 
                       component={Link}
                       href={allLink}
@@ -415,6 +436,8 @@ export default function Navbar() {
                         borderRadius: '8px',
                         bgcolor: TURQUOISE,
                         transition: 'all 0.3s ease',
+                        fontSize: { xs: '0.8rem', sm: '0.9rem' }, // Reduced font size
+                        py: 1, // Slightly reduced height
                         '&:hover': { 
                           bgcolor: DARK_TURQUOISE,
                           transform: 'translateY(-2px)',
@@ -1207,7 +1230,7 @@ export default function Navbar() {
     <Box sx={{ 
       display: 'flex', 
       alignItems: 'center',
-      gap: { sm: 0.5, md: 1, lg: 1.5 }
+      gap: { sm: 0.25, md: 0.5, lg: 1 }
     }}>
       {/* Plan dropdown button */}
       <Tooltip title={`${userPlan} Plan`}>
@@ -1218,16 +1241,17 @@ export default function Navbar() {
           aria-haspopup="true"
           endIcon={<ExpandMoreIcon sx={{ 
             color: 'white',
-            display: { sm: 'none', md: 'inline-flex' }
+            display: { sm: 'none', md: 'inline-flex' },
+            fontSize: { sm: '0.8rem', md: '1rem' }
           }} />}
           sx={{ 
             fontWeight: 600,
-            borderRadius: '8px',
-            px: { sm: 0.5, md: 1, lg: 1.5 },
-            py: 0.75,
+            borderRadius: '6px',
+            px: { sm: 0.25, md: 0.5, lg: 1 },
+            py: 0.5,
             minWidth: { sm: 'auto' },
             color: 'white',
-            fontSize: { sm: '0.7rem', md: '0.8rem', lg: '0.9rem' },
+            fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
             whiteSpace: 'nowrap',
             border: '1px solid rgba(255, 255, 255, 0.5)',
             '&:hover': { 
@@ -1239,10 +1263,10 @@ export default function Navbar() {
         >
           {getPlanIcon()}
           <Box sx={{ 
-            ml: { sm: 0, md: 0.5, lg: 0.75 }, 
+            ml: { sm: 0, md: 0.25, lg: 0.5 }, 
             display: { sm: 'none', md: 'block' } 
           }}>
-            {userPlan} Plan
+            {userPlan}
           </Box>
         </Button>
       </Tooltip>
@@ -1255,12 +1279,12 @@ export default function Navbar() {
           href="/orders"
           sx={{ 
             fontWeight: 600,
-            borderRadius: '8px',
-            px: { sm: 0.5, md: 1, lg: 1.5 },
-            py: 0.75,
+            borderRadius: '6px',
+            px: { sm: 0.25, md: 0.5, lg: 1 },
+            py: 0.5,
             minWidth: { sm: 'auto' },
             color: 'white',
-            fontSize: { sm: '0.7rem', md: '0.8rem', lg: '0.9rem' },
+            fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
             whiteSpace: 'nowrap',
             '&:hover': {
               bgcolor: 'rgba(255, 255, 255, 0.1)'
@@ -1271,11 +1295,11 @@ export default function Navbar() {
           <Badge 
             badgeContent={ongoingOrdersCount} 
             color="warning" 
-            sx={{ padding: '2px' }}
+            sx={{ padding: '1px' }}
           >
             <OrdersIcon sx={{ 
-              fontSize: { sm: '1rem', md: '1.1rem', lg: '1.3rem' },
-              mr: { sm: 0, md: 0.5, lg: 0.75 }
+              fontSize: { sm: '0.9rem', md: '1rem', lg: '1.1rem' },
+              mr: { sm: 0, md: 0.25, lg: 0.5 }
             }} />
           </Badge>
           <Box sx={{ display: { sm: 'none', md: 'block' } }}>
@@ -1292,12 +1316,12 @@ export default function Navbar() {
           href="/chat"
           sx={{ 
             fontWeight: 600,
-            borderRadius: '8px',
-            px: { sm: 0.5, md: 1, lg: 1.5 },
-            py: 0.75,
+            borderRadius: '6px',
+            px: { sm: 0.25, md: 0.5, lg: 1 },
+            py: 0.5,
             minWidth: { sm: 'auto' },
             color: 'white',
-            fontSize: { sm: '0.7rem', md: '0.8rem', lg: '0.9rem' },
+            fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
             whiteSpace: 'nowrap',
             '&:hover': {
               bgcolor: 'rgba(255, 255, 255, 0.1)'
@@ -1308,11 +1332,11 @@ export default function Navbar() {
           <Badge 
             badgeContent={unreadMessageCount} 
             color="error" 
-            sx={{ padding: '2px' }}
+            sx={{ padding: '1px' }}
           >
             <ChatIcon sx={{ 
-              fontSize: { sm: '1rem', md: '1.1rem', lg: '1.3rem' },
-              mr: { sm: 0, md: 0.5, lg: 0.75 }
+              fontSize: { sm: '0.9rem', md: '1rem', lg: '1.1rem' },
+              mr: { sm: 0, md: 0.25, lg: 0.5 }
             }} />
           </Badge>
           <Box sx={{ display: { sm: 'none', md: 'block' } }}>
@@ -1329,11 +1353,11 @@ export default function Navbar() {
         onClick={handleUserMenuOpen}
         sx={{ 
           fontWeight: 600,
-          borderRadius: '8px',
-          px: { sm: 0.5, md: 1, lg: 1.5 },
+          borderRadius: '6px',
+          px: { sm: 0.25, md: 0.5, lg: 1 },
           py: 0.5,
           color: 'white',
-          fontSize: { sm: '0.7rem', md: '0.8rem', lg: '0.9rem' },
+          fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
           whiteSpace: 'nowrap',
           textTransform: 'none',
           minWidth: { sm: 'auto' },
@@ -1345,12 +1369,12 @@ export default function Navbar() {
       >
         <Avatar 
           sx={{ 
-            width: { sm: 24, md: 26, lg: 30 }, 
-            height: { sm: 24, md: 26, lg: 30 }, 
+            width: { sm: 22, md: 24, lg: 26 }, 
+            height: { sm: 22, md: 24, lg: 26 }, 
             bgcolor: 'white',
             color: TURQUOISE,
-            fontSize: { sm: '0.7rem', md: '0.8rem', lg: '0.9rem' },
-            mr: { sm: 0, md: 0.5, lg: 0.75 },
+            fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
+            mr: { sm: 0, md: 0.25, lg: 0.5 },
             fontWeight: 'bold',
             transition: 'all 0.3s ease',
             '&:hover': {
@@ -1374,41 +1398,52 @@ export default function Navbar() {
       {renderUserMenu()}
       
       <AppBar
-        position="fixed"
-        elevation={0}
-        sx={{
-          transition: 'all 0.3s ease',
-          bgcolor: TURQUOISE,
-          backgroundImage: trigger ? 
-            'linear-gradient(135deg, #28ddcd, #20c5b7)' : 
-            'linear-gradient(135deg, #28ddcd, #20c5b7)',
-          color: 'white',
-          backdropFilter: 'none',
-          boxShadow: trigger ? '0px 2px 8px rgba(0, 0, 0, 0.15)' : 'none',
-          py: { xs: trigger ? 0.5 : 1, md: trigger ? 0.75 : 1.5 },
-        }}
-      >
-        <Container 
-          maxWidth="xl" 
-          sx={{ 
-            px: { xs: 1.5, sm: 2, md: 3, lg: 4 },
-            transition: 'all 0.3s ease'
-          }}
-        >
-          <Toolbar
-            sx={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              gap: 1,
-              minHeight: { xs: 64, md: trigger ? 64 : 80 },
-              transition: 'all 0.3s ease',
-              p: { xs: 0 }
-            }}
-            disableGutters
-          >
+  position="fixed"
+  elevation={0}
+  sx={{
+    transition: 'all 0.3s ease',
+    bgcolor: TURQUOISE,
+    backgroundImage: trigger ? 
+      'linear-gradient(135deg, #28ddcd, #20c5b7)' : 
+      'linear-gradient(135deg, #28ddcd, #20c5b7)',
+    color: 'white',
+    backdropFilter: 'none',
+    boxShadow: trigger ? '0px 2px 8px rgba(0, 0, 0, 0.15)' : 'none',
+    py: { xs: trigger ? 0.25 : 0.5, md: trigger ? 0.5 : 1 }, // Reduced vertical padding
+  }}
+>
+  <Container 
+    maxWidth="xl" 
+    sx={{ 
+      px: { xs: 1, sm: 1.5, md: 2, lg: 3, xl: 4 }, // Reduced horizontal padding
+      transition: 'all 0.3s ease',
+      width: '100%',
+      maxWidth: { 
+        xs: '100%', 
+        sm: '100%', 
+        md: '100%', 
+        lg: 'min(1800px, 98%)', 
+        xl: 'min(2000px, 95%)'
+      }
+    }}
+  >
+    <Toolbar
+      sx={{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 1,
+        minHeight: { 
+          xs: trigger ? 56 : 64,  // Reduced mobile height
+          md: trigger ? 64 : 80   // Reduced desktop height
+        },
+        transition: 'all 0.3s ease',
+        p: { xs: 0 }
+      }}
+      disableGutters
+    >
             {/* Logo and brand */}
             {renderLogo()}
 

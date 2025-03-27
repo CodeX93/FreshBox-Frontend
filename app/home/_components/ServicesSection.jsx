@@ -518,11 +518,12 @@ export default function ServicesSection() {
                 variant={isSmallMobile ? "h4" : isMobile ? "h3" : "h2"} // Using h2 from your theme
                 component="h2"
                 sx={{
+                  color: theme.palette.primary.black, // Using your turquoise color
                   fontWeight: 700,
                   mb: 2,
-                  background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`, // Using your turquoise color
+                  
                   WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
+                  
                   position: 'relative',
                   display: 'inline-block',
                 }}
