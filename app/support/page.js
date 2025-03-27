@@ -14,7 +14,7 @@ import {
 // Import all components
 import HeroSection from './_components/HeroSection';
 import ContactFormSection from './_components/ContactFormSection';
-import FAQSection from './_components/FAQSection';
+import FAQSection from './_components/FAQSection.jsx';
 import ContactInfoSection from './_components/ContactInfoSection';
 import SuccessErrorAlerts from './_components/SuccessErrorAlerts';
 
