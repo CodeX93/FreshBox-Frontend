@@ -124,14 +124,14 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           paddingLeft: {
-            xs: 16,
-            sm: 24,
-            md: 32,
+            xs: 0,
+            sm: 0,
+            md: 0,
           },
           paddingRight: {
-            xs: 16,
-            sm: 24,
-            md: 32,
+            xs: 0,
+            sm: 0,
+            md: 0,
           },
         },
       },
