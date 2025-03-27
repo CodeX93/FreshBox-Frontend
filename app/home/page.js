@@ -9,6 +9,7 @@ import QualityPromiseSection from './_components/QualityPromiseSection';
 import WhyChooseUsSection from './_components/WhyChooseUsSection';
 import GetStartedSection from './_components/GetStartedSection';
 import FAQSection from './_components/FAQSection';
+import ProcessSection from './_components/ProcessSection';
 
 export default function Home() {
   const [zipCode, setZipCode] = useState('');
@@ -71,6 +72,7 @@ export default function Home() {
       <QualityPromiseSection />
       <WhyChooseUsSection />
       <GetStartedSection />
+      <ProcessSection/>
       <FAQSection />
       
       
