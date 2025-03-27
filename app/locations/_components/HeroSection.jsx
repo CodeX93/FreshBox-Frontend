@@ -16,6 +16,9 @@ import { motion } from 'framer-motion';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { theme } from '../../../contexts/Theme'; // Import your theme context
 
+// Constants
+const DARK_TURQUOISE = '#20c5b7'; // Dark turquoise color
+
 const HeroSection = () => {
   const [zipCode, setZipCode] = useState('');
   const theme = useTheme();
@@ -42,8 +45,8 @@ const HeroSection = () => {
             xs: isMobile ? '80px' : '100px',  // Adjust based on your Navbar's mobile height
             md: '120px'  // Adjust based on your Navbar's desktop height
           },
-          // Change gradient to use your theme colors
-          backgroundImage: `linear-gradient(to right, ${theme.palette.primary.light}30, ${theme.palette.primary.light}10)`,
+          // Solid dark turquoise background
+          backgroundColor: DARK_TURQUOISE,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -60,10 +63,7 @@ const HeroSection = () => {
                   align="center"
                   sx={{ 
                     mb: 2,
-                    // Change gradient to use your primary turquoise
-                    background: `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.primary.light} 90%)`,
-                    backgroundClip: 'text',
-                    textFillColor: 'transparent',
+                    color: 'white', // Changed to solid white text
                     fontSize: { xs: '2.5rem', md: '3.5rem' } 
                   }}
                 >
@@ -77,8 +77,13 @@ const HeroSection = () => {
                 <Typography 
                   variant="h6" 
                   align="center" 
-                  color="text.secondary"
-                  sx={{ mb: 4, maxWidth: '700px', mx: 'auto' }}
+                  color="white" // Changed to white text
+                  sx={{ 
+                    mb: 4, 
+                    maxWidth: '700px', 
+                    mx: 'auto',
+                    opacity: 0.9 // Slightly transparent for visual hierarchy
+                  }}
                 >
                   Our laundry service is expanding rapidly across the city. Check if your area is covered for our premium wash & fold service.
                 </Typography>

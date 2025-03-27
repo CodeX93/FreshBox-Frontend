@@ -102,7 +102,7 @@ const HeroSection = ({ fadeInUp, scrollY }) => {
                     mb: 2,
                   }}
                 >
-                  Laundry Made <Box component="span" sx={{ color: theme.palette.secondary.main }}>Simple</Box>
+                  Laundry Made <Box component="span" sx={{ color: theme.palette.primary.main }}>Simple</Box>
                 </Typography>
                 
                 <Typography
@@ -140,24 +140,7 @@ const HeroSection = ({ fadeInUp, scrollY }) => {
                     See How It Works
                   </Button>
                   
-                  <Button
-                    variant="outlined"
-                    size="large"
-                    sx={{
-                      borderRadius: 2,
-                      py: 1.5,
-                      px: 3,
-                      fontWeight: 600,
-                      color: 'white',
-                      borderColor: 'white',
-                      '&:hover': {
-                        borderColor: 'white',
-                        backgroundColor: 'rgba(255,255,255,0.1)',
-                      },
-                    }}
-                  >
-                    Get Started
-                  </Button>
+                 
                 </Box>
               </Box>
             </Grid>

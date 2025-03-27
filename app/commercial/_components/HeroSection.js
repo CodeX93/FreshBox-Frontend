@@ -16,6 +16,7 @@ import { motion, useAnimation } from 'framer-motion';
 
 // Define constants
 const TURQUOISE = '#28ddcd';
+const DARK_TURQUOISE = '#20c5b7';
 
 // Motion components
 const MotionBox = motion(Box);
@@ -82,8 +83,7 @@ export default function HeroSection() {
         width: '100%',
         display: 'flex',
         alignItems: 'center',
-        bgcolor: '#f9f9f9',
-        backgroundImage: 'linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(40,221,205,0.1) 100%)',
+        bgcolor: DARK_TURQUOISE, // Changed to solid turquoise background
         position: 'relative',
         overflow: 'hidden',
         py: { xs: 6, sm: 4 }
@@ -92,7 +92,7 @@ export default function HeroSection() {
       {/* Background shape decorations */}
       <MotionBox
         initial={{ opacity: 0, x: -100 }}
-        animate={{ opacity: 0.05, x: 0 }}
+        animate={{ opacity: 0.15, x: 0 }} // Increased opacity for better visibility
         transition={{ duration: 1, delay: 0.5 }}
         sx={{
           position: 'absolute',
@@ -101,7 +101,7 @@ export default function HeroSection() {
           width: '40%',
           height: '40%',
           borderRadius: '50%',
-          background: TURQUOISE,
+          background: 'white', // Changed to white for contrast
           filter: 'blur(60px)',
           zIndex: 0
         }}
@@ -128,7 +128,7 @@ export default function HeroSection() {
                   fontWeight: 700,
                   fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.8rem', lg: '3.5rem' },
                   mb: { xs: 0.5, sm: 1 },
-                  color: '#333',
+                  color: 'white', // Changed to white for contrast
                   lineHeight: 1.1
                 }}
               >
@@ -137,12 +137,12 @@ export default function HeroSection() {
               
               <MotionTypography
                 variant="h4"
-                color="text.secondary"
                 variants={itemVariants}
                 sx={{ 
                   mb: { xs: 1, sm: 2 },
                   fontWeight: 400,
-                  fontSize: { xs: '1rem', sm: '1.1rem', md: '1.3rem' }
+                  fontSize: { xs: '1rem', sm: '1.1rem', md: '1.3rem' },
+                  color: 'rgba(255, 255, 255, 0.9)' // Changed to white with slight transparency
                 }}
               >
                 Professional laundry services for businesses of all sizes
@@ -155,7 +155,7 @@ export default function HeroSection() {
                     mb: { xs: 1.5, sm: 2, md: 3 }, 
                     fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' },
                     maxWidth: 500,
-                    color: 'text.secondary',
+                    color: 'rgba(255, 255, 255, 0.8)', // Changed to white with transparency
                     display: isSmallHeight && isMobile ? 'none' : 'block'
                   }}
                 >
@@ -175,14 +175,14 @@ export default function HeroSection() {
                   whileTap={{ scale: 0.95 }}
                   whileHover={{ scale: 1.03 }}
                   sx={{ 
-                    bgcolor: TURQUOISE,
-                    color: 'white',
+                    bgcolor: 'white', // Changed to white
+                    color: DARK_TURQUOISE, // Changed to turquoise
                     px: { xs: 2, sm: 3 },
                     py: { xs: 0.75, sm: 1 },
                     borderRadius: '8px',
                     fontWeight: 600,
                     fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                    '&:hover': { bgcolor: '#20c5b7' }
+                    '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.9)' }
                   }}
                 >
                   Request a Quote
@@ -194,16 +194,16 @@ export default function HeroSection() {
                   whileTap={{ scale: 0.95 }}
                   whileHover={{ scale: 1.03 }}
                   sx={{ 
-                    color: TURQUOISE,
-                    borderColor: TURQUOISE,
+                    color: 'white', // Changed to white
+                    borderColor: 'white', // Changed to white
                     px: { xs: 2, sm: 3 },
                     py: { xs: 0.75, sm: 1 },
                     borderRadius: '8px',
                     fontWeight: 600,
                     fontSize: { xs: '0.8rem', sm: '0.9rem' },
                     '&:hover': { 
-                      borderColor: TURQUOISE,
-                      bgcolor: 'transparent'
+                      borderColor: 'white',
+                      bgcolor: 'rgba(255, 255, 255, 0.1)'
                     }
                   }}
                 >
@@ -235,7 +235,7 @@ export default function HeroSection() {
                         width: 6,
                         height: 6,
                         borderRadius: '50%',
-                        bgcolor: TURQUOISE,
+                        bgcolor: 'white', // Changed to white
                         mr: 1
                       }}
                     />
@@ -243,7 +243,7 @@ export default function HeroSection() {
                       variant="body2" 
                       fontWeight={500}
                       sx={{ 
-                        color: 'text.secondary',
+                        color: 'rgba(255, 255, 255, 0.85)', // Changed to white with transparency
                         fontSize: { xs: '0.75rem', sm: '0.8rem' }
                       }}
                     >
@@ -278,16 +278,16 @@ export default function HeroSection() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   bgcolor: 'white',
-                  boxShadow: 'none',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
                   border: { xs: '6px solid', sm: '8px solid', md: '10px solid' },
-                  borderColor: 'rgba(40,221,205,0.1)',
+                  borderColor: 'rgba(255, 255, 255, 0.2)', // Changed to white with transparency
                   zIndex: 2
                 }}
               >
                 <CommercialIcon 
                   sx={{ 
                     fontSize: { xs: 40, sm: 60, md: 80 },
-                    color: TURQUOISE
+                    color: DARK_TURQUOISE
                   }} 
                 />
               </MotionBox>
@@ -309,14 +309,14 @@ export default function HeroSection() {
                     stiffness: 100
                   }}
                   whileHover={{ scale: 1.05 }}
-                  elevation={0}
+                  elevation={2} // Added elevation for better visibility
                   sx={{
                     position: 'absolute',
                     py: { sm: 0.75, md: 1 },
                     px: { sm: 1.5, md: 2 },
                     borderRadius: '8px',
                     bgcolor: 'white',
-                    border: '1px solid rgba(40,221,205,0.3)',
+                    border: '1px solid rgba(255, 255, 255, 0.3)', // Changed border color
                     ...item,
                     zIndex: 1,
                     cursor: 'pointer'
@@ -325,7 +325,7 @@ export default function HeroSection() {
                   <Typography 
                     variant="body2" 
                     fontWeight={600}
-                    color="text.primary"
+                    color={DARK_TURQUOISE} // Changed text color to turquoise
                     sx={{
                       fontSize: { sm: '0.75rem', md: '0.875rem' }
                     }}
@@ -361,19 +361,19 @@ export default function HeroSection() {
                         type: 'spring',
                         stiffness: 100
                       }}
-                      elevation={0}
+                      elevation={1} // Added elevation
                       sx={{
                         py: 0.5,
                         px: 1.5,
                         borderRadius: '8px',
                         bgcolor: 'white',
-                        border: '1px solid rgba(40,221,205,0.3)',
+                        border: '1px solid rgba(255, 255, 255, 0.3)', // Changed border color
                       }}
                     >
                       <Typography 
                         variant="body2" 
                         fontWeight={600}
-                        color="text.primary"
+                        color={DARK_TURQUOISE} // Changed text color to turquoise
                         sx={{
                           fontSize: '0.7rem'
                         }}
@@ -414,7 +414,7 @@ export default function HeroSection() {
         >
           <Typography 
             variant="body2" 
-            color="text.secondary"
+            color="white" // Changed to white
             sx={{ mb: 0.5, fontSize: '0.8rem' }}
           >
             Scroll to explore
@@ -425,7 +425,7 @@ export default function HeroSection() {
               height: 40,
               borderRadius: 12,
               border: '2px solid',
-              borderColor: 'rgba(0,0,0,0.2)',
+              borderColor: 'rgba(255, 255, 255, 0.4)', // Changed to white with transparency
               display: 'flex',
               justifyContent: 'center',
               pt: 1
@@ -436,7 +436,7 @@ export default function HeroSection() {
                 width: 5,
                 height: 5,
                 borderRadius: '50%',
-                bgcolor: TURQUOISE
+                bgcolor: 'white' // Changed to white
               }}
             />
           </Box>
