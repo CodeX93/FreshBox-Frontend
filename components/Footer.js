@@ -364,9 +364,9 @@ export default function Footer() {
                         size="small"
                         sx={{ 
                           color: 'white',
-                          borderColor: theme.palette.secondary.main,
+                          borderColor: theme.palette.primary.main,
                           '&:hover': {
-                            borderColor: theme.palette.secondary.light,
+                            borderColor: theme.palette.primary.main,
                             bgcolor: 'rgba(255, 255, 255, 0.1)'
                           }
                         }}
@@ -378,9 +378,9 @@ export default function Footer() {
                         size="small"
                         sx={{ 
                           color: 'white',
-                          borderColor: theme.palette.secondary.main,
+                          borderColor: theme.palette.primary.main,
                           '&:hover': {
-                            borderColor: theme.palette.secondary.light,
+                            borderColor: theme.palette.primary.main,
                             bgcolor: 'rgba(255, 255, 255, 0.1)'
                           }
                         }}

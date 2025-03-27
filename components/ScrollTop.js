@@ -42,7 +42,7 @@ const ScrollToTop = () => {
         sx={{
           position: 'fixed',
           bottom: 20,
-          left: 20,
+          right: 20,
           backgroundColor: theme.palette.primary.main,
           '&:hover': {
             backgroundColor: theme.palette.primary.dark,

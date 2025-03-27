@@ -760,7 +760,7 @@ export default function Profile() {
         </motion.div>
       </Box>
     </Box>
-    <Footer />
+    
     </>
   );
 }

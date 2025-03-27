@@ -14,6 +14,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 const inter = Inter({ subsets: ['latin'] });
 
 // Create responsive theme
+// Create responsive theme
 const theme = createTheme({
   breakpoints: {
     values: {
@@ -82,6 +83,23 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        'html, body': {
+          margin: 0,
+          padding: 0,
+          backgroundColor: 'transparent',
+        },
+        '*::-webkit-scrollbar': {
+          width: '8px',
+          height: '8px',
+        },
+        '*::-webkit-scrollbar-thumb': {
+          backgroundColor: 'rgba(0,0,0,0.1)',
+          borderRadius: '4px',
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -93,7 +111,12 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+          // Remove the default box-shadow for AppBar
+          boxShadow: 'none',
+          // Only apply shadow when scrolled - this will be controlled by your Navbar component
+          '&.scrolled': {
+            boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+          }
         },
       },
     },
@@ -143,7 +166,7 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
         <meta name="theme-color" content="#28ddcd" />
-        <title>LaundryHeap - Professional Laundry Services</title>
+        <title>FreshBox - Professional Laundry Services</title>
         <meta name="description" content="Your one-stop solution for all laundry needs" />
       </head>
       <body className={inter.className}>

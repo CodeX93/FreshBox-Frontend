@@ -91,12 +91,14 @@ const GradientLine = styled(Box)(() => ({
   left: 0,
   width: 0,
   height: 4,
-  background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`, // Using your turquoise and yellow colors
+  // Changed to solid turquoise color instead of gradient
+  background: theme.palette.primary.main,
   animation: `${growWidth} 1.5s ease-out 1s forwards`,
 }));
 
+// Modified to ensure turquoise background with white check icon
 const AnimatedCheckIcon = styled(Box)(() => ({
-  backgroundColor: theme.palette.primary.light, // Using your turquoise light color
+  backgroundColor: theme.palette.primary.main, // Changed to primary.main for turquoise
   padding: theme.spacing(0.5),
   borderRadius: '50%',
   display: 'flex',
@@ -104,7 +106,7 @@ const AnimatedCheckIcon = styled(Box)(() => ({
   justifyContent: 'center',
   transition: 'all 0.3s ease',
   '&:hover': {
-    backgroundColor: theme.palette.primary.main, // Using your turquoise color
+    backgroundColor: theme.palette.primary.dark, // Darker turquoise on hover
     animation: `${pulse} 0.5s ease infinite`,
   },
 }));
@@ -211,7 +213,7 @@ export default function QualityPromiseSection() {
                       <AnimatedCheckIcon>
                         <CheckIcon 
                           fontSize="small" 
-                          sx={{ color: '#fff' }} // White to contrast with turquoise background
+                          sx={{ color: 'white' }} // Explicitly set to white for contrast against turquoise
                         />
                       </AnimatedCheckIcon>
                     </ListItemIcon>

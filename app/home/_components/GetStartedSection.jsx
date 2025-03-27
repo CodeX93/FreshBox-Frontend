@@ -56,6 +56,9 @@ const GetStartedSection = () => {
     }
   ];
 
+  // Darker navy blue that complements turquoise better
+  const backgroundColorDark = '#0A2E50';
+
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -66,7 +69,7 @@ const GetStartedSection = () => {
           width: '100%',
           display: 'flex',
           alignItems: 'center',
-          backgroundColor: '#0D3B6E', // Dark blue background
+          backgroundColor: backgroundColorDark, // Slightly darker blue that complements turquoise
           color: '#ffffff', // White text
           py: { xs: 6, md: 8 },
           overflow: 'hidden' // Prevent overflow issues on mobile
@@ -154,15 +157,16 @@ const GetStartedSection = () => {
                               width: { xs: 32, sm: 36, md: 40 },
                               height: { xs: 32, sm: 36, md: 40 },
                               borderRadius: '50%',
-                              backgroundColor: theme.palette.secondary.main, // Yellow accent
-                              color: '#000000',
+                              backgroundColor: theme.palette.primary.main, // Changed to turquoise
+                              color: '#ffffff', // Changed to white for better contrast
                               display: 'flex',
                               justifyContent: 'center',
                               alignItems: 'center',
                               fontWeight: 'bold',
                               fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
                               mr: { xs: 2, md: 3 },
-                              flexShrink: 0
+                              flexShrink: 0,
+                              boxShadow: '0 2px 4px rgba(0,0,0,0.2)' // Added subtle shadow
                             }}
                           >
                             {step.number}
@@ -208,13 +212,14 @@ const GetStartedSection = () => {
                           px: { xs: 3, md: 4 }, 
                           fontWeight: 600,
                           fontSize: { xs: '0.95rem', sm: '1rem', md: '1.1rem' },
-                          backgroundColor: theme.palette.secondary.main, // Yellow accent
-                          color: '#000000',
+                          backgroundColor: theme.palette.primary.main, // Changed to turquoise
+                          color: '#ffffff', // Changed to white text
                           borderRadius: 2,
                           '&:hover': {
-                            backgroundColor: theme.palette.secondary.dark,
+                            backgroundColor: theme.palette.primary.dark, // Darker turquoise on hover
                           },
-                          whiteSpace: 'nowrap'
+                          whiteSpace: 'nowrap',
+                          boxShadow: '0 4px 8px rgba(0,0,0,0.15)' // Enhanced shadow
                         }}
                       >
                         Get Started Now
@@ -242,7 +247,8 @@ const GetStartedSection = () => {
                         width: '70%',
                         height: '70%',
                         borderRadius: 4,
-                        border: `3px dashed ${theme.palette.secondary.main}`,
+                        border: `3px dashed ${theme.palette.primary.main}`, // Changed to turquoise
+                        opacity: 0.7,
                         zIndex: 0,
                         display: { xs: 'none', sm: 'block' }
                       }}
@@ -327,8 +333,8 @@ const GetStartedSection = () => {
                       width: { xs: 90, sm: 100, md: 120 },
                       height: { xs: 90, sm: 100, md: 120 },
                       borderRadius: '50%',
-                      backgroundColor: theme.palette.secondary.main, // Yellow accent
-                      color: '#000000',
+                      backgroundColor: theme.palette.primary.main, // Changed to turquoise
+                      color: '#ffffff', // Changed to white text
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'center',
@@ -343,7 +349,7 @@ const GetStartedSection = () => {
                       variant="h4" 
                       sx={{ 
                         fontWeight: 700,
-                        color: '#000000',
+                        color: '#ffffff', // White text
                         lineHeight: 1,
                         fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' }
                       }}
@@ -354,7 +360,7 @@ const GetStartedSection = () => {
                       variant="body2" 
                       sx={{ 
                         fontWeight: 600,
-                        color: '#000000',
+                        color: '#ffffff', // White text
                         fontSize: { xs: '0.65rem', sm: '0.75rem', md: '0.875rem' }
                       }}
                     >

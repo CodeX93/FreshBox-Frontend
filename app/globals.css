@@ -1,3 +1,17 @@
-#__next-build-watcher {
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden;
+  }
+  
+  body::before {
     display: none !important;
+    content: none !important;
+  }
+  
+  #__next, 
+  main, 
+  div[data-reactroot] {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }

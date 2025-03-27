@@ -90,6 +90,7 @@ const ProcessSection = () => {
             >
               <Grid container spacing={6} alignItems="center" direction={{ xs: 'column', md: index % 2 === 0 ? 'row' : 'row-reverse' }}>
                 <Grid item xs={12} md={6}>
+                
                   <Typography variant="h3" sx={{ fontWeight: 700, mb: 3, color: theme.palette.primary.dark, textAlign: { xs: 'center', md: 'left' } }}>
                     {step.title}
                   </Typography>
@@ -97,7 +98,7 @@ const ProcessSection = () => {
                     {step.description}
                   </Typography>
                   <Box sx={{ display: 'flex', justifyContent: { xs: 'center', md: 'flex-start' } }}>
-                    <Button variant="contained" color="primary" sx={{ borderRadius: 30, px: 3, py: 1.5 }}>
+                    <Button variant="contained" color="primary" sx={{ borderRadius: 30, px: 3, py: 1.5,color:'white', fontWeight:'bold' }}>
                       {step.buttonText}
                     </Button>
                   </Box>

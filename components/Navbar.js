@@ -4,99 +4,32 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Box,
-  Button,
-  Container,
-  IconButton,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Collapse,
-  Divider,
-  useScrollTrigger,
-  Fade,
-  Paper,
-  Popper,
-  ClickAwayListener,
-  useTheme,
-  useMediaQuery,
-  Avatar,
-  Menu,
-  Badge,
-  MenuItem,
-  Tooltip
+  AppBar, Toolbar, Typography, Box, Button, Container, IconButton,
+  Drawer, List, ListItem, ListItemText, ListItemIcon, Collapse,
+  Divider, useScrollTrigger, Fade, Paper, Popper, ClickAwayListener,
+  useTheme, useMediaQuery, Avatar, Menu, Badge, MenuItem, Tooltip
 } from '@mui/material';
 
 import {
-  Menu as MenuIcon,
-  ExpandMore as ExpandMoreIcon,
-  ExpandLess as ExpandLessIcon,
-  Dry as DryCleaningIcon,
-  LocalLaundryService as LaundryIcon,
-  Wash as WashIcon,
-  Home as HouseholdIcon,
-  Login as LoginIcon,
-  Schedule as ScheduleIcon,
-  ChevronRight as ChevronRightIcon,
-  AccountCircle as AccountCircleIcon,
-  Logout as LogoutIcon,
-  ShoppingBag as OrdersIcon,
-  Chat as ChatIcon,
-  Dashboard as BasicPlanIcon,
-  Star as PremiumPlanIcon,
-  Business as EnterprisePlanIcon,
-  SpaSharp as MassageSpa,
-  LocalHospital as HealthcareIcon,
-  Factory as CommercialIcon,
-  FitnessCenter as GymIcon,
-  RequestQuote as RequestQuoteIcon,
-  Storefront as AirbnbIcon,
+  Menu as MenuIcon, ExpandMore as ExpandMoreIcon, ExpandLess as ExpandLessIcon,
+  Dry as DryCleaningIcon, LocalLaundryService as LaundryIcon, Wash as WashIcon,
+  Home as HouseholdIcon, Login as LoginIcon, Schedule as ScheduleIcon,
+  ChevronRight as ChevronRightIcon, AccountCircle as AccountCircleIcon,
+  Logout as LogoutIcon, ShoppingBag as OrdersIcon, Chat as ChatIcon,
+  Dashboard as BasicPlanIcon, Star as PremiumPlanIcon, Business as EnterprisePlanIcon,
+  SpaSharp as MassageSpa, LocalHospital as HealthcareIcon, Factory as CommercialIcon,
+  FitnessCenter as GymIcon, RequestQuote as RequestQuoteIcon, Storefront as AirbnbIcon,
   Close as CloseIcon
 } from '@mui/icons-material';
 import Logo from '../Assets/logo2.png';
 import { useAuth } from '../contexts/AuthContext';
 
-// Define constants
+// Constants
 const TURQUOISE = '#28ddcd';
 const DARK_TURQUOISE = '#20c5b7';
 const LIGHT_TURQUOISE = '#5de6d8';
 
-// Reusable styled components
-const NavButton = ({ children, ...props }) => {
-  const { trigger, ...otherProps } = props;
-  
-  return (
-    <Button
-      color="inherit"
-      {...otherProps}
-      sx={{ 
-        mx: { sm: 0.25, md: 0.25, lg: 0.5 },
-        fontWeight: 600,
-        px: { sm: 0.25, md: 0.5, lg: 1 },
-        py: 0.75, // Reduced vertical padding
-        borderRadius: '6px',
-        color: 'white',
-        fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' }, // Slightly smaller font
-        whiteSpace: 'nowrap',
-        transition: 'all 0.3s ease',
-        '&:hover': {
-          bgcolor: 'rgba(255, 255, 255, 0.2)',
-          transform: 'translateY(-1px)',
-        },
-        ...(props.sx || {})
-      }}
-    >
-      {children}
-    </Button>
-  );
-};
-
-// Navigation data
+// Navigation data - moved outside component
 const navItems = [
   { name: 'Getting Started', path: '/howitwork', hasSubmenu: true },
   { name: 'FreshBox Care and Pricing', path: '/services', hasSubmenu: true },
@@ -125,30 +58,61 @@ const CommercialSubMenu = [
   { name: 'Request a Commercial Quote', path: '/commercial', icon: <RequestQuoteIcon />, description: 'Get a customized business quote' },
 ];
 
+// Reusable styled components
+const NavButton = ({ children, ...props }) => {
+  // Extract trigger to prevent passing it to DOM
+  const { trigger, ...otherProps } = props;
+  
+  return (
+    <Button color="inherit" {...otherProps} sx={{ 
+      mx: { sm: 0.25, md: 0.25, lg: 0.5 },
+      fontWeight: 600,
+      px: { sm: 0.25, md: 0.5, lg: 1 },
+      py: 0.75,
+      borderRadius: '6px',
+      color: 'white',
+      fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
+      whiteSpace: 'nowrap',
+      transition: 'all 0.3s ease',
+      '&:hover': {
+        bgcolor: 'rgba(255, 255, 255, 0.2)',
+        transform: 'translateY(-1px)',
+      },
+      ...(props.sx || {})
+    }}>
+      {children}
+    </Button>
+  );
+};
+
 export default function Navbar() {
-  const { user, logout, isAuthenticated } = useAuth(); 
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [servicesAnchorEl, setServicesAnchorEl] = useState(null);
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const [userMenuAnchorEl, setUserMenuAnchorEl] = useState(null);
+  const { user, logout, isAuthenticated } = useAuth();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
-  const [unreadMessageCount, setUnreadMessageCount] = useState(0);
-  const [ongoingOrdersCount, setOngoingOrdersCount] = useState(0);
-  const [userPlan, setUserPlan] = useState('Basic'); 
+  
+  // State management - grouped by functionality
+  const [scrolled, setScrolled] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  
+  // Menu states
+  const [servicesAnchorEl, setServicesAnchorEl] = useState(null);
   const [commercialAnchorEl, setCommercialAnchorEl] = useState(null);
   const [gettingStartedAnchorEl, setGettingStartedAnchorEl] = useState(null);
+  const [userMenuAnchorEl, setUserMenuAnchorEl] = useState(null);
+  const [plansMenuAnchorEl, setPlansMenuAnchorEl] = useState(null);
+  
+  // Mobile menu states
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [mobileCommercialOpen, setMobileCommercialOpen] = useState(false);
   const [mobileGettingStartedOpen, setMobileGettingStartedOpen] = useState(false);
-  const [plansMenuAnchorEl, setPlansMenuAnchorEl] = useState(null);
+  
+  // User data
+  const [unreadMessageCount, setUnreadMessageCount] = useState(0);
+  const [ongoingOrdersCount, setOngoingOrdersCount] = useState(0);
+  const [userPlan, setUserPlan] = useState('Basic');
 
-  const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 50,
-  });
-
-  // Boolean flags for menus
+  // Derived states
   const servicesOpen = Boolean(servicesAnchorEl);
   const userMenuOpen = Boolean(userMenuAnchorEl);
   const commercialOpen = Boolean(commercialAnchorEl);
@@ -162,7 +126,18 @@ export default function Navbar() {
   const gettingStartedPopupId = gettingStartedOpen ? 'getting-started-popup-menu' : undefined;
   const plansMenuId = plansMenuOpen ? 'plans-menu' : undefined;
 
-  // Load user data
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 50,
+  });
+
+  // Effects
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 0);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   useEffect(() => {
     // Replace with actual API calls in production
     setUserPlan(user?.plan || 'Basic');
@@ -170,18 +145,36 @@ export default function Navbar() {
     setOngoingOrdersCount(3);
   }, [user]);
 
-  // Helper functions
+  // Event handlers - grouped by functionality
   const toggleDrawer = (open) => (event) => {
     if (event?.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) return;
     setDrawerOpen(open);
   };
 
+  // Menu handlers
   const handleServicesMenuOpen = (event) => setServicesAnchorEl(event.currentTarget);
   const handleServicesMenuClose = () => setServicesAnchorEl(null);
   const toggleMobileServicesMenu = () => setMobileServicesOpen(!mobileServicesOpen);
   
+  const handleCommercialMenuOpen = (event) => setCommercialAnchorEl(event.currentTarget);
+  const handleCommercialMenuClose = () => setCommercialAnchorEl(null);
+  const toggleMobileCommercialMenu = () => setMobileCommercialOpen(!mobileCommercialOpen);
+
+  const handleGettingStartedMenuOpen = (event) => setGettingStartedAnchorEl(event.currentTarget);
+  const handleGettingStartedMenuClose = () => setGettingStartedAnchorEl(null);
+  const toggleMobileGettingStartedMenu = () => setMobileGettingStartedOpen(!mobileGettingStartedOpen);
+  
+  // User menu handlers
   const handleUserMenuOpen = (event) => setUserMenuAnchorEl(event.currentTarget);
   const handleUserMenuClose = () => setUserMenuAnchorEl(null);
+  
+  const handlePlansMenuOpen = (event) => setPlansMenuAnchorEl(event.currentTarget);
+  const handlePlansMenuClose = () => setPlansMenuAnchorEl(null);
+  
+  const navigateToPlan = (plan) => {
+    handlePlansMenuClose();
+    window.location.href = '/plans';
+  };
   
   const handleLogout = async () => {
     try {
@@ -192,23 +185,9 @@ export default function Navbar() {
     }
   };
 
-  const handleCommercialMenuOpen = (event) => setCommercialAnchorEl(event.currentTarget);
-  const handleCommercialMenuClose = () => setCommercialAnchorEl(null);
-  const toggleMobileCommercialMenu = () => setMobileCommercialOpen(!mobileCommercialOpen);
+  // Helper functions
+  const getInitial = (name) => name ? name.charAt(0).toUpperCase() : 'U';
 
-  const handleGettingStartedMenuOpen = (event) => setGettingStartedAnchorEl(event.currentTarget);
-  const handleGettingStartedMenuClose = () => setGettingStartedAnchorEl(null);
-  const toggleMobileGettingStartedMenu = () => setMobileGettingStartedOpen(!mobileGettingStartedOpen);
-
-  const handlePlansMenuOpen = (event) => setPlansMenuAnchorEl(event.currentTarget);
-  const handlePlansMenuClose = () => setPlansMenuAnchorEl(null);
-  
-  const navigateToPlan = (plan) => {
-    handlePlansMenuClose();
-    window.location.href = '/plans';
-  };
-
-  // Plan helper functions
   const getPlanIcon = () => {
     switch(userPlan) {
       case 'Premium': return <PremiumPlanIcon sx={{ fontSize: { sm: '1rem', md: '1.1rem', lg: '1.3rem' }, color: '#FFD700' }} />;
@@ -225,9 +204,7 @@ export default function Navbar() {
     }
   };
 
-  const getInitial = (name) => name ? name.charAt(0).toUpperCase() : 'U';
-
-  // UI Components
+  // Reusable UI components
   const renderLogo = () => (
     <Box 
       component={Link} 
@@ -238,38 +215,35 @@ export default function Navbar() {
         display: 'flex', 
         alignItems: 'center',
         transition: 'transform 0.2s ease',
-        '&:hover': {
-          transform: 'scale(1.02)'
-        }
+        '&:hover': { transform: 'scale(1.02)' }
       }}
     >
-  <Box sx={{
-  position: 'relative',
-  width: { xs: 70, sm: 90, md: 100, lg: 100 },
-  height: { xs: 70, sm: 90, md: 100, lg: 100 },
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: '10%',
-  overflow: 'hidden',
-  boxShadow: trigger ? '0 4px 8px rgba(0,0,0,0.1)' : 'none',
-  transition: 'all 0.3s ease',
-  mr: { xs: 1.5, sm: 1.2 }
-}}>
-  <Image
-    src={Logo} // Path to your SVG file
-    alt="FreshBox Logo"
-    priority
-    fill
-    sizes="(max-width: 600px) 70px, (max-width: 900px) 90px, (max-width: 1200px) 100px, 100px"
-    style={{
-      objectFit: 'contain',
-      padding: '0px',
-      maxWidth: '100px',
-      maxHeight: '100px'
-    }}
-  />
-</Box>
+      <Box sx={{
+        position: 'relative',
+        width: { xs: 70, sm: 90, md: 100, lg: 100 },
+        height: { xs: 70, sm: 90, md: 100, lg: 100 },
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '10%',
+        overflow: 'hidden',
+        transition: 'all 0.3s ease',
+        mr: { xs: 0.5, sm: 0.5 } // Reduced margin to bring it closer to text
+      }}>
+        <Image
+          src={Logo}
+          alt="FreshBox Logo"
+          priority
+          fill
+          sizes="(max-width: 600px) 70px, (max-width: 900px) 90px, (max-width: 1200px) 100px, 100px"
+          style={{
+            objectFit: 'contain',
+            padding: '0px',
+            maxWidth: '100px',
+            maxHeight: '100px'
+          }}
+        />
+      </Box>
       
       <Typography
         variant="h5"
@@ -288,19 +262,13 @@ export default function Navbar() {
         FreshBox
       </Typography>
     </Box>
+
   );
 
-  const renderSubmenuWithPopper = (
-    id, 
-    open, 
-    anchorEl, 
-    handleClose, 
-    title, 
-    description, 
-    submenuItems, 
-    allLink, 
-    allLinkText
-  ) => (
+  // Submenu popper - now accepts full config object to reduce repetition
+  const renderSubmenuWithPopper = ({
+    id, open, anchorEl, handleClose, title, description, submenuItems, allLink, allLinkText
+  }) => (
     <Popper 
       id={id}
       open={open} 
@@ -315,7 +283,7 @@ export default function Navbar() {
             elevation={3}
             sx={{ 
               mt: 1.5, 
-              width: { sm: 280, md: 300, lg: 320 }, // Slightly reduced width
+              width: { sm: 280, md: 300, lg: 320 },
               overflow: 'hidden',
               borderRadius: '12px',
               border: '1px solid',
@@ -326,40 +294,37 @@ export default function Navbar() {
             <ClickAwayListener onClickAway={handleClose}>
               <Box>
                 <Box sx={{ 
-                  p: 1.5, // Reduced padding
+                  p: 1.5,
                   bgcolor: TURQUOISE, 
-                  color: 'white',
-                  backgroundImage: 'linear-gradient(135deg, #28ddcd,rgb(255, 255, 255))'
+                  color: 'white'
                 }}>
                   <Typography 
                     variant="h6" 
                     fontWeight={600} 
-                    sx={{ fontSize: { xs: '1rem', sm: '1.1rem' } }} // Reduced font size
+                    sx={{ fontSize: { xs: '1rem', sm: '1.1rem' } }}
                   >
                     {title}
                   </Typography>
                   <Typography 
                     variant="body2" 
-                    sx={{ 
-                      fontSize: { xs: '0.75rem', sm: '0.8rem' } // Reduced font size
-                    }}
+                    sx={{ fontSize: { xs: '0.75rem', sm: '0.8rem' } }}
                   >
                     {description}
                   </Typography>
                 </Box>
                 <Box>
-                  {submenuItems.map((submenuItem, index) => (
+                  {submenuItems.map((item, index) => (
                     <Box 
-                      key={submenuItem.name}
+                      key={item.name}
                       component={Link}
-                      href={submenuItem.path}
+                      href={item.path}
                       onClick={handleClose}
                       sx={{
                         display: 'flex',
                         alignItems: 'flex-start',
                         textDecoration: 'none',
                         color: 'text.primary',
-                        p: 1.5, // Reduced padding
+                        p: 1.5,
                         transition: 'all 0.3s ease',
                         '&:hover': {
                           bgcolor: 'rgba(40, 221, 205, 0.1)',
@@ -380,41 +345,39 @@ export default function Navbar() {
                         className="icon-container"
                         sx={{ 
                           color: 'white', 
-                          mr: 1.5, // Reduced margin
+                          mr: 1.5,
                           transition: 'all 0.3s ease',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           bgcolor: TURQUOISE,
-                          p: 0.75, // Reduced padding
+                          p: 0.75,
                           borderRadius: '8px',
-                          width: 36, // Slightly smaller
-                          height: 36 // Slightly smaller
+                          width: 36,
+                          height: 36
                         }}
                       >
-                        {submenuItem.icon}
+                        {item.icon}
                       </Box>
                       <Box sx={{ flex: 1 }}>
                         <Typography 
                           className="item-title"
                           fontWeight={600} 
                           sx={{ 
-                            mb: 0.25, // Reduced margin
+                            mb: 0.25,
                             transition: 'all 0.3s ease',
-                            fontSize: { xs: '0.9rem', sm: '0.95rem' } // Reduced font size
+                            fontSize: { xs: '0.9rem', sm: '0.95rem' }
                           }}
                         >
-                          {submenuItem.name}
+                          {item.name}
                         </Typography>
-                        {submenuItem.description && (
+                        {item.description && (
                           <Typography 
                             variant="body2" 
                             color="text.secondary"
-                            sx={{ 
-                              fontSize: { xs: '0.7rem', sm: '0.75rem' } // Reduced font size
-                            }}
+                            sx={{ fontSize: { xs: '0.7rem', sm: '0.75rem' } }}
                           >
-                            {submenuItem.description}
+                            {item.description}
                           </Typography>
                         )}
                       </Box>
@@ -436,8 +399,8 @@ export default function Navbar() {
                         borderRadius: '8px',
                         bgcolor: TURQUOISE,
                         transition: 'all 0.3s ease',
-                        fontSize: { xs: '0.8rem', sm: '0.9rem' }, // Reduced font size
-                        py: 1, // Slightly reduced height
+                        fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                        py: 1,
                         '&:hover': { 
                           bgcolor: DARK_TURQUOISE,
                           transform: 'translateY(-2px)',
@@ -457,42 +420,44 @@ export default function Navbar() {
     </Popper>
   );
 
-  const renderServicesSubmenu = () => renderSubmenuWithPopper(
-    servicesPopupId,
-    servicesOpen,
-    servicesAnchorEl,
-    handleServicesMenuClose,
-    "Our Services",
-    "Professional laundry solutions for all your needs",
-    serviceSubmenu,
-    "/services",
-    "View All Services & Pricing"
-  );
+  // Simplify submenu renders by passing config objects
+  const renderServicesSubmenu = () => renderSubmenuWithPopper({
+    id: servicesPopupId,
+    open: servicesOpen,
+    anchorEl: servicesAnchorEl,
+    handleClose: handleServicesMenuClose,
+    title: "Our Services",
+    description: "Professional laundry solutions for all your needs",
+    submenuItems: serviceSubmenu,
+    allLink: "/services",
+    allLinkText: "View All Services & Pricing"
+  });
 
-  const renderCommercialSubmenu = () => renderSubmenuWithPopper(
-    commercialPopupId,
-    commercialOpen,
-    commercialAnchorEl,
-    handleCommercialMenuClose,
-    "Commercial Services",
-    "Professional laundry solutions for businesses",
-    CommercialSubMenu,
-    "/commercial",
-    "Learn More About Commercial Services"
-  );
+  const renderCommercialSubmenu = () => renderSubmenuWithPopper({
+    id: commercialPopupId,
+    open: commercialOpen,
+    anchorEl: commercialAnchorEl,
+    handleClose: handleCommercialMenuClose,
+    title: "Commercial Services",
+    description: "Professional laundry solutions for businesses",
+    submenuItems: CommercialSubMenu,
+    allLink: "/commercial",
+    allLinkText: "Learn More About Commercial Services"
+  });
 
-  const renderGettingStartedSubmenu = () => renderSubmenuWithPopper(
-    gettingStartedPopupId,
-    gettingStartedOpen,
-    gettingStartedAnchorEl,
-    handleGettingStartedMenuClose,
-    "Getting Started",
-    "Learn how FreshBox works for you",
-    GettingStartedSubMenu,
-    null,
-    null
-  );
+  const renderGettingStartedSubmenu = () => renderSubmenuWithPopper({
+    id: gettingStartedPopupId,
+    open: gettingStartedOpen,
+    anchorEl: gettingStartedAnchorEl,
+    handleClose: handleGettingStartedMenuClose,
+    title: "Getting Started",
+    description: "Learn how FreshBox works for you",
+    submenuItems: GettingStartedSubMenu,
+    allLink: null,
+    allLinkText: null
+  });
 
+  // Menu components
   const renderPlansMenu = () => (
     <Menu
       id={plansMenuId}
@@ -524,109 +489,58 @@ export default function Navbar() {
         </Typography>
       </Box>
       
-      {/* Basic Plan */}
-      <MenuItem 
-        component={Link}
-        href="/plans"
-        onClick={() => navigateToPlan('Basic')}
-        sx={{ 
-          py: 1.5, 
-          bgcolor: userPlan === 'Basic' ? 'rgba(25, 118, 210, 0.1)' : 'transparent',
-          pointerEvents: userPlan === 'Basic' ? 'none' : 'auto',
-          transition: 'background-color 0.3s ease',
-          '&:hover': {
-            bgcolor: userPlan === 'Basic' ? 'rgba(25, 118, 210, 0.1)' : 'rgba(25, 118, 210, 0.05)'
-          }
-        }}
-      >
-        <BasicPlanIcon sx={{ mr: 1.5, fontSize: '1.25rem', color: '#1976d2' }} />
-        <Box>
-          <Typography fontWeight={userPlan === 'Basic' ? 700 : 400}>
-            Basic Plan
-            {userPlan === 'Basic' && 
-              <Box component="span" sx={{ ml: 1, fontSize: '0.75rem', color: 'text.secondary' }}>
-                (Current)
-              </Box>
-            }
-          </Typography>
-          {userPlan !== 'Basic' && 
-            <Typography variant="body2" color="text.secondary">
-              Switch back to Basic
-            </Typography>
-          }
-        </Box>
-      </MenuItem>
-      
-      {/* Premium Plan */}
-      <MenuItem 
-        component={Link}
-        href="/plans"
-        onClick={() => navigateToPlan('Premium')}
-        sx={{ 
-          py: 1.5, 
-          bgcolor: userPlan === 'Premium' ? 'rgba(255, 215, 0, 0.1)' : 'transparent',
-          pointerEvents: userPlan === 'Premium' ? 'none' : 'auto',
-          transition: 'background-color 0.3s ease',
-          '&:hover': {
-            bgcolor: userPlan === 'Premium' ? 'rgba(255, 215, 0, 0.1)' : 'rgba(255, 215, 0, 0.05)'
-          }
-        }}
-      >
-        <PremiumPlanIcon sx={{ mr: 1.5, fontSize: '1.25rem', color: '#FFD700' }} />
-        <Box>
-          <Typography fontWeight={userPlan === 'Premium' ? 700 : 400}>
-            Premium Plan
-            {userPlan === 'Premium' && 
-              <Box component="span" sx={{ ml: 1, fontSize: '0.75rem', color: 'text.secondary' }}>
-                (Current)
-              </Box>
-            }
-          </Typography>
-          {userPlan === 'Basic' ? 
-            <Typography variant="body2" color="text.secondary">
-              Upgrade to Premium
-            </Typography>
-            : userPlan === 'Enterprise' ?
-            <Typography variant="body2" color="text.secondary">
-              Switch to Premium
-            </Typography>
-            : null
-          }
-        </Box>
-      </MenuItem>
-      
-      {/* Enterprise Plan */}
-      <MenuItem 
-        component={Link}
-        href="/plans"
-        onClick={() => navigateToPlan('Enterprise')}
-        sx={{ 
-          py: 1.5, 
-          bgcolor: userPlan === 'Enterprise' ? 'rgba(106, 13, 173, 0.1)' : 'transparent',
-          pointerEvents: userPlan === 'Enterprise' ? 'none' : 'auto',
-          transition: 'background-color 0.3s ease',
-          '&:hover': {
-            bgcolor: userPlan === 'Enterprise' ? 'rgba(106, 13, 173, 0.1)' : 'rgba(106, 13, 173, 0.05)'
-          }
-        }}
-      >
-        <EnterprisePlanIcon sx={{ mr: 1.5, fontSize: '1.25rem', color: '#6A0DAD' }} />
-        <Box>
-          <Typography fontWeight={userPlan === 'Enterprise' ? 700 : 400}>
-            Enterprise Plan
-            {userPlan === 'Enterprise' && 
-              <Box component="span" sx={{ ml: 1, fontSize: '0.75rem', color: 'text.secondary' }}>
-                (Current)
-              </Box>
-            }
-          </Typography>
-          {(userPlan === 'Basic' || userPlan === 'Premium') && 
-            <Typography variant="body2" color="text.secondary">
-              Upgrade to Enterprise
-            </Typography>
-          }
-        </Box>
-      </MenuItem>
+      {/* Plan menu items */}
+      {['Basic', 'Premium', 'Enterprise'].map(plan => {
+        const isCurrentPlan = userPlan === plan;
+        const planColors = {
+          Basic: { color: '#1976d2', bgColor: 'rgba(25, 118, 210, 0.1)', hoverBg: 'rgba(25, 118, 210, 0.05)' },
+          Premium: { color: '#FFD700', bgColor: 'rgba(255, 215, 0, 0.1)', hoverBg: 'rgba(255, 215, 0, 0.05)' },
+          Enterprise: { color: '#6A0DAD', bgColor: 'rgba(106, 13, 173, 0.1)', hoverBg: 'rgba(106, 13, 173, 0.05)' }
+        };
+        
+        const planIcons = {
+          Basic: <BasicPlanIcon sx={{ mr: 1.5, fontSize: '1.25rem', color: planColors[plan].color }} />,
+          Premium: <PremiumPlanIcon sx={{ mr: 1.5, fontSize: '1.25rem', color: planColors[plan].color }} />,
+          Enterprise: <EnterprisePlanIcon sx={{ mr: 1.5, fontSize: '1.25rem', color: planColors[plan].color }} />
+        };
+        
+        return (
+          <MenuItem 
+            key={plan}
+            component={Link}
+            href="/plans"
+            onClick={() => navigateToPlan(plan)}
+            sx={{ 
+              py: 1.5, 
+              bgcolor: isCurrentPlan ? planColors[plan].bgColor : 'transparent',
+              pointerEvents: isCurrentPlan ? 'none' : 'auto',
+              transition: 'background-color 0.3s ease',
+              '&:hover': {
+                bgcolor: isCurrentPlan ? planColors[plan].bgColor : planColors[plan].hoverBg
+              }
+            }}
+          >
+            {planIcons[plan]}
+            <Box>
+              <Typography fontWeight={isCurrentPlan ? 700 : 400}>
+                {plan} Plan
+                {isCurrentPlan && 
+                  <Box component="span" sx={{ ml: 1, fontSize: '0.75rem', color: 'text.secondary' }}>
+                    (Current)
+                  </Box>
+                }
+              </Typography>
+              {!isCurrentPlan && 
+                <Typography variant="body2" color="text.secondary">
+                  {userPlan === 'Basic' ? `Upgrade to ${plan}` : 
+                   plan === 'Basic' ? 'Switch back to Basic' : 
+                   `Switch to ${plan}`}
+                </Typography>
+              }
+            </Box>
+          </MenuItem>
+        );
+      })}
       
       <Divider />
       <Box sx={{ p: 2 }}>
@@ -685,51 +599,42 @@ export default function Navbar() {
         </Typography>
       </Box>
       
-      <MenuItem 
-        component={Link}
-        href="/profile"
-        onClick={handleUserMenuClose}
-        sx={{ 
-          py: 1.5,
-          transition: 'all 0.3s ease',
-          '&:hover': {
-            bgcolor: 'rgba(40, 221, 205, 0.05)',
-            '& .MuiSvgIcon-root': {
-              color: TURQUOISE,
-              transform: 'scale(1.1)'
+      {/* User menu items */}
+      {[
+        { path: '/profile', icon: <AccountCircleIcon />, label: 'My Profile' },
+        { path: '/plan', icon: getPlanIcon(), label: `${userPlan} Plan` }
+      ].map(item => (
+        <MenuItem 
+          key={item.path}
+          component={Link}
+          href={item.path}
+          onClick={handleUserMenuClose}
+          sx={{ 
+            py: 1.5,
+            transition: 'all 0.3s ease',
+            '&:hover': {
+              bgcolor: 'rgba(40, 221, 205, 0.05)',
+              '& .MuiSvgIcon-root': {
+                color: TURQUOISE,
+                transform: 'scale(1.1)'
+              }
             }
-          }
-        }}
-      >
-        <AccountCircleIcon sx={{ 
-          mr: 1.5, 
-          fontSize: '1.25rem', 
-          color: 'text.secondary',
-          transition: 'all 0.3s ease'
-        }} />
-        <Typography>My Profile</Typography>
-      </MenuItem>
-      
-      <MenuItem 
-        component={Link}
-        href="/plan"
-        onClick={handleUserMenuClose}
-        sx={{ 
-          py: 1.5,
-          transition: 'all 0.3s ease',
-          '&:hover': {
-            bgcolor: 'rgba(40, 221, 205, 0.05)',
+          }}
+        >
+          <Box sx={{ 
+            mr: 1.5, 
+            display: 'flex',
             '& .MuiSvgIcon-root': {
-              transform: 'scale(1.1)'
+              fontSize: '1.25rem', 
+              color: 'text.secondary',
+              transition: 'all 0.3s ease'
             }
-          }
-        }}
-      >
-        <Box sx={{ mr: 1.5, transition: 'all 0.3s ease' }}>
-          {getPlanIcon()}
-        </Box>
-        <Typography>{userPlan} Plan</Typography>
-      </MenuItem>
+          }}>
+            {item.icon}
+          </Box>
+          <Typography>{item.label}</Typography>
+        </MenuItem>
+      ))}
       
       <Divider />
       
@@ -756,7 +661,9 @@ export default function Navbar() {
       </MenuItem>
     </Menu>
   );
+  
 
+  // Mobile drawer component
   const renderMobileDrawer = () => (
     <Drawer
       anchor="right"
@@ -772,6 +679,7 @@ export default function Navbar() {
       }}
     >
       <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        {/* Drawer header */}
         <Box sx={{ 
           p: 2, 
           display: 'flex', 
@@ -813,10 +721,18 @@ export default function Navbar() {
           </IconButton>
         </Box>
 
+        {/* Drawer content */}
         <Box sx={{ flexGrow: 1, overflowY: 'auto', px: 2, py: 1 }}>
           {isAuthenticated && (
             <>
-              <Box sx={{ mb: 2, p: 2, bgcolor: 'rgba(40, 221, 205, 0.05)', borderRadius: '10px', border: '1px solid', borderColor: 'rgba(40, 221, 205, 0.2)' }}>
+              {/* User profile section */}
+              <Box sx={{ 
+                mb: 2, 
+                p: 2, 
+                bgcolor: 'rgba(40, 221, 205, 0.05)', 
+                borderRadius: '10px', 
+                border: '1px solid', 
+                borderColor: 'rgba(40, 221, 205, 0.2)' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <Avatar 
                     sx={{ 
@@ -929,6 +845,7 @@ export default function Navbar() {
             </>
           )}
 
+          {/* Navigation menu */}
           <List sx={{ 
             '& .MuiListItem-root': { 
               borderRadius: '8px', 
@@ -980,7 +897,7 @@ export default function Navbar() {
                     }
                   </ListItem>
                   
-                  {/* Submenu Collapses */}
+                  {/* Submenu for each category */}
                   {item.name === 'FreshBox Care and Pricing' && (
                     <Collapse in={mobileServicesOpen} timeout="auto" unmountOnExit>
                       <List component="div" disablePadding>
@@ -1167,6 +1084,7 @@ export default function Navbar() {
           </List>
         </Box>
 
+        {/* Drawer footer */}
         <Box sx={{ 
           p: 2, 
           borderTop: '1px solid', 
@@ -1197,29 +1115,6 @@ export default function Navbar() {
               Log In
             </Button>
           )}
-          
-          {/* <Button
-            variant="contained"
-            fullWidth
-            component={Link}
-            href="/schedule"
-            startIcon={<ScheduleIcon />}
-            sx={{ 
-              color: 'white',
-              borderRadius: '8px',
-              py: 1.2,
-              fontSize: '1rem',
-              bgcolor: TURQUOISE,
-              '&:hover': { 
-                bgcolor: DARK_TURQUOISE,
-                transform: 'translateY(-2px)',
-                boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
-              },
-              transition: 'all 0.3s ease'
-            }}
-          >
-            Schedule Pickup
-          </Button> */}
         </Box>
       </Box>
     </Drawer>
@@ -1391,211 +1286,108 @@ export default function Navbar() {
     </Box>
   );
 
-  return (
-    <>
-      {/* Render various menus */}
-      {renderPlansMenu()}
-      {renderUserMenu()}
-      
-      <AppBar
-  position="fixed"
+  // Main render
+  // Replace the entire return statement in your Navbar component with this:
+
+return (
+  <>
+    {/* Render various menus */}
+    {renderPlansMenu()}
+    {renderUserMenu()}
+    {renderMobileDrawer()}
+    
+    <AppBar
+  component="header" 
+  position="fixed" 
   elevation={0}
   sx={{
-    transition: 'all 0.3s ease',
-    bgcolor: TURQUOISE,
-    backgroundImage: trigger ? 
-      'linear-gradient(135deg, #28ddcd, #20c5b7)' : 
-      'linear-gradient(135deg, #28ddcd, #20c5b7)',
-    color: 'white',
-    backdropFilter: 'none',
-    boxShadow: trigger ? '0px 2px 8px rgba(0, 0, 0, 0.15)' : 'none',
-    py: { xs: trigger ? 0.25 : 0.5, md: trigger ? 0.5 : 1 }, // Reduced vertical padding
+    bgcolor: scrolled ? TURQUOISE : "transparent",
+    background: scrolled ? TURQUOISE : "transparent",
+    color: "white",
+    boxShadow: scrolled ? "0px 2px 8px rgba(0, 0, 0, 0.15)" : "none",
+    transition: "all 0.3s ease",
+    top: 0,
+    left: 0,
+    right: 0,
+    width: '100%',
+    marginTop: 0,
+    paddingTop: 0
   }}
 >
-  <Container 
-    maxWidth="xl" 
-    sx={{ 
-      px: { xs: 1, sm: 1.5, md: 2, lg: 3, xl: 4 }, // Reduced horizontal padding
-      transition: 'all 0.3s ease',
-      width: '100%',
-      maxWidth: { 
-        xs: '100%', 
-        sm: '100%', 
-        md: '100%', 
-        lg: 'min(1800px, 98%)', 
-        xl: 'min(2000px, 95%)'
-      }
-    }}
-  >
-    <Toolbar
-      sx={{
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        gap: 1,
-        minHeight: { 
-          xs: trigger ? 56 : 64,  // Reduced mobile height
-          md: trigger ? 64 : 80   // Reduced desktop height
-        },
-        transition: 'all 0.3s ease',
-        p: { xs: 0 }
+<Container 
+  maxWidth="xl"
+  sx={{ px: { xs: 2, sm: 3 } }} // Added horizontal padding
+>
+        <Toolbar disableGutters>
+          {/* Logo and brand */}
+          {renderLogo()}
+
+          {/* Desktop navigation links */}
+          <Box 
+      sx={{ 
+        display: { xs: 'none', md: 'flex' }, 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        gap: { md: 0.25, lg: 0.5 },
+        mx: 'auto',
+        px: 2
       }}
-      disableGutters
     >
-            {/* Logo and brand */}
-            {renderLogo()}
-
-            {/* Desktop navigation links */}
-            <Box 
-              sx={{ 
-                display: { xs: 'none', md: 'flex' }, 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                gap: { md: 0.25, lg: 0.5 },
-                mx: 'auto',
-                px: 2
-              }}
+            {navItems.map((item) => 
+              item.hasSubmenu ? (
+                <Box key={item.name}>
+            <NavButton 
+              endIcon={<ExpandMoreIcon />}
+              onClick={
+                item.name === 'FreshBox Care and Pricing' ? handleServicesMenuOpen :
+                item.name === 'Commercial' ? handleCommercialMenuOpen :
+                item.name === 'Getting Started' ? handleGettingStartedMenuOpen : null
+              }
+              aria-describedby={
+                item.name === 'FreshBox Care and Pricing' ? servicesPopupId :
+                item.name === 'Commercial' ? commercialPopupId :
+                item.name === 'Getting Started' ? gettingStartedPopupId : undefined
+              }
             >
-              {navItems.map((item) => 
-                item.hasSubmenu ? (
-                  <Box key={item.name}>
-                    <NavButton 
-                      endIcon={<ExpandMoreIcon />}
-                      onClick={
-                        item.name === 'FreshBox Care and Pricing' ? handleServicesMenuOpen :
-                        item.name === 'Commercial' ? handleCommercialMenuOpen :
-                        item.name === 'Getting Started' ? handleGettingStartedMenuOpen : null
-                      }
-                      aria-describedby={
-                        item.name === 'FreshBox Care and Pricing' ? servicesPopupId :
-                        item.name === 'Commercial' ? commercialPopupId :
-                        item.name === 'Getting Started' ? gettingStartedPopupId : undefined
-                      }
-                      trigger={trigger}
-                    >
-                      {item.name}
-                    </NavButton>
-                    {item.name === 'FreshBox Care and Pricing' && renderServicesSubmenu()}
-                    {item.name === 'Commercial' && renderCommercialSubmenu()}
-                    {item.name === 'Getting Started' && renderGettingStartedSubmenu()}
-                  </Box>
-                ) : (
-                  <NavButton 
-                    key={item.name}
-                    component={Link}
-                    href={item.path}
-                    trigger={trigger}
-                  >
-                    {item.name}
-                  </NavButton>
-                )
-              )}
-            </Box>
+              {item.name}
+            </NavButton>
+            {item.name === 'FreshBox Care and Pricing' && renderServicesSubmenu()}
+            {item.name === 'Commercial' && renderCommercialSubmenu()}
+            {item.name === 'Getting Started' && renderGettingStartedSubmenu()}
+          </Box>
+        ) : (
+          <NavButton 
+            key={item.name}
+            component={Link}
+            href={item.path}
+          >
+            {item.name}
+          </NavButton>
+        )
+      )}
+    </Box>
 
-            {/* Right side buttons */}
-            <Box sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: { xs: 1, sm: 1.5 }
-            }}>
-              {isAuthenticated ? (
-                <>
-                  {/* Show on medium and up screens */}
-                  <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
-                    {renderAuthButtons()}
-                  </Box>
-                  
-                  {/* Show only on xs screens */}
-                  <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
-                    <Tooltip title="My Account">
-                      <IconButton
-                        onClick={handleUserMenuOpen}
-                        sx={{
-                          color: 'white',
-                          border: '1px solid rgba(255, 255, 255, 0.5)',
-                          borderRadius: '8px',
-                          p: 0.8,
-                          '&:hover': {
-                            bgcolor: 'rgba(255, 255, 255, 0.1)',
-                            borderColor: 'white'
-                          }
-                        }}
-                      >
-                        <Badge 
-                          badgeContent={unreadMessageCount + ongoingOrdersCount} 
-                          color="error"
-                          sx={{ '& .MuiBadge-badge': { fontSize: '0.6rem' } }}
-                        >
-                          <AccountCircleIcon />
-                        </Badge>
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                </>
-              ) : (
-                <Button
-                  variant="outlined"
-                  component={Link}
-                  href="/auth/login"
-                  startIcon={<LoginIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
-                  sx={{ 
-                    borderRadius: '8px',
-                    py: 0.75,
-                    px: { xs: 1.5, sm: 2 },
-                    fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-                    color: 'white',
-                    borderColor: 'rgba(255, 255, 255, 0.5)',
-                    '&:hover': { 
-                      bgcolor: 'rgba(255, 255, 255, 0.1)',
-                      borderColor: 'white'
-                    },
-                    transition: 'all 0.3s ease'
-                  }}
-                >
-                  Log In
-                </Button>
-              )}
-              
-              {/* <Button
-                variant="contained"
-                component={Link}
-                href="/schedule"
-                startIcon={<ScheduleIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
-                sx={{ 
-                  borderRadius: '8px',
-                  py: 0.75,
-                  px: { xs: 1.5, sm: 2 },
-                  fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-                  bgcolor: 'white',
-                  color: TURQUOISE,
-                  fontWeight: 600,
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                  '&:hover': { 
-                    bgcolor: 'rgba(255, 255, 255, 0.9)',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
-                  },
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                  Schedule Pickup
-                </Box>
-                <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-                  Schedule
-                </Box>
-              </Button> */}
-              
-              {/* Mobile menu icon */}
+          {/* Right side buttons */}
+          <Box sx={{ 
+      display: 'flex', 
+      alignItems: 'center', 
+      gap: { xs: 1, sm: 1.5 },
+      pr: { xs: 1, sm: 2 } // Added right padding
+    }}>
+            {isAuthenticated ? (
+              <>
+                {/* Show on medium and up screens */}
+                <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
+            {renderAuthButtons()}
+          </Box>
+                
+                {/* Show only on xs screens */}
+                <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
+            <Tooltip title="My Account">
               <IconButton
-                size="large"
-                aria-label="menu"
-                color="inherit"
-                onClick={toggleDrawer(true)}
-                sx={{ 
-                  display: { xs: 'flex', md: 'none' },
+                onClick={handleUserMenuOpen}
+                sx={{
+                  color: 'white',
                   border: '1px solid rgba(255, 255, 255, 0.5)',
                   borderRadius: '8px',
                   p: 0.8,
@@ -1605,18 +1397,65 @@ export default function Navbar() {
                   }
                 }}
               >
-                <MenuIcon />
+                      <Badge 
+                  badgeContent={unreadMessageCount + ongoingOrdersCount} 
+                  color="error"
+                  sx={{ '& .MuiBadge-badge': { fontSize: '0.6rem' } }}
+                >
+                  <AccountCircleIcon />
+                </Badge>
               </IconButton>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
-      
-      {/* Mobile drawer */}
-      {renderMobileDrawer()}
-      
-      {/* Toolbar spacer */}
-      
-    </>
-  );
+            </Tooltip>
+          </Box>
+        </>
+            ) : (
+              <Button
+              variant="outlined"
+              component={Link}
+              href="/auth/login"
+              startIcon={<LoginIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
+              sx={{ 
+                borderRadius: '8px',
+                py: 0.75,
+                px: { xs: 1.5, sm: 2 },
+                fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
+                color: 'white',
+                borderColor: 'rgba(255, 255, 255, 0.5)',
+                '&:hover': { 
+                  bgcolor: 'rgba(255, 255, 255, 0.1)',
+                  borderColor: 'white'
+                },
+                transition: 'all 0.3s ease'
+              }}
+            >
+              Log In
+            </Button>
+          )}
+            
+            {/* Mobile menu icon */}
+            <IconButton
+        aria-label="menu"
+        color="inherit"
+        onClick={toggleDrawer(true)}
+        sx={{ 
+          display: { xs: 'flex', md: 'none' },
+          color: 'white',
+          border: '1px solid rgba(255, 255, 255, 0.5)',
+          borderRadius: '8px',
+          p: { xs: 1, sm: 0.8 },
+          backgroundColor: 'rgba(40, 221, 205, 0.2)',
+          '&:hover': {
+            bgcolor: 'rgba(255, 255, 255, 0.2)',
+            borderColor: 'white'
+          }
+        }}
+      >
+        <MenuIcon />
+      </IconButton>
+    </Box>
+  </Toolbar>
+</Container>
+    </AppBar>
+  </>
+);
 }

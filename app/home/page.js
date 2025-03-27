@@ -59,7 +59,7 @@ export default function Home() {
   
   return (
     <>
-      <Navbar />
+      
       <HeroSection
         zipCode={zipCode}
         setZipCode={setZipCode}
@@ -77,7 +77,7 @@ export default function Home() {
       
       
       {/* Inline floating button */}
-      {showButton && (
+      {/* {showButton && (
         <button
           onClick={() => console.log('Schedule Pickup clicked')}
           style={{
@@ -101,7 +101,7 @@ export default function Home() {
           <Calendar size={20} />
           <span>Schedule Pickup</span>
         </button>
-      )}
+      )} */}
     </>
   );
 }

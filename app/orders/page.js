@@ -1119,7 +1119,7 @@ const LaundryOrderTracking = () => {
           </DialogActions>
         </Dialog>
         
-        <Footer />
+        
       </Box>
     </ThemeProvider>
   );

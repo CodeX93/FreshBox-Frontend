@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import {
   Typography,
   Container,
@@ -52,12 +52,12 @@ const WhyChooseUsSection = () => {
         component="section"
         id="why-choose-us-section"
         sx={{
-          minHeight: '100vh',
+          minHeight: { xs: 'auto', md: '90vh' }, // Reduced from 100vh to auto/90vh
           width: '100%',
           display: 'flex',
           alignItems: 'center',
           backgroundColor: '#f5f7fa', // Light gray background
-          py: 8
+          py: { xs: 5, sm: 6, md: 7 } // Reduced padding from 8 to responsive values
         }}
       >
         <Container maxWidth="xl">
@@ -73,7 +73,7 @@ const WhyChooseUsSection = () => {
               align="center"
               gutterBottom
               sx={{ 
-                mb: { xs: 4, md: 6 },
+                mb: { xs: 3, md: 4 }, // Reduced margin bottom from 4/6 to 3/4
                 // Using theme typography instead of hardcoded fontWeight
                 color: '#1a202c', // Dark gray
                 position: 'relative',
@@ -99,7 +99,7 @@ const WhyChooseUsSection = () => {
           </motion.div>
 
           {/* Features Grid */}
-          <Grid container spacing={4} sx={{ mt: 2 }}>
+          <Grid container spacing={4} sx={{ mt: 1 }}> {/* Reduced margin top from 2 to 1 */}
             {features.map((feature, index) => (
               <Grid item xs={12} sm={6} key={index}>
                 <motion.div
@@ -205,7 +205,7 @@ const WhyChooseUsSection = () => {
             <Box
               sx={{
                 textAlign: 'center',
-                mt: 6,
+                mt: { xs: 4, md: 5 }, // Reduced margin top from 6 to 4/5
                 p: 3,
                 borderRadius: 2,
                 backgroundColor: `${theme.palette.primary.main}10`, // Light turquoise with transparency

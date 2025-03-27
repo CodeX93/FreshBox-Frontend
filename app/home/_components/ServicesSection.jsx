@@ -142,7 +142,7 @@ const FeaturedService = ({ service, index, inView }) => {
                 fontWeight: 'bold',
                 color: 'white',
                 px: 1,
-                backgroundColor: theme.palette.primary.main, // Using your turquoise color
+                backgroundColor: theme.palette.primary.main,
                 '& .MuiChip-label': {
                   px: 1,
                 },
@@ -172,7 +172,7 @@ const FeaturedService = ({ service, index, inView }) => {
               gutterBottom
               sx={{
                 fontWeight: 700,
-                color: theme.palette.primary.main, // Using your turquoise color
+                color: theme.palette.primary.main,
                 mb: 2,
               }}
             >
@@ -200,7 +200,7 @@ const FeaturedService = ({ service, index, inView }) => {
                         width: 6,
                         height: 6,
                         borderRadius: '50%',
-                        bgcolor: theme.palette.primary.main, // Using your turquoise color
+                        bgcolor: theme.palette.primary.main,
                         mr: 1.5,
                       }}
                     />
@@ -229,8 +229,8 @@ const FeaturedService = ({ service, index, inView }) => {
                 }
                 sx={{ 
                   fontWeight: 600,
-                  borderColor: theme.palette.primary.main, // Using your turquoise color
-                  color: theme.palette.primary.main, // Using your turquoise color
+                  borderColor: theme.palette.primary.main,
+                  color: theme.palette.primary.main,
                   '&:hover': {
                     borderColor: theme.palette.primary.dark,
                     backgroundColor: `${theme.palette.primary.main}10`,
@@ -248,7 +248,7 @@ const FeaturedService = ({ service, index, inView }) => {
                 endIcon={<ChevronRightIcon />}
                 sx={{ 
                   fontWeight: 600,
-                  backgroundColor: theme.palette.primary.main, // Using your turquoise color
+                  backgroundColor: theme.palette.primary.main,
                   '&:hover': {
                     backgroundColor: theme.palette.primary.dark,
                   }
@@ -325,6 +325,7 @@ const ServiceScroller = ({ inView }) => {
         my: isMobile ? 4 : 6,
       }}
     >
+      {/* Navigation Buttons */}
       <Box
         sx={{
           display: 'flex',
@@ -346,9 +347,9 @@ const ServiceScroller = ({ inView }) => {
             width: isSmallMobile ? 36 : 48,
             height: isSmallMobile ? 36 : 48,
             borderRadius: '50%',
-            bgcolor: 'rgba(255, 255, 255, 0.8)',
+            bgcolor: 'rgba(255, 255, 255, 0.9)',
             boxShadow: theme.shadows[4],
-            color: theme.palette.primary.main, // Using your turquoise color
+            color: theme.palette.primary.main,
             '&:hover': {
               bgcolor: 'white',
               boxShadow: theme.shadows[8],
@@ -365,9 +366,9 @@ const ServiceScroller = ({ inView }) => {
             width: isSmallMobile ? 36 : 48,
             height: isSmallMobile ? 36 : 48,
             borderRadius: '50%',
-            bgcolor: 'rgba(255, 255, 255, 0.8)',
+            bgcolor: 'rgba(255, 255, 255, 0.9)',
             boxShadow: theme.shadows[4],
-            color: theme.palette.primary.main, // Using your turquoise color
+            color: theme.palette.primary.main,
             '&:hover': {
               bgcolor: 'white',
               boxShadow: theme.shadows[8],
@@ -378,6 +379,7 @@ const ServiceScroller = ({ inView }) => {
         </Button>
       </Box>
 
+      {/* Service carousel */}
       <motion.div
         key={activeIndex}
         custom={direction}
@@ -389,12 +391,17 @@ const ServiceScroller = ({ inView }) => {
         <FeaturedService service={services[activeIndex]} index={0} inView={inView} />
       </motion.div>
 
+      {/* Fixed pagination dots - repositioned to avoid collision */}
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          mt: 2,
-          gap: 1,
+          alignItems: 'center',
+          mt: 3, // Increased margin top
+          mb: 2,
+          gap: { xs: 1.5, sm: 2 }, // Increased spacing between dots
+          position: 'relative',
+          zIndex: 5,
         }}
       >
         {services.map((_, index) => (
@@ -406,20 +413,22 @@ const ServiceScroller = ({ inView }) => {
               setActiveIndex(index);
             }}
             sx={{
-              width: isSmallMobile ? 10 : 12,
-              height: isSmallMobile ? 10 : 12,
+              width: isSmallMobile ? 8 : 10, // Slightly smaller dots
+              height: isSmallMobile ? 8 : 10,
               borderRadius: '50%',
-              bgcolor: index === activeIndex ? theme.palette.primary.main : theme.palette.grey[300], // Using your turquoise color
+              bgcolor: index === activeIndex ? theme.palette.primary.main : theme.palette.grey[300],
               cursor: 'pointer',
-              transition: 'background-color 0.3s',
+              transition: 'all 0.3s ease',
+              boxShadow: index === activeIndex ? `0 0 0 2px rgba(255,255,255,0.8), 0 0 0 4px ${theme.palette.primary.main}40` : 'none', // Added highlight for active dot
               '&:hover': {
                 bgcolor: index === activeIndex ? theme.palette.primary.main : theme.palette.grey[400],
+                transform: 'scale(1.1)',
               },
             }}
             animate={{
               scale: index === activeIndex ? 1.2 : 1,
             }}
-            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
           />
         ))}
       </Box>
@@ -432,6 +441,7 @@ export default function ServicesSection() {
   const sectionRef = useRef(null);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isExtraSmallMobile = useMediaQuery('(max-width:400px)');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -459,7 +469,7 @@ export default function ServicesSection() {
         sx={{
           position: 'relative',
           width: '100%',
-          py: isSmallMobile ? 4 : isMobile ? 6 : 8,
+          py: isSmallMobile ? 5 : isMobile ? 7 : 9, // Increased padding
           minHeight: { xs: 'auto', md: '100vh' },
           bgcolor: theme.palette.background.default,
           overflow: 'hidden',
@@ -474,7 +484,7 @@ export default function ServicesSection() {
             width: 300,
             height: 300,
             borderRadius: '50%',
-            background: `linear-gradient(135deg, ${theme.palette.primary.light}33, ${theme.palette.primary.main}1A)`, // Using your turquoise color
+            background: `linear-gradient(135deg, ${theme.palette.primary.light}33, ${theme.palette.primary.main}1A)`,
             filter: 'blur(60px)',
             zIndex: 0,
           }}
@@ -487,7 +497,7 @@ export default function ServicesSection() {
             width: 200,
             height: 200,
             borderRadius: '50%',
-            background: `linear-gradient(135deg, ${theme.palette.secondary.light}33, ${theme.palette.secondary.main}1A)`, // Using your secondary yellow color
+            background: `linear-gradient(135deg, ${theme.palette.secondary.light}33, ${theme.palette.secondary.main}1A)`,
             filter: 'blur(40px)',
             zIndex: 0,
           }}
@@ -499,12 +509,13 @@ export default function ServicesSection() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.6 }}
           >
-            <Box sx={{ textAlign: 'center', mb: isSmallMobile ? 3 : isMobile ? 4 : 6 }}>
+            {/* Section Header */}
+            <Box sx={{ textAlign: 'center', mb: isSmallMobile ? 4 : isMobile ? 5 : 6 }}>
               <Typography
                 variant="overline"
                 component="span"
                 sx={{
-                  color: theme.palette.primary.main, // Using your turquoise color
+                  color: theme.palette.primary.main,
                   fontWeight: 600,
                   letterSpacing: 1.5,
                   mb: 1,
@@ -515,15 +526,13 @@ export default function ServicesSection() {
                 PROFESSIONAL CARE
               </Typography>
               <Typography
-                variant={isSmallMobile ? "h4" : isMobile ? "h3" : "h2"} // Using h2 from your theme
+                variant={isSmallMobile ? "h4" : isMobile ? "h3" : "h2"}
                 component="h2"
                 sx={{
-                  color: theme.palette.primary.black, // Using your turquoise color
+                  color: theme.palette.primary.black,
                   fontWeight: 700,
                   mb: 2,
-                  
                   WebkitBackgroundClip: 'text',
-                  
                   position: 'relative',
                   display: 'inline-block',
                 }}
@@ -538,17 +547,18 @@ export default function ServicesSection() {
                     bottom: -4,
                     left: 0,
                     height: 2,
-                    bgcolor: theme.palette.primary.main, // Using your turquoise color
+                    bgcolor: theme.palette.primary.main,
                   }}
                 />
               </Typography>
               <Typography 
                 variant="body1" 
                 sx={{ 
-                  maxWidth: 600, 
+                  maxWidth: 700, 
                   mx: 'auto', 
                   mb: 4,
-                  px: isSmallMobile ? 2 : 0
+                  px: isSmallMobile ? 2 : 0,
+                  lineHeight: 1.6,
                 }}
               >
                 We offer a wide range of cleaning services to keep your garments looking their best.
@@ -561,8 +571,8 @@ export default function ServicesSection() {
           <ServiceScroller inView={isInView} />
 
           {/* Service Cards */}
-          <Box sx={{ mt: isSmallMobile ? 4 : 8 }}>
-            <Grid container spacing={isSmallMobile ? 2 : 4}>
+          <Box sx={{ mt: isSmallMobile ? 5 : 8 }}>
+            <Grid container spacing={isExtraSmallMobile ? 2 : isSmallMobile ? 3 : 4}>
               {services.map((service, index) => (
                 <Grid item xs={12} sm={6} md={3} key={service.slug}>
                   <motion.div
@@ -617,12 +627,22 @@ export default function ServicesSection() {
                           </Typography>
                         </Box>
                       </CardMedia>
-                      <CardContent sx={{ flexGrow: 1, p: isSmallMobile ? 2 : 3 }}>
-                        <Typography variant="body2" color="text.secondary">
+                      <CardContent sx={{ 
+                        flexGrow: 1, 
+                        p: isExtraSmallMobile ? 1.5 : isSmallMobile ? 2 : 3,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between'
+                      }}>
+                        <Typography 
+                          variant="body2" 
+                          color="text.secondary"
+                          sx={{ mb: 2 }}
+                        >
                           {service.description}
                         </Typography>
 
-                        <Box sx={{ mt: 2 }}>
+                        <Box sx={{ mt: 'auto' }}>
                           <Button
                             component={Link}
                             href={`/services/${service.slug}`}
@@ -630,11 +650,13 @@ export default function ServicesSection() {
                             sx={{ 
                               fontWeight: 600, 
                               p: 0,
-                              color: theme.palette.primary.main, // Using your turquoise color
+                              color: theme.palette.primary.main,
                               '&:hover': {
                                 color: theme.palette.primary.dark,
                                 backgroundColor: 'transparent',
-                              }
+                                transform: 'translateX(4px)'
+                              },
+                              transition: 'transform 0.2s ease'
                             }}
                           >
                             Learn More
@@ -649,28 +671,51 @@ export default function ServicesSection() {
           </Box>
 
           {/* Call to Action */}
-          <Box sx={{ textAlign: 'center', mt: isSmallMobile ? 4 : isMobile ? 6 : 8 }}>
+          <Box sx={{ textAlign: 'center', mt: isSmallMobile ? 5 : isMobile ? 7 : 9 }}>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
               <Paper
+                elevation={10}
                 sx={{
-                  p: isSmallMobile ? 3 : isMobile ? 4 : 6,
+                  p: isExtraSmallMobile ? 2.5 : isSmallMobile ? 3.5 : isMobile ? 4.5 : 6,
                   borderRadius: 4,
-                  background: `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`, // Using your turquoise color
-                  boxShadow: theme.shadows[10],
+                  background: `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`,
+                  boxShadow: '0 10px 30px rgba(40, 221, 205, 0.3)',
                   mx: isSmallMobile ? 1 : 0,
+                  overflow: 'hidden',
+                  position: 'relative',
                 }}
               >
+                {/* Decorative dot pattern */}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    width: '150px',
+                    height: '150px',
+                    opacity: 0.1,
+                    backgroundImage: 'radial-gradient(circle, white 2px, transparent 2px)',
+                    backgroundSize: '15px 15px',
+                    zIndex: 0,
+                    display: { xs: 'none', sm: 'block' }
+                  }}
+                />
+                
                 <Typography 
-                  variant={isSmallMobile ? "h6" : "h5"} 
+                  variant={isExtraSmallMobile ? "subtitle1" : isSmallMobile ? "h6" : "h5"} 
                   sx={{ 
                     color: 'white', 
                     fontWeight: 600, 
-                    mb: isSmallMobile ? 2 : 3,
-                    px: isSmallMobile ? 1 : 0
+                    mb: isSmallMobile ? 2.5 : 3,
+                    px: isSmallMobile ? 1 : 2,
+                    position: 'relative',
+                    zIndex: 1,
+                    maxWidth: 700,
+                    mx: 'auto'
                   }}
                 >
                   Ready to experience our premium cleaning services?
@@ -687,12 +732,16 @@ export default function ServicesSection() {
                     fontWeight: 600,
                     borderRadius: 2,
                     boxShadow: theme.shadows[8],
-                    background: theme.palette.secondary.main, // Using your secondary yellow color
+                    background: theme.palette.secondary.main,
                     color: 'white',
+                    position: 'relative',
+                    zIndex: 1,
                     '&:hover': {
                       background: theme.palette.secondary.dark,
                       boxShadow: theme.shadows[12],
+                      transform: 'translateY(-3px)'
                     },
+                    transition: 'transform 0.2s ease'
                   }}
                 >
                   View All Services

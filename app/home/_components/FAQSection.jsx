@@ -16,6 +16,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import MessageIcon from '@mui/icons-material/Message';
 import { theme } from '../../../contexts/Theme'; // Import your theme context
+import { useRouter } from 'next/navigation';
 
 // FAQ data
 const faqs = [
@@ -83,7 +84,7 @@ const FAQSection = () => {
   const [searchFocus, setSearchFocus] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredFaqs, setFilteredFaqs] = useState(faqs);
-  
+  const router=useRouter()
   // Search functionality
   useEffect(() => {
     if (searchQuery.trim() === '') {
@@ -120,6 +121,7 @@ const FAQSection = () => {
     })
   };
 
+  
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -521,23 +523,25 @@ const FAQSection = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Button
-                    variant="contained"
-                    size="large"
-                    sx={{
-                      py: 1.5,
-                      px: 4,
-                      fontSize: '1rem',
-                      fontWeight: 600,
-                      backgroundColor: theme.palette.secondary.main, // Using your yellow color
-                      color: '#ffffff',
-                      '&:hover': {
-                        backgroundColor: theme.palette.secondary.dark
-                      }
-                    }}
-                  >
-                    Contact Support
-                  </Button>
+                 <Button
+  variant="contained"
+  size="large"
+  onClick={()=>{router.push('/support')}}
+  sx={{
+    py: 1.5,
+    px: 4,
+    fontSize: "1rem",
+    fontWeight: 600,
+    backgroundColor: "#FFD700", // Soft Warm Yellow for contrast
+    color: theme.palette.primary.black, // Black text for readability
+    "&:hover": {
+      backgroundColor: "#B8860B", // Darker gold on hover
+    },
+  }}
+>
+  Contact Support
+</Button>
+
                 </motion.div>
               </Box>
             </Box>

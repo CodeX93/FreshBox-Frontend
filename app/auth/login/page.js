@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
@@ -14,7 +14,13 @@ import {
   InputAdornment,
   Alert,
   CircularProgress,
-  Stack
+  Stack,
+  Container,
+  Tabs,
+  Tab,
+  Fade,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import { 
   Email as EmailIcon, 
@@ -25,12 +31,21 @@ import {
   Facebook as FacebookIcon,
   Apple as AppleIcon,
   Phone as PhoneIcon,
-  Person as PersonIcon
+  Person as PersonIcon,
+  ArrowBack as ArrowBackIcon
 } from '@mui/icons-material';
-import {useAuth} from '../../../contexts/AuthContext'
+import { useAuth } from '../../../contexts/AuthContext';
+
+// Define brand colors
+const BRAND_PRIMARY = '#28ddcd'; // Turquoise
+const BRAND_ACCENT = '#e6b012';  // Yellow/Gold
 
 export default function LoginPage() {
   const router = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+  
   const { 
     login, 
     googleSignIn, 
@@ -62,9 +77,15 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [formReady, setFormReady] = useState(false);
+
+  // Set animation on mount
+  useEffect(() => {
+    setFormReady(true);
+  }, []);
 
   // Handle tab change
-  const handleAuthMethodChange = (event, newValue) => {
+  const handleAuthMethodChange = (newValue) => {
     setAuthMethod(newValue);
     setError('');
     setSuccess('');
@@ -199,534 +220,684 @@ export default function LoginPage() {
     }
   };
 
-  // Common button styles for social logins
-  const socialButtonStyle = {
-    py: { xs: 1.25, sm: 1.5 },
-    height: { xs: '48px', sm: '56px' },
-    borderRadius: 2,
-    borderColor: 'grey.300',
-    color: 'text.primary',
-    justifyContent: 'center',
-    textAlign: 'center',
-    textTransform: 'none',
-    fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' },
-    fontWeight: 500,
-    '&:hover': {
-      bgcolor: 'rgba(0, 0, 0, 0.04)',
-      borderColor: 'grey.400'
-    },
-    '& .MuiButton-startIcon': {
-      marginRight: { xs: 1, sm: 1.5 },
-      marginLeft: '-24px',
-      position: 'absolute',
-      left: { xs: 16, sm: 24 },
-      '& .MuiSvgIcon-root': {
-        fontSize: { xs: '1.25rem', sm: '1.5rem' }
-      }
-    }
-  };
-
   return (
     <Box
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
+        height: '100vh',
         width: '100%',
-        px: { xs: 2, sm: 3 },
-        py: { xs: 2, sm: 4 },
-        bgcolor: '#f8f9fa'
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f7f9fc',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <Paper 
-        elevation={3} 
+      {/* Background decorative elements */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: -150,
+          right: -150,
+          width: 400,
+          height: 400,
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${BRAND_PRIMARY}20, ${BRAND_PRIMARY}05)`,
+          filter: 'blur(50px)',
+          zIndex: 0,
+        }}
+      />
+      
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: -100,
+          left: -100,
+          width: 300,
+          height: 300,
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${BRAND_ACCENT}20, ${BRAND_ACCENT}05)`,
+          filter: 'blur(50px)',
+          zIndex: 0,
+        }}
+      />
+
+      <Container 
+        maxWidth="sm" 
         sx={{ 
-          borderRadius: 2, 
-          overflow: 'hidden',
-          border: '1px solid',
-          borderColor: 'grey.200',
-          boxShadow: { xs: 1, sm: 3 },
-          width: '100%',
-          maxWidth: '400px',
-          mx: 'auto'
+          position: 'relative',
+          zIndex: 1,
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          py: 0
         }}
       >
-        {/* Header with yellow accent on left */}
-        <Box sx={{ display: 'flex', position: 'relative' }}>
-          <Box sx={{ 
-            width: { xs: '8px', sm: '12px' }, 
-            backgroundColor: '#ffc107', 
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0
-          }} />
-          <Box sx={{ 
-            p: { xs: 2, sm: 2.5, md: 3 }, 
-            width: '100%',
-            textAlign: 'center'
-          }}>
-            <Typography 
-              variant="h4" 
-              fontWeight={700} 
-              gutterBottom
-              sx={{ 
-                fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2.125rem' },
-                letterSpacing: '-0.5px'
+        <Fade in={formReady} timeout={800}>
+          <Paper
+            elevation={isMobile ? 2 : 4}
+            sx={{
+              borderRadius: 4,
+              overflow: 'hidden',
+              boxShadow: '0 8px 40px rgba(0,0,0,0.08)',
+              width: '100%',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              mx: 'auto',
+              backgroundColor: 'white',
+              position: 'relative',
+              scrollbarWidth: 'thin',
+              '&::-webkit-scrollbar': {
+                width: '8px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: 'rgba(0,0,0,0.1)',
+                borderRadius: '4px',
+              }
+            }}
+          >
+            {/* Colorful top edge */}
+            <Box
+              sx={{
+                height: 6,
+                width: '100%',
+                background: `${BRAND_PRIMARY}`,
+              }}
+            />
+
+            {/* Header */}
+            <Box
+              sx={{
+                pt: { xs: 3, sm: 4 },
+                pb: { xs: 2, sm: 3 },
+                px: { xs: 3, sm: 5 },
+                textAlign: 'center',
               }}
             >
-              Welcome back!
-            </Typography>
-          </Box>
-        </Box>
-
-        {/* Form Content */}
-        <Box sx={{ 
-          px: { xs: 2, sm: 2.5, md: 3 }, 
-          pb: { xs: 2, sm: 2.5, md: 3 }, 
-          pt: 1,
-          width: '100%'
-        }}>
-          {/* Alert Messages */}
-          {error && (
-            <Alert severity="error" sx={{ mb: 3 }}>
-              {error}
-            </Alert>
-          )}
-          
-          {success && (
-            <Alert severity="success" sx={{ mb: 3 }}>
-              {success}
-            </Alert>
-          )}
-
-          {/* Email Login Form */}
-          {authMethod === 'email' && (
-            <Box component="form" onSubmit={handleEmailLogin} noValidate>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                value={emailLoginData.email}
-                onChange={handleEmailLoginChange}
-                sx={{ 
-                  mb: 2,
-                  '& .MuiOutlinedInput-root': {
-                    borderRadius: 1.5,
-                    height: { xs: '50px', sm: '56px' }
-                  }
-                }}
-                variant="outlined"
-                size="medium"
-                InputProps={{
-                  sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
-                }}
-                InputLabelProps={{
-                  sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
-                }}
-              />
-              
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                autoComplete="current-password"
-                value={emailLoginData.password}
-                onChange={handleEmailLoginChange}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleTogglePasswordVisibility}
-                        edge="end"
-                        size="medium"
-                        sx={{ 
-                          mr: { xs: '-8px', sm: '-4px' },
-                          p: { xs: 0.5, sm: 1 }
-                        }}
-                      >
-                        {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                  sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
-                }}
-                InputLabelProps={{
-                  sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
-                }}
-                sx={{ 
-                  mb: 2,
-                  '& .MuiOutlinedInput-root': {
-                    borderRadius: 1.5,
-                    height: { xs: '50px', sm: '56px' }
-                  }
-                }}
-                variant="outlined"
-                size="medium"
-              />
-              
-              <Box sx={{ textAlign: 'center', mb: { xs: 2, sm: 3 } }}>
-                <Link href="/auth/forgot-password" passHref>
-                  <Typography 
-                    component="span"
-                    color="#e6b012" 
-                    fontWeight={600}
-                    sx={{ 
-                      cursor: 'pointer',
-                      '&:hover': { textDecoration: 'underline' },
-                      fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' }
-                    }}
-                  >
-                    I forgot my password
-                  </Typography>
-                </Link>
-              </Box>
-              
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                disabled={loading}
-                sx={{ 
-                  py: { xs: 1.25, sm: 1.5 },
-                  borderRadius: 2,
-                  fontWeight: 600,
-                  fontSize: { xs: '0.9rem', sm: '1rem' },
-                  mb: { xs: 2, sm: 3 },
-                  bgcolor: '#e6b012',
-                  '&:hover': {
-                    bgcolor: '#d4a010'
-                  },
-                  height: { xs: '48px', sm: '56px' }
+              <Typography
+                variant="h4"
+                fontWeight={800}
+                gutterBottom
+                sx={{
+                  fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' },
+                  color: '#2A3342',
+                  lineHeight: 1.3,
                 }}
               >
-                {loading ? <CircularProgress size={24} color="inherit" /> : 'Log in'}
-              </Button>
+                Welcome back!
+              </Typography>
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                sx={{
+                  fontSize: { xs: '0.875rem', sm: '0.9rem' },
+                  maxWidth: '80%',
+                  mx: 'auto',
+                }}
+              >
+                Log in to your account to continue
+              </Typography>
             </Box>
-          )}
 
-          {/* Phone Authentication Form */}
-          {authMethod === 'phone' && (
-            <>
-              {phoneStep === 1 && (
-                <Box component="form" onSubmit={handleRequestOtp} noValidate>
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="phoneNumber"
-                    label="Phone Number"
-                    name="phoneNumber"
-                    autoComplete="tel"
-                    autoFocus
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    placeholder="+1 (234) 567-8900"
-                    sx={{ 
-                      mb: { xs: 2, sm: 3 },
-                      '& .MuiOutlinedInput-root': {
-                        borderRadius: 1.5,
-                        height: { xs: '50px', sm: '56px' }
-                      }
-                    }}
-                    InputProps={{
-                      sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
-                    }}
-                    InputLabelProps={{
-                      sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
-                    }}
-                  />
-                  
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    disabled={loading || !phoneNumber.trim()}
-                    sx={{ 
-                      py: 1.5,
-                      borderRadius: 2,
-                      fontWeight: 600,
-                      fontSize: '1rem',
-                      bgcolor: '#e6b012',
-                      '&:hover': {
-                        bgcolor: '#d4a010'
-                      }
-                    }}
-                  >
-                    {loading ? <CircularProgress size={24} color="inherit" /> : 'Send Verification Code'}
-                  </Button>
-                </Box>
-              )}
-              
-              {phoneStep === 2 && (
-                <Box component="form" onSubmit={handleVerifyOtp} noValidate>
-                  <Typography 
-                    variant="body1" 
-                    gutterBottom
-                    sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' } }}
-                  >
-                    We've sent a verification code to {phoneNumber}
-                  </Typography>
-                  
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="otp"
-                    label="Verification Code"
-                    name="otp"
-                    autoFocus
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    placeholder="123456"
-                    inputProps={{ maxLength: 6 }}
-                    sx={{ 
-                      mb: { xs: 2, sm: 3 },
-                      '& .MuiOutlinedInput-root': {
-                        borderRadius: 1.5,
-                        height: { xs: '50px', sm: '56px' }
-                      }
-                    }}
-                    InputProps={{
-                      sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
-                    }}
-                    InputLabelProps={{
-                      sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
-                    }}
-                  />
-                  
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    disabled={loading || !otp.trim()}
-                    sx={{ 
-                      py: 1.5,
-                      borderRadius: 2,
-                      fontWeight: 600,
-                      fontSize: '1rem',
-                      mb: 2,
-                      bgcolor: '#e6b012',
-                      '&:hover': {
-                        bgcolor: '#d4a010'
-                      }
-                    }}
-                  >
-                    {loading ? <CircularProgress size={24} color="inherit" /> : 'Verify Code'}
-                  </Button>
-                  
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    onClick={() => setPhoneStep(1)}
-                    sx={{ 
-                      py: 1.5,
-                      borderRadius: 2,
-                      fontWeight: 600,
-                      fontSize: '1rem'
-                    }}
-                  >
-                    Back
-                  </Button>
-                </Box>
-              )}
-              
-              {phoneStep === 3 && (
-                <Box component="form" onSubmit={handleSubmitUserInfo} noValidate>
-                  <Typography 
-                    variant="body1" 
-                    gutterBottom 
-                    sx={{ 
-                      mb: 2,
-                      fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' }
-                    }}
-                  >
-                    Great! Your phone number has been verified. Please enter your name to complete setup:
-                  </Typography>
-                  
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="userName"
-                    label="Your Name"
-                    name="userName"
-                    autoFocus
-                    value={userName}
-                    onChange={(e) => setUserName(e.target.value)}
-                    placeholder="John Doe"
-                    sx={{ 
-                      mb: { xs: 2, sm: 3 },
-                      '& .MuiOutlinedInput-root': {
-                        borderRadius: 1.5,
-                        height: { xs: '50px', sm: '56px' }
-                      }
-                    }}
-                    InputProps={{
-                      sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
-                    }}
-                    InputLabelProps={{
-                      sx: { fontSize: { xs: '0.9rem', sm: '1rem' } }
-                    }}
-                  />
-                  
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    disabled={loading || !userName.trim()}
-                    sx={{ 
-                      py: 1.5,
-                      borderRadius: 2,
-                      fontWeight: 600,
-                      fontSize: '1rem',
-                      mb: 2,
-                      bgcolor: '#e6b012',
-                      '&:hover': {
-                        bgcolor: '#d4a010'
-                      }
-                    }}
-                  >
-                    {loading ? <CircularProgress size={24} color="inherit" /> : 'Complete Registration'}
-                  </Button>
-                </Box>
-              )}
-            </>
-          )}
-
-          {/* Sign Up Link */}
-          <Box sx={{ textAlign: 'center', mb: { xs: 2, sm: 3 } }}>
-            <Typography 
-              variant="body1"
-              sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' } }}
+            {/* Auth method tabs */}
+            <Box
+              sx={{
+                px: { xs: 3, sm: 5 },
+                mb: { xs: 1, sm: 2 },
+              }}
             >
-              Don't have an account?{' '}
-              <Link href="/auth/register" passHref>
-                <Typography 
-                  component="span" 
-                  color="#e6b012"
-                  fontWeight={600}
-                  sx={{ 
-                    cursor: 'pointer',
-                    '&:hover': { textDecoration: 'underline' },
-                    fontSize: 'inherit'
+              <Box
+                sx={{
+                  display: 'flex',
+                  borderRadius: 3,
+                  bgcolor: '#f7f9fc',
+                  p: 0.5,
+                  mb: 2
+                }}
+              >
+                <Button
+                  fullWidth
+                  onClick={() => handleAuthMethodChange('email')}
+                  sx={{
+                    py: 1,
+                    bgcolor: authMethod === 'email' ? 'white' : 'transparent',
+                    color: authMethod === 'email' ? '#2A3342' : 'text.secondary',
+                    fontWeight: authMethod === 'email' ? 600 : 500,
+                    boxShadow: authMethod === 'email' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none',
+                    borderRadius: 2.5,
+                    textTransform: 'none',
+                    transition: 'all 0.3s ease',
+                    fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                    '&:hover': {
+                      bgcolor: authMethod === 'email' ? 'white' : 'rgba(255,255,255,0.6)'
+                    }
+                  }}
+                  startIcon={<EmailIcon sx={{ fontSize: { xs: '1.1rem', sm: '1.2rem' } }} />}
+                >
+                  Email
+                </Button>
+                <Button
+                  fullWidth
+                  onClick={() => handleAuthMethodChange('phone')}
+                  sx={{
+                    py: 1,
+                    bgcolor: authMethod === 'phone' ? 'white' : 'transparent',
+                    color: authMethod === 'phone' ? '#2A3342' : 'text.secondary',
+                    fontWeight: authMethod === 'phone' ? 600 : 500,
+                    boxShadow: authMethod === 'phone' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none',
+                    borderRadius: 2.5,
+                    textTransform: 'none',
+                    transition: 'all 0.3s ease',
+                    fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                    '&:hover': {
+                      bgcolor: authMethod === 'phone' ? 'white' : 'rgba(255,255,255,0.6)'
+                    }
+                  }}
+                  startIcon={<PhoneIcon sx={{ fontSize: { xs: '1.1rem', sm: '1.2rem' } }} />}
+                >
+                  Phone
+                </Button>
+              </Box>
+
+              {/* Alert Messages */}
+              {error && (
+                <Alert
+                  severity="error"
+                  sx={{
+                    mb: 2,
+                    borderRadius: 2,
+                    '& .MuiAlert-icon': { alignItems: 'center' }
                   }}
                 >
-                  Sign up
-                </Typography>
-              </Link>
-              .
-            </Typography>
-          </Box>
+                  {error}
+                </Alert>
+              )}
+              
+              {success && (
+                <Alert
+                  severity="success"
+                  sx={{
+                    mb: 2,
+                    borderRadius: 2,
+                    '& .MuiAlert-icon': { alignItems: 'center' }
+                  }}
+                >
+                  {success}
+                </Alert>
+              )}
+            </Box>
 
-          {/* Social Login Options - Vertical alignment */}
-          <Box sx={{ mt: { xs: 1, sm: 2 } }}>
-            <Divider sx={{ mb: { xs: 2, sm: 3 } }}>
-              <Typography 
-                color="text.secondary" 
-                variant="body2"
-                sx={{ 
-                  fontSize: { xs: '0.8rem', sm: '0.85rem' },
-                  px: { xs: 1, sm: 2 }
-                }}
-              >
-                Or
-              </Typography>
-            </Divider>
-            
-            <Stack 
-              spacing={{ xs: 1, sm: 1.5 }} 
-              direction="column" 
-              width="100%"
+            {/* Form Content */}
+            <Box
+              sx={{
+                px: { xs: 3, sm: 5 },
+                pb: { xs: 3, sm: 4 },
+              }}
             >
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={handleGoogleLogin}
-                startIcon={<GoogleIcon />}
-                sx={socialButtonStyle}
-              >
-                Continue with Google
-              </Button>
-              
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={handleAppleLogin}
-                startIcon={<AppleIcon />}
-                sx={socialButtonStyle}
-              >
-                Continue with Apple
-              </Button>
-              
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={handleFacebookLogin}
-                startIcon={<FacebookIcon />}
-                sx={socialButtonStyle}
-              >
-                Continue with Facebook
-              </Button>
-            </Stack>
-          </Box>
+              {/* Email Login Form */}
+              {authMethod === 'email' && (
+                <Fade in={authMethod === 'email'} timeout={500}>
+                  <Box component="form" onSubmit={handleEmailLogin} noValidate>
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                      autoFocus
+                      value={emailLoginData.email}
+                      onChange={handleEmailLoginChange}
+                      sx={{
+                        mb: 2,
+                        '& .MuiOutlinedInput-root': {
+                          borderRadius: 2,
+                        },
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <EmailIcon color="action" sx={{ color: 'text.secondary' }} />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                    
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type={showPassword ? 'text' : 'password'}
+                      id="password"
+                      autoComplete="current-password"
+                      value={emailLoginData.password}
+                      onChange={handleEmailLoginChange}
+                      sx={{
+                        mb: 1,
+                        '& .MuiOutlinedInput-root': {
+                          borderRadius: 2,
+                        },
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <LockIcon color="action" sx={{ color: 'text.secondary' }} />
+                          </InputAdornment>
+                        ),
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleTogglePasswordVisibility}
+                              edge="end"
+                            >
+                              {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                    
+                    <Box sx={{ textAlign: 'right', mb: 2 }}>
+                      <Link href="/auth/forgot-password" passHref>
+                        <Typography
+                          component="span"
+                          fontSize="0.9rem"
+                          fontWeight={500}
+                          sx={{
+                            color: BRAND_PRIMARY,
+                            cursor: 'pointer',
+                            '&:hover': { textDecoration: 'underline' },
+                          }}
+                        >
+                          Forgot password?
+                        </Typography>
+                      </Link>
+                    </Box>
+                    
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      disabled={loading}
+                      sx={{
+                        py: 1.5,
+                        borderRadius: 2,
+                        fontWeight: 600,
+                        fontSize: '1rem',
+                        mb: 2,
+                        bgcolor: BRAND_PRIMARY,
+                        '&:hover': {
+                          bgcolor: '#20c5b7', // Darker turquoise
+                        },
+                        boxShadow: `0 4px 14px ${BRAND_PRIMARY}4D`,
+                      }}
+                    >
+                      {loading ? (
+                        <CircularProgress size={24} sx={{ color: 'white' }} />
+                      ) : (
+                        'Log in'
+                      )}
+                    </Button>
+                  </Box>
+                </Fade>
+              )}
 
-          {/* Phone Auth Tab - Only shown if not already selected */}
-          {authMethod !== 'phone' && (
-            <Box sx={{ mt: { xs: 2, sm: 3 }, textAlign: 'center' }}>
-              <Button
-                variant="text"
-                color="primary"
-                onClick={() => setAuthMethod('phone')}
-                startIcon={<PhoneIcon sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' } }} />}
-                sx={{ 
-                  color: '#28ddcd',
-                  textTransform: 'none',
-                  fontWeight: 500,
-                  fontSize: { xs: '0.8rem', sm: '0.85rem', md: '0.9rem' },
-                  py: 0.5,
-                  justifyContent: 'center'
+              {/* Phone Authentication Form */}
+              {authMethod === 'phone' && (
+                <Fade in={authMethod === 'phone'} timeout={500}>
+                  <Box>
+                    {phoneStep === 1 && (
+                      <Box component="form" onSubmit={handleRequestOtp} noValidate>
+                        <TextField
+                          margin="normal"
+                          required
+                          fullWidth
+                          id="phoneNumber"
+                          label="Phone Number"
+                          name="phoneNumber"
+                          autoComplete="tel"
+                          autoFocus
+                          value={phoneNumber}
+                          onChange={(e) => setPhoneNumber(e.target.value)}
+                          placeholder="+1 (234) 567-8900"
+                          sx={{
+                            mb: 2,
+                            '& .MuiOutlinedInput-root': {
+                              borderRadius: 2,
+                            },
+                          }}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <PhoneIcon color="action" sx={{ color: 'text.secondary' }} />
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                        
+                        <Button
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          disabled={loading || !phoneNumber.trim()}
+                          sx={{
+                            py: 1.5,
+                            borderRadius: 2,
+                            fontWeight: 600,
+                            fontSize: '1rem',
+                            mb: 2,
+                            bgcolor: BRAND_PRIMARY,
+                            '&:hover': {
+                              bgcolor: '#20c5b7', // Darker turquoise
+                            },
+                            boxShadow: `0 4px 14px ${BRAND_PRIMARY}4D`,
+                          }}
+                        >
+                          {loading ? (
+                            <CircularProgress size={24} sx={{ color: 'white' }} />
+                          ) : (
+                            'Send Verification Code'
+                          )}
+                        </Button>
+                      </Box>
+                    )}
+                    
+                    {phoneStep === 2 && (
+                      <Box component="form" onSubmit={handleVerifyOtp} noValidate>
+                        <Box sx={{ mb: 2 }}>
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              fontSize: '0.95rem',
+                              color: 'text.secondary',
+                              mb: 1,
+                            }}
+                          >
+                            We've sent a verification code to:
+                          </Typography>
+                          <Typography
+                            variant="body1"
+                            fontWeight={600}
+                            sx={{ color: '#2A3342' }}
+                          >
+                            {phoneNumber}
+                          </Typography>
+                        </Box>
+                        
+                        <TextField
+                          margin="normal"
+                          required
+                          fullWidth
+                          id="otp"
+                          label="6-Digit Code"
+                          name="otp"
+                          autoFocus
+                          value={otp}
+                          onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ''))}
+                          inputProps={{ maxLength: 6 }}
+                          sx={{
+                            mb: 2,
+                            '& .MuiOutlinedInput-root': {
+                              borderRadius: 2,
+                            },
+                          }}
+                        />
+                        
+                        <Button
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          disabled={loading || otp.length !== 6}
+                          sx={{
+                            py: 1.5,
+                            borderRadius: 2,
+                            fontWeight: 600,
+                            fontSize: '1rem',
+                            mb: 2,
+                            bgcolor: BRAND_PRIMARY,
+                            '&:hover': {
+                              bgcolor: '#20c5b7', // Darker turquoise
+                            },
+                            boxShadow: `0 4px 14px ${BRAND_PRIMARY}4D`,
+                          }}
+                        >
+                          {loading ? (
+                            <CircularProgress size={24} sx={{ color: 'white' }} />
+                          ) : (
+                            'Verify Code'
+                          )}
+                        </Button>
+                        
+                        <Button
+                          fullWidth
+                          startIcon={<ArrowBackIcon />}
+                          onClick={() => setPhoneStep(1)}
+                          sx={{
+                            py: 1.5,
+                            borderRadius: 2,
+                            color: 'text.secondary',
+                            fontWeight: 500,
+                            '&:hover': {
+                              bgcolor: 'rgba(0,0,0,0.03)',
+                            },
+                            textTransform: 'none',
+                          }}
+                        >
+                          Back to Phone Number
+                        </Button>
+                      </Box>
+                    )}
+                    
+                    {phoneStep === 3 && (
+                      <Box component="form" onSubmit={handleSubmitUserInfo} noValidate>
+                        <Box sx={{ mb: 2 }}>
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              fontSize: '0.95rem',
+                              color: 'text.secondary',
+                              mb: 1,
+                            }}
+                          >
+                            Your phone has been verified! Complete your profile:
+                          </Typography>
+                        </Box>
+                        
+                        <TextField
+                          margin="normal"
+                          required
+                          fullWidth
+                          id="userName"
+                          label="Your Name"
+                          name="userName"
+                          autoFocus
+                          value={userName}
+                          onChange={(e) => setUserName(e.target.value)}
+                          sx={{
+                            mb: 2,
+                            '& .MuiOutlinedInput-root': {
+                              borderRadius: 2,
+                            },
+                          }}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <PersonIcon color="action" sx={{ color: 'text.secondary' }} />
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                        
+                        <Button
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          disabled={loading || !userName.trim()}
+                          sx={{
+                            py: 1.5,
+                            borderRadius: 2,
+                            fontWeight: 600,
+                            fontSize: '1rem',
+                            mb: 2,
+                            bgcolor: BRAND_PRIMARY,
+                            '&:hover': {
+                              bgcolor: '#20c5b7', // Darker turquoise
+                            },
+                            boxShadow: `0 4px 14px ${BRAND_PRIMARY}4D`,
+                          }}
+                        >
+                          {loading ? (
+                            <CircularProgress size={24} sx={{ color: 'white' }} />
+                          ) : (
+                            'Complete Registration'
+                          )}
+                        </Button>
+                      </Box>
+                    )}
+                  </Box>
+                </Fade>
+              )}
+
+              {/* Social Login Divider */}
+              
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+  <Typography
+    variant="body2"
+    sx={{
+      color: 'text.secondary',
+      px: 1.5,
+      mb:2,
+      position: 'relative',
+      fontWeight:'bold',
+      bgcolor: 'white',
+      display: 'inline-block',
+    }}
+  >
+    Or Login Using
+  </Typography>
+</Box>
+
+
+              {/* Social Login Buttons */}
+              <Stack direction="column" spacing={1.5} sx={{ mb: 2 }}>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  onClick={handleGoogleLogin}
+                  sx={{
+                    py: 1.25,
+                    borderRadius: 2,
+                    borderColor: 'rgba(0,0,0,0.12)',
+                    color: 'text.primary',
+                    textTransform: 'none',
+                    fontWeight: 500,
+                    position: 'relative',
+                    pl: 4,
+                    justifyContent: 'center',
+                    '&:hover': {
+                      borderColor: 'rgba(0,0,0,0.26)',
+                      bgcolor: 'rgba(0,0,0,0.02)',
+                    },
+                  }}
+                >
+                  <GoogleIcon sx={{ 
+                    position: 'absolute', 
+                    left: 16,
+                    fontSize: '1.25rem'
+                  }} />
+                  Google
+                </Button>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  onClick={handleFacebookLogin}
+                  sx={{
+                    py: 1.25,
+                    borderRadius: 2,
+                    borderColor: 'rgba(0,0,0,0.12)',
+                    color: 'text.primary',
+                    textTransform: 'none',
+                    fontWeight: 500,
+                    position: 'relative',
+                    pl: 4,
+                    justifyContent: 'center',
+                    '&:hover': {
+                      borderColor: 'rgba(0,0,0,0.26)',
+                      bgcolor: 'rgba(0,0,0,0.02)',
+                    },
+                  }}
+                >
+                  <FacebookIcon sx={{ 
+                    position: 'absolute', 
+                    left: 16,
+                    fontSize: '1.25rem'
+                  }} />
+                  Facebook
+                </Button>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  onClick={handleAppleLogin}
+                  sx={{
+                    py: 1.25,
+                    borderRadius: 2,
+                    borderColor: 'rgba(0,0,0,0.12)',
+                    color: 'text.primary',
+                    textTransform: 'none',
+                    fontWeight: 500,
+                    position: 'relative',
+                    pl: 4,
+                    justifyContent: 'center',
+                    '&:hover': {
+                      borderColor: 'rgba(0,0,0,0.26)',
+                      bgcolor: 'rgba(0,0,0,0.02)',
+                    },
+                  }}
+                >
+                  <AppleIcon sx={{ 
+                    position: 'absolute', 
+                    left: 16,
+                    fontSize: '1.25rem'
+                  }} />
+                  Apple
+                </Button>
+              </Stack>
+
+              {/* Sign Up Link */}
+              <Box
+                sx={{
+                  textAlign: 'center',
+                  bgcolor: 'rgba(0,0,0,0.02)',
+                  py: 2,
+                  px: 3,
+                  borderRadius: 2,
                 }}
               >
-                Login with phone number instead
-              </Button>
+                <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                  Don't have an account?{' '}
+                  <Link href="/auth/register" passHref>
+                    <Typography
+                      component="span"
+                      color={BRAND_PRIMARY}
+                      fontWeight={600}
+                      sx={{
+                        cursor: 'pointer',
+                        '&:hover': { textDecoration: 'underline' },
+                      }}
+                    >
+                      Sign up
+                    </Typography>
+                  </Link>
+                </Typography>
+              </Box>
             </Box>
-          )}
-          
-          {/* Email Auth Tab - Only shown if not already selected */}
-          {authMethod !== 'email' && (
-            <Box sx={{ mt: { xs: 2, sm: 3 }, textAlign: 'center' }}>
-              <Button
-                variant="text"
-                color="primary"
-                onClick={() => setAuthMethod('email')}
-                startIcon={<EmailIcon sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' } }} />}
-                sx={{ 
-                  color: '#28ddcd',
-                  textTransform: 'none',
-                  fontWeight: 500,
-                  fontSize: { xs: '0.8rem', sm: '0.85rem', md: '0.9rem' },
-                  py: 0.5,
-                  justifyContent: 'center'
-                }}
-              >
-                Login with email instead
-              </Button>
-            </Box>
-          )}
-        </Box>
-      </Paper>
+          </Paper>
+        </Fade>
+      </Container>
     </Box>
   );
 }

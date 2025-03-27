@@ -20,6 +20,8 @@ import { useTheme } from '@mui/material/styles';
 const ServicesHero = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('lg'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Animation variants
   const fadeIn = {
@@ -61,19 +63,22 @@ const ServicesHero = () => {
 
   return (
     <Box sx={{ 
-      background: `linear-gradient(rgba(13, 59, 110, 0.8), rgba(40, 221, 205, 0.8)), url('/laundry-bg.jpg')`, // Using theme colors
+      background: `linear-gradient(rgba(13, 59, 110, 0.8), rgba(40, 221, 205, 0.8)), url('/laundry-bg.jpg')`, 
       backgroundSize: 'cover',
       backgroundPosition: 'center',
-      py: 10,
+      pt: { xs: 16, sm: 18, md: 16 }, // Increased top padding to prevent navbar collision
+      pb: { xs: 8, sm: 10, md: 12 }, // Responsive bottom padding
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       position: 'relative',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      minHeight: { xs: 'auto', md: '80vh' } // Responsive minimum height
     }}>
       <Container maxWidth="lg">
-        <Grid container spacing={4} alignItems="center">
-          <Grid item xs={12} md={7}>
+        <Grid container spacing={{ xs: 3, sm: 4, md: 6 }} alignItems="center">
+          {/* Left side - Text content */}
+          <Grid item xs={12} md={7} order={{ xs: 2, md: 1 }}>
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -82,10 +87,10 @@ const ServicesHero = () => {
             >
               <Typography variant="h2" sx={{ 
                 fontWeight: 800,
-                fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4rem' },
-                mb: 2,
+                fontSize: { xs: '2rem', sm: '2.75rem', md: '3.5rem', lg: '4rem' },
+                mb: { xs: 1.5, md: 2 },
                 color: 'white',
-                [theme.breakpoints.down('md')]: { fontSize: '2.5rem' }
+                lineHeight: { xs: 1.2, md: 1.1 }
               }}>
                 Premium Laundry<br/>Services
               </Typography>
@@ -93,22 +98,31 @@ const ServicesHero = () => {
               <Typography variant="h5" sx={{ 
                 fontWeight: 400, 
                 color: 'white',
-                mb: 4
+                mb: { xs: 3, md: 4 },
+                fontSize: { xs: '1.1rem', sm: '1.3rem', md: '1.5rem' }
               }}>
                 Save time with our professional cleaning services
               </Typography>
 
-              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+              <Box sx={{ 
+                display: 'flex', 
+                gap: { xs: 1.5, sm: 2 }, 
+                flexWrap: 'wrap',
+                flexDirection: { xs: 'column', sm: 'row' },
+                width: { xs: '100%', sm: 'auto' }
+              }}>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  style={{ width: isSmallScreen ? '100%' : 'auto' }}
                 >
                   <Button 
                     variant="contained" 
                     size="large" 
+                    fullWidth={isSmallScreen}
                     sx={{ 
-                      py: 1.5, 
-                      px: 4,
+                      py: { xs: 1.25, md: 1.5 }, 
+                      px: { xs: 3, md: 4 },
                       borderRadius: 2,
                       fontWeight: 600,
                       backgroundColor: theme.palette.secondary.main,
@@ -124,13 +138,15 @@ const ServicesHero = () => {
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  style={{ width: isSmallScreen ? '100%' : 'auto' }}
                 >
                   <Button 
                     variant="outlined" 
                     size="large" 
+                    fullWidth={isSmallScreen}
                     sx={{ 
-                      py: 1.5, 
-                      px: 4,
+                      py: { xs: 1.25, md: 1.5 }, 
+                      px: { xs: 3, md: 4 },
                       borderRadius: 2,
                       color: 'white',
                       borderColor: 'white',
@@ -147,7 +163,18 @@ const ServicesHero = () => {
               </Box>
             </motion.div>
           </Grid>
-          <Grid item xs={12} md={5} sx={{ display: { xs: 'none', md: 'block' } }}>
+
+          {/* Right side - "Why Choose Us" card */}
+          <Grid 
+            item 
+            xs={12} 
+            md={5} 
+            order={{ xs: 1, md: 2 }}
+            sx={{ 
+              mb: { xs: 4, md: 0 },
+              display: { xs: 'block', sm: 'block' } // Always show the card, even on mobile
+            }}
+          >
             <motion.div 
               initial="hidden"
               whileInView="visible"
@@ -155,15 +182,22 @@ const ServicesHero = () => {
               variants={cardVariants}
             >
               <Paper elevation={5} sx={{ 
-                p: 4, 
-                borderRadius: 4,
-                background: 'rgba(255, 255, 255, 0.9)',
-                backdropFilter: 'blur(10px)'
+                p: { xs: 2.5, sm: 3, md: 4 }, 
+                borderRadius: { xs: 3, md: 4 },
+                background: 'rgba(255, 255, 255, 0.92)',
+                backdropFilter: 'blur(10px)',
+                maxWidth: { xs: '100%', md: '90%' },
+                mx: { xs: 'auto', md: 0 }
               }}>
-                <Typography variant="h5" sx={{ fontWeight: 700, mb: 2, color: theme.palette.primary.dark }}>
+                <Typography variant="h5" sx={{ 
+                  fontWeight: 700, 
+                  mb: { xs: 1.5, md: 2 }, 
+                  color: theme.palette.primary.dark,
+                  fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.5rem' }
+                }}>
                   Why Choose Us?
                 </Typography>
-                <List>
+                <List sx={{ py: 0 }}>
                   {[
                     'Free pickup and delivery',
                     'Eco-friendly cleaning solutions',
@@ -179,11 +213,19 @@ const ServicesHero = () => {
                       viewport={{ once: true }}
                       variants={listItemVariants}
                     >
-                      <ListItem sx={{ py: 1 }}>
-                        <ListItemIcon sx={{ minWidth: 36 }}>
-                          <CheckIcon sx={{ color: theme.palette.primary.main }} />
+                      <ListItem sx={{ py: { xs: 0.5, md: 1 } }}>
+                        <ListItemIcon sx={{ minWidth: { xs: 28, md: 36 } }}>
+                          <CheckIcon sx={{ 
+                            color: theme.palette.primary.main,
+                            fontSize: { xs: '1.1rem', md: '1.3rem' }
+                          }} />
                         </ListItemIcon>
-                        <ListItemText primary={item} />
+                        <ListItemText 
+                          primary={item} 
+                          primaryTypographyProps={{
+                            fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' }
+                          }}
+                        />
                       </ListItem>
                     </motion.div>
                   ))}
@@ -194,42 +236,46 @@ const ServicesHero = () => {
         </Grid>
       </Container>
       
-      {/* Animated floating elements */}
-      <motion.div
-        animate={{
-          y: [0, -15, 0],
-          transition: { repeat: Infinity, duration: 3, ease: "easeInOut" }
-        }}
-        style={{
-          position: 'absolute',
-          top: '10%',
-          right: '5%',
-          width: 100,
-          height: 100,
-          borderRadius: '50%',
-          background: 'rgba(255, 255, 255, 0.1)',
-          zIndex: 1
-        }}
-      />
-      
-      <motion.div
-        animate={{
-          y: [0, 15, 0],
-          transition: { repeat: Infinity, duration: 4, ease: "easeInOut" }
-        }}
-        style={{
-          position: 'absolute',
-          bottom: '15%',
-          left: '10%',
-          width: 70,
-          height: 70,
-          borderRadius: '50%',
-          background: 'rgba(255, 255, 255, 0.1)',
-          zIndex: 1
-        }}
-      />
+      {/* Animated floating elements - only show on larger screens */}
+      {!isMobile && (
+        <>
+          <motion.div
+            animate={{
+              y: [0, -15, 0],
+              transition: { repeat: Infinity, duration: 3, ease: "easeInOut" }
+            }}
+            style={{
+              position: 'absolute',
+              top: '10%',
+              right: '5%',
+              width: isTablet ? 70 : 100,
+              height: isTablet ? 70 : 100,
+              borderRadius: '50%',
+              background: 'rgba(255, 255, 255, 0.1)',
+              zIndex: 1
+            }}
+          />
+          
+          <motion.div
+            animate={{
+              y: [0, 15, 0],
+              transition: { repeat: Infinity, duration: 4, ease: "easeInOut" }
+            }}
+            style={{
+              position: 'absolute',
+              bottom: '15%',
+              left: '10%',
+              width: isTablet ? 50 : 70,
+              height: isTablet ? 50 : 70,
+              borderRadius: '50%',
+              background: 'rgba(255, 255, 255, 0.1)',
+              zIndex: 1
+            }}
+          />
+        </>
+      )}
     </Box>
   );
 };
 
-export default ServicesHero;    
+export default ServicesHero;
