@@ -83,16 +83,17 @@ export default function HeroSection() {
         width: '100%',
         display: 'flex',
         alignItems: 'center',
-        bgcolor: DARK_TURQUOISE, // Changed to solid turquoise background
+        bgcolor: DARK_TURQUOISE,
         position: 'relative',
         overflow: 'hidden',
-        py: { xs: 6, sm: 4 }
+        py: { xs: 8, sm: 6, md: 6 }, // Increased padding
+        px: { xs: 2, sm: 3, md: 4 }  // Added horizontal padding
       }}
     >
       {/* Background shape decorations */}
       <MotionBox
         initial={{ opacity: 0, x: -100 }}
-        animate={{ opacity: 0.15, x: 0 }} // Increased opacity for better visibility
+        animate={{ opacity: 0.15, x: 0 }}
         transition={{ duration: 1, delay: 0.5 }}
         sx={{
           position: 'absolute',
@@ -101,16 +102,23 @@ export default function HeroSection() {
           width: '40%',
           height: '40%',
           borderRadius: '50%',
-          background: 'white', // Changed to white for contrast
+          background: 'white',
           filter: 'blur(60px)',
           zIndex: 0
         }}
       />
       
-      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
+      <Container 
+        maxWidth="xl" 
+        sx={{ 
+          position: 'relative', 
+          zIndex: 1,
+          py: { xs: 3, md: 4 } // Added vertical padding
+        }}
+      >
         <Grid 
           container 
-          spacing={{ xs: 2, sm: 3 }} 
+          spacing={{ xs: 4, sm: 5, md: 6 }} // Increased spacing between grid items
           alignItems="center"
           justifyContent="center"
         >
@@ -119,6 +127,7 @@ export default function HeroSection() {
               variants={containerVariants}
               initial="hidden"
               animate={controls}
+              sx={{ px: { xs: 1, sm: 2, md: 3 } }} // Added horizontal padding
             >
               <MotionTypography
                 variant="h1"
@@ -127,9 +136,10 @@ export default function HeroSection() {
                 sx={{ 
                   fontWeight: 700,
                   fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.8rem', lg: '3.5rem' },
-                  mb: { xs: 0.5, sm: 1 },
-                  color: 'white', // Changed to white for contrast
-                  lineHeight: 1.1
+                  mb: { xs: 1.5, sm: 2, md: 2.5 }, // Increased margin
+                  color: 'white',
+                  lineHeight: 1.1,
+                  letterSpacing: '0.01em' // Added slight letter spacing
                 }}
               >
                 Commercial Laundry Solutions
@@ -139,10 +149,11 @@ export default function HeroSection() {
                 variant="h4"
                 variants={itemVariants}
                 sx={{ 
-                  mb: { xs: 1, sm: 2 },
+                  mb: { xs: 2, sm: 3, md: 3.5 }, // Increased margin
                   fontWeight: 400,
                   fontSize: { xs: '1rem', sm: '1.1rem', md: '1.3rem' },
-                  color: 'rgba(255, 255, 255, 0.9)' // Changed to white with slight transparency
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  lineHeight: 1.3 // Increased line height
                 }}
               >
                 Professional laundry services for businesses of all sizes
@@ -152,11 +163,12 @@ export default function HeroSection() {
                 <Typography 
                   variant="body1" 
                   sx={{ 
-                    mb: { xs: 1.5, sm: 2, md: 3 }, 
-                    fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' },
-                    maxWidth: 500,
-                    color: 'rgba(255, 255, 255, 0.8)', // Changed to white with transparency
-                    display: isSmallHeight && isMobile ? 'none' : 'block'
+                    mb: { xs: 3, sm: 4, md: 5 }, // Increased margin
+                    fontSize: { xs: '0.9rem', sm: '0.95rem', md: '1.05rem' }, // Slightly increased font size
+                    maxWidth: 550, // Increased max width
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    display: isSmallHeight && isMobile ? 'none' : 'block',
+                    lineHeight: 1.6 // Increased line height for better readability
                   }}
                 >
                   FreshBox provides comprehensive commercial laundry solutions with eco-friendly processes and flexible scheduling designed to adapt to your unique business needs.
@@ -165,7 +177,7 @@ export default function HeroSection() {
               
               <MotionBox 
                 display="flex" 
-                gap={{ xs: 1, sm: 2 }}
+                gap={{ xs: 2, sm: 3 }} // Increased gap
                 flexWrap="wrap"
                 variants={itemVariants}
               >
@@ -175,14 +187,15 @@ export default function HeroSection() {
                   whileTap={{ scale: 0.95 }}
                   whileHover={{ scale: 1.03 }}
                   sx={{ 
-                    bgcolor: 'white', // Changed to white
-                    color: DARK_TURQUOISE, // Changed to turquoise
-                    px: { xs: 2, sm: 3 },
-                    py: { xs: 0.75, sm: 1 },
+                    bgcolor: 'white',
+                    color: DARK_TURQUOISE,
+                    px: { xs: 3, sm: 4 }, // Increased padding
+                    py: { xs: 1, sm: 1.5 }, // Increased padding
                     borderRadius: '8px',
                     fontWeight: 600,
-                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                    '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.9)' }
+                    fontSize: { xs: '0.85rem', sm: '0.95rem' }, // Increased font size
+                    '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.9)' },
+                    textTransform: 'none' // Remove all caps
                   }}
                 >
                   Request a Quote
@@ -194,17 +207,18 @@ export default function HeroSection() {
                   whileTap={{ scale: 0.95 }}
                   whileHover={{ scale: 1.03 }}
                   sx={{ 
-                    color: 'white', // Changed to white
-                    borderColor: 'white', // Changed to white
-                    px: { xs: 2, sm: 3 },
-                    py: { xs: 0.75, sm: 1 },
+                    color: 'white',
+                    borderColor: 'white',
+                    px: { xs: 3, sm: 4 }, // Increased padding
+                    py: { xs: 1, sm: 1.5 }, // Increased padding
                     borderRadius: '8px',
                     fontWeight: 600,
-                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                    fontSize: { xs: '0.85rem', sm: '0.95rem' }, // Increased font size
                     '&:hover': { 
                       borderColor: 'white',
                       bgcolor: 'rgba(255, 255, 255, 0.1)'
-                    }
+                    },
+                    textTransform: 'none' // Remove all caps
                   }}
                 >
                   Learn More
@@ -217,8 +231,8 @@ export default function HeroSection() {
                   display: isSmallHeight && isMobile ? 'none' : 'flex',
                   alignItems: 'center',
                   flexWrap: 'wrap',
-                  gap: { xs: 1, md: 2 },
-                  mt: { xs: 2, sm: 3 }
+                  gap: { xs: 2, md: 3 }, // Increased gap
+                  mt: { xs: 4, sm: 5 } // Increased margin top
                 }}
               >
                 {['Eco-Friendly', 'Free Pickup', '24-Hour Turnaround', 'Commercial Discounts'].map((feature, index) => (
@@ -232,19 +246,19 @@ export default function HeroSection() {
                   >
                     <Box
                       sx={{
-                        width: 6,
-                        height: 6,
+                        width: 8, // Increased size
+                        height: 8, // Increased size
                         borderRadius: '50%',
-                        bgcolor: 'white', // Changed to white
-                        mr: 1
+                        bgcolor: 'white',
+                        mr: 1.5 // Increased margin
                       }}
                     />
                     <Typography 
                       variant="body2" 
                       fontWeight={500}
                       sx={{ 
-                        color: 'rgba(255, 255, 255, 0.85)', // Changed to white with transparency
-                        fontSize: { xs: '0.75rem', sm: '0.8rem' }
+                        color: 'rgba(255, 255, 255, 0.85)',
+                        fontSize: { xs: '0.8rem', sm: '0.85rem' } // Increased font size
                       }}
                     >
                       {feature}
@@ -262,7 +276,9 @@ export default function HeroSection() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 position: 'relative',
-                minHeight: { xs: '180px', sm: '240px', md: '300px' }
+                minHeight: { xs: '220px', sm: '260px', md: '320px' }, // Increased height
+                mt: { xs: 3, md: 0 }, // Added margin top on mobile
+                mb: { xs: 4, md: 0 }  // Added margin bottom on mobile
               }}
               initial="hidden"
               animate="visible"
@@ -271,22 +287,22 @@ export default function HeroSection() {
               <MotionBox
                 variants={iconVariants}
                 sx={{
-                  width: { xs: 120, sm: 160, md: 200 },
-                  height: { xs: 120, sm: 160, md: 200 },
+                  width: { xs: 130, sm: 170, md: 220 }, // Increased size
+                  height: { xs: 130, sm: 170, md: 220 }, // Increased size
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   bgcolor: 'white',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+                  boxShadow: '0 10px 35px rgba(0,0,0,0.15)', // Enhanced shadow
                   border: { xs: '6px solid', sm: '8px solid', md: '10px solid' },
-                  borderColor: 'rgba(255, 255, 255, 0.2)', // Changed to white with transparency
+                  borderColor: 'rgba(255, 255, 255, 0.2)',
                   zIndex: 2
                 }}
               >
                 <CommercialIcon 
                   sx={{ 
-                    fontSize: { xs: 40, sm: 60, md: 80 },
+                    fontSize: { xs: 50, sm: 70, md: 90 }, // Increased size
                     color: DARK_TURQUOISE
                   }} 
                 />
@@ -309,14 +325,14 @@ export default function HeroSection() {
                     stiffness: 100
                   }}
                   whileHover={{ scale: 1.05 }}
-                  elevation={2} // Added elevation for better visibility
+                  elevation={3} // Increased elevation
                   sx={{
                     position: 'absolute',
-                    py: { sm: 0.75, md: 1 },
-                    px: { sm: 1.5, md: 2 },
+                    py: { sm: 1, md: 1.5 }, // Increased padding
+                    px: { sm: 2, md: 2.5 }, // Increased padding
                     borderRadius: '8px',
                     bgcolor: 'white',
-                    border: '1px solid rgba(255, 255, 255, 0.3)', // Changed border color
+                    border: '1px solid rgba(255, 255, 255, 0.3)',
                     ...item,
                     zIndex: 1,
                     cursor: 'pointer'
@@ -325,9 +341,9 @@ export default function HeroSection() {
                   <Typography 
                     variant="body2" 
                     fontWeight={600}
-                    color={DARK_TURQUOISE} // Changed text color to turquoise
+                    color={DARK_TURQUOISE}
                     sx={{
-                      fontSize: { sm: '0.75rem', md: '0.875rem' }
+                      fontSize: { sm: '0.8rem', md: '0.9rem' } // Increased font size
                     }}
                   >
                     {item.label}
@@ -345,9 +361,9 @@ export default function HeroSection() {
                     display: 'flex',
                     flexWrap: 'wrap',
                     justifyContent: 'center',
-                    gap: 1,
+                    gap: 1.5, // Increased gap
                     position: 'absolute',
-                    bottom: '-20px',
+                    bottom: '-30px', // Moved down
                     width: '100%'
                   }}
                 >
@@ -361,21 +377,21 @@ export default function HeroSection() {
                         type: 'spring',
                         stiffness: 100
                       }}
-                      elevation={1} // Added elevation
+                      elevation={2} // Increased elevation
                       sx={{
-                        py: 0.5,
-                        px: 1.5,
+                        py: 0.75, // Increased padding
+                        px: 2, // Increased padding
                         borderRadius: '8px',
                         bgcolor: 'white',
-                        border: '1px solid rgba(255, 255, 255, 0.3)', // Changed border color
+                        border: '1px solid rgba(255, 255, 255, 0.3)',
                       }}
                     >
                       <Typography 
                         variant="body2" 
                         fontWeight={600}
-                        color={DARK_TURQUOISE} // Changed text color to turquoise
+                        color={DARK_TURQUOISE}
                         sx={{
-                          fontSize: '0.7rem'
+                          fontSize: '0.75rem' // Increased font size
                         }}
                       >
                         {label}
@@ -409,34 +425,35 @@ export default function HeroSection() {
             transform: 'translateX(-50%)',
             display: { xs: 'none', sm: 'flex' },
             flexDirection: 'column',
-            alignItems: 'center'
+            alignItems: 'center',
+            padding: 2 // Added padding
           }}
         >
           <Typography 
             variant="body2" 
-            color="white" // Changed to white
-            sx={{ mb: 0.5, fontSize: '0.8rem' }}
+            color="white"
+            sx={{ mb: 1, fontSize: '0.85rem' }} // Increased margin and font size
           >
             Scroll to explore
           </Typography>
           <Box 
             sx={{ 
-              width: 24,
-              height: 40,
-              borderRadius: 12,
+              width: 28, // Increased size
+              height: 44, // Increased size
+              borderRadius: 14, // Increased radius
               border: '2px solid',
-              borderColor: 'rgba(255, 255, 255, 0.4)', // Changed to white with transparency
+              borderColor: 'rgba(255, 255, 255, 0.4)',
               display: 'flex',
               justifyContent: 'center',
-              pt: 1
+              pt: 1.5 // Increased padding
             }}
           >
             <Box 
               sx={{ 
-                width: 5,
-                height: 5,
+                width: 6, // Increased size
+                height: 6, // Increased size
                 borderRadius: '50%',
-                bgcolor: 'white' // Changed to white
+                bgcolor: 'white'
               }}
             />
           </Box>

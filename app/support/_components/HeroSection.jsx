@@ -5,7 +5,6 @@ import {
   Container,
   Grid
 } from '@mui/material';
-
 import ClientHeroSection from '../ClientSideInterations/ClientHeroSection';
 
 // Define constants
@@ -17,23 +16,25 @@ const heroTitle = "How Can We Help You?";
 const heroDescription = "We're here to assist with any questions about our laundry and cleaning services.";
 
 // Main server component with SEO-friendly content
-const HeroSection = ({ 
-  loaded, 
-  searchQuery, 
-  setSearchQuery, 
-  searchActive, 
+const HeroSection = ({
+  loaded,
+  searchQuery,
+  setSearchQuery,
+  searchActive,
   setSearchActive,
-  isMobile 
+  isMobile
 }) => {
   return (
-    <Box 
+    <Box
       id="support-hero-section"
       aria-label="Support hero section"
-      sx={{ 
+      sx={{
         background: DARK_TURQUOISE,
         position: 'relative',
         overflow: 'hidden',
         color: 'white',
+        padding: { xs: '2rem 0', sm: '3rem 0', md: '4rem 0' }, // Added responsive padding
+        marginBottom: { xs: '2rem', sm: '3rem', md: '4rem' },  // Added bottom margin
       }}
     >
       {/* Background Elements (static) */}
@@ -47,7 +48,6 @@ const HeroSection = ({
         opacity: 0.8,
         zIndex: 0
       }} />
-      
       <Box sx={{
         position: 'absolute',
         right: 100,
@@ -58,7 +58,6 @@ const HeroSection = ({
         border: '2px dashed rgba(255,255,255,0.3)',
         zIndex: 0
       }} />
-      
       <Box sx={{
         position: 'absolute',
         left: '10%',
@@ -71,7 +70,16 @@ const HeroSection = ({
       }} />
       
       {/* Server-side rendering of SEO-important content that search engines will see */}
-      <Container sx={{ position: 'relative', zIndex: 1, visibility: 'hidden', height: 0, overflow: 'hidden' }}>
+      <Container 
+        sx={{ 
+          position: 'relative', 
+          zIndex: 1, 
+          visibility: 'hidden', 
+          height: 0, 
+          overflow: 'hidden',
+          padding: '2rem', // Added padding
+        }}
+      >
         <h1>{heroTitle}</h1>
         <p>{heroDescription}</p>
         <ul>
@@ -83,7 +91,7 @@ const HeroSection = ({
       </Container>
       
       {/* Client component for interactive elements */}
-      <ClientHeroSection 
+      <ClientHeroSection
         loaded={loaded}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}

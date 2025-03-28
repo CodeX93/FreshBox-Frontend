@@ -135,8 +135,8 @@ const ClientHeroSection = ({
 
   // Determine proper padding based on device and navbar height
   const dynamicTopPadding = isMobile 
-    ? navbarHeight + 40 // Mobile needs less padding
-    : navbarHeight + 60; // Desktop needs more padding
+    ? navbarHeight + 60 // Increased from 40 to 60 for mobile
+    : navbarHeight + 80; // Increased from 60 to 80 for desktop
     
   const dynamicHeroHeight = isMobile
     ? 'auto'
@@ -150,15 +150,25 @@ const ClientHeroSection = ({
         flexDirection: 'column',
         justifyContent: 'center',
         paddingTop: `${dynamicTopPadding}px`, // Dynamic padding based on navbar height
-        paddingBottom: { xs: 8, md: 10 },
+        paddingBottom: { xs: 10, md: 12 }, // Increased padding on bottom
         marginTop: `-${navbarHeight}px`, // Pull up by exact navbar height
         position: 'relative',
         boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
       }}
     >
-      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1, flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+      <Container 
+        maxWidth="xl" 
+        sx={{ 
+          position: 'relative', 
+          zIndex: 1, 
+          flexGrow: 1, 
+          display: 'flex', 
+          alignItems: 'center',
+          px: { xs: 3, sm: 4, md: 5 }, // Added horizontal padding
+        }}
+      >
         <Fade in={loaded} timeout={800}>
-          <Grid container spacing={4} alignItems="center">
+          <Grid container spacing={6} alignItems="center"> {/* Increased spacing from 4 to 6 */}
             <Grid item xs={12} md={6}>
               <Typography 
                 variant="h2" 
@@ -166,7 +176,7 @@ const ClientHeroSection = ({
                 sx={{ 
                   fontWeight: 800,
                   color: 'white',
-                  mb: 2,
+                  mb: 3, // Increased from 2 to 3
                   fontSize: { xs: '2.25rem', sm: '2.5rem', md: '3rem', lg: '3.5rem' },
                   position: 'relative',
                   display: 'inline-block'
@@ -187,11 +197,12 @@ const ClientHeroSection = ({
                 variant="h5"
                 sx={{ 
                   color: 'rgba(255, 255, 255, 0.9)',
-                  mb: 4, 
+                  mb: 5, // Increased from 4 to 5
                   maxWidth: 550,
                   fontWeight: 400,
                   fontSize: { xs: '1.1rem', sm: '1.25rem', md: '1.35rem' },
-                  lineHeight: 1.5
+                  lineHeight: 1.6, // Increased from 1.5 to 1.6 for better readability
+                  letterSpacing: '0.02em', // Added slight letter spacing
                 }}
               >
                 {heroDescription}
@@ -203,13 +214,13 @@ const ClientHeroSection = ({
                 sx={{ 
                   display: 'flex',
                   alignItems: 'center',
-                  p: 0.75,
-                  pl: 2.5,
+                  p: 1, // Increased from 0.75 to 1
+                  pl: 3, // Increased from 2.5 to 3
                   border: '1px solid',
                   borderColor: searchActive ? 'white' : 'rgba(255, 255, 255, 0.3)',
                   borderRadius: '16px',
                   maxWidth: 550,
-                  mb: { xs: 4, md: 1 },
+                  mb: { xs: 5, md: 2 }, // Increased from mb: { xs: 4, md: 1 }
                   transition: 'all 0.3s ease',
                   backgroundColor: 'rgba(255, 255, 255, 0.9)',
                   '&:hover': {
@@ -218,7 +229,7 @@ const ClientHeroSection = ({
                   }
                 }}
               >
-                <SearchIcon sx={{ color: searchActive ? DARK_TURQUOISE : 'text.secondary', mr: 1.5 }} />
+                <SearchIcon sx={{ color: searchActive ? DARK_TURQUOISE : 'text.secondary', mr: 2 }} /> {/* Increased margin */}
                 <TextField
                   fullWidth
                   placeholder="Search our help resources..."
@@ -227,7 +238,7 @@ const ClientHeroSection = ({
                   onChange={handleSearchChange}
                   InputProps={{
                     disableUnderline: true,
-                    style: { fontSize: '1.05rem' }
+                    style: { fontSize: '1.05rem', padding: '4px 0' } // Added padding
                   }}
                   sx={{ flex: 1 }}
                 />
@@ -238,9 +249,10 @@ const ClientHeroSection = ({
                     bgcolor: DARK_TURQUOISE,
                     color: 'white',
                     borderRadius: '12px',
-                    px: { xs: 2, sm: 3 },
-                    py: 1.2,
+                    px: { xs: 3, sm: 4 }, // Increased horizontal padding
+                    py: 1.5, // Increased vertical padding from 1.2 to 1.5
                     fontWeight: 600,
+                    ml: 1, // Added left margin
                     '&:hover': { bgcolor: TURQUOISE }
                   }}
                 >
@@ -256,21 +268,21 @@ const ClientHeroSection = ({
                   justifyContent: 'center',
                   alignItems: 'center',
                   flexWrap: 'wrap',
-                  gap: { xs: 2, sm: 3 }
+                  gap: { xs: 3, sm: 4 } // Increased gap from { xs: 2, sm: 3 }
                 }}
               >
                 {/* Support Option Cards */}
                 {[
-                  { icon: <ChatIcon sx={{ fontSize: 36 }} />, title: "Live Chat", desc: "Chat with our support team" },
-                  { icon: <PhoneIcon sx={{ fontSize: 36 }} />, title: "Call Us", desc: "Speak directly with support" },
-                  { icon: <VideoCallIcon sx={{ fontSize: 36 }} />, title: "Video Consult", desc: "Schedule a video call" },
-                  { icon: <GuideIcon sx={{ fontSize: 36 }} />, title: "Help Center", desc: "Browse support articles" }
+                  { icon: <ChatIcon sx={{ fontSize: 40 }} />, title: "Live Chat", desc: "Chat with our support team" },
+                  { icon: <PhoneIcon sx={{ fontSize: 40 }} />, title: "Call Us", desc: "Speak directly with support" },
+                  { icon: <VideoCallIcon sx={{ fontSize: 40 }} />, title: "Video Consult", desc: "Schedule a video call" },
+                  { icon: <GuideIcon sx={{ fontSize: 40 }} />, title: "Help Center", desc: "Browse support articles" }
                 ].map((option, index) => (
                   <Fade key={index} in={loaded} timeout={800} style={{ transitionDelay: `${index * 100}ms` }}>
                     <Card 
                       elevation={1}
                       sx={{ 
-                        width: { xs: '100%', sm: 'calc(50% - 24px)' },
+                        width: { xs: '100%', sm: 'calc(50% - 32px)' }, // Adjusted for new gap
                         borderRadius: 4,
                         border: '1px solid',
                         borderColor: 'rgba(255, 255, 255, 0.3)',
@@ -304,12 +316,12 @@ const ClientHeroSection = ({
                         display: 'flex', 
                         flexDirection: 'column',
                         alignItems: 'flex-start',
-                        p: { xs: 2.5, sm: 3 }
+                        p: { xs: 3, sm: 4 } // Increased padding from p: { xs: 2.5, sm: 3 }
                       }}>
                         <Box sx={{ 
                           color: DARK_TURQUOISE, 
-                          mb: 2,
-                          p: 1.5,
+                          mb: 2.5, // Increased from 2 to 2.5
+                          p: 2, // Increased from 1.5 to 2
                           borderRadius: '12px',
                           bgcolor: TURQUOISE_LIGHT,
                           display: 'flex',
@@ -318,10 +330,10 @@ const ClientHeroSection = ({
                         }}>
                           {option.icon}
                         </Box>
-                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: '#2d3748' }}>
+                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1.5, color: '#2d3748' }}> {/* Increased margin */}
                           {option.title}
                         </Typography>
-                        <Typography variant="body1" color="text.secondary">
+                        <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.6 }}> {/* Added line height */}
                           {option.desc}
                         </Typography>
                       </CardContent>
