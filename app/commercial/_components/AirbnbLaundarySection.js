@@ -5,7 +5,6 @@ import {
   Box, 
   Container, 
   Typography, 
-  Grid,
   Paper,
   Button,
   Card,
@@ -18,8 +17,10 @@ import {
   ListItemIcon,
   ListItemText,
   useTheme,
+  Grid,
   useMediaQuery
 } from '@mui/material';
+
 import { 
   HomeWork as AirbnbIcon,
   AccessTime as FastTurnaroundIcon,
@@ -43,7 +44,6 @@ const TURQUOISE = '#28ddcd';
 const MotionBox = motion(Box);
 const MotionPaper = motion(Paper);
 const MotionTypography = motion(Typography);
-const MotionGrid = motion(Grid);
 const MotionCard = motion(Card);
 
 export default function AirbnbLaundrySection() {
@@ -215,49 +215,49 @@ export default function AirbnbLaundrySection() {
     <Box 
       ref={ref}
       sx={{ 
-        minHeight: { xs: 'auto', md: '100vh' },
+        minHeight: { xs: 'auto', md: 'auto' },
         width: '100%',
         display: 'flex',
         alignItems: 'center',
-        bgcolor: '#f8f9fa',
+        bgcolor: '#f5f7fa', // Light background color for the section
         position: 'relative',
         py: { xs: 4, sm: 6, md: 8 }
       }}
     >
-      {/* Background elements */}
-      <MotionBox
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 0.05 } : { opacity: 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
-        sx={{
-          position: 'absolute',
-          bottom: '10%',
-          left: '-5%',
-          width: '30%',
-          height: '30%',
-          borderRadius: '50%',
-          background: TURQUOISE,
-          filter: 'blur(70px)',
-          zIndex: 0
+      <Container 
+        maxWidth="lg" 
+        sx={{ 
+          position: 'relative', 
+          zIndex: 1,
+          px: { xs: 2, sm: 3, md: 4 } // Added horizontal padding
         }}
-      />
-      
-      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
+      >
         <MotionBox
           variants={sectionVariants}
           initial="hidden"
           animate={controls}
         >
-          {/* Section header */}
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12}>
-              <MotionBox 
-                variants={itemVariants}
+          {/* Section header card - Boxed */}
+          <MotionCard
+            elevation={1}
+            variants={itemVariants}
+            sx={{ 
+              borderRadius: 3,
+              mb: 3,
+              overflow: 'hidden',
+              boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+            }}
+          >
+            <Box sx={{ 
+              p: { xs: 2, sm: 3 },
+              background: `linear-gradient(135deg, ${TURQUOISE}10, ${TURQUOISE}20)`,
+              position: 'relative'
+            }}>
+              <Box 
                 sx={{ 
                   display: 'flex',
                   alignItems: { xs: 'flex-start', sm: 'center' },
-                  flexDirection: { xs: 'column', sm: 'row' },
-                  mb: { xs: 2, sm: 3 }
+                  flexDirection: { xs: 'column', sm: 'row' }
                 }}
               >
                 <Box 
@@ -268,7 +268,7 @@ export default function AirbnbLaundrySection() {
                     width: { xs: 50, sm: 60 },
                     height: { xs: 50, sm: 60 },
                     borderRadius: '50%',
-                    bgcolor: 'rgba(40,221,205,0.1)',
+                    bgcolor: 'rgba(40,221,205,0.2)',
                     mr: { xs: 0, sm: 2 },
                     mb: { xs: 1.5, sm: 0 }
                   }}
@@ -302,159 +302,180 @@ export default function AirbnbLaundrySection() {
                     Keep your properties pristine and your guests happy with specialized solutions
                   </MotionTypography>
                 </Box>
-              </MotionBox>
+              </Box>
+            </Box>
+          </MotionCard>
+          
+          {/* Main content - Boxed cards layout */}
+          <Grid container spacing={3}>
+            {/* Left column */}
+            <Grid item xs={12} md={6} lg={4}>
+              <MotionCard
+                elevation={1}
+                variants={itemVariants}
+                sx={{ 
+                  borderRadius: 3,
+                  height: '100%',
+                  boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+                }}
+              >
+                <Box sx={{ p: { xs: 2, sm: 3 } }}>
+                  <MotionTypography
+                    variant="h5"
+                    component="h3"
+                    sx={{ 
+                      fontWeight: 600,
+                      mb: { xs: 1, sm: 2 },
+                      color: 'text.primary',
+                      fontSize: { xs: '1.1rem', sm: '1.2rem' }
+                    }}
+                  >
+                    Elevate Your Rental Business
+                  </MotionTypography>
+                  
+                  <MotionTypography
+                    variant="body1"
+                    sx={{ 
+                      mb: { xs: 1.5, sm: 2 },
+                      color: 'text.secondary',
+                      lineHeight: 1.6,
+                      fontSize: { xs: '0.85rem', sm: '0.9rem' }
+                    }}
+                  >
+                    For short-term rental hosts, fresh linens and towels are essential to guest satisfaction and 5-star reviews. Our specialized laundry service helps you maintain the highest standards while saving you time and effort.
+                  </MotionTypography>
+                  
+                  <MotionBox
+                    variants={cardVariants}
+                    custom={2}
+                    sx={{ 
+                      p: { xs: 1.5, sm: 2 },
+                      borderRadius: 3,
+                      bgcolor: 'rgba(40,221,205,0.1)',
+                      border: '1px solid',
+                      borderColor: 'rgba(40,221,205,0.2)',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      mb: { xs: 1.5, sm: 2 }
+                    }}
+                  >
+                    <ProfitIcon sx={{ 
+                      color: TURQUOISE, 
+                      fontSize: { xs: 24, sm: 28 }, 
+                      mr: 1.5,
+                      mt: 0.5
+                    }} />
+                    <Box>
+                      <Typography 
+                        variant="body1" 
+                        fontWeight={600} 
+                        sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
+                      >
+                        Increase Your Rental Profit
+                      </Typography>
+                      <Typography 
+                        variant="body2" 
+                        sx={{ fontSize: { xs: '0.7rem', sm: '0.75rem' } }}
+                      >
+                        Outsourcing laundry saves 5-10 hours per week per property, allowing you to manage more listings and focus on growing your business.
+                      </Typography>
+                    </Box>
+                  </MotionBox>
+                  
+                  <MotionPaper
+                    elevation={0}
+                    variants={itemVariants}
+                    sx={{ 
+                      p: { xs: 1.5, sm: 2 },
+                      borderRadius: 3,
+                      border: '1px solid',
+                      borderColor: 'grey.200',
+                      mb: { xs: 1.5, sm: 2 }
+                    }}
+                  >
+                    <Typography 
+                      variant="h6" 
+                      fontWeight={600} 
+                      sx={{ 
+                        mb: { xs: 1, sm: 1.5 }, 
+                        fontSize: { xs: '0.9rem', sm: '1rem' } 
+                      }}
+                    >
+                      Items We Handle
+                    </Typography>
+                    
+                    <Grid container spacing={1}>
+                      {[
+                        "Bed Sheets & Pillowcases",
+                        "Duvet Covers & Inserts",
+                        "Bath, Hand & Face Towels",
+                        "Washcloths & Bath Mats",
+                        "Kitchen Towels & Dishcloths",
+                        "Tablecloths & Napkins",
+                        "Throw Blankets & Decorative Pillows",
+                        "Curtains & Shower Curtains"
+                      ].map((item, index) => (
+                        <Grid item xs={12} sm={6} key={index}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
+                            <Box
+                              sx={{
+                                width: 5,
+                                height: 5,
+                                borderRadius: '50%',
+                                bgcolor: TURQUOISE,
+                                mr: 1,
+                                flexShrink: 0
+                              }}
+                            />
+                            <Typography 
+                              variant="body2" 
+                              sx={{ 
+                                fontSize: { xs: '0.75rem', sm: '0.8rem' },
+                                lineHeight: 1.3
+                              }}
+                            >
+                              {item}
+                            </Typography>
+                          </Box>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </MotionPaper>
+                  
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    size={isSmallScreen ? "small" : "medium"}
+                    sx={{ 
+                      bgcolor: TURQUOISE,
+                      color: 'white',
+                      px: { xs: 2, sm: 3 },
+                      py: { xs: 0.75, sm: 1 },
+                      borderRadius: '8px',
+                      fontWeight: 600,
+                      fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                      '&:hover': { bgcolor: '#20c5b7' }
+                    }}
+                  >
+                    Get Rental Host Pricing
+                  </Button>
+                </Box>
+              </MotionCard>
             </Grid>
             
-            {/* Main content area */}
-            <Grid item xs={12}>
-              <Grid container spacing={{ xs: 2, md: 3 }}>
-                {/* Left column */}
-                <Grid item xs={12} sm={6} md={4} order={{ xs: 1, sm: 1 }}>
-                  <MotionBox variants={itemVariants}>
-                    <MotionTypography
-                      variant="h5"
-                      component="h3"
-                      sx={{ 
-                        fontWeight: 600,
-                        mb: { xs: 1, sm: 2 },
-                        color: 'text.primary',
-                        fontSize: { xs: '1.1rem', sm: '1.2rem' }
-                      }}
-                    >
-                      Elevate Your Rental Business
-                    </MotionTypography>
-                    
-                    <MotionTypography
-                      variant="body1"
-                      sx={{ 
-                        mb: { xs: 1.5, sm: 2 },
-                        color: 'text.secondary',
-                        lineHeight: 1.6,
-                        fontSize: { xs: '0.85rem', sm: '0.9rem' }
-                      }}
-                    >
-                      For short-term rental hosts, fresh linens and towels are essential to guest satisfaction and 5-star reviews. Our specialized laundry service helps you maintain the highest standards while saving you time and effort.
-                    </MotionTypography>
-                    
-                    <MotionBox
-                      variants={cardVariants}
-                      custom={2}
-                      sx={{ 
-                        p: { xs: 1.5, sm: 2 },
-                        borderRadius: 3,
-                        bgcolor: 'rgba(40,221,205,0.1)',
-                        border: '1px solid',
-                        borderColor: 'rgba(40,221,205,0.2)',
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        mb: { xs: 1.5, sm: 2 }
-                      }}
-                    >
-                      <ProfitIcon sx={{ 
-                        color: TURQUOISE, 
-                        fontSize: { xs: 24, sm: 28 }, 
-                        mr: 1.5,
-                        mt: 0.5
-                      }} />
-                      <Box>
-                        <Typography 
-                          variant="body1" 
-                          fontWeight={600} 
-                          sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
-                        >
-                          Increase Your Rental Profit
-                        </Typography>
-                        <Typography 
-                          variant="body2" 
-                          sx={{ fontSize: { xs: '0.7rem', sm: '0.75rem' } }}
-                        >
-                          Outsourcing laundry saves 5-10 hours per week per property, allowing you to manage more listings and focus on growing your business.
-                        </Typography>
-                      </Box>
-                    </MotionBox>
-                    
-                    <MotionPaper
-                      elevation={0}
-                      variants={itemVariants}
-                      sx={{ 
-                        p: { xs: 1.5, sm: 2 },
-                        borderRadius: 3,
-                        border: '1px solid',
-                        borderColor: 'grey.200',
-                        mb: { xs: 1.5, sm: 2 }
-                      }}
-                    >
-                      <Typography 
-                        variant="h6" 
-                        fontWeight={600} 
-                        sx={{ 
-                          mb: { xs: 1, sm: 1.5 }, 
-                          fontSize: { xs: '0.9rem', sm: '1rem' } 
-                        }}
-                      >
-                        Items We Handle
-                      </Typography>
-                      
-                      <Grid container spacing={1}>
-                        {[
-                          "Bed Sheets & Pillowcases",
-                          "Duvet Covers & Inserts",
-                          "Bath, Hand & Face Towels",
-                          "Washcloths & Bath Mats",
-                          "Kitchen Towels & Dishcloths",
-                          "Tablecloths & Napkins",
-                          "Throw Blankets & Decorative Pillows",
-                          "Curtains & Shower Curtains"
-                        ].map((item, index) => (
-                          <Grid item xs={12} sm={6} key={index}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
-                              <Box
-                                sx={{
-                                  width: 5,
-                                  height: 5,
-                                  borderRadius: '50%',
-                                  bgcolor: TURQUOISE,
-                                  mr: 1,
-                                  flexShrink: 0
-                                }}
-                              />
-                              <Typography 
-                                variant="body2" 
-                                sx={{ 
-                                  fontSize: { xs: '0.75rem', sm: '0.8rem' },
-                                  lineHeight: 1.3
-                                }}
-                              >
-                                {item}
-                              </Typography>
-                            </Box>
-                          </Grid>
-                        ))}
-                      </Grid>
-                    </MotionPaper>
-                    
-                    <Button
-                      variant="contained"
-                      size={isSmallScreen ? "small" : "medium"}
-                      sx={{ 
-                        bgcolor: TURQUOISE,
-                        color: 'white',
-                        px: { xs: 2, sm: 3 },
-                        py: { xs: 0.75, sm: 1 },
-                        borderRadius: '8px',
-                        fontWeight: 600,
-                        fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                        '&:hover': { bgcolor: '#20c5b7' },
-                        display: { xs: 'none', sm: 'inline-flex' }
-                      }}
-                    >
-                      Get Rental Host Pricing
-                    </Button>
-                  </MotionBox>
-                </Grid>
-                
-                {/* Middle column */}
-                <Grid item xs={12} sm={6} md={5} order={{ xs: 3, sm: 2 }}>
+            {/* Middle column - Benefits & Pricing */}
+            <Grid item xs={12} md={6} lg={4}>
+              {/* Benefits Card */}
+              <MotionCard
+                elevation={1}
+                variants={itemVariants}
+                sx={{ 
+                  borderRadius: 3,
+                  mb: 3,
+                  boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+                }}
+              >
+                <Box sx={{ p: { xs: 2, sm: 3 } }}>
                   <MotionTypography
                     variant="h5"
                     component="h3"
@@ -533,139 +554,135 @@ export default function AirbnbLaundrySection() {
                       </Grid>
                     ))}
                   </Grid>
-                  
-                  <MotionPaper
-                    elevation={0}
-                    variants={itemVariants}
+                </Box>
+              </MotionCard>
+              
+              {/* Pricing Card */}
+              <MotionCard
+                elevation={1}
+                variants={itemVariants}
+                sx={{ 
+                  borderRadius: 3,
+                  boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+                }}
+              >
+                <Box sx={{ p: { xs: 2, sm: 3 } }}>
+                  <Typography
+                    variant="h6"
+                    component="h3"
+                    fontWeight={600}
                     sx={{ 
-                      mt: { xs: 1.5, sm: 2 },
-                      p: { xs: 1.5, sm: 2 },
-                      borderRadius: 3,
-                      border: '1px solid',
-                      borderColor: 'grey.200'
+                      mb: { xs: 1.5, sm: 2 }, 
+                      fontSize: { xs: '0.9rem', sm: '1rem' } 
                     }}
                   >
-                    <Typography
-                      variant="h6"
-                      component="h3"
-                      fontWeight={600}
-                      sx={{ 
-                        mb: { xs: 1.5, sm: 2 }, 
-                        fontSize: { xs: '0.9rem', sm: '1rem' } 
-                      }}
-                    >
-                      Host Plans & Pricing
-                    </Typography>
-                    
-                    <Grid container spacing={{ xs: 1, sm: 2 }}>
-                      {pricingTiers.map((tier, index) => (
-                        <Grid item xs={12} sm={4} key={index}>
-                          <Box 
-                            sx={{
-                              borderRadius: 2,
-                              p: { xs: 1.25, sm: 1.5 },
-                              border: '1px solid',
-                              borderColor: tier.isPopular ? TURQUOISE : 'grey.200',
-                              height: '100%',
-                              position: 'relative',
-                              bgcolor: tier.isPopular ? 'rgba(40,221,205,0.05)' : 'transparent'
+                    Host Plans & Pricing
+                  </Typography>
+                  
+                  <Grid container spacing={{ xs: 1, sm: 2 }}>
+                    {pricingTiers.map((tier, index) => (
+                      <Grid item xs={12} sm={4} key={index}>
+                        <Box 
+                          sx={{
+                            borderRadius: 2,
+                            p: { xs: 1.25, sm: 1.5 },
+                            border: '1px solid',
+                            borderColor: tier.isPopular ? TURQUOISE : 'grey.200',
+                            height: '100%',
+                            position: 'relative',
+                            bgcolor: tier.isPopular ? 'rgba(40,221,205,0.05)' : 'transparent'
+                          }}
+                        >
+                          {tier.isPopular && (
+                            <Chip
+                              label="Popular"
+                              size="small"
+                              sx={{
+                                position: 'absolute',
+                                top: -10,
+                                right: 10,
+                                bgcolor: TURQUOISE,
+                                color: 'white',
+                                fontWeight: 600,
+                                fontSize: '0.7rem'
+                              }}
+                            />
+                          )}
+                          
+                          <Typography 
+                            variant="h6" 
+                            fontWeight={600} 
+                            sx={{ 
+                              fontSize: { xs: '0.9rem', sm: '1rem' }, 
+                              mb: 0.5 
                             }}
                           >
-                            {tier.isPopular && (
-                              <Chip
-                                label="Popular"
-                                size="small"
-                                sx={{
-                                  position: 'absolute',
-                                  top: -10,
-                                  right: 10,
-                                  bgcolor: TURQUOISE,
-                                  color: 'white',
-                                  fontWeight: 600,
-                                  fontSize: '0.7rem'
-                                }}
-                              />
-                            )}
-                            
+                            {tier.title}
+                          </Typography>
+                          
+                          <Box sx={{ display: 'flex', alignItems: 'baseline', mb: 1 }}>
                             <Typography 
                               variant="h6" 
-                              fontWeight={600} 
+                              fontWeight={700} 
                               sx={{ 
-                                fontSize: { xs: '0.9rem', sm: '1rem' }, 
-                                mb: 0.5 
+                                color: TURQUOISE, 
+                                fontSize: { xs: '1.1rem', sm: '1.2rem' } 
                               }}
                             >
-                              {tier.title}
+                              {tier.price}
                             </Typography>
-                            
-                            <Box sx={{ display: 'flex', alignItems: 'baseline', mb: 1 }}>
-                              <Typography 
-                                variant="h6" 
-                                fontWeight={700} 
-                                sx={{ 
-                                  color: TURQUOISE, 
-                                  fontSize: { xs: '1.1rem', sm: '1.2rem' } 
-                                }}
-                              >
-                                {tier.price}
-                              </Typography>
-                              <Typography 
-                                variant="caption" 
-                                sx={{ 
-                                  ml: 0.5, 
-                                  fontSize: { xs: '0.65rem', sm: '0.7rem' } 
-                                }}
-                              >
-                                {tier.unit}
-                              </Typography>
-                            </Box>
-                            
-                            <Divider sx={{ mb: 1 }} />
-                            
-                            <List dense disablePadding>
-                              {tier.features.slice(0, 4).map((feature, idx) => (
-                                <ListItem key={idx} disablePadding sx={{ mb: 0.5 }}>
-                                  <ListItemIcon sx={{ minWidth: 24 }}>
-                                    <CheckIcon sx={{ color: TURQUOISE, fontSize: 16 }} />
-                                  </ListItemIcon>
-                                  <ListItemText 
-                                    primary={feature} 
-                                    primaryTypographyProps={{ 
-                                      fontSize: { xs: '0.7rem', sm: '0.75rem' } 
-                                    }}
-                                  />
-                                </ListItem>
-                              ))}
-                            </List>
+                            <Typography 
+                              variant="caption" 
+                              sx={{ 
+                                ml: 0.5, 
+                                fontSize: { xs: '0.65rem', sm: '0.7rem' } 
+                              }}
+                            >
+                              {tier.unit}
+                            </Typography>
                           </Box>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </MotionPaper>
-                </Grid>
-                
-                {/* Right column */}
-                <Grid item xs={12} sm={12} md={3} order={{ xs: 2, sm: 3 }}>
-                  <MotionBox sx={{ 
-                    height: '100%', 
-                    display: 'flex', 
-                    flexDirection: { xs: 'column', sm: 'row', md: 'column' }, 
-                    gap: { xs: 1.5, sm: 2 }
-                  }}>
-                    {/* Special features */}
-                    <MotionPaper
-                      elevation={0}
-                      variants={itemVariants}
-                      sx={{ 
-                        p: { xs: 1.5, sm: 2 },
-                        borderRadius: 3,
-                        border: '1px solid',
-                        borderColor: 'rgba(40,221,205,0.3)',
-                        bgcolor: 'rgba(40,221,205,0.05)',
-                        mb: { xs: 0, md: 2 },
-                        flex: { xs: 'none', sm: 1, md: 'none' }
-                      }}
-                    >
+                          
+                          <Divider sx={{ mb: 1 }} />
+                          
+                          <List dense disablePadding>
+                            {tier.features.slice(0, 4).map((feature, idx) => (
+                              <ListItem key={idx} disablePadding sx={{ mb: 0.5 }}>
+                                <ListItemIcon sx={{ minWidth: 24 }}>
+                                  <CheckIcon sx={{ color: TURQUOISE, fontSize: 16 }} />
+                                </ListItemIcon>
+                                <ListItemText 
+                                  primary={feature} 
+                                  primaryTypographyProps={{ 
+                                    fontSize: { xs: '0.7rem', sm: '0.75rem' } 
+                                  }}
+                                />
+                              </ListItem>
+                            ))}
+                          </List>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
+              </MotionCard>
+            </Grid>
+            
+            {/* Right column - Features & Testimonials */}
+            <Grid item xs={12} md={12} lg={4}>
+              <Grid container spacing={3}>
+                {/* Special Features Card */}
+                <Grid item xs={12} md={6} lg={12}>
+                  <MotionCard
+                    elevation={1}
+                    variants={itemVariants}
+                    sx={{ 
+                      borderRadius: 3,
+                      height: '100%',
+                      boxShadow: '0 6px 20px rgba(0,0,0,0.05)',
+                      background: `linear-gradient(135deg, ${TURQUOISE}05, ${TURQUOISE}15)`
+                    }}
+                  >
+                    <Box sx={{ p: { xs: 2, sm: 3 } }}>
                       <Typography 
                         variant="h6" 
                         fontWeight={600} 
@@ -717,21 +734,22 @@ export default function AirbnbLaundrySection() {
                           </Box>
                         </Box>
                       ))}
-                    </MotionPaper>
-                    
-                    {/* Testimonial */}
-                    <MotionPaper
-                      elevation={0}
-                      variants={itemVariants}
-                      sx={{ 
-                        p: { xs: 1.5, sm: 2 },
-                        borderRadius: 3,
-                        border: '1px solid',
-                        borderColor: 'grey.200',
-                        bgcolor: 'white',
-                        flex: { xs: 'none', sm: 1, md: 'none' }
-                      }}
-                    >
+                    </Box>
+                  </MotionCard>
+                </Grid>
+                
+                {/* Testimonial Card */}
+                <Grid item xs={12} md={6} lg={12}>
+                  <MotionCard
+                    elevation={1}
+                    variants={itemVariants}
+                    sx={{ 
+                      borderRadius: 3,
+                      height: '100%',
+                      boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+                    }}
+                  >
+                    <Box sx={{ p: { xs: 2, sm: 3 } }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
                         <RatingIcon sx={{ 
                           color: TURQUOISE, 
@@ -743,14 +761,24 @@ export default function AirbnbLaundrySection() {
                           fontWeight={600} 
                           sx={{ fontSize: { xs: '0.9rem', sm: '1rem' } }}
                         >
-                          Host Testimonial
+                          Host Testimonials
                         </Typography>
                       </Box>
                       
-                      <Divider sx={{ mb: 1.5 }} />
+                      <Divider sx={{ mb: 2 }} />
                       
-                      {testimonials.slice(0, 1).map((testimonial, idx) => (
-                        <Box key={idx} sx={{ mb: idx < testimonials.length - 1 ? 2 : 0 }}>
+                      {testimonials.map((testimonial, idx) => (
+                        <Box 
+                          key={idx} 
+                          sx={{ 
+                            mb: idx < testimonials.length - 1 ? 3 : 0,
+                            p: 1.5,
+                            borderRadius: 2,
+                            border: '1px solid',
+                            borderColor: 'rgba(0,0,0,0.08)',
+                            background: 'white'
+                          }}
+                        >
                           <Box sx={{ display: 'flex', mb: 1 }}>
                             {Array(testimonial.rating).fill().map((_, i) => (
                               <Box
@@ -810,95 +838,99 @@ export default function AirbnbLaundrySection() {
                           </Box>
                         </Box>
                       ))}
-                    </MotionPaper>
-                  </MotionBox>
+                    </Box>
+                  </MotionCard>
                 </Grid>
               </Grid>
             </Grid>
             
-            {/* Bottom CTA section */}
+            {/* Bottom CTA card */}
             <Grid item xs={12}>
-              <MotionBox
+              <MotionCard
+                elevation={2}
                 variants={itemVariants}
                 sx={{
-                  mt: { xs: 2, sm: 3 },
-                  p: { xs: 1.5, sm: 2 },
+                  mt: { xs: 1, sm: 2 },
                   borderRadius: 3,
-                  bgcolor: 'white',
-                  border: '1px solid',
-                  borderColor: 'grey.200',
+                  overflow: 'hidden',
+                  boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+                }}
+              >
+                <Box sx={{ 
+                  p: { xs: 2, sm: 3 },
                   display: 'flex',
                   flexDirection: { xs: 'column', sm: 'row' },
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   gap: { xs: 1.5, sm: 2 }
                 }}
-              >
-                <Box sx={{ flex: 1 }}>
-                  <Typography 
-                    variant="h6" 
-                    fontWeight={600} 
-                    sx={{ 
-                      mb: 0.5, 
-                      fontSize: { xs: '0.9rem', sm: '1rem' } 
-                    }}
-                  >
-                    Ready to simplify your rental laundry operations?
-                  </Typography>
-                  <Typography 
-                    variant="body2" 
-                    sx={{ 
-                      fontSize: { xs: '0.8rem', sm: '0.85rem' },
-                      mb: { xs: 1, sm: 0 }
-                    }}
-                  >
-                    Let us handle the laundry while you focus on growing your rental business and keeping guests happy.
-                  </Typography>
-                </Box>
-                <Box sx={{ 
-                  display: 'flex', 
-                  gap: { xs: 1, sm: 2 }, 
-                  flexWrap: 'wrap', 
-                  justifyContent: { xs: 'center', sm: 'flex-end' },
-                  width: { xs: '100%', sm: 'auto' }
-                }}>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    sx={{ 
-                      bgcolor: TURQUOISE,
-                      color: 'white',
-                      px: { xs: 1.5, sm: 2 },
-                      py: { xs: 0.6, sm: 0.8 },
-                      borderRadius: '8px',
-                      fontWeight: 600,
-                      fontSize: { xs: '0.75rem', sm: '0.8rem' },
-                      '&:hover': { bgcolor: '#20c5b7' }
-                    }}
-                  >
-                    Schedule Pickup
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    sx={{ 
-                      color: TURQUOISE,
-                      borderColor: TURQUOISE,
-                      px: { xs: 1.5, sm: 2 },
-                      py: { xs: 0.6, sm: 0.8 },
-                      borderRadius: '8px',
-                      fontWeight: 600,
-                      fontSize: { xs: '0.75rem', sm: '0.8rem' },
-                      '&:hover': { 
+                >
+                  <Box sx={{ flex: 1 }}>
+                    <Typography 
+                      variant="h6" 
+                      fontWeight={600} 
+                      sx={{ 
+                        mb: 0.5, 
+                        fontSize: { xs: '0.9rem', sm: '1rem' } 
+                      }}
+                    >
+                      Ready to simplify your rental laundry operations?
+                    </Typography>
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        fontSize: { xs: '0.8rem', sm: '0.85rem' },
+                        mb: { xs: 1, sm: 0 }
+                      }}
+                    >
+                      Let us handle the laundry while you focus on growing your rental business and keeping guests happy.
+                    </Typography>
+                  </Box>
+                  <Box sx={{ 
+                    display: 'flex', 
+                    gap: { xs: 1, sm: 2 }, 
+                    flexWrap: 'wrap', 
+                    justifyContent: { xs: 'center', sm: 'flex-end' },
+                    width: { xs: '100%', sm: 'auto' }
+                  }}>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      sx={{ 
+                        bgcolor: TURQUOISE,
+                        color: 'white',
+                        px: { xs: 1.5, sm: 2 },
+                        py: { xs: 0.6, sm: 0.8 },
+                        borderRadius: '8px',
+                        fontWeight: 600,
+                        fontSize: { xs: '0.75rem', sm: '0.8rem' },
+                        '&:hover': { bgcolor: '#20c5b7' }
+                      }}
+                    >
+                      Schedule Pickup
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      sx={{ 
+                        color: TURQUOISE,
                         borderColor: TURQUOISE,
-                        bgcolor: 'transparent'
-                      }
-                    }}
-                  >
-                    Contact Sales
-                  </Button>
+                        px: { xs: 1.5, sm: 2 },
+                        py: { xs: 0.6, sm: 0.8 },
+                        borderRadius: '8px',
+                        fontWeight: 600,
+                        fontSize: { xs: '0.75rem', sm: '0.8rem' },
+                        '&:hover': { 
+                          borderColor: TURQUOISE,
+                          bgcolor: 'transparent'
+                        }
+                      }}
+                    >
+                      Contact Sales
+                    </Button>
+                  </Box>
                 </Box>
-              </MotionBox>
+              </MotionCard>
             </Grid>
           </Grid>
         </MotionBox>
@@ -906,3 +938,4 @@ export default function AirbnbLaundrySection() {
     </Box>
   );
 }
+                  

@@ -150,49 +150,49 @@ export default function GymTowelSection() {
     <Box 
       ref={ref}
       sx={{ 
-        minHeight: { xs: 'auto', md: '100vh' },
+        minHeight: { xs: 'auto', md: 'auto' },
         width: '100%',
         display: 'flex',
         alignItems: 'center',
-        bgcolor: '#ffffff',
+        bgcolor: '#f5f7fa', // Light background color for the section
         position: 'relative',
         py: { xs: 4, sm: 6, md: 8 }
       }}
     >
-      {/* Background elements */}
-      <MotionBox
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 0.05 } : { opacity: 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
-        sx={{
-          position: 'absolute',
-          top: '10%',
-          left: '20%',
-          width: '30%',
-          height: '30%',
-          borderRadius: '50%',
-          background: TURQUOISE,
-          filter: 'blur(80px)',
-          zIndex: 0
+      <Container 
+        maxWidth="lg" 
+        sx={{ 
+          position: 'relative', 
+          zIndex: 1,
+          px: { xs: 2, sm: 3, md: 4 } // Added horizontal padding
         }}
-      />
-      
-      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
+      >
         <MotionBox
           variants={sectionVariants}
           initial="hidden"
           animate={controls}
         >
-          <Grid container spacing={{ xs: 2, sm: 3 }} alignItems="center">
-            {/* Section header - more compact */}
-            <Grid item xs={12}>
-              <MotionBox 
-                variants={itemVariants}
+          {/* Section header card - Boxed */}
+          <MotionCard
+            elevation={1}
+            variants={itemVariants}
+            sx={{ 
+              borderRadius: 3,
+              mb: 3,
+              overflow: 'hidden',
+              boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+            }}
+          >
+            <Box sx={{ 
+              p: { xs: 2, sm: 3 },
+              background: `linear-gradient(135deg, ${TURQUOISE}10, ${TURQUOISE}20)`,
+              position: 'relative'
+            }}>
+              <Box 
                 sx={{ 
                   display: 'flex',
                   alignItems: { xs: 'flex-start', sm: 'center' },
-                  flexDirection: { xs: 'column', sm: 'row' },
-                  mb: { xs: 2, sm: 3 }
+                  flexDirection: { xs: 'column', sm: 'row' }
                 }}
               >
                 <Box 
@@ -203,7 +203,7 @@ export default function GymTowelSection() {
                     width: { xs: 50, sm: 60 },
                     height: { xs: 50, sm: 60 },
                     borderRadius: '50%',
-                    bgcolor: 'rgba(40,221,205,0.1)',
+                    bgcolor: 'rgba(40,221,205,0.2)',
                     mr: { xs: 0, sm: 2 },
                     mb: { xs: 1.5, sm: 0 }
                   }}
@@ -237,113 +237,81 @@ export default function GymTowelSection() {
                     Professional towel cleaning for fitness centers and athletic facilities
                   </MotionTypography>
                 </Box>
-              </MotionBox>
-            </Grid>
-            
-            <Grid item xs={12}>
-              <Grid container spacing={{ xs: 2, sm: 3 }}>
-                {/* Left column - Main content */}
-                <Grid item xs={12} sm={6} md={4} order={{ xs: 1, sm: 1 }}>
-                  <MotionBox variants={itemVariants}>
-                    <MotionTypography
-                      variant="h5"
-                      component="h3"
-                      sx={{ 
-                        fontWeight: 600,
-                        mb: { xs: 1, sm: 2 },
-                        color: 'text.primary',
-                        fontSize: { xs: '1.1rem', sm: '1.2rem' }
-                      }}
-                    >
-                      Professional Gym Towel Cleaning
-                    </MotionTypography>
-                    
-                    <MotionTypography
-                      variant="body1"
-                      sx={{ 
-                        mb: { xs: 1.5, sm: 2 },
-                        color: 'text.secondary',
-                        lineHeight: 1.6,
-                        fontSize: { xs: '0.85rem', sm: '0.9rem' }
-                      }}
-                    >
-                      Fitness centers and gyms go through hundreds of towels daily. Our specialized gym towel laundry service provides a hygienic, efficient solution that enhances member experience while reducing operational costs and staff workload.
-                    </MotionTypography>
-                    
-                    <MotionPaper
-                      elevation={0}
-                      variants={cardVariants}
-                      custom={1}
-                      sx={{ 
-                        p: { xs: 1.5, sm: 2 },
-                        borderRadius: 3,
-                        border: '1px solid',
-                        borderColor: 'grey.200',
-                        mb: { xs: 1.5, sm: 2 }
-                      }}
-                    >
-                      <Typography 
-                        variant="h6" 
-                        fontWeight={600} 
-                        sx={{ 
-                          mb: { xs: 1, sm: 1.5 }, 
-                          fontSize: { xs: '0.95rem', sm: '1rem' } 
-                        }}
-                      >
-                        Service Features
-                      </Typography>
-                      
-                      <Grid container spacing={1}>
-                        {features.map((feature, index) => (
-                          <Grid item xs={6} key={index}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                              <CheckCircleIcon sx={{ 
-                                color: TURQUOISE, 
-                                mr: 1, 
-                                fontSize: { xs: 14, sm: 16 },
-                                flexShrink: 0
-                              }} />
-                              <Typography 
-                                variant="body2" 
-                                sx={{ 
-                                  fontSize: { xs: '0.75rem', sm: '0.8rem' },
-                                  lineHeight: 1.3
-                                }}
-                              >
-                                {feature}
-                              </Typography>
-                            </Box>
-                          </Grid>
-                        ))}
-                      </Grid>
-                    </MotionPaper>
-                    
-                    <MotionTypography
-                      variant="h6"
-                      fontWeight={600}
-                      variants={itemVariants}
+              </Box>
+            </Box>
+          </MotionCard>
+          
+          {/* Main content - Boxed cards layout */}
+          <Grid container spacing={3}>
+            {/* Left column - Main info */}
+            <Grid item xs={12} md={6} lg={4}>
+              <MotionCard
+                elevation={1}
+                variants={itemVariants}
+                sx={{ 
+                  borderRadius: 3,
+                  height: '100%',
+                  boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+                }}
+              >
+                <Box sx={{ p: { xs: 2, sm: 3 } }}>
+                  <MotionTypography
+                    variant="h5"
+                    component="h3"
+                    sx={{ 
+                      fontWeight: 600,
+                      mb: { xs: 1, sm: 2 },
+                      color: 'text.primary',
+                      fontSize: { xs: '1.1rem', sm: '1.2rem' }
+                    }}
+                  >
+                    Professional Gym Towel Cleaning
+                  </MotionTypography>
+                  
+                  <MotionTypography
+                    variant="body1"
+                    sx={{ 
+                      mb: { xs: 1.5, sm: 2 },
+                      color: 'text.secondary',
+                      lineHeight: 1.6,
+                      fontSize: { xs: '0.85rem', sm: '0.9rem' }
+                    }}
+                  >
+                    Fitness centers and gyms go through hundreds of towels daily. Our specialized gym towel laundry service provides a hygienic, efficient solution that enhances member experience while reducing operational costs and staff workload.
+                  </MotionTypography>
+                  
+                  <MotionBox
+                    variants={cardVariants}
+                    custom={1}
+                    sx={{ 
+                      p: { xs: 1.5, sm: 2 },
+                      borderRadius: 3,
+                      border: '1px solid',
+                      borderColor: 'grey.200',
+                      mb: { xs: 1.5, sm: 2 }
+                    }}
+                  >
+                    <Typography 
+                      variant="h6" 
+                      fontWeight={600} 
                       sx={{ 
                         mb: { xs: 1, sm: 1.5 }, 
                         fontSize: { xs: '0.95rem', sm: '1rem' } 
                       }}
                     >
-                      Facilities We Serve
-                    </MotionTypography>
+                      Service Features
+                    </Typography>
                     
-                    <Grid container spacing={1} sx={{ mb: { xs: 1.5, sm: 2 } }}>
-                      {facilities.map((facility, index) => (
+                    <Grid container spacing={1}>
+                      {features.map((feature, index) => (
                         <Grid item xs={6} key={index}>
-                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Box
-                              sx={{
-                                width: 5,
-                                height: 5,
-                                borderRadius: '50%',
-                                bgcolor: TURQUOISE,
-                                mr: 1,
-                                flexShrink: 0
-                              }}
-                            />
+                          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                            <CheckCircleIcon sx={{ 
+                              color: TURQUOISE, 
+                              mr: 1, 
+                              fontSize: { xs: 14, sm: 16 },
+                              flexShrink: 0
+                            }} />
                             <Typography 
                               variant="body2" 
                               sx={{ 
@@ -351,336 +319,364 @@ export default function GymTowelSection() {
                                 lineHeight: 1.3
                               }}
                             >
-                              {facility}
+                              {feature}
                             </Typography>
                           </Box>
                         </Grid>
                       ))}
                     </Grid>
-                    
-                    <MotionBox 
-                      variants={itemVariants}
-                      sx={{ display: { xs: 'none', sm: 'block' } }}
-                    >
-                      <Button
-                        variant="contained"
-                        size={isSmallScreen ? "small" : "small"}
-                        startIcon={<GymIcon sx={{ fontSize: { xs: 16, sm: 18 } }} />}
-                        sx={{ 
-                          bgcolor: TURQUOISE,
-                          color: 'white',
-                          px: { xs: 1.5, sm: 2 },
-                          py: { xs: 0.75, sm: 0.8 },
-                          borderRadius: '8px',
-                          fontWeight: 600,
-                          fontSize: { xs: '0.75rem', sm: '0.8rem' },
-                          '&:hover': { bgcolor: '#20c5b7' }
-                        }}
-                      >
-                        Get Fitness Facility Quote
-                      </Button>
-                    </MotionBox>
                   </MotionBox>
-                </Grid>
-                
-                {/* Middle and Right columns - Benefit cards and Testimonial */}
-                <Grid item xs={12} sm={6} md={8} order={{ xs: 2, sm: 2 }}>
-                  <Grid container spacing={{ xs: 2, sm: 3 }}>
-                    {/* Benefits section */}
-                    <Grid item xs={12} md={8}>
-                      <MotionTypography
-                        variant="h5"
-                        component="h3"
-                        variants={itemVariants}
-                        sx={{ 
-                          fontWeight: 600,
-                          mb: { xs: 1, sm: 2 },
-                          fontSize: { xs: '1.1rem', sm: '1.2rem' }
-                        }}
-                      >
-                        Benefits for Your Fitness Facility
-                      </MotionTypography>
-                      
-                      <Grid container spacing={{ xs: 1.5, sm: 2 }}>
-                        {benefits.map((benefit, index) => (
-                          <Grid item xs={12} sm={6} key={index}>
-                            <MotionCard
-                              elevation={0}
-                              variants={cardVariants}
-                              custom={index}
-                              whileHover={{ 
-                                y: -5,
-                                borderColor: TURQUOISE,
-                                transition: { duration: 0.2 }
-                              }}
-                              sx={{ 
-                                p: { xs: 1.5, sm: 2 },
-                                height: '100%',
-                                borderRadius: 2,
-                                border: '1px solid',
-                                borderColor: 'grey.200',
-                                transition: 'all 0.3s ease',
-                                display: 'flex',
-                                alignItems: 'flex-start'
-                              }}
-                            >
-                              <Box sx={{ 
-                                bgcolor: 'rgba(40,221,205,0.1)',
-                                borderRadius: '50%',
-                                width: { xs: 32, sm: 36 },
-                                height: { xs: 32, sm: 36 },
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                mr: 1.5,
-                                mt: 0.3,
-                                flexShrink: 0
-                              }}>
-                                {React.cloneElement(benefit.icon, { 
-                                  sx: { 
-                                    color: TURQUOISE, 
-                                    fontSize: { xs: 20, sm: 24 } 
-                                  } 
-                                })}
-                              </Box>
-                              <Box>
-                                <Typography
-                                  variant="body1"
-                                  component="h5"
-                                  fontWeight={600}
-                                  sx={{ 
-                                    mb: 0.5, 
-                                    fontSize: { xs: '0.85rem', sm: '0.9rem' },
-                                    lineHeight: 1.3
-                                  }}
-                                >
-                                  {benefit.title}
-                                </Typography>
-                                <Typography
-                                  variant="body2"
-                                  color="text.secondary"
-                                  sx={{ 
-                                    fontSize: { xs: '0.75rem', sm: '0.8rem' },
-                                    lineHeight: 1.4
-                                  }}
-                                >
-                                  {benefit.description}
-                                </Typography>
-                              </Box>
-                            </MotionCard>
-                          </Grid>
-                        ))}
-                      </Grid>
-                    </Grid>
-                    
-                    {/* Testimonial section */}
-                    <Grid item xs={12} md={4}>
-                      <MotionPaper
-                        elevation={0}
-                        variants={itemVariants}
-                        sx={{ 
-                          p: { xs: 1.5, sm: 2 },
-                          borderRadius: 3,
-                          border: '1px solid',
-                          borderColor: 'rgba(40,221,205,0.3)',
-                          bgcolor: 'rgba(40,221,205,0.05)',
-                          height: '100%',
-                          display: 'flex',
-                          flexDirection: 'column'
-                        }}
-                      >
-                        <Box sx={{ 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          mb: '10px'
-                        }}>
-                          <ThumbUpIcon sx={{ 
-                            color: TURQUOISE, 
-                            mr: 1.5, 
-                            fontSize: { xs: 18, sm: 20 },
-                            flexShrink: 0 
-                          }} />
-                          <Typography 
-                            variant="h6" 
-                            fontWeight={600} 
-                            sx={{ fontSize: { xs: '1rem', sm: '1.1rem' } }}
-                          >
-                            Facility Testimonial
-                          </Typography>
-                        </Box>
-                        
-                        <Box sx={{ display: 'flex', mb: 1.5 }}>
-                          {Array(5).fill().map((_, i) => (
-                            <Box 
-                              key={i} 
-                              component="span" 
-                              sx={{ 
-                                color: TURQUOISE,
-                                fontSize: { xs: '1rem', sm: '1.2rem' },
-                                mr: 0.3
-                              }}
-                            >
-                              ★
-                            </Box>
-                          ))}
-                        </Box>
-                        
-                        <Typography 
-                          variant="body1" 
-                          sx={{ 
-                            mb: { xs: 1.5, sm: 2 }, 
-                            fontStyle: 'italic',
-                            fontSize: { xs: '0.85rem', sm: '0.9rem' },
-                            flexGrow: 1,
-                            lineHeight: 1.4
-                          }}
-                        >
-                          "{testimonial.comment}"
-                        </Typography>
-                        
-                        <Divider sx={{ mb: { xs: 1.5, sm: 2 } }} />
-                        
+                  
+                  <MotionTypography
+                    variant="h6"
+                    fontWeight={600}
+                    variants={itemVariants}
+                    sx={{ 
+                      mb: { xs: 1, sm: 1.5 }, 
+                      fontSize: { xs: '0.95rem', sm: '1rem' } 
+                    }}
+                  >
+                    Facilities We Serve
+                  </MotionTypography>
+                  
+                  <Grid container spacing={1} sx={{ mb: { xs: 1.5, sm: 2 } }}>
+                    {facilities.map((facility, index) => (
+                      <Grid item xs={6} key={index}>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Avatar
-                            sx={{ 
+                          <Box
+                            sx={{
+                              width: 5,
+                              height: 5,
+                              borderRadius: '50%',
                               bgcolor: TURQUOISE,
-                              color: 'white',
-                              width: { xs: 28, sm: 32 },
-                              height: { xs: 28, sm: 32 },
-                              mr: 1.5,
-                              fontWeight: 600,
-                              fontSize: { xs: '0.7rem', sm: '0.8rem' }
+                              mr: 1,
+                              flexShrink: 0
+                            }}
+                          />
+                          <Typography 
+                            variant="body2" 
+                            sx={{ 
+                              fontSize: { xs: '0.75rem', sm: '0.8rem' },
+                              lineHeight: 1.3
                             }}
                           >
-                            {testimonial.initials}
-                          </Avatar>
-                          <Box>
-                            <Typography 
-                              variant="body1" 
-                              fontWeight={600} 
-                              sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
-                            >
-                              {testimonial.name}
-                            </Typography>
-                            <Typography 
-                              variant="body2" 
-                              color="text.secondary" 
-                              sx={{ fontSize: { xs: '0.7rem', sm: '0.75rem' } }}
-                            >
-                              {testimonial.role}
-                            </Typography>
-                          </Box>
+                            {facility}
+                          </Typography>
                         </Box>
-                        
-                        <Button
-                          fullWidth
-                          variant="outlined"
-                          size="small"
-                          sx={{
-                            mt: 2,
-                            color: TURQUOISE,
+                      </Grid>
+                    ))}
+                  </Grid>
+                  
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    size={isSmallScreen ? "small" : "small"}
+                    startIcon={<GymIcon sx={{ fontSize: { xs: 16, sm: 18 } }} />}
+                    sx={{ 
+                      bgcolor: TURQUOISE,
+                      color: 'white',
+                      px: { xs: 1.5, sm: 2 },
+                      py: { xs: 0.75, sm: 0.8 },
+                      borderRadius: '8px',
+                      fontWeight: 600,
+                      fontSize: { xs: '0.75rem', sm: '0.8rem' },
+                      '&:hover': { bgcolor: '#20c5b7' }
+                    }}
+                  >
+                    Get Fitness Facility Quote
+                  </Button>
+                </Box>
+              </MotionCard>
+            </Grid>
+            
+            {/* Middle column - Benefits */}
+            <Grid item xs={12} md={6} lg={5}>
+              <MotionCard
+                elevation={1}
+                variants={itemVariants}
+                sx={{ 
+                  borderRadius: 3,
+                  height: '100%',
+                  boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+                }}
+              >
+                <Box sx={{ p: { xs: 2, sm: 3 } }}>
+                  <MotionTypography
+                    variant="h5"
+                    component="h3"
+                    variants={itemVariants}
+                    sx={{ 
+                      fontWeight: 600,
+                      mb: { xs: 1.5, sm: 2 },
+                      fontSize: { xs: '1.1rem', sm: '1.2rem' }
+                    }}
+                  >
+                    Benefits for Your Fitness Facility
+                  </MotionTypography>
+                  
+                  <Grid container spacing={{ xs: 1.5, sm: 2 }}>
+                    {benefits.map((benefit, index) => (
+                      <Grid item xs={12} sm={6} key={index}>
+                        <MotionCard
+                          elevation={0}
+                          variants={cardVariants}
+                          custom={index}
+                          whileHover={{ 
+                            y: -5,
                             borderColor: TURQUOISE,
-                            fontSize: { xs: '0.75rem', sm: '0.8rem' },
-                            py: { xs: 0.5, sm: 0.6 },
-                            '&:hover': { 
-                              borderColor: TURQUOISE,
-                              bgcolor: 'transparent'
-                            }
+                            transition: { duration: 0.2 }
+                          }}
+                          sx={{ 
+                            p: { xs: 1.5, sm: 2 },
+                            height: '100%',
+                            borderRadius: 2,
+                            border: '1px solid',
+                            borderColor: 'grey.200',
+                            transition: 'all 0.3s ease',
+                            display: 'flex',
+                            alignItems: 'flex-start'
                           }}
                         >
-                          Read More Success Stories
-                        </Button>
-                      </MotionPaper>
-                    </Grid>
+                          <Box sx={{ 
+                            bgcolor: 'rgba(40,221,205,0.1)',
+                            borderRadius: '50%',
+                            width: { xs: 32, sm: 36 },
+                            height: { xs: 32, sm: 36 },
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            mr: 1.5,
+                            mt: 0.3,
+                            flexShrink: 0
+                          }}>
+                            {React.cloneElement(benefit.icon, { 
+                              sx: { 
+                                color: TURQUOISE, 
+                                fontSize: { xs: 20, sm: 24 } 
+                              } 
+                            })}
+                          </Box>
+                          <Box>
+                            <Typography
+                              variant="body1"
+                              component="h5"
+                              fontWeight={600}
+                              sx={{ 
+                                mb: 0.5, 
+                                fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                                lineHeight: 1.3
+                              }}
+                            >
+                              {benefit.title}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              sx={{ 
+                                fontSize: { xs: '0.75rem', sm: '0.8rem' },
+                                lineHeight: 1.4
+                              }}
+                            >
+                              {benefit.description}
+                            </Typography>
+                          </Box>
+                        </MotionCard>
+                      </Grid>
+                    ))}
                   </Grid>
-                </Grid>
-              </Grid>
+                </Box>
+              </MotionCard>
             </Grid>
             
-            {/* Bottom CTA */}
+            {/* Right column - Testimonial */}
+            <Grid item xs={12} md={12} lg={3}>
+              <MotionCard
+                elevation={1}
+                variants={itemVariants}
+                sx={{ 
+                  borderRadius: 3,
+                  height: '100%',
+                  boxShadow: '0 6px 20px rgba(0,0,0,0.05)',
+                  background: `linear-gradient(135deg, ${TURQUOISE}05, ${TURQUOISE}15)`
+                }}
+              >
+                <Box sx={{ 
+                  p: { xs: 2, sm: 3 },
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%'
+                }}>
+                  <Box sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    mb: '10px'
+                  }}>
+                    <ThumbUpIcon sx={{ 
+                      color: TURQUOISE, 
+                      mr: 1.5, 
+                      fontSize: { xs: 18, sm: 20 },
+                      flexShrink: 0 
+                    }} />
+                    <Typography 
+                      variant="h6" 
+                      fontWeight={600} 
+                      sx={{ fontSize: { xs: '1rem', sm: '1.1rem' } }}
+                    >
+                      Facility Testimonial
+                    </Typography>
+                  </Box>
+                  
+                  <Box sx={{ display: 'flex', mb: 1.5 }}>
+                    {Array(5).fill().map((_, i) => (
+                      <Box 
+                        key={i} 
+                        component="span" 
+                        sx={{ 
+                          color: TURQUOISE,
+                          fontSize: { xs: '1rem', sm: '1.2rem' },
+                          mr: 0.3
+                        }}
+                      >
+                        ★
+                      </Box>
+                    ))}
+                  </Box>
+                  
+                  <Typography 
+                    variant="body1" 
+                    sx={{ 
+                      mb: { xs: 1.5, sm: 2 }, 
+                      fontStyle: 'italic',
+                      fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                      flexGrow: 1,
+                      lineHeight: 1.4
+                    }}
+                  >
+                    "{testimonial.comment}"
+                  </Typography>
+                  
+                  <Divider sx={{ mb: { xs: 1.5, sm: 2 } }} />
+                  
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <Avatar
+                      sx={{ 
+                        bgcolor: TURQUOISE,
+                        color: 'white',
+                        width: { xs: 28, sm: 32 },
+                        height: { xs: 28, sm: 32 },
+                        mr: 1.5,
+                        fontWeight: 600,
+                        fontSize: { xs: '0.7rem', sm: '0.8rem' }
+                      }}
+                    >
+                      {testimonial.initials}
+                    </Avatar>
+                    <Box>
+                      <Typography 
+                        variant="body1" 
+                        fontWeight={600} 
+                        sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
+                      >
+                        {testimonial.name}
+                      </Typography>
+                      <Typography 
+                        variant="body2" 
+                        color="text.secondary" 
+                        sx={{ fontSize: { xs: '0.7rem', sm: '0.75rem' } }}
+                      >
+                        {testimonial.role}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    size="small"
+                    sx={{
+                      color: TURQUOISE,
+                      borderColor: TURQUOISE,
+                      fontSize: { xs: '0.75rem', sm: '0.8rem' },
+                      py: { xs: 0.5, sm: 0.6 },
+                      '&:hover': { 
+                        borderColor: TURQUOISE,
+                        bgcolor: 'rgba(40,221,205,0.1)'
+                      }
+                    }}
+                  >
+                    Read More Success Stories
+                  </Button>
+                </Box>
+              </MotionCard>
+            </Grid>
+            
+            {/* Call to action card */}
             <Grid item xs={12}>
-              <MotionBox
+              <MotionCard
+                elevation={2}
                 variants={itemVariants}
                 sx={{
-                  mt: { xs: 2, sm: 3 },
-                  p: { xs: 1.5, sm: 2 },
+                  mt: { xs: 1, sm: 2 },
                   borderRadius: 3,
-                  bgcolor: 'white',
-                  border: '1px solid',
-                  borderColor: TURQUOISE,
+                  overflow: 'hidden',
+                  boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+                }}
+              >
+                <Box sx={{ 
+                  p: { xs: 2, sm: 3 },
                   display: 'flex',
                   flexDirection: { xs: 'column', sm: 'row' },
-                  alignItems: { xs: 'flex-start', sm: 'center' },
-                  gap: { xs: 1.5, sm: 3 }
-                }}
-              >
-                <LaundryIcon sx={{ 
-                  color: TURQUOISE, 
-                  fontSize: { xs: 24, sm: 28 },
-                  alignSelf: { xs: 'center', sm: 'auto' }
-                }} />
-                <Box sx={{ flex: 1 }}>
-                  <Typography 
-                    variant="h6" 
-                    fontWeight={600} 
+                  alignItems: { xs: 'center', sm: 'center' },
+                  gap: { xs: 1.5, sm: 3 },
+                  border: '1px solid',
+                  borderColor: 'rgba(40,221,205,0.3)',
+                  borderRadius: 3
+                }}>
+                  <LaundryIcon sx={{ 
+                    color: TURQUOISE, 
+                    fontSize: { xs: 24, sm: 28 }
+                  }} />
+                  <Box sx={{ flex: 1 }}>
+                    <Typography 
+                      variant="h6" 
+                      fontWeight={600} 
+                      sx={{ 
+                        fontSize: { xs: '0.9rem', sm: '1rem' },
+                        textAlign: { xs: 'center', sm: 'left' }
+                      }}
+                    >
+                      Start providing premium towel service to your members
+                    </Typography>
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        fontSize: { xs: '0.8rem', sm: '0.85rem' },
+                        textAlign: { xs: 'center', sm: 'left' }
+                      }}
+                    >
+                      Contact us today for a customized solution and pricing for your facility
+                    </Typography>
+                  </Box>
+                  <Button
+                    variant="contained"
+                    size={isSmallScreen ? "small" : "medium"}
                     sx={{ 
-                      fontSize: { xs: '0.9rem', sm: '1rem' },
-                      textAlign: { xs: 'center', sm: 'left' }
+                      bgcolor: TURQUOISE,
+                      color: 'white',
+                      px: { xs: 2, sm: 3 },
+                      py: { xs: 0.75, sm: 1 },
+                      borderRadius: '8px',
+                      fontWeight: 600,
+                      fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                      '&:hover': { bgcolor: '#20c5b7' },
+                      whiteSpace: 'nowrap',
+                      width: { xs: '100%', sm: 'auto' }
                     }}
                   >
-                    Start providing premium towel service to your members
-                  </Typography>
-                  <Typography 
-                    variant="body2" 
-                    sx={{ 
-                      fontSize: { xs: '0.8rem', sm: '0.85rem' },
-                      textAlign: { xs: 'center', sm: 'left' }
-                    }}
-                  >
-                    Contact us today for a customized solution and pricing for your facility
-                  </Typography>
+                    Schedule a Demo
+                  </Button>
                 </Box>
-                <Button
-                  variant="contained"
-                  size={isSmallScreen ? "small" : "medium"}
-                  sx={{ 
-                    bgcolor: TURQUOISE,
-                    color: 'white',
-                    px: { xs: 2, sm: 3 },
-                    py: { xs: 0.75, sm: 1 },
-                    borderRadius: '8px',
-                    fontWeight: 600,
-                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                    '&:hover': { bgcolor: '#20c5b7' },
-                    whiteSpace: 'nowrap',
-                    alignSelf: { xs: 'center', sm: 'auto' },
-                    width: { xs: '100%', sm: 'auto' }
-                  }}
-                >
-                  Schedule a Demo
-                </Button>
-              </MotionBox>
-            </Grid>
-            
-            {/* Mobile CTA button (shown only on small screens) */}
-            <Grid item xs={12} sx={{ display: { xs: 'block', sm: 'none' }, mt: 2 }}>
-              <Button
-                fullWidth
-                variant="contained"
-                startIcon={<GymIcon sx={{ fontSize: 18 }} />}
-                size="medium"
-                sx={{ 
-                  bgcolor: TURQUOISE,
-                  color: 'white',
-                  py: 1,
-                  borderRadius: '8px',
-                  fontWeight: 600,
-                  fontSize: '0.85rem',
-                  '&:hover': { bgcolor: '#20c5b7' }
-                }}
-              >
-                Get Fitness Facility Quote
-              </Button>
+              </MotionCard>
             </Grid>
           </Grid>
         </MotionBox>

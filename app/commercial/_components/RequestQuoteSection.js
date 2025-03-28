@@ -21,6 +21,7 @@ import {
   Snackbar,
   Alert,
   Divider,
+  Card,
   useTheme,
   useMediaQuery
 } from '@mui/material';
@@ -42,6 +43,7 @@ const MotionBox = motion(Box);
 const MotionPaper = motion(Paper);
 const MotionTypography = motion(Typography);
 const MotionGrid = motion(Grid);
+const MotionCard = motion(Card);
 
 export default function RequestQuoteSection() {
   const theme = useTheme();
@@ -193,50 +195,50 @@ export default function RequestQuoteSection() {
     <Box 
       ref={ref}
       sx={{ 
-        minHeight: { xs: 'auto', md: '100vh' },
+        minHeight: { xs: 'auto', md: 'auto' },
         width: '100%',
         display: 'flex',
         alignItems: 'center',
-        bgcolor: '#f9f9fa',
+        bgcolor: '#f5f7fa', // Light background color for the section
         position: 'relative',
         py: { xs: 4, sm: 6, md: 8 },
         overflowX: 'hidden'
       }}
     >
-      {/* Background elements */}
-      <MotionBox
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 0.05 } : { opacity: 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
-        sx={{
-          position: 'absolute',
-          bottom: '5%',
-          right: '10%',
-          width: '40%',
-          height: '40%',
-          borderRadius: '50%',
-          background: TURQUOISE,
-          filter: 'blur(80px)',
-          zIndex: 0
+      <Container 
+        maxWidth="lg" 
+        sx={{ 
+          position: 'relative', 
+          zIndex: 1,
+          px: { xs: 2, sm: 3, md: 4 } // Added horizontal padding
         }}
-      />
-      
-      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
+      >
         <MotionBox
           variants={sectionVariants}
           initial="hidden"
           animate={controls}
         >
-          <Grid container spacing={{ xs: 2, sm: 3 }} alignItems="center">
-            {/* Section header - more compact */}
-            <Grid item xs={12}>
-              <MotionBox 
-                variants={itemVariants}
+          {/* Section header card - Boxed */}
+          <MotionCard
+            elevation={1}
+            variants={itemVariants}
+            sx={{ 
+              borderRadius: 3,
+              mb: 3,
+              overflow: 'hidden',
+              boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+            }}
+          >
+            <Box sx={{ 
+              p: { xs: 2, sm: 3 },
+              background: `linear-gradient(135deg, ${TURQUOISE}10, ${TURQUOISE}20)`,
+              position: 'relative'
+            }}>
+              <Box 
                 sx={{ 
                   display: 'flex',
                   alignItems: { xs: 'flex-start', sm: 'center' },
-                  flexDirection: { xs: 'column', sm: 'row' },
-                  mb: { xs: 2, sm: 3 }
+                  flexDirection: { xs: 'column', sm: 'row' }
                 }}
               >
                 <Box 
@@ -247,7 +249,7 @@ export default function RequestQuoteSection() {
                     width: { xs: 50, sm: 60 },
                     height: { xs: 50, sm: 60 },
                     borderRadius: '50%',
-                    bgcolor: 'rgba(40,221,205,0.1)',
+                    bgcolor: 'rgba(40,221,205,0.2)',
                     mr: { xs: 0, sm: 2 },
                     mb: { xs: 1.5, sm: 0 }
                   }}
@@ -281,447 +283,439 @@ export default function RequestQuoteSection() {
                     Get a customized laundry solution tailored to your business needs
                   </MotionTypography>
                 </Box>
-              </MotionBox>
-            </Grid>
-            
-            <Grid item xs={12}>
-              <Grid container spacing={{ xs: 2, sm: 3 }}>
-                {/* Left column - Form */}
-                <Grid item xs={12} md={8} order={{ xs: 2, sm: 2, md: 1 }}>
-                  <MotionPaper
-                    elevation={0}
-                    variants={itemVariants}
-                    sx={{ 
-                      p: { xs: 2, sm: 3 },
-                      borderRadius: 3,
-                      border: '1px solid',
-                      borderColor: 'grey.200',
-                      bgcolor: 'white',
-                      height: '100%',
-                      overflowX: 'hidden'
-                    }}
-                  >
-                    <form onSubmit={handleSubmit}>
-                      <Typography 
-                        variant="h6" 
-                        fontWeight={600} 
-                        sx={{ 
-                          mb: { xs: 1.5, sm: 2 }, 
-                          fontSize: { xs: '1rem', sm: '1.1rem' } 
-                        }}
-                      >
-                        Business Information
-                      </Typography>
-                      
-                      <Grid container spacing={{ xs: 1.5, sm: 2 }}>
-                        <Grid item xs={12}>
-                          <TextField
-                            fullWidth
-                            label="Business Name"
-                            name="businessName"
-                            value={formData.businessName}
-                            onChange={handleInputChange}
-                            required
-                            variant="outlined"
-                            size="small"
-                            inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                            InputLabelProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                          />
-                        </Grid>
-                        
-                        <Grid item xs={12} sm={6}>
-                          <TextField
-                            fullWidth
-                            label="First Name"
-                            name="firstName"
-                            value={formData.firstName}
-                            onChange={handleInputChange}
-                            required
-                            variant="outlined"
-                            size="small"
-                            inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                            InputLabelProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                          />
-                        </Grid>
-                        
-                        <Grid item xs={12} sm={6}>
-                          <TextField
-                            fullWidth
-                            label="Last Name"
-                            name="lastName"
-                            value={formData.lastName}
-                            onChange={handleInputChange}
-                            required
-                            variant="outlined"
-                            size="small"
-                            inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                            InputLabelProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                          />
-                        </Grid>
-                        
-                        <Grid item xs={12} sm={6}>
-                          <TextField
-                            fullWidth
-                            label="Email Address"
-                            name="email"
-                            type="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            required
-                            variant="outlined"
-                            size="small"
-                            inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                            InputLabelProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                          />
-                        </Grid>
-                        
-                        <Grid item xs={12} sm={6}>
-                          <TextField
-                            fullWidth
-                            label="Phone Number"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                            required
-                            variant="outlined"
-                            size="small"
-                            inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                            InputLabelProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                          />
-                        </Grid>
-                        
-                        <Grid item xs={12}>
-                          <FormControl fullWidth required variant="outlined" size="small">
-                            <InputLabel id="business-type-label" style={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>Type of Business</InputLabel>
-                            <Select
-                              labelId="business-type-label"
-                              name="businessType"
-                              value={formData.businessType}
-                              onChange={handleInputChange}
-                              label="Type of Business"
-                              inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                            >
-                              {businessTypes.map((option) => (
-                                <MenuItem key={option.value} value={option.value} style={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>
-                                  {option.label}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                        </Grid>
-                        
-                        <Grid item xs={12}>
-                          <Divider sx={{ my: { xs: 0.5, sm: 1 } }} />
-                          <Typography 
-                            variant="h6" 
-                            fontWeight={600} 
-                            sx={{ 
-                              my: { xs: 0.5, sm: 1 }, 
-                              fontSize: { xs: '1rem', sm: '1.1rem' } 
-                            }}
-                          >
-                            Service Requirements
-                          </Typography>
-                        </Grid>
-                        
-                        <Grid item xs={12} sm={6}>
-                          <FormControl fullWidth required variant="outlined" size="small">
-                            <InputLabel id="service-interest-label" style={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>Service of Interest</InputLabel>
-                            <Select
-                              labelId="service-interest-label"
-                              name="serviceInterest"
-                              value={formData.serviceInterest}
-                              onChange={handleInputChange}
-                              label="Service of Interest"
-                              inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                            >
-                              {serviceOptions.map((option) => (
-                                <MenuItem key={option.value} value={option.value} style={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>
-                                  {option.label}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                        </Grid>
-                        
-                        <Grid item xs={12} sm={6}>
-                          <FormControl fullWidth required variant="outlined" size="small">
-                            <InputLabel id="pickup-frequency-label" style={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>Preferred Pickup Frequency</InputLabel>
-                            <Select
-                              labelId="pickup-frequency-label"
-                              name="pickupFrequency"
-                              value={formData.pickupFrequency}
-                              onChange={handleInputChange}
-                              label="Preferred Pickup Frequency"
-                              inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                            >
-                              {frequencyOptions.map((option) => (
-                                <MenuItem key={option.value} value={option.value} style={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>
-                                  {option.label}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                        </Grid>
-                        
-                        <Grid item xs={12}>
-                          <Typography 
-                            variant="body2" 
-                            gutterBottom 
-                            sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
-                          >
-                            Estimated Weekly Volume (lbs)
-                          </Typography>
-                          <Box sx={{ px: 1 }}>
-                            <Slider
-                              value={formData.estimatedVolume}
-                              onChange={handleSliderChange}
-                              valueLabelDisplay="auto"
-                              valueLabelFormat={volumeFormatter}
-                              min={0}
-                              max={500}
-                              step={10}
-                              marks={[
-                                { value: 0, label: '0' },
-                                { value: 250, label: '250' },
-                                { value: 500, label: '500+' }
-                              ]}
-                              sx={{
-                                '& .MuiSlider-thumb': {
-                                  color: TURQUOISE
-                                },
-                                '& .MuiSlider-track': {
-                                  color: TURQUOISE
-                                },
-                                '& .MuiSlider-rail': {
-                                  color: 'rgba(40,221,205,0.2)'
-                                }
-                              }}
-                            />
-                          </Box>
-                        </Grid>
-                        
-                        <Grid item xs={12}>
-                          <TextField
-                            fullWidth
-                            label="Additional Information"
-                            name="additionalInfo"
-                            value={formData.additionalInfo}
-                            onChange={handleInputChange}
-                            multiline
-                            rows={isSmallScreen ? 1 : 2}
-                            placeholder="Tell us more about your specific laundry needs, special requirements, or questions."
-                            variant="outlined"
-                            size="small"
-                            inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                            InputLabelProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
-                          />
-                        </Grid>
-                        
-                        <Grid item xs={12}>
-                          <Typography 
-                            variant="body2" 
-                            gutterBottom 
-                            sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
-                          >
-                            Preferred Method of Contact
-                          </Typography>
-                          <FormGroup row>
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  checked={formData.contactPreference === 'email'}
-                                  onChange={() => setFormData({...formData, contactPreference: 'email'})}
-                                  name="contactPreference"
-                                  value="email"
-                                  size="small"
-                                  sx={{
-                                    '&.Mui-checked': {
-                                      color: TURQUOISE
-                                    }
-                                  }}
-                                />
-                              }
-                              label={<Typography sx={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>Email</Typography>}
-                            />
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  checked={formData.contactPreference === 'phone'}
-                                  onChange={() => setFormData({...formData, contactPreference: 'phone'})}
-                                  name="contactPreference"
-                                  value="phone"
-                                  size="small"
-                                  sx={{
-                                    '&.Mui-checked': {
-                                      color: TURQUOISE
-                                    }
-                                  }}
-                                />
-                              }
-                              label={<Typography sx={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>Phone</Typography>}
-                            />
-                          </FormGroup>
-                        </Grid>
-                        
-                        <Grid item xs={12}>
-                          <Button
-                            type="submit"
-                            variant="contained"
-                            size={isSmallScreen ? "small" : "medium"}
-                            disabled={isSubmitting}
-                            endIcon={isSubmitting ? <CircularProgress size={18} color="inherit" /> : <SendIcon />}
-                            sx={{ 
-                              bgcolor: TURQUOISE,
-                              color: 'white',
-                              px: { xs: 2, sm: 3 },
-                              py: { xs: 0.75, sm: 1 },
-                              borderRadius: '8px',
-                              fontWeight: 600,
-                              fontSize: { xs: '0.85rem', sm: '0.9rem' },
-                              '&:hover': { bgcolor: '#20c5b7' }
-                            }}
-                          >
-                            {isSubmitting ? 'Submitting...' : 'Submit Quote Request'}
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    </form>
-                  </MotionPaper>
-                </Grid>
-                
-                {/* Right column - Contact options */}
-                <Grid item xs={12} md={4} order={{ xs: 1, sm: 1, md: 2 }}>
-                  <MotionBox
-                    variants={sectionVariants}
-                    sx={{ height: '100%' }}
-                  >
-                    <MotionPaper
-                      elevation={0}
-                      variants={itemVariants}
+              </Box>
+            </Box>
+          </MotionCard>
+          
+          {/* Main content - Boxed cards layout */}
+          <Grid container spacing={3}>
+            {/* Left column - Form */}
+            <Grid item xs={12} md={8} order={{ xs: 2, sm: 2, md: 1 }}>
+              <MotionCard
+                elevation={1}
+                variants={itemVariants}
+                sx={{ 
+                  borderRadius: 3,
+                  boxShadow: '0 6px 20px rgba(0,0,0,0.05)',
+                  overflow: 'hidden'
+                }}
+              >
+                <Box sx={{ p: { xs: 2, sm: 3 } }}>
+                  <form onSubmit={handleSubmit}>
+                    <Typography 
+                      variant="h6" 
+                      fontWeight={600} 
                       sx={{ 
-                        p: { xs: 2, sm: 3 },
-                        borderRadius: 3,
-                        border: '1px solid',
-                        borderColor: 'rgba(40,221,205,0.3)',
-                        bgcolor: 'rgba(40,221,205,0.05)',
-                        mb: { xs: 2, sm: 2, md: 0 }
+                        mb: { xs: 1.5, sm: 2 }, 
+                        fontSize: { xs: '1rem', sm: '1.1rem' } 
                       }}
                     >
-                      <Typography 
-                        variant="h6" 
-                        fontWeight={600} 
-                        sx={{ 
-                          mb: { xs: 1.5, sm: 2 }, 
-                          fontSize: { xs: '1rem', sm: '1.1rem' } 
-                        }}
-                      >
-                        Need Help Right Away?
-                      </Typography>
+                      Business Information
+                    </Typography>
+                    
+                    <Grid container spacing={{ xs: 1.5, sm: 2 }}>
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          label="Business Name"
+                          name="businessName"
+                          value={formData.businessName}
+                          onChange={handleInputChange}
+                          required
+                          variant="outlined"
+                          size="small"
+                          inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
+                          InputLabelProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
+                        />
+                      </Grid>
                       
-                      <Typography 
-                        variant="body2" 
-                        sx={{ 
-                          mb: { xs: 1.5, sm: 2 }, 
-                          fontSize: { xs: '0.8rem', sm: '0.85rem' } 
-                        }}
-                      >
-                        Don't want to wait for a quote? Connect with our commercial team directly:
-                      </Typography>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="First Name"
+                          name="firstName"
+                          value={formData.firstName}
+                          onChange={handleInputChange}
+                          required
+                          variant="outlined"
+                          size="small"
+                          inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
+                          InputLabelProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
+                        />
+                      </Grid>
                       
-                      <Box>
-                        <Box 
-                          sx={{ 
-                            display: 'flex', 
-                            alignItems: 'center',
-                            mb: 1.5
-                          }}
-                        >
-                          <PhoneIcon sx={{ 
-                            color: TURQUOISE, 
-                            mr: 1.5, 
-                            fontSize: { xs: 16, sm: 18 },
-                            flexShrink: 0
-                          }} />
-                          <Typography 
-                            variant="body1" 
-                            fontWeight={500} 
-                            sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Last Name"
+                          name="lastName"
+                          value={formData.lastName}
+                          onChange={handleInputChange}
+                          required
+                          variant="outlined"
+                          size="small"
+                          inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
+                          InputLabelProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
+                        />
+                      </Grid>
+                      
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Email Address"
+                          name="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          required
+                          variant="outlined"
+                          size="small"
+                          inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
+                          InputLabelProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
+                        />
+                      </Grid>
+                      
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Phone Number"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          required
+                          variant="outlined"
+                          size="small"
+                          inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
+                          InputLabelProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
+                        />
+                      </Grid>
+                      
+                      <Grid item xs={12}>
+                        <FormControl fullWidth required variant="outlined" size="small">
+                          <InputLabel id="business-type-label" style={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>Type of Business</InputLabel>
+                          <Select
+                            labelId="business-type-label"
+                            name="businessType"
+                            value={formData.businessType}
+                            onChange={handleInputChange}
+                            label="Type of Business"
+                            inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
                           >
-                            (800) 123-4567
-                          </Typography>
-                        </Box>
-                        
-                        <Box 
+                            {businessTypes.map((option) => (
+                              <MenuItem key={option.value} value={option.value} style={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>
+                                {option.label}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      
+                      <Grid item xs={12}>
+                        <Divider sx={{ my: { xs: 0.5, sm: 1 } }} />
+                        <Typography 
+                          variant="h6" 
+                          fontWeight={600} 
                           sx={{ 
-                            display: 'flex', 
-                            alignItems: 'center',
-                            mb: 1.5
+                            my: { xs: 0.5, sm: 1 }, 
+                            fontSize: { xs: '1rem', sm: '1.1rem' } 
                           }}
                         >
-                          <EmailIcon sx={{ 
-                            color: TURQUOISE, 
-                            mr: 1.5, 
-                            fontSize: { xs: 16, sm: 18 },
-                            flexShrink: 0 
-                          }} />
-                          <Typography 
-                            variant="body1" 
-                            fontWeight={500} 
-                            sx={{ 
-                              fontSize: { xs: '0.85rem', sm: '0.9rem' },
-                              wordBreak: 'break-word'
+                          Service Requirements
+                        </Typography>
+                      </Grid>
+                      
+                      <Grid item xs={12} sm={6}>
+                        <FormControl fullWidth required variant="outlined" size="small">
+                          <InputLabel id="service-interest-label" style={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>Service of Interest</InputLabel>
+                          <Select
+                            labelId="service-interest-label"
+                            name="serviceInterest"
+                            value={formData.serviceInterest}
+                            onChange={handleInputChange}
+                            label="Service of Interest"
+                            inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
+                          >
+                            {serviceOptions.map((option) => (
+                              <MenuItem key={option.value} value={option.value} style={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>
+                                {option.label}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      
+                      <Grid item xs={12} sm={6}>
+                        <FormControl fullWidth required variant="outlined" size="small">
+                          <InputLabel id="pickup-frequency-label" style={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>Preferred Pickup Frequency</InputLabel>
+                          <Select
+                            labelId="pickup-frequency-label"
+                            name="pickupFrequency"
+                            value={formData.pickupFrequency}
+                            onChange={handleInputChange}
+                            label="Preferred Pickup Frequency"
+                            inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
+                          >
+                            {frequencyOptions.map((option) => (
+                              <MenuItem key={option.value} value={option.value} style={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>
+                                {option.label}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      
+                      <Grid item xs={12}>
+                        <Typography 
+                          variant="body2" 
+                          gutterBottom 
+                          sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
+                        >
+                          Estimated Weekly Volume (lbs)
+                        </Typography>
+                        <Box sx={{ px: 1 }}>
+                          <Slider
+                            value={formData.estimatedVolume}
+                            onChange={handleSliderChange}
+                            valueLabelDisplay="auto"
+                            valueLabelFormat={volumeFormatter}
+                            min={0}
+                            max={500}
+                            step={10}
+                            marks={[
+                              { value: 0, label: '0' },
+                              { value: 250, label: '250' },
+                              { value: 500, label: '500+' }
+                            ]}
+                            sx={{
+                              '& .MuiSlider-thumb': {
+                                color: TURQUOISE
+                              },
+                              '& .MuiSlider-track': {
+                                color: TURQUOISE
+                              },
+                              '& .MuiSlider-rail': {
+                                color: 'rgba(40,221,205,0.2)'
+                              }
                             }}
-                          >
-                            commercial@freshbox.com
-                          </Typography>
+                          />
                         </Box>
-                        
-                        <Box 
+                      </Grid>
+                      
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          label="Additional Information"
+                          name="additionalInfo"
+                          value={formData.additionalInfo}
+                          onChange={handleInputChange}
+                          multiline
+                          rows={isSmallScreen ? 1 : 2}
+                          placeholder="Tell us more about your specific laundry needs, special requirements, or questions."
+                          variant="outlined"
+                          size="small"
+                          inputProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
+                          InputLabelProps={{ style: { fontSize: isSmallScreen ? '0.875rem' : '1rem' } }}
+                        />
+                      </Grid>
+                      
+                      <Grid item xs={12}>
+                        <Typography 
+                          variant="body2" 
+                          gutterBottom 
+                          sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
+                        >
+                          Preferred Method of Contact
+                        </Typography>
+                        <FormGroup row>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={formData.contactPreference === 'email'}
+                                onChange={() => setFormData({...formData, contactPreference: 'email'})}
+                                name="contactPreference"
+                                value="email"
+                                size="small"
+                                sx={{
+                                  '&.Mui-checked': {
+                                    color: TURQUOISE
+                                  }
+                                }}
+                              />
+                            }
+                            label={<Typography sx={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>Email</Typography>}
+                          />
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={formData.contactPreference === 'phone'}
+                                onChange={() => setFormData({...formData, contactPreference: 'phone'})}
+                                name="contactPreference"
+                                value="phone"
+                                size="small"
+                                sx={{
+                                  '&.Mui-checked': {
+                                    color: TURQUOISE
+                                  }
+                                }}
+                              />
+                            }
+                            label={<Typography sx={{ fontSize: isSmallScreen ? '0.875rem' : '1rem' }}>Phone</Typography>}
+                          />
+                        </FormGroup>
+                      </Grid>
+                      
+                      <Grid item xs={12}>
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          size={isSmallScreen ? "small" : "medium"}
+                          disabled={isSubmitting}
+                          endIcon={isSubmitting ? <CircularProgress size={18} color="inherit" /> : <SendIcon />}
                           sx={{ 
-                            display: 'flex', 
-                            alignItems: 'center'
+                            bgcolor: TURQUOISE,
+                            color: 'white',
+                            px: { xs: 2, sm: 3 },
+                            py: { xs: 0.75, sm: 1 },
+                            borderRadius: '8px',
+                            fontWeight: 600,
+                            fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                            '&:hover': { bgcolor: '#20c5b7' }
                           }}
                         >
-                          <CalendarIcon sx={{ 
-                            color: TURQUOISE, 
-                            mr: 1.5, 
-                            fontSize: { xs: 16, sm: 18 },
-                            flexShrink: 0
-                          }} />
-                          <Typography 
-                            variant="body1" 
-                            fontWeight={500} 
-                            sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
-                          >
-                            Schedule a Consultation
-                          </Typography>
-                        </Box>
-                      </Box>
-                      
-                      <Button
-                        variant="outlined"
-                        fullWidth
-                        size={isSmallScreen ? "small" : "medium"}
+                          {isSubmitting ? 'Submitting...' : 'Submit Quote Request'}
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </form>
+                </Box>
+              </MotionCard>
+            </Grid>
+            
+            {/* Right column - Contact options */}
+            <Grid item xs={12} md={4} order={{ xs: 1, sm: 1, md: 2 }}>
+              <MotionCard
+                elevation={1}
+                variants={itemVariants}
+                sx={{ 
+                  borderRadius: 3,
+                  height: '100%',
+                  boxShadow: '0 6px 20px rgba(0,0,0,0.05)',
+                  background: `linear-gradient(135deg, ${TURQUOISE}05, ${TURQUOISE}15)`
+                }}
+              >
+                <Box sx={{ p: { xs: 2, sm: 3 } }}>
+                  <Typography 
+                    variant="h6" 
+                    fontWeight={600} 
+                    sx={{ 
+                      mb: { xs: 1.5, sm: 2 }, 
+                      fontSize: { xs: '1rem', sm: '1.1rem' } 
+                    }}
+                  >
+                    Need Help Right Away?
+                  </Typography>
+                  
+                  <Typography 
+                    variant="body2" 
+                    sx={{ 
+                      mb: { xs: 1.5, sm: 2 }, 
+                      fontSize: { xs: '0.8rem', sm: '0.85rem' } 
+                    }}
+                  >
+                    Don't want to wait for a quote? Connect with our commercial team directly:
+                  </Typography>
+                  
+                  <Box>
+                    <Box 
+                      sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center',
+                        mb: 1.5
+                      }}
+                    >
+                      <PhoneIcon sx={{ 
+                        color: TURQUOISE, 
+                        mr: 1.5, 
+                        fontSize: { xs: 16, sm: 18 },
+                        flexShrink: 0
+                      }} />
+                      <Typography 
+                        variant="body1" 
+                        fontWeight={500} 
+                        sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
+                      >
+                        (800) 123-4567
+                      </Typography>
+                    </Box>
+                    
+                    <Box 
+                      sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center',
+                        mb: 1.5
+                      }}
+                    >
+                      <EmailIcon sx={{ 
+                        color: TURQUOISE, 
+                        mr: 1.5, 
+                        fontSize: { xs: 16, sm: 18 },
+                        flexShrink: 0 
+                      }} />
+                      <Typography 
+                        variant="body1" 
+                        fontWeight={500} 
                         sx={{ 
-                          mt: 2,
-                          color: TURQUOISE,
-                          borderColor: TURQUOISE,
-                          py: { xs: 0.75, sm: 1 },
-                          fontSize: { xs: '0.8rem', sm: '0.85rem' },
-                          borderRadius: '8px',
-                          '&:hover': { 
-                            borderColor: TURQUOISE,
-                            bgcolor: 'rgba(40,221,205,0.1)'
-                          }
+                          fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                          wordBreak: 'break-word'
                         }}
                       >
-                        Schedule a Call
-                      </Button>
-                    </MotionPaper>
-                  </MotionBox>
-                </Grid>
-              </Grid>
+                        commercial@freshbox.com
+                      </Typography>
+                    </Box>
+                    
+                    <Box 
+                      sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center'
+                      }}
+                    >
+                      <CalendarIcon sx={{ 
+                        color: TURQUOISE, 
+                        mr: 1.5, 
+                        fontSize: { xs: 16, sm: 18 },
+                        flexShrink: 0
+                      }} />
+                      <Typography 
+                        variant="body1" 
+                        fontWeight={500} 
+                        sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
+                      >
+                        Schedule a Consultation
+                      </Typography>
+                    </Box>
+                  </Box>
+                  
+                  <Button
+                    variant="outlined"
+                    fullWidth
+                    size={isSmallScreen ? "small" : "medium"}
+                    sx={{ 
+                      mt: 2,
+                      color: TURQUOISE,
+                      borderColor: TURQUOISE,
+                      py: { xs: 0.75, sm: 1 },
+                      fontSize: { xs: '0.8rem', sm: '0.85rem' },
+                      borderRadius: '8px',
+                      '&:hover': { 
+                        borderColor: TURQUOISE,
+                        bgcolor: 'rgba(40,221,205,0.1)'
+                      }
+                    }}
+                  >
+                    Schedule a Call
+                  </Button>
+                </Box>
+              </MotionCard>
             </Grid>
           </Grid>
         </MotionBox>
