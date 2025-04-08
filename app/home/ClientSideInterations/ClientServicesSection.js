@@ -1,690 +1,521 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { 
+import React, { useRef, useEffect, useState } from 'react';
+import {
   Box,
   Typography,
   Container,
   Grid,
   Card,
   CardContent,
-  CardMedia,
+  Avatar,
   Button,
-  Chip,
-  Paper,
-  Stack,
   useMediaQuery,
-  ThemeProvider
+  ThemeProvider,
+  Stack,
+  Fade,
+  Chip,
+  Divider,
+  IconButton,
+  Tooltip
 } from '@mui/material';
 import Link from 'next/link';
 import { 
-  ChevronRight as ChevronRightIcon,
-  KeyboardArrowDown as KeyboardArrowDownIcon,
   ArrowForward as ArrowForwardIcon,
-  ArrowBack as ArrowBackIcon
+  Info as InfoIcon,
+  Star as StarIcon
 } from '@mui/icons-material';
 import { theme } from '../../../contexts/Theme';
 
-const FeaturedService = ({ service, index, inView }) => {
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
+// Service List Item Component with enhanced design
+const ServiceListItem = ({ service, index }) => {
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [expanded, setExpanded] = useState(false);
-  
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.2,
-        duration: 0.5,
-        ease: "easeOut"
-      }
-    })
-  };
 
   return (
-    <motion.div
-      variants={cardVariants}
-      initial="hidden"
-      animate={inView ? "visible" : "hidden"}
-      custom={index}
-      style={{ width: '100%' }}
-    >
+    <Fade in={true} timeout={300 + (index * 100)}>
       <Card
+        elevation={2}
         sx={{
-          display: 'flex',
-          flexDirection: isMobile ? 'column' : 'row',
-          position: 'relative',
-          overflow: 'hidden',
-          borderRadius: 4,
-          boxShadow: theme.shadows[8],
-          height: 'auto',
-          minHeight: isMobile ? 'auto' : 340,
+          borderRadius: 2,
+          mb: 1.5,
+          backgroundColor: 'rgba(255, 255, 255, 0.95)',
           transition: 'all 0.3s ease',
-          ':hover': {
-            transform: 'translateY(-10px)',
-            boxShadow: theme.shadows[16],
-          }
+          '&:hover': {
+            transform: 'translateX(6px) translateY(-2px)',
+            boxShadow: 4
+          },
+          overflow: 'hidden',
+          border: '1px solid rgba(189, 244, 227, 0.3)'
         }}
       >
-        <CardMedia
-          component="div"
-          sx={{
-            width: isMobile ? '100%' : '50%',
-            height: isMobile ? 220 : 'auto',
-            minHeight: isMobile ? 200 : 340,
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          <Box
-            sx={{
-              width: '100%',
-              height: '100%',
-              backgroundImage: `url(/images/services/${service.slug}.jpg)`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              transition: 'transform 0.5s ease',
-              ':hover': {
-                transform: 'scale(1.05)',
-              }
-            }}
-          />
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
-            }}
-          />
-          <Box
-            sx={{
-              position: 'absolute',
-              top: theme.spacing(2),
-              left: theme.spacing(2),
-              zIndex: 1,
-            }}
-          >
-            <Chip
-              label={service.name}
-              sx={{
-                fontWeight: 'bold',
-                color: 'white',
-                px: 1,
-                backgroundColor: theme.palette.primary.main,
-                '& .MuiChip-label': {
-                  px: 1,
-                },
-              }}
-              size="medium"
-            />
-          </Box>
-        </CardMedia>
-
-        <CardContent
-          sx={{
-            width: isMobile ? '100%' : '50%',
-            padding: theme.spacing(isSmallMobile ? 2 : 3, isSmallMobile ? 2 : 4),
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            position: 'relative',
-          }}
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-          >
-            <Typography
-              variant={isSmallMobile ? "h6" : "h5"}
-              gutterBottom
-              sx={{
-                fontWeight: 700,
-                color: theme.palette.primary.main,
-                mb: 2,
-              }}
-            >
-              {service.name}
-            </Typography>
-            <Typography variant="body1" sx={{ mb: 2 }}>
-              {service.description}
-            </Typography>
-
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: expanded ? 'auto' : 0, opacity: expanded ? 1 : 0 }}
-              transition={{ duration: 0.3 }}
-              style={{ overflow: 'hidden' }}
-            >
-              <Stack spacing={1} sx={{ mt: 2, mb: 3 }}>
-                {service.features.map((feature, idx) => (
-                  <Box key={idx} sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box
-                      component={motion.div}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.5 + idx * 0.1 }}
-                      sx={{
-                        width: 6,
-                        height: 6,
-                        borderRadius: '50%',
-                        bgcolor: theme.palette.primary.main,
-                        mr: 1.5,
-                      }}
-                    />
-                    <Typography variant="body2">{feature}</Typography>
-                  </Box>
-                ))}
-              </Stack>
-            </motion.div>
-
-            <Stack 
-              direction={isSmallMobile ? "column" : "row"} 
-              spacing={isSmallMobile ? 1 : 2} 
-              sx={{ mt: 2 }}
-            >
-              <Button
-                fullWidth={isSmallMobile}
-                variant="outlined"
-                onClick={() => setExpanded(!expanded)}
-                startIcon={
-                  <KeyboardArrowDownIcon
-                    sx={{
-                      transform: expanded ? 'rotate(180deg)' : 'rotate(0)',
-                      transition: 'transform 0.3s',
-                    }}
-                  />
-                }
-                sx={{ 
-                  fontWeight: 600,
-                  borderColor: theme.palette.primary.main,
-                  color: theme.palette.primary.main,
-                  '&:hover': {
-                    borderColor: theme.palette.primary.dark,
-                    backgroundColor: `${theme.palette.primary.main}10`,
-                  }
-                }}
-              >
-                {expanded ? 'Less Info' : 'More Info'}
-              </Button>
-
-              <Button
-                fullWidth={isSmallMobile}
-                component={Link}
-                href={`/services/${service.slug}`}
-                variant="contained"
-                endIcon={<ChevronRightIcon />}
-                sx={{ 
-                  fontWeight: 600,
-                  backgroundColor: theme.palette.primary.main,
-                  '&:hover': {
-                    backgroundColor: theme.palette.primary.dark,
-                  }
-                }}
-              >
-                Details
-              </Button>
-            </Stack>
-          </motion.div>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
-};
-
-const ServiceScroller = ({ services, inView }) => {
-  const containerRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState('right');
-  const totalServices = services.length;
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  
-  const handleNext = () => {
-    setDirection('right');
-    setActiveIndex((prev) => (prev + 1) % totalServices);
-  };
-
-  const handlePrev = () => {
-    setDirection('left');
-    setActiveIndex((prev) => (prev - 1 + totalServices) % totalServices);
-  };
-
-  useEffect(() => {
-    if (inView) {
-      const interval = setInterval(() => handleNext(), 6000);
-      return () => clearInterval(interval);
-    }
-  }, [inView]);
-
-  const variants = {
-    enter: (direction) => ({
-      x: direction === 'right' ? 300 : -300,
-      opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-      zIndex: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-      }
-    },
-    exit: (direction) => ({
-      x: direction === 'right' ? -300 : 300,
-      opacity: 0,
-      zIndex: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeIn",
-      }
-    })
-  };
-
-  return (
-    <Box
-      ref={containerRef}
-      sx={{
-        position: 'relative',
-        width: '100%',
-        height: 'auto',
-        overflow: 'hidden',
-        my: isMobile ? 4 : 6,
-      }}
-    >
-      {/* Navigation Buttons */}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          position: 'absolute',
-          top: '50%',
-          left: 0,
-          right: 0,
-          transform: 'translateY(-50%)',
-          zIndex: 10,
-          px: isSmallMobile ? 1 : 2,
-        }}
-      >
-        <Button
-          onClick={handlePrev}
-          size={isSmallMobile ? "small" : "medium"}
-          sx={{
-            minWidth: isSmallMobile ? 36 : 48,
-            width: isSmallMobile ? 36 : 48,
-            height: isSmallMobile ? 36 : 48,
-            borderRadius: '50%',
-            bgcolor: 'rgba(255, 255, 255, 0.9)',
-            boxShadow: theme.shadows[4],
-            color: theme.palette.primary.main,
-            '&:hover': {
-              bgcolor: 'white',
-              boxShadow: theme.shadows[8],
-            },
-          }}
-        >
-          <ArrowBackIcon fontSize={isSmallMobile ? "small" : "medium"} />
-        </Button>
-        <Button
-          onClick={handleNext}
-          size={isSmallMobile ? "small" : "medium"}
-          sx={{
-            minWidth: isSmallMobile ? 36 : 48,
-            width: isSmallMobile ? 36 : 48,
-            height: isSmallMobile ? 36 : 48,
-            borderRadius: '50%',
-            bgcolor: 'rgba(255, 255, 255, 0.9)',
-            boxShadow: theme.shadows[4],
-            color: theme.palette.primary.main,
-            '&:hover': {
-              bgcolor: 'white',
-              boxShadow: theme.shadows[8],
-            },
-          }}
-        >
-          <ArrowForwardIcon fontSize={isSmallMobile ? "small" : "medium"} />
-        </Button>
-      </Box>
-
-      {/* Service carousel */}
-      <motion.div
-        key={activeIndex}
-        custom={direction}
-        variants={variants}
-        initial="enter"
-        animate="center"
-        exit="exit"
-      >
-        <FeaturedService service={services[activeIndex]} index={0} inView={inView} />
-      </motion.div>
-
-      {/* Fixed pagination dots - repositioned to avoid collision */}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          mt: 3,
-          mb: 2,
-          gap: { xs: 1.5, sm: 2 },
-          position: 'relative',
-          zIndex: 5,
-        }}
-      >
-        {services.map((_, index) => (
-          <Box
-            key={index}
-            component={motion.div}
-            onClick={() => {
-              setDirection(index > activeIndex ? 'right' : 'left');
-              setActiveIndex(index);
-            }}
-            sx={{
-              width: isSmallMobile ? 8 : 10,
-              height: isSmallMobile ? 8 : 10,
-              borderRadius: '50%',
-              bgcolor: index === activeIndex ? theme.palette.primary.main : theme.palette.grey[300],
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              boxShadow: index === activeIndex ? `0 0 0 2px rgba(255,255,255,0.8), 0 0 0 4px ${theme.palette.primary.main}40` : 'none',
-              '&:hover': {
-                bgcolor: index === activeIndex ? theme.palette.primary.main : theme.palette.grey[400],
-                transform: 'scale(1.1)',
-              },
-            }}
-            animate={{
-              scale: index === activeIndex ? 1.2 : 1,
-            }}
-            whileTap={{ scale: 0.9 }}
-          />
-        ))}
-      </Box>
-    </Box>
-  );
-};
-
-export default function ClientServicesSection({ services }) {
-  const [isInView, setIsInView] = useState(false);
-  const sectionRef = useRef(null);
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isExtraSmallMobile = useMediaQuery('(max-width:400px)');
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
-  return (
-    <ThemeProvider theme={theme}>
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }} ref={sectionRef}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6 }}
-        >
-          {/* Section Header */}
-          <Box sx={{ textAlign: 'center', mb: isSmallMobile ? 4 : isMobile ? 5 : 6 }}>
-            <Typography
-              variant="overline"
-              component="span"
-              sx={{
-                color: theme.palette.primary.main,
-                fontWeight: 600,
-                letterSpacing: 1.5,
-                mb: 1,
-                display: 'block',
-                fontSize: isSmallMobile ? '0.65rem' : '0.75rem',
-              }}
-            >
-              PROFESSIONAL CARE
-            </Typography>
-            <Typography
-              variant={isSmallMobile ? "h4" : isMobile ? "h3" : "h2"}
-              component="h2"
-              sx={{
-                color: theme.palette.primary.black,
-                fontWeight: 700,
-                mb: 2,
-                WebkitBackgroundClip: 'text',
-                position: 'relative',
-                display: 'inline-block',
-              }}
-            >
-              Our Services
-              <Box
-                component={motion.div}
-                animate={isInView ? { width: '100%' } : { width: 0 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-                sx={{
-                  position: 'absolute',
-                  bottom: -4,
-                  left: 0,
-                  height: 2,
-                  bgcolor: theme.palette.primary.main,
-                }}
-              />
-            </Typography>
-            <Typography 
-              variant="body1" 
+        <CardContent sx={{ p: 0 }}>
+          <Grid container>
+            {/* Service image - takes up 30% on larger screens */}
+            <Grid item xs={3} 
               sx={{ 
-                maxWidth: 700, 
-                mx: 'auto', 
-                mb: 4,
-                px: isSmallMobile ? 2 : 0,
-                lineHeight: 1.6,
-              }}
-            >
-              We offer a wide range of cleaning services to keep your garments looking their best.
-              Each service is tailored to meet specific fabric care requirements.
-            </Typography>
-          </Box>
-        </motion.div>
-
-        {/* Featured Service Carousel */}
-        <ServiceScroller services={services} inView={isInView} />
-
-        {/* Service Cards */}
-        <Box sx={{ mt: isSmallMobile ? 5 : 8 }}>
-          <Grid container spacing={isExtraSmallMobile ? 2 : isSmallMobile ? 3 : 4}>
-            {services.map((service, index) => (
-              <Grid item xs={12} sm={6} md={3} key={service.slug}>
-                <motion.div
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
-                  style={{ height: '100%' }}
-                >
-                  <Card
-                    sx={{
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      borderRadius: 3,
-                      overflow: 'hidden',
-                      boxShadow: theme.shadows[3],
-                      transition: 'all 0.3s ease',
-                      ':hover': {
-                        transform: 'translateY(-8px)',
-                        boxShadow: theme.shadows[10],
-                      },
-                    }}
-                  >
-                    <CardMedia
-                      sx={{
-                        height: 180,
-                        position: 'relative',
-                      }}
-                      image={`/images/services/${service.slug}.jpg`}
-                      title={service.name}
-                    >
-                      <Box
-                        sx={{
-                          position: 'absolute',
-                          inset: 0,
-                          background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
-                        }}
-                      />
-                      <Box
-                        sx={{
-                          position: 'absolute',
-                          bottom: 0,
-                          left: 0,
-                          p: isSmallMobile ? 1.5 : 2,
-                        }}
-                      >
-                        <Typography 
-                          variant={isSmallMobile ? "subtitle1" : "h6"} 
-                          sx={{ color: 'white', fontWeight: 600 }}
-                        >
-                          {service.name}
-                        </Typography>
-                      </Box>
-                    </CardMedia>
-                    <CardContent sx={{ 
-                      flexGrow: 1, 
-                      p: isExtraSmallMobile ? 1.5 : isSmallMobile ? 2 : 3,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between'
-                    }}>
-                      <Typography 
-                        variant="body2" 
-                        color="text.secondary"
-                        sx={{ mb: 2 }}
-                      >
-                        {service.description}
-                      </Typography>
-
-                      <Box sx={{ mt: 'auto' }}>
-                        <Button
-                          component={Link}
-                          href={`/services/${service.slug}`}
-                          endIcon={<ChevronRightIcon />}
-                          sx={{ 
-                            fontWeight: 600, 
-                            p: 0,
-                            color: theme.palette.primary.main,
-                            '&:hover': {
-                              color: theme.palette.primary.dark,
-                              backgroundColor: 'transparent',
-                              transform: 'translateX(4px)'
-                            },
-                            transition: 'transform 0.2s ease'
-                          }}
-                        >
-                          Learn More
-                        </Button>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-
-        {/* Call to Action */}
-        <Box sx={{ textAlign: 'center', mt: isSmallMobile ? 5 : isMobile ? 7 : 9 }}>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-          >
-            <Paper
-              elevation={10}
-              sx={{
-                p: isExtraSmallMobile ? 2.5 : isSmallMobile ? 3.5 : isMobile ? 4.5 : 6,
-                borderRadius: 4,
-                background: `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`,
-                boxShadow: '0 10px 30px rgba(40, 221, 205, 0.3)',
-                mx: isSmallMobile ? 1 : 0,
-                overflow: 'hidden',
+                display: { xs: 'none', sm: 'block' },
                 position: 'relative',
+                minHeight: 130
               }}
             >
-              {/* Decorative dot pattern */}
-              <Box
+              <Box 
                 sx={{
                   position: 'absolute',
                   top: 0,
-                  right: 0,
-                  width: '150px',
-                  height: '150px',
-                  opacity: 0.1,
-                  backgroundImage: 'radial-gradient(circle, white 2px, transparent 2px)',
-                  backgroundSize: '15px 15px',
-                  zIndex: 0,
-                  display: { xs: 'none', sm: 'block' }
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  backgroundImage: `url(${service.imageUrl})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
                 }}
               />
-              
-              <Typography 
-                variant={isExtraSmallMobile ? "subtitle1" : isSmallMobile ? "h6" : "h5"} 
-                sx={{ 
-                  color: 'white', 
-                  fontWeight: 600, 
-                  mb: isSmallMobile ? 2.5 : 3,
-                  px: isSmallMobile ? 1 : 2,
-                  position: 'relative',
-                  zIndex: 1,
-                  maxWidth: 700,
-                  mx: 'auto'
-                }}
-              >
-                Ready to experience our premium cleaning services?
-              </Typography>
-              <Button
-                component={Link}
-                href="/services"
-                variant="contained"
-                size={isSmallMobile ? "medium" : "large"}
-                endIcon={<ChevronRightIcon />}
+              {service.popular && (
+                <Chip
+                  icon={<StarIcon fontSize="small" />}
+                  label="Popular"
+                  color="secondary"
+                  size="small"
+                  sx={{
+                    position: 'absolute',
+                    top: 10,
+                    left: 10,
+                    fontWeight: 'bold',
+                    zIndex: 2
+                  }}
+                />
+              )}
+            </Grid>
+            
+            {/* Service content - takes remaining width */}
+            <Grid item xs={12} sm={9}>
+              <Box sx={{ p: 2 }}>
+                <Stack 
+                  direction="row" 
+                  spacing={1.5} 
+                  alignItems="center"
+                  sx={{ mb: 0.5 }}
+                >
+                  <Avatar
+                    src={service.imageUrl}
+                    alt={service.name}
+                    sx={{ 
+                      width: { xs: 40, md: 46 }, 
+                      height: { xs: 40, md: 46 },
+                      display: { xs: 'flex', sm: 'none' },
+                      bgcolor: 'primary.light',
+                      boxShadow: '0 2px 8px rgba(46, 123, 92, 0.2)'
+                    }}
+                  >
+                    {service.name.charAt(0)}
+                  </Avatar>
+                  
+                  <Box sx={{ flexGrow: 1 }}>
+                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                      <Typography 
+                        variant="h6" 
+                        color="primary.dark"
+                        sx={{ 
+                          fontWeight: 700,
+                          fontSize: { xs: '1rem', sm: '1.1rem' }
+                        }}
+                      >
+                        {service.name}
+                      </Typography>
+                      
+                      <Tooltip title="More details">
+                        <IconButton 
+                          size="small"
+                          onClick={() => setExpanded(!expanded)}
+                          sx={{ 
+                            color: 'primary.dark',
+                            '&:hover': { backgroundColor: 'rgba(189, 244, 227, 0.2)' }
+                          }}
+                        >
+                          <InfoIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </Stack>
+                    
+                    <Typography
+                      variant="caption"
+                      display="block"
+                      color="text.secondary"
+                      sx={{ 
+                        mb: 0.5,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
+                        fontWeight: 500
+                      }}
+                    >
+                      Professional Service
+                    </Typography>
+                  </Box>
+                </Stack>
+                
+                <Typography 
+                  variant="body2" 
+                  color="text.secondary"
+                  sx={{
+                    display: '-webkit-box',
+                    WebkitLineClamp: expanded ? 'unset' : 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: expanded ? 'visible' : 'hidden',
+                    lineHeight: 1.5,
+                    mb: expanded ? 2 : 0,
+                    transition: 'all 0.3s'
+                  }}
+                >
+                  {service.description}
+                </Typography>
+                
+                {expanded && (
+                  <Box sx={{ mt: 1.5 }}>
+                    <Divider sx={{ mb: 1.5 }} />
+                    <Typography 
+                      variant="subtitle2" 
+                      color="primary.dark"
+                      sx={{ mb: 0.5, fontWeight: 600, fontSize: '0.8rem' }}
+                    >
+                      Features:
+                    </Typography>
+                    <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+                      {service.features?.slice(0, 3).map((feature, idx) => (
+                        <Chip 
+                          key={idx}
+                          label={feature}
+                          size="small"
+                          sx={{ 
+                            mb: 0.5,
+                            height: '22px',
+                            backgroundColor: 'rgba(189, 244, 227, 0.4)',
+                            color: 'primary.dark',
+                            fontWeight: 500,
+                            borderRadius: '4px',
+                            fontSize: '0.7rem'
+                          }}
+                        />
+                      ))}
+                    </Stack>
+                    
+                    <Button
+                      size="small"
+                      component={Link}
+                      href={`/services/${service.slug}`}
+                      sx={{
+                        mt: 1,
+                        color: 'primary.dark',
+                        textTransform: 'none',
+                        fontWeight: 600,
+                        p: 0,
+                        fontSize: '0.75rem',
+                        '&:hover': {
+                          backgroundColor: 'transparent',
+                          textDecoration: 'underline'
+                        }
+                      }}
+                    >
+                      View details
+                    </Button>
+                  </Box>
+                )}
+              </Box>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+    </Fade>
+  );
+};
+
+// Main Component with enhanced design
+export default function ClientServicesSection({ services }) {
+  const [isInView, setIsInView] = useState(true); // Set to true by default to always show content
+  const sectionRef = useRef(null);
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  // No need for IntersectionObserver as we want to show content immediately
+  // but keeping the ref for potential future use
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Box 
+        ref={sectionRef}
+        sx={{ 
+          background: 'linear-gradient(135deg, #2E7B5C 0%, #1e5c42 100%)',
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          position: 'relative',
+          zIndex: 1,
+          overflow: 'hidden'
+        }}
+      >
+        {/* Decorative elements */}
+        <Box 
+          sx={{
+            position: 'absolute',
+            top: '10%',
+            right: '5%',
+            width: { xs: 100, md: 200 },
+            height: { xs: 100, md: 200 },
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(189, 244, 227, 0.15) 0%, rgba(189, 244, 227, 0) 70%)',
+            zIndex: -1
+          }}
+        />
+        <Box 
+          sx={{
+            position: 'absolute',
+            bottom: '15%',
+            left: '8%',
+            width: { xs: 80, md: 150 },
+            height: { xs: 80, md: 150 },
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(189, 244, 227, 0.1) 0%, rgba(189, 244, 227, 0) 70%)',
+            zIndex: -1
+          }}
+        />
+        
+        <Container maxWidth="lg" sx={{ height: '100%', py: { xs: 2, md: 3 } }}>
+          <Grid 
+            container 
+            spacing={{ xs: 2, md: 3 }} 
+            sx={{ 
+              height: '100%', 
+              alignItems: 'center',
+              maxHeight: 'calc(100vh - 32px)'
+            }}
+          >
+            {/* Left Side - Company Introduction with enhanced design */}
+            <Grid item xs={12} md={5} sx={{ height: { md: '85%' } }}>
+              <Fade in={true} timeout={400}>
+                <Box
+                  sx={{
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(189, 244, 227, 0.9) 100%)',
+                    p: { xs: 2.5, md: 3 },
+                    borderRadius: 4,
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)'
+                  }}
+                >
+                  <Box>
+                    <Typography
+                      variant={isSmallMobile ? "h4" : "h3"}
+                      component="h1"
+                      color="primary.dark"
+                      sx={{ 
+                        fontWeight: 800, 
+                        mb: 1,
+                        background: 'linear-gradient(135deg, #2E7B5C 0%, #1e5c42 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        letterSpacing: '-0.5px'
+                      }}
+                    >
+                      FreshBox Care
+                    </Typography>
+                    
+                    <Typography
+                      variant="subtitle1"
+                      color="primary.main"
+                      sx={{ 
+                        mb: 2, 
+                        fontWeight: 600,
+                        letterSpacing: '0.5px'
+                      }}
+                    >
+                      Premium Laundry & Dry Cleaning
+                    </Typography>
+                    
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        mb: 3, 
+                        color: 'text.primary',
+                        lineHeight: 1.5,
+                        fontSize: { xs: '0.875rem', md: '0.925rem' }
+                      }}
+                    >
+                      Your clothes deserve exceptional care. At FreshBox Care, we combine cutting-edge 
+                      technology with eco-friendly practices to deliver pristine results.
+                    </Typography>
+                    
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
+                      <Button
+                        variant="contained"
+                        size="medium"
+                        component={Link}
+                        href="/pricing"
+                        endIcon={<ArrowForwardIcon />}
+                        sx={{
+                          backgroundColor: 'primary.dark',
+                          color: 'white',
+                          borderRadius: 2,
+                          px: 2.5,
+                          py: 1,
+                          textTransform: 'none',
+                          fontWeight: 600,
+                          boxShadow: '0 4px 12px rgba(46, 123, 92, 0.3)',
+                          '&:hover': {
+                            backgroundColor: '#1e5c42',
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 6px 16px rgba(46, 123, 92, 0.35)',
+                          }
+                        }}
+                      >
+                        Explore Pricing
+                      </Button>
+                      
+                      <Button
+                        variant="outlined"
+                        size="medium"
+                        component={Link}
+                        href="/how-it-works"
+                        sx={{
+                          borderColor: 'primary.dark',
+                          color: 'primary.dark',
+                          borderRadius: 2,
+                          px: 2.5,
+                          py: 1,
+                          textTransform: 'none',
+                          fontWeight: 600,
+                          '&:hover': {
+                            borderColor: 'primary.dark',
+                            backgroundColor: 'rgba(46, 123, 92, 0.05)',
+                          }
+                        }}
+                      >
+                        How It Works
+                      </Button>
+                    </Stack>
+                  </Box>
+                  
+                  <Box
+                    sx={{
+                      mt: 3,
+                      p: 1.5,
+                      backgroundColor: 'rgba(46, 123, 92, 0.08)',
+                      borderRadius: 2,
+                      border: '1px dashed rgba(46, 123, 92, 0.3)'
+                    }}
+                  >
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <StarIcon sx={{ color: 'primary.dark', fontSize: 18 }} />
+                      <Typography 
+                        variant="body2" 
+                        color="primary.dark"
+                        sx={{ fontWeight: 600, fontSize: '0.875rem' }}
+                      >
+                        Special Offer
+                      </Typography>
+                    </Stack>
+                    <Typography 
+                      variant="body2" 
+                      color="text.secondary"
+                      sx={{ mt: 0.5, fontSize: '0.8rem' }}
+                    >
+                      Min. order $35. <strong>Free delivery</strong> and a complimentary eco-bag on first order.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Fade>
+            </Grid>
+            
+            {/* Right Side - Services List with enhanced design */}
+            <Grid item xs={12} md={7} sx={{ height: { md: '85%' } }}>
+              <Typography
+                variant="h6"
+                color="white"
                 sx={{
-                  px: isSmallMobile ? 3 : 4,
-                  py: isSmallMobile ? 1 : 1.5,
-                  fontWeight: 600,
-                  borderRadius: 2,
-                  boxShadow: theme.shadows[8],
-                  background: theme.palette.secondary.main,
-                  color: 'white',
-                  position: 'relative',
-                  zIndex: 1,
-                  '&:hover': {
-                    background: theme.palette.secondary.dark,
-                    boxShadow: theme.shadows[12],
-                    transform: 'translateY(-3px)'
-                  },
-                  transition: 'transform 0.2s ease'
+                  fontWeight: 700,
+                  mb: 1.5,
+                  pl: 1,
+                  borderLeft: '4px solid rgba(189, 244, 227, 0.7)',
+                  display: { xs: 'block', md: 'none' },
+                  fontSize: '1.125rem'
                 }}
               >
-                View All Services
-              </Button>
-            </Paper>
-          </motion.div>
-        </Box>
-      </Container>
+                Our Services
+              </Typography>
+              
+              <Box 
+                sx={{ 
+                  height: { md: '100%' },
+                  maxHeight: { xs: 'calc(100vh - 360px)', md: 'calc(100vh - 120px)' }, 
+                  overflow: 'auto',
+                  pr: { md: 1 },
+                  // Custom scrollbar styling
+                  '&::-webkit-scrollbar': {
+                    width: '6px',
+                  },
+                  '&::-webkit-scrollbar-track': {
+                    background: 'rgba(255,255,255,0.1)',
+                    borderRadius: '10px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    background: 'rgba(255,255,255,0.2)',
+                    borderRadius: '10px',
+                    '&:hover': {
+                      background: 'rgba(255,255,255,0.3)',
+                    },
+                  },
+                }}
+              >
+                <Stack spacing={1.5}>
+                  {services.map((service, index) => (
+                    <ServiceListItem 
+                      key={service.slug} 
+                      service={{
+                        ...service,
+                        popular: index === 1 // Make the second service "popular" as an example
+                      }} 
+                      index={index} 
+                    />
+                  ))}
+                </Stack>
+                
+                <Box 
+                  sx={{ 
+                    mt: 2, 
+                    textAlign: 'center',
+                    display: { xs: 'none', md: 'block' }
+                  }}
+                >
+                  <Button
+                    variant="outlined"
+                    size="medium"
+                    component={Link}
+                    href="/services"
+                    sx={{
+                      borderColor: 'rgba(255,255,255,0.8)',
+                      color: 'white',
+                      borderRadius: 2,
+                      px: 3,
+                      py: 1,
+                      textTransform: 'none',
+                      fontWeight: 600,
+                      '&:hover': {
+                        borderColor: 'white',
+                        backgroundColor: 'rgba(255,255,255,0.1)',
+                      }
+                    }}
+                  >
+                    View All Services
+                  </Button>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
     </ThemeProvider>
   );
 }

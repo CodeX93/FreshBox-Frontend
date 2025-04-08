@@ -125,9 +125,10 @@ const ServicesHero = () => {
                       px: { xs: 3, md: 4 },
                       borderRadius: 2,
                       fontWeight: 600,
-                      backgroundColor: theme.palette.secondary.main,
+                      color:'white',
+                      backgroundColor: theme.palette.primary.darkBlue,
                       '&:hover': {
-                        backgroundColor: theme.palette.secondary.dark,
+                        backgroundColor: theme.palette.primary.main,
                       }
                     }}
                   >

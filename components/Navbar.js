@@ -19,13 +19,14 @@ import {
   Dashboard as BasicPlanIcon, Star as PremiumPlanIcon, Business as EnterprisePlanIcon,
   SpaSharp as MassageSpa, LocalHospital as HealthcareIcon, Factory as CommercialIcon,
   FitnessCenter as GymIcon, RequestQuote as RequestQuoteIcon, Storefront as AirbnbIcon,
-  Close as CloseIcon
+  Close as CloseIcon,PersonAddAlt1Outlined as SignUpIcon
 } from '@mui/icons-material';
 import Logo from '../Assets/logo2.png';
 import { useAuth } from '../contexts/AuthContext';
+import { theme } from '@/lib/theme';
 
 // Constants
-const TURQUOISE = '#28ddcd';
+const TURQUOISE = theme.palette.primary.main;
 const DARK_TURQUOISE = '#20c5b7';
 const LIGHT_TURQUOISE = '#5de6d8';
 
@@ -244,23 +245,6 @@ export default function Navbar() {
           }}
         />
       </Box>
-      
-      <Typography
-        variant="h5"
-        component="div"
-        sx={{ 
-          color: 'white',
-          fontWeight: 700, 
-          display: { xs: 'none', sm: 'block' },
-          fontSize: { xs: '1rem', sm: '1.2rem', md: '1.4rem', lg: '1.4rem' },
-          fontFamily: '"Poppins", sans-serif',
-          letterSpacing: '-0.5px',
-          textShadow: trigger ? '0 2px 4px rgba(0,0,0,0.1)' : 'none',
-          transition: 'all 0.3s ease'
-        }}
-      >
-        FreshBox
-      </Typography>
     </Box>
 
   );
@@ -1092,6 +1076,7 @@ export default function Navbar() {
           bgcolor: 'grey.50'
         }}>
           {!isAuthenticated && (
+            <>
             <Button
               variant="outlined"
               color="primary"
@@ -1114,6 +1099,29 @@ export default function Navbar() {
             >
               Log In
             </Button>
+            <Button
+            variant="outlined"
+            color="primary"
+            fullWidth
+            component={Link}
+            href="/auth/register"
+            startIcon={<SignUpIcon />}
+            sx={{ 
+              mb: 2,
+              borderRadius: '8px',
+              py: 1.2,
+              fontSize: '1rem',
+              color: TURQUOISE,
+              borderColor: TURQUOISE,
+              '&:hover': {
+                borderColor: DARK_TURQUOISE,
+                bgcolor: 'rgba(40, 221, 205, 0.05)'
+              }
+            }}
+          >
+          Sign Up
+          </Button>
+          </>
           )}
         </Box>
       </Box>
@@ -1409,6 +1417,7 @@ return (
           </Box>
         </>
             ) : (
+              <>
               <Button
               variant="outlined"
               component={Link}
@@ -1430,6 +1439,28 @@ return (
             >
               Log In
             </Button>
+            <Button
+              variant="outlined"
+              component={Link}
+              href="/auth/register"
+              startIcon={<SignUpIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
+              sx={{ 
+                borderRadius: '8px',
+                py: 0.75,
+                px: { xs: 1.5, sm: 2 },
+                fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
+                color: 'white',
+                borderColor: 'rgba(255, 255, 255, 0.5)',
+                '&:hover': { 
+                  bgcolor: 'rgba(255, 255, 255, 0.1)',
+                  borderColor: 'white'
+                },
+                transition: 'all 0.3s ease'
+              }}
+            >
+             SignUp
+            </Button>
+            </>
           )}
             
             {/* Mobile menu icon */}

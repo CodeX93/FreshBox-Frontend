@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Paper,
   Tabs,
@@ -10,22 +10,89 @@ import {
   useMediaQuery,
   useTheme,
   Chip,
-  Divider
+  Divider,
+  CircularProgress,
+  Alert
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import DryCleaningIcon from '@mui/icons-material/DryCleaning';
+import IronIcon from '@mui/icons-material/Iron';
+import BedIcon from '@mui/icons-material/Bed';
+import BusinessIcon from '@mui/icons-material/Business';
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import ServiceCard from './ServiceCard';
-import { services } from '../ServicesData'; // Update this path
+
+// API service to fetch data
+import { serviceApi } from '../../../api/service'; // Update this path if needed
 
 // Define constants
 const TURQUOISE = '#28ddcd';
 const DARK_BLUE = '#0D3B6E';
 
-const ServicesList = ({ activeTab, handleTabChange, handleAddToCart }) => {
+// Map to associate categories with icons
+const categoryIcons = {
+  'Standard': <LocalLaundryServiceIcon />,
+  'Premium': <DryCleaningIcon />,
+  'Specialized': <MedicalServicesIcon />,
+  'Add-on': <IronIcon />,
+  'Business': <BusinessIcon />
+};
+
+// Default descriptions for categories
+const categoryDescriptions = {
+  'Standard': 'Our standard services provide quality cleaning for everyday items at affordable prices.',
+  'Premium': 'Premium services for your finest garments and special care items.',
+  'Specialized': 'Specialized cleaning services for specific items that require extra attention.',
+  'Add-on': 'Additional services that can be combined with our main cleaning options.',
+  'Business': 'Professional services designed for businesses and corporate clients.'
+};
+
+const ServicesList = ({ handleAddToCart }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+  
+  // State variables
+  const [activeTab, setActiveTab] = useState(0);
+  const [services, setServices] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  // Handle tab change
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
+  
+  // Fetch services from API
+  useEffect(() => {
+    const fetchServices = async () => {
+      setLoading(true);
+      try {
+        const response = await serviceApi.getAllServices();
+        if (response.success) {
+          const servicesData = response.data;
+          
+          // Extract unique categories from services
+          const uniqueCategories = [...new Set(servicesData.map(service => service.category))];
+          
+          setServices(servicesData);
+          setCategories(uniqueCategories);
+        } else {
+          setError('Failed to load services');
+        }
+      } catch (error) {
+        console.error('Error fetching services:', error);
+        setError('Error loading services. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchServices();
+  }, []);
   
   // Animation variants
   const containerVariants = {
@@ -62,8 +129,36 @@ const ServicesList = ({ activeTab, handleTabChange, handleAddToCart }) => {
     })
   };
 
+  // Get filtered services based on active tab
+  const filteredServices = activeTab === 0 
+    ? services 
+    : services.filter(service => service.category === categories[activeTab - 1]);
+
   // Get current service category name
-  const currentServiceCategory = activeTab === 0 ? 'All Services' : services[activeTab-1].title;
+  const currentServiceCategory = activeTab === 0 
+    ? 'All Services' 
+    : categories[activeTab - 1];
+
+  if (loading) {
+    return (
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '300px' 
+      }}>
+        <CircularProgress color="primary" />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert severity="error" sx={{ mb: 3 }}>
+        {error}
+      </Alert>
+    );
+  }
 
   return (
     <motion.div
@@ -184,11 +279,11 @@ const ServicesList = ({ activeTab, handleTabChange, handleAddToCart }) => {
               label="All Services"
               iconPosition="start"
             />
-            {services.map((service, index) => (
+            {categories.map((category, index) => (
               <Tab
                 key={index}
-                icon={service.icon}
-                label={service.title}
+                icon={categoryIcons[category] || <LocalLaundryServiceIcon />}
+                label={category}
                 iconPosition="start"
               />
             ))}
@@ -221,7 +316,7 @@ const ServicesList = ({ activeTab, handleTabChange, handleAddToCart }) => {
               fontSize: { xs: '1.35rem', sm: '1.5rem', md: '1.75rem' }
             }}
           >
-            {activeTab === 0 ? 'All Available Services' : services[activeTab-1].title}
+            {activeTab === 0 ? 'All Available Services' : currentServiceCategory}
           </Typography>
           
           {activeTab !== 0 && (
@@ -230,7 +325,7 @@ const ServicesList = ({ activeTab, handleTabChange, handleAddToCart }) => {
               color="text.secondary"
               sx={{ mb: 2, maxWidth: 800 }}
             >
-              {services[activeTab-1].description}
+              {categoryDescriptions[currentServiceCategory] || `Our ${currentServiceCategory} services offer quality cleaning solutions.`}
             </Typography>
           )}
           
@@ -240,40 +335,60 @@ const ServicesList = ({ activeTab, handleTabChange, handleAddToCart }) => {
 
       {/* Service Cards with improved spacing */}
       <Grid container spacing={4}>
-        {(activeTab === 0 ? services : [services[activeTab-1]]).map((service, index) => (
-          <Grid 
-            item 
-            xs={12} 
-            key={service.id}
-            component={motion.div}
-            custom={index}
-            variants={cardVariants}
-          >
-            <ServiceCard
-              service={service}
-              handleAddToCart={handleAddToCart}
-            />
-            
-            {/* Add spacer after each card except the last one */}
-            {index < (activeTab === 0 ? services.length - 1 : 0) && (
-              <Box sx={{ 
-                height: { xs: 16, md: 24 }, 
-                width: '100%',
-                position: 'relative',
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  top: '50%',
-                  left: '5%',
-                  width: '90%',
-                  height: 1,
-                  bgcolor: 'rgba(0,0,0,0.06)',
-                  borderRadius: 1
-                }
-              }} />
-            )}
+        {filteredServices.length > 0 ? (
+          filteredServices.map((service, index) => (
+            <Grid 
+              item 
+              xs={12} 
+              key={service._id}
+              component={motion.div}
+              custom={index}
+              variants={cardVariants}
+            >
+              <ServiceCard
+                service={{
+                  id: service._id,
+                  title: service.name,
+                  description: service.description,
+                  price: service.price,
+                  priceType: service.priceType,
+                  estimatedTime: service.estimatedTime,
+                  category: service.category,
+                  imageUrl: service.imageUrl || '/images/service-placeholder.jpg',
+                  specifications: service.specifications || []
+                }}
+                handleAddToCart={handleAddToCart}
+              />
+              
+              {/* Add spacer after each card except the last one */}
+              {index < filteredServices.length - 1 && (
+                <Box sx={{ 
+                  height: { xs: 16, md: 24 }, 
+                  width: '100%',
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '5%',
+                    width: '90%',
+                    height: 1,
+                    bgcolor: 'rgba(0,0,0,0.06)',
+                    borderRadius: 1
+                  }
+                }} />
+              )}
+            </Grid>
+          ))
+        ) : (
+          <Grid item xs={12}>
+            <Box sx={{ p: 4, textAlign: 'center' }}>
+              <Typography variant="body1" color="text.secondary">
+                No services found in this category.
+              </Typography>
+            </Box>
           </Grid>
-        ))}
+        )}
       </Grid>
       
       {/* Additional Services Information */}

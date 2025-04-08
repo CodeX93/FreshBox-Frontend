@@ -46,8 +46,8 @@ const FAQSection = () => {
         width: '100%',
         display: 'flex',
         alignItems: 'center',
-        backgroundColor: '#ffffff',
-        py: 10,
+        background: 'linear-gradient(165deg, #F9FFFC 0%, rgba(237, 246, 240, 0.6) 100%)',
+        py: { xs: 8, md: 12 },
         position: 'relative',
         overflow: 'hidden'
       }}
@@ -56,26 +56,80 @@ const FAQSection = () => {
       <Box
         sx={{
           position: 'absolute',
-          top: -100,
-          right: -100,
-          width: 200,
-          height: 200,
+          top: -120,
+          right: -120,
+          width: { xs: 220, md: 300 },
+          height: { xs: 220, md: 300 },
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, rgba(40, 221, 205, 0.25) 0%, transparent 70%)',
-          opacity: 0.5,
+          background: 'radial-gradient(circle, rgba(133, 210, 179, 0.2) 0%, rgba(133, 210, 179, 0) 70%)',
           zIndex: 0
         }}
       />
       <Box
         sx={{
           position: 'absolute',
-          bottom: -50,
-          left: -50,
-          width: 200,
-          height: 200,
+          bottom: -80,
+          left: -80,
+          width: { xs: 220, md: 300 },
+          height: { xs: 220, md: 300 },
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, rgba(40, 221, 205, 0.25) 0%, transparent 70%)',
-          opacity: 0.5,
+          background: 'radial-gradient(circle, rgba(133, 210, 179, 0.15) 0%, rgba(133, 210, 179, 0) 70%)',
+          zIndex: 0
+        }}
+      />
+      
+      {/* Additional decorative elements */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '30%',
+          left: '5%',
+          width: { xs: 0, md: 150 },
+          height: { xs: 0, md: 150 },
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(46, 123, 92, 0.07) 0%, rgba(46, 123, 92, 0) 70%)',
+          zIndex: 0,
+          display: { xs: 'none', md: 'block' }
+        }}
+      />
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: '20%',
+          right: '8%',
+          width: { xs: 0, md: 120 },
+          height: { xs: 0, md: 120 },
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(181, 236, 217, 0.3) 0%, rgba(181, 236, 217, 0) 70%)',
+          zIndex: 0,
+          display: { xs: 'none', md: 'block' }
+        }}
+      />
+      
+      {/* Accent decoration */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '15%',
+          right: '20%',
+          width: 8,
+          height: 8,
+          borderRadius: '50%',
+          backgroundColor: '#85D2B3',
+          boxShadow: '0 0 20px rgba(133, 210, 179, 0.6)',
+          zIndex: 0
+        }}
+      />
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: '35%',
+          left: '18%',
+          width: 12,
+          height: 12,
+          borderRadius: '50%',
+          backgroundColor: '#2E7B5C',
+          boxShadow: '0 0 15px rgba(46, 123, 92, 0.4)',
           zIndex: 0
         }}
       />

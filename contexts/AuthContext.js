@@ -238,6 +238,118 @@ const verifyEmailOtp = async (email, otp, verificationId) => {
   );
 }
 
+// Add this code to your Profile component to enhance API error handling
+
+// Update your API service setup with credentials
+const api = axios.create({
+  baseURL: 'http://localhost:5023/api',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  withCredentials: true, // ESSENTIAL for sending cookies with the request
+  timeout: 10000 // Add a timeout to prevent hanging requests
+});
+
+// Enhanced loadUserData function with better error handling
+const loadUserData = async () => {
+  try {
+    setIsLoading(true);
+    
+    console.log('Current user from context:', user);
+    console.log('Making API request to:', `${api.defaults.baseURL}/users/me`);
+    
+    // Add debugging headers to request
+    const userData = await api.get('/users/me', { 
+      headers: {
+        'x-requested-with': 'XMLHttpRequest',
+        'x-debug': 'true'
+      },
+      withCredentials: true // Ensure credentials go with request
+    });
+    
+    console.log('API response:', userData);
+    console.log('API response data:', userData.data);
+    
+    setProfile({
+      name: userData.data.name || '',
+      email: userData.data.email || '',
+      phone: userData.data.phoneNumber || '',
+      address: userData.data.address || '',
+      profileImage: userData.data.profilePicture || '',
+      preferences: userData.data.preferences || {
+        detergent: 'sensitive',
+        temperature: 'warm',
+        folding: 'hanging',
+        notifications: true,
+        emailUpdates: true
+      },
+      paymentMethods: userData.data.paymentMethods || []
+    });
+    
+    // Optional: load user orders (commented out for now to focus on profile)
+    /*
+    try {
+      const ordersData = await userService.getUserOrders(userData.data._id);
+      if (ordersData && ordersData.length > 0) {
+        setRecentOrders(ordersData);
+      }
+    } catch (orderError) {
+      console.error('Error loading orders:', orderError);
+      // Keep default orders if API fails
+    }
+    */
+    
+  } catch (error) {
+    console.error('Error loading user data:', error);
+    
+    // Detailed error logging
+    const errorDetails = {
+      message: error.message,
+      stack: error.stack,
+      response: error.response ? {
+        status: error.response.status,
+        statusText: error.response.statusText,
+        data: error.response.data,
+        headers: error.response.headers
+      } : 'No response',
+      request: error.request ? 'Request was made but no response received' : 'No request was made'
+    };
+    
+    console.error('Detailed error:', JSON.stringify(errorDetails, null, 2));
+    
+    // Check for specific error types
+    let errorMessage = 'Failed to load profile data';
+    
+    if (error.response) {
+      // Server responded with an error status code
+      if (error.response.status === 401) {
+        errorMessage = 'Your session has expired. Please log in again.';
+        setTimeout(() => {
+          router.push('/auth/login');
+        }, 3000);
+      } else if (error.response.status === 404) {
+        errorMessage = 'Profile not found. Please complete your registration.';
+      } else {
+        errorMessage = `Server error: ${error.response.status} ${error.response.statusText}`;
+      }
+    } else if (error.request) {
+      // Request was made but no response received
+      errorMessage = 'No response from server. Please check your connection.';
+    } else {
+      // Something else caused the error
+      errorMessage = `Error: ${error.message}`;
+    }
+    
+    setSnackbar({ 
+      open: true, 
+      message: errorMessage, 
+      severity: 'error' 
+    });
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 export const useAuth = () => {
   return useContext(AuthContext);
 };

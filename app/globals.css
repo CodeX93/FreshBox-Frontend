@@ -2,6 +2,7 @@ html, body {
     margin: 0 !important;
     padding: 0 !important;
     overflow-x: hidden;
+    background-color: #BDF4E3;
   }
   
   body::before {

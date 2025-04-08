@@ -1,481 +1,365 @@
-'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import {
+  Box,
   Card,
   CardContent,
-  CardMedia,
-  Grid,
   Typography,
-  Box,
+  Button,
+  Chip,
+  Divider,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Button,
   Stack,
+  IconButton,
+  TextField,
+  Collapse,
+  alpha,
   useTheme,
-  useMediaQuery,
-  Chip,
-  Divider,
-  Paper,
-  Tooltip
+  useMediaQuery
 } from '@mui/material';
+import {
+  AccessTime as AccessTimeIcon,
+  CheckCircleOutline as CheckIcon,
+  Add as AddIcon,
+  Remove as RemoveIcon,
+  ShoppingCart as CartIcon,
+  ExpandMore as ExpandMoreIcon,
+  ExpandLess as ExpandLessIcon
+} from '@mui/icons-material';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
-import CheckIcon from '@mui/icons-material/Check';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+
+// Define constants
+const TURQUOISE = '#28ddcd';
+const DARK_BLUE = '#0D3B6E';
 
 const ServiceCard = ({ service, handleAddToCart }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  // Animation variants
-  const featureItemVariants = {
-    hidden: { opacity: 0, x: -10 },
-    visible: (i) => ({ 
-      opacity: 1, 
-      x: 0,
-      transition: {
-        delay: 0.1 * i,
-        duration: 0.3,
-        ease: "easeOut"
-      }
-    })
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+  
+  const [quantity, setQuantity] = useState(1);
+  const [showDetails, setShowDetails] = useState(false);
+  
+  // Handle quantity changes
+  const incrementQuantity = () => setQuantity(prev => prev + 1);
+  const decrementQuantity = () => setQuantity(prev => prev > 1 ? prev - 1 : 1);
+  
+  // Handle show more details
+  const toggleDetails = () => setShowDetails(!showDetails);
+  
+  // Format price based on price type
+  const formatPrice = (price, priceType) => {
+    if (priceType === 'per lb') {
+      return `$${price.toFixed(2)} / lb`;
+    } else if (priceType === 'per item') {
+      return `$${price.toFixed(2)} / item`;
+    } else if (priceType === 'per set') {
+      return `$${price.toFixed(2)} / set`;
+    } else if (priceType === 'per stain') {
+      return `$${price.toFixed(2)} / stain`;
+    }
+    return `$${price.toFixed(2)}`;
   };
-
-  const buttonVariants = {
-    initial: { scale: 1 },
-    hover: { scale: 1.05 },
-    tap: { scale: 0.95 }
+  
+  // Get color based on service category
+  const getChipColor = (category) => {
+    switch (category) {
+      case 'Premium':
+        return theme.palette.primary.main;
+      case 'Specialized':
+        return theme.palette.secondary.main;
+      case 'Add-on':
+        return theme.palette.info.main;
+      case 'Business':
+        return theme.palette.warning.main;
+      default:
+        return TURQUOISE;
+    }
   };
-
-  const iconVariants = {
-    initial: { rotate: 0 },
-    hover: { rotate: 15, scale: 1.1 },
-    transition: { duration: 0.3 }
-  };
-
+  
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ y: -5 }}
+    <Card 
+      elevation={1}
+      sx={{
+        borderRadius: 3,
+        overflow: 'hidden',
+        transition: 'all 0.3s ease',
+        border: '1px solid',
+        borderColor: 'rgba(0,0,0,0.08)',
+        '&:hover': {
+          boxShadow: 3,
+          transform: 'translateY(-4px)',
+          borderColor: alpha(TURQUOISE, 0.3)
+        }
+      }}
     >
-      <Card 
-        elevation={2} 
-        sx={{ 
-          borderRadius: 3,
-          overflow: 'hidden',
-          transition: 'all 0.3s ease',
-          border: '1px solid rgba(226, 232, 240, 0.8)',
-          '&:hover': {
-            boxShadow: '0 12px 24px rgba(0,0,0,0.1)',
-            borderColor: theme.palette.primary.main
-          },
-          position: 'relative'
-        }}
-      >
-        {/* Service type tag */}
-        <Chip 
-          label={service.category || "Service"}
-          size="small"
-          icon={<LocalOfferIcon />}
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
+        {/* Service Image */}
+        <Box 
           sx={{ 
-            position: 'absolute',
-            top: 16,
-            left: 16,
-            zIndex: 10,
-            bgcolor: 'rgba(255, 255, 255, 0.9)',
-            border: '1px solid',
-            borderColor: theme.palette.primary.light,
-            color: theme.palette.primary.dark,
-            fontWeight: 600,
-            backdropFilter: 'blur(4px)',
-            '& .MuiChip-icon': {
-              color: theme.palette.primary.main
-            }
+            width: { xs: '100%', md: 220 },
+            position: 'relative',
+            height: { xs: 180, md: 'auto' },
+            bgcolor: 'grey.100'
           }}
-        />
-
-        <Grid container>
-          {/* Image Section */}
-          <Grid item xs={12} md={4} sx={{ position: 'relative' }}>
-            <Box sx={{ position: 'relative', height: { xs: 220, md: '100%' } }}>
-              <CardMedia
-                component="img"
-                image={service.image || "/placeholder-service.jpg"}
-                alt={service.title}
+        >
+          {service.imageUrl ? (
+            <Box 
+              component="img"
+              src={service.imageUrl}
+              alt={service.title}
+              sx={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }}
+            />
+          ) : (
+            <Box 
+              sx={{ 
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%',
+                bgcolor: alpha(TURQUOISE, 0.1),
+                color: DARK_BLUE
+              }}
+            >
+              <Typography variant="body2" color="textSecondary">
+                Image not available
+              </Typography>
+            </Box>
+          )}
+          
+          <Chip 
+            label={service.category}
+            size="small"
+            sx={{ 
+              position: 'absolute',
+              top: 12,
+              left: 12,
+              fontWeight: 600,
+              bgcolor: getChipColor(service.category),
+              color: 'white'
+            }}
+          />
+        </Box>
+        
+        {/* Service Content */}
+        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <CardContent sx={{ flex: '1 0 auto', py: { xs: 2, md: 3 }, px: { xs: 2, md: 3 } }}>
+            <Typography 
+              variant="h5" 
+              component="h2"
+              sx={{ 
+                fontWeight: 700,
+                mb: 1,
+                color: DARK_BLUE,
+                fontSize: { xs: '1.25rem', md: '1.5rem' }
+              }}
+            >
+              {service.title}
+            </Typography>
+            
+            <Typography 
+              variant="body1" 
+              color="text.secondary"
+              sx={{ mb: 2 }}
+            >
+              {service.description}
+            </Typography>
+            
+            <Box 
+              sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                mb: 2,
+                flexWrap: 'wrap',
+                gap: 1
+              }}
+            >
+              <Chip
+                icon={<AccessTimeIcon />}
+                label={`${service.estimatedTime} hours turnaround`}
+                size="small"
+                variant="outlined"
+                sx={{ borderColor: alpha(TURQUOISE, 0.5), color: DARK_BLUE }}
+              />
+              
+              <Typography 
+                variant="h6" 
+                color="primary"
                 sx={{ 
-                  height: '100%',
-                  width: '100%',
-                  objectFit: 'cover',
-                  transition: 'transform 0.5s ease',
-                  '&:hover': {
-                    transform: 'scale(1.05)'
+                  ml: 'auto',
+                  fontWeight: 700,
+                  color: DARK_BLUE
+                }}
+              >
+                {formatPrice(service.price, service.priceType)}
+              </Typography>
+            </Box>
+            
+            {service.specifications && service.specifications.length > 0 && (
+              <>
+                <Box sx={{ mb: 2 }}>
+                  <Box 
+                    sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      cursor: 'pointer',
+                      color: TURQUOISE,
+                      '&:hover': { opacity: 0.85 }
+                    }}
+                    onClick={toggleDetails}
+                  >
+                    <Typography 
+                      variant="subtitle2" 
+                      sx={{ 
+                        fontWeight: 600,
+                        mr: 0.5
+                      }}
+                    >
+                      {showDetails ? 'Hide Details' : 'View Details'}
+                    </Typography>
+                    {showDetails ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
+                  </Box>
+                </Box>
+                
+                <Collapse in={showDetails}>
+                  <Box sx={{ mb: 2 }}>
+                    <Divider sx={{ mb: 1.5 }} />
+                    
+                    <Typography 
+                      variant="subtitle2" 
+                      sx={{ 
+                        fontWeight: 600,
+                        mb: 1.5,
+                        color: DARK_BLUE
+                      }}
+                    >
+                      Service Includes:
+                    </Typography>
+                    
+                    <List 
+                      dense
+                      disablePadding
+                      sx={{ mb: 1 }}
+                    >
+                      {service.specifications.map((spec, index) => (
+                        <ListItem key={index} disablePadding disableGutters sx={{ mb: 0.75 }}>
+                          <ListItemIcon sx={{ minWidth: 28 }}>
+                            <CheckIcon sx={{ fontSize: 18, color: TURQUOISE }} />
+                          </ListItemIcon>
+                          <ListItemText 
+                            primary={spec} 
+                            primaryTypographyProps={{ 
+                              variant: 'body2', 
+                              color: 'text.primary' 
+                            }} 
+                          />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Box>
+                </Collapse>
+              </>
+            )}
+          </CardContent>
+          
+          <Divider />
+          
+          {/* Add to Cart Action */}
+          <Box 
+            sx={{ 
+              display: 'flex', 
+              flexDirection: { xs: 'column', sm: 'row' }, 
+              alignItems: 'center',
+              px: { xs: 2, md: 3 },
+              py: 2
+            }}
+          >
+            <Box 
+              sx={{ 
+                display: 'flex', 
+                alignItems: 'center',
+                mb: { xs: 2, sm: 0 },
+                width: { xs: '100%', sm: 'auto' }
+              }}
+            >
+              <IconButton 
+                onClick={decrementQuantity}
+                size="small"
+                sx={{ 
+                  border: '1px solid',
+                  borderColor: 'rgba(0,0,0,0.12)'
+                }}
+              >
+                <RemoveIcon fontSize="small" />
+              </IconButton>
+              
+              <TextField
+                value={quantity}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value);
+                  if (!isNaN(value) && value > 0) {
+                    setQuantity(value);
+                  }
+                }}
+                type="number"
+                InputProps={{
+                  inputProps: { 
+                    min: 1,
+                    style: { textAlign: 'center' }
+                  }
+                }}
+                variant="outlined"
+                size="small"
+                sx={{ 
+                  mx: 1,
+                  width: 60,
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: 'rgba(0,0,0,0.12)',
+                    },
                   }
                 }}
               />
               
-              {/* Overlay gradient */}
-              <Box 
+              <IconButton 
+                onClick={incrementQuantity}
+                size="small"
                 sx={{ 
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  height: '50%',
-                  backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0))',
-                  display: { xs: 'block', md: 'none' }
-                }}
-              />
-              
-              {/* Mobile price banner */}
-              {isMobile && (
-                <Box 
-                  sx={{ 
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    p: 2,
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                  }}
-                >
-                  <Typography 
-                    variant="h6" 
-                    sx={{ 
-                      fontWeight: 700, 
-                      color: 'white',
-                      textShadow: '0 1px 3px rgba(0,0,0,0.4)'
-                    }}
-                  >
-                    £{service.price.toFixed(2)} {service.unit}
-                  </Typography>
-                  
-                  <Chip 
-                    label="Best Seller" 
-                    size="small"
-                    sx={{ 
-                      bgcolor: theme.palette.secondary.main,
-                      color: 'white',
-                      fontWeight: 600,
-                      visibility: service.bestSeller ? 'visible' : 'hidden'
-                    }}
-                  />
-                </Box>
-              )}
-            </Box>
-          </Grid>
-          
-          {/* Content Section */}
-          <Grid item xs={12} md={8}>
-            <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
-              {/* Header with title, price and icon */}
-              <Box sx={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: { xs: 'flex-start', sm: 'center' },
-                flexDirection: { xs: 'column', sm: 'row' },
-                mb: 2,
-                gap: { xs: 1, sm: 0 }
-              }}>
-                <Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
-                    <Typography 
-                      variant="h5" 
-                      sx={{ 
-                        fontWeight: 800, 
-                        color: theme.palette.primary.dark,
-                        fontSize: { xs: '1.25rem', sm: '1.5rem' }
-                      }}
-                    >
-                      {service.title}
-                    </Typography>
-                    
-                    {!isMobile && service.bestSeller && (
-                      <Chip 
-                        label="Best Seller" 
-                        size="small"
-                        sx={{ 
-                          ml: 2,
-                          bgcolor: theme.palette.secondary.main,
-                          color: 'white',
-                          fontWeight: 600
-                        }}
-                      />
-                    )}
-                  </Box>
-                  
-                  {!isMobile && (
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Typography 
-                        variant="h6" 
-                        sx={{ 
-                          fontWeight: 700, 
-                          color: theme.palette.primary.main,
-                          mr: 1
-                        }}
-                      >
-                        £{service.price.toFixed(2)} {service.unit}
-                      </Typography>
-                      
-                      <Tooltip title="Pricing details">
-                        <InfoOutlinedIcon 
-                          fontSize="small" 
-                          sx={{ 
-                            color: theme.palette.text.secondary,
-                            cursor: 'pointer'
-                          }}
-                        />
-                      </Tooltip>
-                    </Box>
-                  )}
-                </Box>
-                
-                <motion.div
-                  variants={iconVariants}
-                  initial="initial"
-                  whileHover="hover"
-                >
-                  <Paper 
-                    elevation={3}
-                    sx={{ 
-                      bgcolor: service.color || theme.palette.primary.light, 
-                      borderRadius: '50%',
-                      p: 1.5,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: '0 4px 10px rgba(0,0,0,0.15)'
-                    }}
-                  >
-                    {React.cloneElement(service.icon, { 
-                      sx: { 
-                        color: theme.palette.primary.main,
-                        fontSize: '1.75rem'
-                      } 
-                    })}
-                  </Paper>
-                </motion.div>
-              </Box>
-              
-              {/* Description */}
-              <Typography 
-                variant="body1" 
-                sx={{ 
-                  mb: 3,
-                  lineHeight: 1.6,
-                  color: theme.palette.text.secondary
+                  border: '1px solid',
+                  borderColor: 'rgba(0,0,0,0.12)'
                 }}
               >
-                {service.description}
-              </Typography>
-              
-              <Divider sx={{ mb: 3 }} />
-              
-              {/* Features and Options */}
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                  <Typography 
-                    variant="subtitle1" 
-                    sx={{ 
-                      fontWeight: 700, 
-                      mb: 1.5, 
-                      color: theme.palette.primary.dark,
-                      display: 'flex',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <Box 
-                      sx={{ 
-                        width: 4, 
-                        height: 20, 
-                        bgcolor: theme.palette.primary.main,
-                        mr: 1,
-                        borderRadius: 1
-                      }}
-                    />
-                    Features
-                  </Typography>
-                  
-                  <List dense disablePadding>
-                    {service.features.map((feature, i) => (
-                      <motion.div
-                        key={i}
-                        custom={i}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={featureItemVariants}
-                      >
-                        <ListItem 
-                          sx={{ 
-                            px: 0, 
-                            py: 0.75,
-                            borderBottom: i < service.features.length - 1 ? '1px dashed rgba(0,0,0,0.06)' : 'none'
-                          }}
-                        >
-                          <ListItemIcon sx={{ minWidth: 32 }}>
-                            <Box
-                              sx={{
-                                width: 20,
-                                height: 20,
-                                borderRadius: '50%',
-                                bgcolor: `${theme.palette.primary.main}15`,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                              }}
-                            >
-                              <CheckIcon 
-                                sx={{ 
-                                  color: theme.palette.primary.main,
-                                  fontSize: '0.9rem'
-                                }} 
-                              />
-                            </Box>
-                          </ListItemIcon>
-                          <ListItemText 
-                            primary={feature} 
-                            primaryTypographyProps={{ 
-                              variant: 'body2',
-                              sx: { color: theme.palette.text.secondary }
-                            }}
-                          />
-                        </ListItem>
-                      </motion.div>
-                    ))}
-                  </List>
-                </Grid>
-                
-                <Grid item xs={12} md={6}>
-                  <Typography 
-                    variant="subtitle1" 
-                    sx={{ 
-                      fontWeight: 700, 
-                      mb: 1.5, 
-                      color: theme.palette.primary.dark,
-                      display: 'flex',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <Box 
-                      sx={{ 
-                        width: 4, 
-                        height: 20, 
-                        bgcolor: theme.palette.primary.main,
-                        mr: 1,
-                        borderRadius: 1
-                      }}
-                    />
-                    Turnaround Options
-                  </Typography>
-                  
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      borderRadius: 2,
-                      p: { xs: 1.5, sm: 2 },
-                      borderColor: 'rgba(0,0,0,0.08)'
-                    }}
-                  >
-                    <Stack spacing={1.5}>
-                      {service.options.map((option, i) => (
-                        <Box 
-                          key={i} 
-                          sx={{ 
-                            display: 'flex', 
-                            justifyContent: 'space-between', 
-                            alignItems: 'center',
-                            pb: i < service.options.length - 1 ? 1.5 : 0,
-                            borderBottom: i < service.options.length - 1 ? '1px dashed rgba(0,0,0,0.08)' : 'none'
-                          }}
-                        >
-                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Box
-                              sx={{
-                                width: 26,
-                                height: 26,
-                                borderRadius: '50%',
-                                bgcolor: `${theme.palette.primary.main}15`,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                mr: 1
-                              }}
-                            >
-                              <AccessTimeIcon 
-                                fontSize="small" 
-                                sx={{ 
-                                  color: theme.palette.primary.main,
-                                  fontSize: '1rem'
-                                }}
-                              />
-                            </Box>
-                            <Box>
-                              <Typography 
-                                variant="body2"
-                                sx={{ fontWeight: 600, lineHeight: 1.2 }}
-                              >
-                                {option.name}
-                              </Typography>
-                              {option.description && (
-                                <Typography 
-                                  variant="caption" 
-                                  color="text.secondary"
-                                  sx={{ display: 'block' }}
-                                >
-                                  {option.description}
-                                </Typography>
-                              )}
-                            </Box>
-                          </Box>
-                          
-                          <motion.div
-                            variants={buttonVariants}
-                            initial="initial"
-                            whileHover="hover"
-                            whileTap="tap"
-                          >
-                            <Button
-                              variant="contained"
-                              size="small"
-                              onClick={() => handleAddToCart(service, option)}
-                              startIcon={<AddShoppingCartIcon />}
-                              sx={{ 
-                                borderRadius: 6, 
-                                textTransform: 'none',
-                                bgcolor: theme.palette.primary.main,
-                                color: 'white',
-                                '&:hover': {
-                                  bgcolor: theme.palette.primary.dark,
-                                },
-                                px: { xs: 1.5, sm: 2 },
-                                py: 0.75,
-                                boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
-                              }}
-                            >
-                              {option.price > 0 ? `+£${option.price.toFixed(2)}` : 'Add'}
-                            </Button>
-                          </motion.div>
-                        </Box>
-                      ))}
-                    </Stack>
-                  </Paper>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Grid>
-        </Grid>
-      </Card>
-    </motion.div>
+                <AddIcon fontSize="small" />
+              </IconButton>
+            </Box>
+            
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<CartIcon />}
+              fullWidth={isSmall}
+              onClick={() => handleAddToCart(service, quantity)}
+              sx={{ 
+                ml: { xs: 0, sm: 'auto' },
+                bgcolor: TURQUOISE,
+                '&:hover': {
+                  bgcolor: alpha(TURQUOISE, 0.9)
+                }
+              }}
+            >
+              Add to Cart
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+    </Card>
   );
 };
 
