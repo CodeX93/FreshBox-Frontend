@@ -7,7 +7,8 @@ import {
   Button,
   Box,
   Divider,
-  ThemeProvider
+  ThemeProvider,
+  useMediaQuery
 } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -20,11 +21,21 @@ import { useRouter } from 'next/navigation';
 // Helper functions
 const getTagColor = (category) => {
   switch (category) {
-    case 'Pricing': return '#4CAF50'; // Green
-    case 'Service': return theme.palette.primary.main; // Using your turquoise
-    case 'Policies': return '#F44336'; // Red
-    case 'Products': return '#9C27B0'; // Purple
-    default: return '#2196F3'; // Blue
+    case 'Pricing': return '#2E7B5C'; // Dark green from theme
+    case 'Service': return '#85D2B3'; // Primary medium green from theme
+    case 'Policies': return '#B5ECD9'; // Secondary mint from theme
+    case 'Products': return '#BDF4E3'; // Light mint from theme
+    default: return '#2E7B5C'; // Default to dark green
+  }
+};
+
+const getTagTextColor = (category) => {
+  switch (category) {
+    case 'Pricing': return '#FFFFFF'; // White text on dark background
+    case 'Service': return '#0a1929'; // Dark text on medium background
+    case 'Policies': return '#0a1929'; // Dark text on light background
+    case 'Products': return '#0a1929'; // Dark text on light background
+    default: return '#FFFFFF'; // Default to white text
   }
 };
 
@@ -37,7 +48,7 @@ const highlightText = (text, searchQuery) => {
     <>
       {parts.map((part, index) => 
         part.toLowerCase() === searchQuery.toLowerCase() ? (
-          <mark key={index} style={{ backgroundColor: `${theme.palette.primary.main}20`, padding: '0 2px', borderRadius: '2px' }}>{part}</mark>
+          <mark key={index} style={{ backgroundColor: `rgba(133, 210, 179, 0.2)`, padding: '0 2px', borderRadius: '2px' }}>{part}</mark>
         ) : part
       )}
     </>
@@ -50,6 +61,7 @@ const ClientFAQSection = ({ faqs }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredFaqs, setFilteredFaqs] = useState(faqs);
   const router = useRouter();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   
   // Search functionality
   useEffect(() => {
@@ -83,11 +95,15 @@ const ClientFAQSection = ({ faqs }) => {
     visible: (i) => ({ 
       opacity: 1, 
       y: 0,
-      transition: { delay: 0.05 * i, duration: 0.3 }
+      transition: { delay: 0.05 * i, duration: 0.5, ease: "easeOut" }
     })
   };
 
-  
+  const fadeIn = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       {/* Section Header */}
@@ -98,20 +114,41 @@ const ClientFAQSection = ({ faqs }) => {
       >
         <Grid container spacing={3} justifyContent="center">
           <Grid item xs={12} md={10} lg={8}>
-            <Box sx={{ textAlign: 'center', mb: 6 }}>
+            <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
               <Box
                 sx={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: 80,
-                  height: 80,
+                  width: { xs: 80, md: 100 },
+                  height: { xs: 80, md: 100 },
                   borderRadius: '50%',
                   backgroundColor: theme.palette.primary.main,
-                  mb: 3
+                  boxShadow: '0 10px 30px rgba(133, 210, 179, 0.3)',
+                  mb: 4,
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    top: -8,
+                    left: -8,
+                    right: -8,
+                    bottom: -8,
+                    borderRadius: '50%',
+                    border: '2px dashed rgba(133, 210, 179, 0.5)',
+                    animation: 'spin 15s linear infinite'
+                  },
+                  '@keyframes spin': {
+                    '0%': {
+                      transform: 'rotate(0deg)'
+                    },
+                    '100%': {
+                      transform: 'rotate(360deg)'
+                    }
+                  }
                 }}
               >
-                <HelpOutlineIcon sx={{ fontSize: 40, color: '#ffffff' }} />
+                <HelpOutlineIcon sx={{ fontSize: { xs: 40, md: 48 }, color: theme.palette.primary.dark }} />
               </Box>
               <Typography
                 variant="h3"
@@ -119,8 +156,22 @@ const ClientFAQSection = ({ faqs }) => {
                 align="center"
                 sx={{ 
                   fontWeight: 700, 
-                  color: '#1a202c',
-                  mb: 2
+                  color: theme.palette.primary.dark,
+                  fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
+                  mb: 3,
+                  position: 'relative',
+                  display: 'inline-block',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    bottom: -10,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: '80px',
+                    height: '4px',
+                    backgroundColor: theme.palette.primary.main,
+                    borderRadius: '2px'
+                  }
                 }}
               >
                 Frequently Asked Questions
@@ -130,10 +181,12 @@ const ClientFAQSection = ({ faqs }) => {
                 variant="h6"
                 align="center"
                 sx={{ 
-                  mb: 4, 
-                  color: '#4a5568',
-                  maxWidth: 700,
-                  mx: 'auto'
+                  mb: 5, 
+                  color: theme.palette.text.secondary,
+                  maxWidth: 750,
+                  mx: 'auto',
+                  fontSize: { xs: '1rem', sm: '1.1rem', md: '1.25rem' },
+                  mt: 4
                 }}
               >
                 Everything you need to know about our laundry service
@@ -149,19 +202,19 @@ const ClientFAQSection = ({ faqs }) => {
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  maxWidth: 550,
-                  height: 56,
+                  maxWidth: 600,
+                  height: 60,
                   mx: 'auto',
                   px: 3,
-                  borderRadius: 28,
-                  backgroundColor: searchFocus ? '#ffffff' : '#f7fafc',
-                  border: `1px solid ${searchFocus ? theme.palette.primary.main : '#e2e8f0'}`,
-                  boxShadow: searchFocus ? '0 4px 20px rgba(0,0,0,0.08)' : 'none',
+                  borderRadius: 30,
+                  backgroundColor: searchFocus ? '#ffffff' : 'rgba(255, 255, 255, 0.7)',
+                  border: `2px solid ${searchFocus ? theme.palette.primary.main : 'rgba(133, 210, 179, 0.3)'}`,
+                  boxShadow: searchFocus ? '0 8px 25px rgba(133, 210, 179, 0.15)' : '0 4px 15px rgba(133, 210, 179, 0.05)',
                   transition: 'all 0.3s ease',
-                  mb: 7
+                  mb: 8
                 }}
               >
-                <SearchIcon sx={{ color: '#a0aec0', mr: 2 }} />
+                <SearchIcon sx={{ color: searchFocus ? theme.palette.primary.main : '#a0aec0', mr: 2 }} />
                 <input
                   type="text"
                   placeholder="Search for answers..."
@@ -174,8 +227,8 @@ const ClientFAQSection = ({ faqs }) => {
                     outline: 'none',
                     width: '100%',
                     background: 'transparent',
-                    fontSize: '1rem',
-                    color: '#4a5568'
+                    fontSize: '1.1rem',
+                    color: theme.palette.text.secondary
                   }}
                 />
                 {searchQuery && (
@@ -192,7 +245,7 @@ const ClientFAQSection = ({ faqs }) => {
                         minWidth: 'auto', 
                         p: 0.5,
                         color: '#a0aec0',
-                        '&:hover': { color: '#4a5568' }
+                        '&:hover': { color: theme.palette.primary.dark }
                       }}
                     >
                       ✕
@@ -220,18 +273,19 @@ const ClientFAQSection = ({ faqs }) => {
                   sx={{
                     backgroundColor: '#ffffff',
                     borderRadius: 4,
-                    boxShadow: '0 10px 40px rgba(0,0,0,0.08)',
+                    boxShadow: '0 15px 50px rgba(46, 123, 92, 0.08)',
                     p: 6,
                     textAlign: 'center',
-                    mb: 6
+                    mb: 8,
+                    border: '1px solid rgba(181, 236, 217, 0.5)'
                   }}
                 >
                   <Box
                     sx={{
-                      width: 80,
-                      height: 80,
+                      width: 90,
+                      height: 90,
                       borderRadius: '50%',
-                      backgroundColor: '#f7fafc',
+                      backgroundColor: 'rgba(181, 236, 217, 0.2)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -239,20 +293,35 @@ const ClientFAQSection = ({ faqs }) => {
                       mb: 3
                     }}
                   >
-                    <SearchIcon sx={{ fontSize: 40, color: '#a0aec0' }} />
+                    <SearchIcon sx={{ fontSize: 40, color: theme.palette.primary.dark }} />
                   </Box>
-                  <Typography variant="h5" sx={{ color: '#1a202c', mb: 2 }}>
+                  <Typography 
+                    variant="h5" 
+                    sx={{ 
+                      color: theme.palette.primary.dark, 
+                      mb: 2, 
+                      fontWeight: 600 
+                    }}
+                  >
                     No matching questions found
                   </Typography>
-                  <Typography sx={{ color: '#4a5568', mb: 3 }}>
+                  <Typography sx={{ color: theme.palette.text.secondary, mb: 4 }}>
                     Try different keywords or browse all our FAQs
                   </Typography>
                   <Button
-                    variant="outlined"
+                    variant="contained"
                     onClick={() => setSearchQuery('')}
                     sx={{
-                      borderColor: theme.palette.primary.main,
-                      color: theme.palette.primary.main
+                      backgroundColor: theme.palette.primary.main,
+                      color: theme.palette.primary.dark,
+                      fontWeight: 600,
+                      px: 4,
+                      py: 1.2,
+                      borderRadius: 10,
+                      '&:hover': {
+                        backgroundColor: theme.palette.primary.mainHover,
+                        boxShadow: '0 8px 20px rgba(133, 210, 179, 0.25)'
+                      }
                     }}
                   >
                     Show All FAQs
@@ -263,10 +332,11 @@ const ClientFAQSection = ({ faqs }) => {
               <Box
                 sx={{
                   backgroundColor: '#ffffff',
-                  borderRadius: 4,
-                  boxShadow: '0 10px 40px rgba(0,0,0,0.08)',
+                  borderRadius: { xs: 3, md: 4 },
+                  boxShadow: '0 15px 50px rgba(46, 123, 92, 0.08)',
                   overflow: 'hidden',
-                  mb: 6
+                  mb: 8,
+                  border: '1px solid rgba(181, 236, 217, 0.5)'
                 }}
               >
                 <AnimatePresence>
@@ -282,16 +352,17 @@ const ClientFAQSection = ({ faqs }) => {
                     >
                       <React.Fragment>
                         {index > 0 && (
-                          <Divider sx={{ mx: 3, borderColor: '#edf2f7' }} />
+                          <Divider sx={{ mx: 3, borderColor: 'rgba(181, 236, 217, 0.6)' }} />
                         )}
                         <Box
                           onClick={() => handleToggle(`panel${index}`)}
                           sx={{
-                            p: 3,
+                            p: { xs: 2.5, md: 3.5 },
                             cursor: 'pointer',
-                            transition: 'background-color 0.2s',
+                            transition: 'all 0.3s ease',
+                            backgroundColor: expandedPanel === `panel${index}` ? 'rgba(181, 236, 217, 0.1)' : 'transparent',
                             '&:hover': {
-                              backgroundColor: '#f7fafc'
+                              backgroundColor: 'rgba(181, 236, 217, 0.1)'
                             }
                           }}
                         >
@@ -299,22 +370,33 @@ const ClientFAQSection = ({ faqs }) => {
                             sx={{
                               display: 'flex',
                               justifyContent: 'space-between',
-                              alignItems: 'flex-start'
+                              alignItems: { xs: 'flex-start', md: 'center' },
+                              flexDirection: { xs: 'column', md: 'row' }
                             }}
                           >
-                            <Box sx={{ display: 'flex', alignItems: 'flex-start', flex: 1 }}>
+                            <Box sx={{ 
+                              display: 'flex', 
+                              alignItems: 'flex-start', 
+                              flex: 1,
+                              flexDirection: { xs: 'column', md: 'row' },
+                              mb: { xs: 2, md: 0 }
+                            }}>
                               <Box
                                 sx={{
                                   backgroundColor: getTagColor(faq.category),
-                                  color: '#ffffff',
+                                  color: getTagTextColor(faq.category),
                                   fontSize: '0.75rem',
                                   fontWeight: 600,
                                   px: 1.5,
                                   py: 0.5,
-                                  borderRadius: 5,
-                                  mr: 2,
-                                  mt: 0.3,
-                                  whiteSpace: 'nowrap'
+                                  borderRadius: 10,
+                                  mr: { xs: 0, md: 2.5 },
+                                  mb: { xs: 1.5, md: 0 },
+                                  mt: { xs: 0, md: 0.3 },
+                                  whiteSpace: 'nowrap',
+                                  display: 'inline-block',
+                                  minWidth: 70,
+                                  textAlign: 'center'
                                 }}
                               >
                                 {faq.category}
@@ -324,24 +406,47 @@ const ClientFAQSection = ({ faqs }) => {
                                 component="h3"
                                 sx={{
                                   fontWeight: 600,
-                                  color: '#1a202c',
-                                  pr: 8
+                                  color: theme.palette.primary.dark,
+                                  pr: { xs: 0, md: 8 },
+                                  fontSize: { xs: '1.1rem', md: '1.25rem' }
                                 }}
                               >
                                 {highlightText(faq.question, searchQuery)}
                               </Typography>
                             </Box>
                             <motion.div
-                              animate={{ rotate: expandedPanel === `panel${index}` ? 180 : 0 }}
+                              animate={{ 
+                                rotate: expandedPanel === `panel${index}` ? 180 : 0,
+                                scale: expandedPanel === `panel${index}` ? 1.1 : 1 
+                              }}
                               transition={{ duration: 0.3 }}
-                              style={{ marginLeft: 16 }}
+                              style={{ marginLeft: isMobile ? 0 : 16 }}
                             >
-                              <KeyboardArrowDownIcon
+                              <Box
                                 sx={{
-                                  color: expandedPanel === `panel${index}` ? theme.palette.primary.main : '#a0aec0',
-                                  fontSize: 28
+                                  width: { xs: 32, md: 36 },
+                                  height: { xs: 32, md: 36 },
+                                  borderRadius: '50%',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  backgroundColor: expandedPanel === `panel${index}` 
+                                    ? theme.palette.primary.main 
+                                    : 'rgba(181, 236, 217, 0.3)',
+                                  transition: 'all 0.3s ease',
+                                  ml: { xs: 'auto', md: 0 },
+                                  mt: { xs: -6, md: 0 }
                                 }}
-                              />
+                              >
+                                <KeyboardArrowDownIcon
+                                  sx={{
+                                    color: expandedPanel === `panel${index}` 
+                                      ? theme.palette.primary.dark 
+                                      : theme.palette.primary.dark,
+                                    fontSize: { xs: 24, md: 28 }
+                                  }}
+                                />
+                              </Box>
                             </motion.div>
                           </Box>
                           
@@ -351,14 +456,25 @@ const ClientFAQSection = ({ faqs }) => {
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: 'auto' }}
                                 exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.3 }}
+                                transition={{ duration: 0.4 }}
+                                variants={fadeIn}
                               >
-                                <Box sx={{ mt: 2, ml: 8 }}>
+                                <Box 
+                                  sx={{ 
+                                    mt: 3, 
+                                    ml: { xs: 0, md: isMobile ? 0 : 10 },
+                                    p: 2.5, 
+                                    borderLeft: { xs: 'none', md: `4px solid ${theme.palette.primary.main}` },
+                                    backgroundColor: 'rgba(181, 236, 217, 0.06)',
+                                    borderRadius: { xs: 2, md: '0 8px 8px 0' }
+                                  }}
+                                >
                                   <Typography
                                     variant="body1"
                                     sx={{
-                                      color: '#4a5568',
-                                      lineHeight: 1.7
+                                      color: theme.palette.text.secondary,
+                                      lineHeight: 1.8,
+                                      fontSize: '1rem'
                                     }}
                                   >
                                     {highlightText(faq.answer, searchQuery)}
@@ -387,15 +503,16 @@ const ClientFAQSection = ({ faqs }) => {
         <Box
           sx={{
             textAlign: 'center',
-            py: 5,
-            px: 4,
+            py: { xs: 5, md: 6 },
+            px: { xs: 3, md: 5 },
             borderRadius: 4,
-            backgroundColor: theme.palette.primary.main,
+            background: 'linear-gradient(135deg, #85D2B3 0%, #2E7B5C 100%)',
             color: '#ffffff',
-            maxWidth: 800,
+            maxWidth: 850,
             mx: 'auto',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            boxShadow: '0 20px 40px rgba(46, 123, 92, 0.15)'
           }}
         >
           {/* Decorative circles */}
@@ -404,8 +521,8 @@ const ClientFAQSection = ({ faqs }) => {
               position: 'absolute',
               top: -30,
               left: -30,
-              width: 100,
-              height: 100,
+              width: 120,
+              height: 120,
               borderRadius: '50%',
               backgroundColor: 'rgba(255,255,255,0.1)'
             }}
@@ -413,12 +530,23 @@ const ClientFAQSection = ({ faqs }) => {
           <Box
             sx={{
               position: 'absolute',
-              bottom: -20,
-              right: -20,
-              width: 80,
-              height: 80,
+              bottom: -40,
+              right: -40,
+              width: 150,
+              height: 150,
               borderRadius: '50%',
-              backgroundColor: 'rgba(255,255,255,0.1)'
+              backgroundColor: 'rgba(255,255,255,0.08)'
+            }}
+          />
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '40%',
+              right: '20%',
+              width: 30,
+              height: 30,
+              borderRadius: '50%',
+              backgroundColor: 'rgba(255,255,255,0.15)'
             }}
           />
           
@@ -431,13 +559,29 @@ const ClientFAQSection = ({ faqs }) => {
                 mb: 3
               }}
             >
-              <MessageIcon sx={{ fontSize: 32, mr: 1.5 }} />
-              <Typography variant="h5" component="h3" sx={{ fontWeight: 600 }}>
+              <MessageIcon sx={{ fontSize: { xs: 28, md: 32 }, mr: 1.5 }} />
+              <Typography 
+                variant="h5" 
+                component="h3" 
+                sx={{ 
+                  fontWeight: 600,
+                  fontSize: { xs: '1.5rem', md: '1.75rem' }
+                }}
+              >
                 Still have questions?
               </Typography>
             </Box>
             
-            <Typography variant="body1" sx={{ mb: 4, maxWidth: 600, mx: 'auto' }}>
+            <Typography 
+              variant="body1" 
+              sx={{ 
+                mb: 4, 
+                maxWidth: 650, 
+                mx: 'auto',
+                opacity: 0.9,
+                fontSize: { xs: '1rem', md: '1.1rem' }
+              }}
+            >
               Our support team is here to help. Contact us anytime and we'll get back to you as soon as possible.
             </Typography>
             
@@ -454,11 +598,15 @@ const ClientFAQSection = ({ faqs }) => {
                   px: 4,
                   fontSize: "1rem",
                   fontWeight: 600,
-                  backgroundColor: "#0a1929", // Dark Blue Color for contrast
-                  color: theme.palette.primary.white, // Black text for readability
+                  backgroundColor: "#ffffff",
+                  color: theme.palette.primary.dark,
+                  borderRadius: 10,
+                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
                   "&:hover": {
-                    backgroundColor: "#1f2d3d", // Slightly light Blue color on hover
+                    backgroundColor: "#F9FFFC",
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
                   },
+                  transition: 'all 0.3s ease'
                 }}
               >
                 Contact Support

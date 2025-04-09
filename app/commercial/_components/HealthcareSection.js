@@ -30,7 +30,7 @@ import {
 import { motion, useAnimation, useInView } from 'framer-motion';
 
 // Define constants
-const TURQUOISE = '#28ddcd';
+const TURQUOISE = '#2E7B5C';
 
 // Motion components
 const MotionBox = motion(Box);

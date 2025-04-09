@@ -15,8 +15,8 @@ import { Business as CommercialIcon } from '@mui/icons-material';
 import { motion, useAnimation } from 'framer-motion';
 
 // Define constants
-const TURQUOISE = '#28ddcd';
-const DARK_TURQUOISE = '#20c5b7';
+const TURQUOISE = '#2E7B5C';
+const DARK_TURQUOISE = '#2E7B5C';
 
 // Motion components
 const MotionBox = motion(Box);

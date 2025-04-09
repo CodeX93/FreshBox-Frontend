@@ -20,6 +20,10 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useRouter } from 'next/navigation';
 
+// Define constants
+const TURQUOISE = '#2E7B5C';
+const DARK_BLUE = '#0a1929';
+
 const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, updateQuantity }) => {
   const theme = useTheme();
   const router = useRouter();
@@ -54,6 +58,42 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
     }
   };
 
+  // Calculate total for a single item
+  const calculateItemTotal = (item) => {
+    const price = Number(item.price || 0);
+    const quantity = Number(item.quantity || 1);
+    return (price * quantity).toFixed(2);
+  };
+
+  // Format price based on service price type
+  const formatPriceWithType = (item) => {
+    const price = Number(item.price || 0);
+    const priceType = item.priceType || 'per item';
+    
+    return `$${price.toFixed(2)} ${priceType}`;
+  };
+
+  // Calculate the cart subtotal
+  const calculateSubtotal = () => {
+    if (!cart || cart.length === 0) return 0;
+    
+    return cart.reduce((total, item) => {
+      const price = Number(item.price || 0);
+      const quantity = Number(item.quantity || 1);
+      return total + (price * quantity);
+    }, 0).toFixed(2);
+  };
+
+  // Get the correct ID from the item
+  const getItemId = (item) => {
+    return item._id || item.id;
+  };
+
+  // Get the correct name from the item
+  const getItemName = (item) => {
+    return item.name || item.title;
+  };
+
   return (
     <motion.div
       initial="hidden"
@@ -66,7 +106,7 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
         border: '1px solid rgba(226, 232, 240, 0.8)'
       }}>
         <Box sx={{ 
-          bgcolor: theme.palette.primary.main, 
+          bgcolor: TURQUOISE, 
           color: 'white',
           p: 2,
           display: 'flex',
@@ -114,7 +154,7 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                 <AnimatePresence>
                   {cart.map((item) => (
                     <motion.div
-                      key={item.id}
+                      key={getItemId(item)}
                       initial="hidden"
                       animate="visible"
                       exit="exit"
@@ -124,7 +164,7 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                         secondaryAction={
                           <IconButton 
                             edge="end" 
-                            onClick={() => handleRemoveFromCart(item.id)}
+                            onClick={() => handleRemoveFromCart(getItemId(item))}
                             size="small"
                           >
                             <DeleteOutlineIcon fontSize="small" />
@@ -136,14 +176,15 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                           primary={
                             <Typography variant="subtitle2" sx={{ 
                               fontWeight: 600,
-                              color: theme.palette.primary.dark
+                              color: DARK_BLUE
                             }}>
-                              {item.name} - {item.option}
+                              {getItemName(item)}
                             </Typography>
                           }
                           secondary={
                             <Typography variant="body2" color="text.secondary">
-                              £{(item.basePrice + item.optionPrice).toFixed(2)} {item.quantity > 1 ? `x ${item.quantity}` : ''}
+                              {formatPriceWithType(item)} 
+                              {Number(item.quantity || 1) > 1 ? ` x ${item.quantity}` : ''}
                             </Typography>
                           }
                         />
@@ -151,8 +192,9 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                           <motion.div whileTap={{ scale: 0.9 }}>
                             <IconButton 
                               size="small" 
-                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              sx={{ color: theme.palette.primary.main }}
+                              onClick={() => updateQuantity(getItemId(item), Math.max(1, Number(item.quantity || 1) - 1))}
+                              sx={{ color: TURQUOISE }}
+                              disabled={Number(item.quantity || 1) <= 1}
                             >
                               <RemoveIcon fontSize="small" />
                             </IconButton>
@@ -163,19 +205,30 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                             textAlign: 'center',
                             fontWeight: 600
                           }}>
-                            {item.quantity}
+                            {item.quantity || 1}
                           </Typography>
                           <motion.div whileTap={{ scale: 0.9 }}>
                             <IconButton 
                               size="small" 
-                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              sx={{ color: theme.palette.primary.main }}
+                              onClick={() => updateQuantity(getItemId(item), Number(item.quantity || 1) + 1)}
+                              sx={{ color: TURQUOISE }}
                             >
                               <AddIcon fontSize="small" />
                             </IconButton>
                           </motion.div>
                         </Box>
                       </ListItem>
+                      {/* Show item total */}
+                      <Box sx={{ 
+                        display: 'flex', 
+                        justifyContent: 'flex-end', 
+                        pr: 5,
+                        pb: 1
+                      }}>
+                        <Typography variant="caption" color="text.secondary">
+                          Subtotal: ${calculateItemTotal(item)}
+                        </Typography>
+                      </Box>
                     </motion.div>
                   ))}
                 </AnimatePresence>
@@ -185,7 +238,7 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
               
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography variant="body2">Subtotal</Typography>
-                <Typography variant="body2">£{cartTotal.toFixed(2)}</Typography>
+                <Typography variant="body2">${calculateSubtotal()}</Typography>
               </Box>
               
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
@@ -197,8 +250,8 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
               
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>Total</Typography>
-                <Typography variant="subtitle1" sx={{ fontWeight: 700, color: theme.palette.primary.main }}>
-                  £{cartTotal.toFixed(2)}
+                <Typography variant="subtitle1" sx={{ fontWeight: 700, color: TURQUOISE }}>
+                  ${calculateSubtotal()}
                 </Typography>
               </Box>
               
@@ -207,23 +260,24 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                 whileTap={{ scale: 0.98 }}
               >
                 <Button 
-                  variant="contained" 
-                  fullWidth 
-                  size="large"
-                  onClick={() => router.push('/checkout')}
-                  disabled={cart.length === 0}
-                  sx={{ 
-                    py: 1.5,
-                    borderRadius: 2,
-                    fontWeight: 600,
-                    backgroundColor: theme.palette.primary.main,
-                    '&:hover': {
-                      backgroundColor: theme.palette.primary.dark,
-                    }
-                  }}
-                >
-                  Proceed to Checkout
-                </Button>
+  variant="contained" 
+  fullWidth 
+  size="large"
+  onClick={() => router.push('/checkout?from=services')}
+  disabled={cart.length === 0}
+  sx={{ 
+    py: 1.5,
+    borderRadius: 2,
+    fontWeight: 600,
+    color:'#ffffff',
+    backgroundColor: TURQUOISE,
+    '&:hover': {
+      backgroundColor: '#2E7B5C',
+    }
+  }}
+>
+  Proceed to Checkout
+</Button>
               </motion.div>
             </>
           )}

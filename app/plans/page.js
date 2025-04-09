@@ -105,7 +105,7 @@ const PlansPage = () => {
           <Button
             startIcon={<ArrowBackIcon />}
             onClick={handleBackClick}
-            sx={{ mb: 4, color: '#28ddcd', borderColor: '#28ddcd' }}
+            sx={{ mb: 4, color: '#2E7B5C', borderColor: '#2E7B5C' }}
             variant="outlined"
           >
             Back
@@ -126,9 +126,9 @@ const PlansPage = () => {
                 <FormControlLabel
                   value="biweekly"
                   control={<Radio sx={{ 
-                    color: '#28ddcd',
+                    color: '#2E7B5C',
                     '&.Mui-checked': {
-                      color: '#28ddcd',
+                      color: '#2E7B5C',
                     },
                   }} />}
                   label="Biweekly"
@@ -136,9 +136,9 @@ const PlansPage = () => {
                 <FormControlLabel
                   value="monthly"
                   control={<Radio sx={{ 
-                    color: '#28ddcd',
+                    color: '#2E7B5C',
                     '&.Mui-checked': {
-                      color: '#28ddcd',
+                      color: '#2E7B5C',
                     },
                   }} />}
                   label="Monthly"
@@ -146,9 +146,9 @@ const PlansPage = () => {
                 <FormControlLabel
                   value="quarterly"
                   control={<Radio sx={{ 
-                    color: '#28ddcd',
+                    color: '#2E7B5C',
                     '&.Mui-checked': {
-                      color: '#28ddcd',
+                      color: '#2E7B5C',
                     },
                   }} />}
                   label="Quarterly"
@@ -156,9 +156,9 @@ const PlansPage = () => {
                 <FormControlLabel
                   value="annual"
                   control={<Radio sx={{ 
-                    color: '#28ddcd',
+                    color: '#2E7B5C',
                     '&.Mui-checked': {
-                      color: '#28ddcd',
+                      color: '#2E7B5C',
                     },
                   }} />}
                   label="Annual"
@@ -180,7 +180,7 @@ const PlansPage = () => {
                     <Box sx={{ textAlign: 'center', my: 3 }}>
                       {getPrice('basic') ? (
                         <>
-                          <Typography variant="h3" component="p" sx={{ color: '#28ddcd' }}>
+                          <Typography variant="h3" component="p" sx={{ color: '#2E7B5C' }}>
                             ${getPrice('basic')}
                           </Typography>
                           <Typography variant="subtitle1" color="text.secondary">
@@ -199,19 +199,19 @@ const PlansPage = () => {
                     <List>
                       <ListItem>
                         <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
+                          <CheckIcon sx={{ color: '#2E7B5C' }} />
                         </ListItemIcon>
                         <ListItemText primary="Standard laundry service (wash and fold)" />
                       </ListItem>
                       <ListItem>
                         <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
+                          <CheckIcon sx={{ color: '#2E7B5C' }} />
                         </ListItemIcon>
                         <ListItemText primary="Limited number of items per month (up to 40 items/month)" />
                       </ListItem>
                       <ListItem>
                         <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
+                          <CheckIcon sx={{ color: '#2E7B5C' }} />
                         </ListItemIcon>
                         <ListItemText primary="Basic customer support (email or chat)" />
                       </ListItem>
@@ -250,10 +250,10 @@ const PlansPage = () => {
                       size="large"
                       disabled={!getPrice('basic')}
                       sx={{ 
-                        borderColor: '#28ddcd', 
-                        color: '#28ddcd',
+                        borderColor: '#2E7B5C', 
+                        color: '#2E7B5C',
                         '&:hover': {
-                          borderColor: '#1eb3a6',
+                          borderColor: '#2E7B5C',
                           backgroundColor: 'rgba(40, 221, 205, 0.04)'
                         }
                       }}
@@ -269,7 +269,7 @@ const PlansPage = () => {
             <Grid item xs={12} md={4}>
               <Zoom in={true} timeout={800} style={{ transitionDelay: '200ms' }}>
                 <PlanCard planType="premium">
-                  <PopularTag label="Most Popular" />
+                  <PopularTag label="Most Popular"  sx={{bgcolor:'#2E7B5C'}}/>
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography variant="h4" component="h2" gutterBottom align="center">
                       Premium
@@ -278,7 +278,7 @@ const PlansPage = () => {
                     <Box sx={{ textAlign: 'center', my: 3 }}>
                       {getPrice('premium') ? (
                         <>
-                          <Typography variant="h3" component="p" sx={{ color: '#28ddcd' }}>
+                          <Typography variant="h3" component="p" sx={{ color: '#2E7B5C' }}>
                             ${getPrice('premium')}
                           </Typography>
                           <Typography variant="subtitle1" color="text.secondary">
@@ -362,9 +362,9 @@ const PlansPage = () => {
                       size="large" 
                       disabled={!getPrice('premium')}
                       sx={{ 
-                        backgroundColor: '#28ddcd',
+                        backgroundColor: '#2E7B5C',
                         '&:hover': {
-                          backgroundColor: '#1eb3a6'
+                          backgroundColor: '#2E7B5C'
                         }
                       }}
                     >
@@ -387,7 +387,7 @@ const PlansPage = () => {
                     <Box sx={{ textAlign: 'center', my: 3 }}>
                       {getPrice('enterprise') ? (
                         <>
-                          <Typography variant="h3" component="p" sx={{ color: '#28ddcd' }}>
+                          <Typography variant="h3" component="p" sx={{ color: '#2E7B5C' }}>
                             ${getPrice('enterprise')}
                           </Typography>
                           <Typography variant="subtitle1" color="text.secondary">
@@ -398,7 +398,7 @@ const PlansPage = () => {
                               label="Save 20%" 
                               sx={{ 
                                 mt: 1, 
-                                backgroundColor: '#2db799',
+                                backgroundColor: '#2E7B5C',
                                 color: 'white'
                               }}
                               size="small" 
@@ -483,10 +483,10 @@ const PlansPage = () => {
                       size="large"
                       disabled={!getPrice('enterprise')}
                       sx={{ 
-                        borderColor: '#28ddcd', 
-                        color: '#28ddcd',
+                        borderColor: '#2E7B5C', 
+                        color: '#2E7B5C',
                         '&:hover': {
-                          borderColor: '#1eb3a6',
+                          borderColor: '#2E7B5C',
                           backgroundColor: 'rgba(40, 221, 205, 0.04)'
                         }
                       }}

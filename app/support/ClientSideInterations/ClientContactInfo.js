@@ -14,7 +14,7 @@ import { styled } from '@mui/material/styles';
 import { motion } from 'framer-motion';
 
 // Define constants
-const TURQUOISE = '#28ddcd';
+const TURQUOISE = '#2E7B5C';
 const TURQUOISE_DARK = '#20c5b7';
 const TURQUOISE_LIGHT = '#e8f9f8';
 

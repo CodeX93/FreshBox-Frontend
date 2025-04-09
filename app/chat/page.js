@@ -338,7 +338,7 @@ export default function RiderChatScreen() {
   };
 
   // Main turquoise color
-  const turquoiseColor = '#28ddcd';
+  const turquoiseColor = '#2E7B5C';
 
   return (
     <Box sx={{ 

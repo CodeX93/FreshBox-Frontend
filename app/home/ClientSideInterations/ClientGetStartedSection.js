@@ -9,8 +9,10 @@ import {
   useMediaQuery,
   ThemeProvider
 } from '@mui/material';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { theme } from '../../../contexts/Theme'; // Import theme directly in the client component
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { theme } from '../../../contexts/Theme'; // Import the theme from your context
 
 const ClientGetStartedSection = ({ steps }) => {
   // Use media queries for responsive design
@@ -56,42 +58,54 @@ const ClientGetStartedSection = ({ steps }) => {
               animate="visible"
               variants={containerVariants}
             >
-              {/* Heading - Adaptive font size */}
+              {/* Heading with improved typography */}
               <motion.div variants={itemVariants}>
                 <Typography 
                   variant="h3" 
                   component="h2" 
                   gutterBottom 
                   sx={{ 
-                    fontWeight: 700, 
-                    fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.5rem', lg: '2.8rem' },
-                    color: '#ffffff',
+                    fontWeight: 800, 
+                    fontSize: { xs: '2rem', sm: '2.4rem', md: '2.7rem', lg: '3rem' },
+                    color: theme.palette.primary.white,
                     mb: { xs: 2, md: 3 },
-                    lineHeight: 1.2
+                    lineHeight: 1.2,
+                    position: 'relative',
+                    display: 'inline-block',
+                    '&::after': {
+                      content: '""',
+                      position: 'absolute',
+                      bottom: '-12px',
+                      left: '0',
+                      width: '60px',
+                      height: '4px',
+                      backgroundColor: theme.palette.primary.main,
+                      borderRadius: '2px'
+                    }
                   }}
                 >
                   Ready to Free Up Your Time?
                 </Typography>
               </motion.div>
               
-              {/* Subheading */}
+              {/* Subheading with better spacing */}
               <motion.div variants={itemVariants}>
                 <Typography 
                   variant="h6" 
                   sx={{ 
-                    color: '#ffffff', 
-                    opacity: 0.9, 
-                    mb: { xs: 3, md: 4 },
+                    color: 'rgba(255, 255, 255, 0.9)', 
+                    mb: { xs: 4, md: 5 },
                     fontWeight: 400,
-                    fontSize: { xs: '1rem', sm: '1.1rem', md: '1.25rem' }
+                    fontSize: { xs: '1.1rem', sm: '1.2rem', md: '1.3rem' },
+                    mt: 3
                   }}
                 >
                   Three simple steps to freshly cleaned clothes:
                 </Typography>
               </motion.div>
               
-              {/* Steps - Improved for mobile */}
-              <Box sx={{ mb: { xs: 4, md: 5 } }}>
+              {/* Steps with improved styling */}
+              <Box sx={{ mb: { xs: 5, md: 6 } }}>
                 {steps.map((step, index) => (
                   <motion.div
                     key={step.number}
@@ -106,33 +120,35 @@ const ClientGetStartedSection = ({ steps }) => {
                       sx={{ 
                         display: 'flex',
                         alignItems: 'center',
-                        mb: 2.5,
-                        p: { xs: 1.5, sm: 2 },
-                        borderRadius: 2,
+                        mb: 3,
+                        p: { xs: 2, sm: 2.5, md: 3 },
+                        borderRadius: 2.5,
                         backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                        backdropFilter: 'blur(5px)',
-                        transition: 'transform 0.3s, background-color 0.3s',
+                        backdropFilter: 'blur(8px)',
+                        transition: 'all 0.3s',
                         '&:hover': {
-                          backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                          transform: 'translateX(5px)'
-                        }
+                          backgroundColor: 'rgba(133, 210, 179, 0.1)',
+                          transform: 'translateX(5px) scale(1.01)',
+                          boxShadow: '0 5px 15px rgba(0,0,0,0.1)'
+                        },
+                        border: '1px solid rgba(133, 210, 179, 0.1)'
                       }}
                     >
                       <Box 
                         sx={{ 
-                          width: { xs: 32, sm: 36, md: 40 },
-                          height: { xs: 32, sm: 36, md: 40 },
+                          width: { xs: 40, sm: 45, md: 50 },
+                          height: { xs: 40, sm: 45, md: 50 },
                           borderRadius: '50%',
                           backgroundColor: theme.palette.primary.main,
-                          color: '#ffffff',
+                          color: theme.palette.primary.black,
                           display: 'flex',
                           justifyContent: 'center',
                           alignItems: 'center',
                           fontWeight: 'bold',
-                          fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
+                          fontSize: { xs: '1.1rem', sm: '1.2rem', md: '1.3rem' },
                           mr: { xs: 2, md: 3 },
                           flexShrink: 0,
-                          boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                          boxShadow: '0 4px 10px rgba(0,0,0,0.2)'
                         }}
                       >
                         {step.number}
@@ -140,9 +156,10 @@ const ClientGetStartedSection = ({ steps }) => {
                       <Typography 
                         variant="body1" 
                         sx={{ 
-                          color: '#ffffff', 
-                          fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
-                          lineHeight: 1.4
+                          color: theme.palette.primary.white, 
+                          fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
+                          lineHeight: 1.4,
+                          fontWeight: 400
                         }}
                       >
                         {step.text}
@@ -152,7 +169,7 @@ const ClientGetStartedSection = ({ steps }) => {
                 ))}
               </Box>
               
-              {/* CTA Button - Center on mobile */}
+              {/* CTA Button with improved styling */}
               <Box sx={{ display: 'flex', justifyContent: { xs: 'center', md: 'flex-start' } }}>
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -173,19 +190,22 @@ const ClientGetStartedSection = ({ steps }) => {
                     variant="contained" 
                     size={isMobile ? "medium" : "large"}
                     disableElevation
+                    endIcon={<ArrowForwardIcon />}
                     sx={{ 
-                      py: { xs: 1.25, md: 1.5 }, 
-                      px: { xs: 3, md: 4 }, 
+                      py: { xs: 1.5, md: 2 }, 
+                      px: { xs: 4, md: 5 }, 
                       fontWeight: 600,
-                      fontSize: { xs: '0.95rem', sm: '1rem', md: '1.1rem' },
+                      fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
                       backgroundColor: theme.palette.primary.main,
-                      color: '#ffffff',
-                      borderRadius: 2,
+                      color: theme.palette.primary.black,
+                      borderRadius: 3,
                       '&:hover': {
-                        backgroundColor: theme.palette.primary.dark,
+                        backgroundColor: theme.palette.primary.mainHover,
+                        boxShadow: '0 5px 15px rgba(133, 210, 179, 0.4)'
                       },
                       whiteSpace: 'nowrap',
-                      boxShadow: '0 4px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 4px 15px rgba(133, 210, 179, 0.3)',
+                      letterSpacing: '0.5px'
                     }}
                   >
                     Get Started Now
@@ -195,91 +215,9 @@ const ClientGetStartedSection = ({ steps }) => {
             </motion.div>
           </Grid>
           
-          {/* Right Image Column - Better on mobile */}
+          {/* Right Image Column - Better styling and effects */}
           <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }} sx={{ position: 'relative' }}>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              style={{ position: 'relative' }}
-            >
-              {/* Decorative elements - Hidden on small mobile */}
-              {!isMobile && (
-                <Box 
-                  sx={{ 
-                    position: 'absolute',
-                    top: { xs: -10, md: -20 },
-                    right: { xs: -10, md: -20 },
-                    width: '70%',
-                    height: '70%',
-                    borderRadius: 4,
-                    border: `3px dashed ${theme.palette.primary.main}`,
-                    opacity: 0.7,
-                    zIndex: 0,
-                    display: { xs: 'none', sm: 'block' }
-                  }}
-                />
-              )}
-              
-              {/* Main image - Better mobile proportions */}
-              <Box
-                sx={{
-                  position: 'relative',
-                  zIndex: 1,
-                  borderRadius: { xs: 3, md: 4 },
-                  overflow: 'hidden',
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                  transform: { 
-                    xs: 'perspective(1000px) rotateY(0deg)', 
-                    md: 'perspective(1000px) rotateY(-5deg)' 
-                  },
-                  transition: 'transform 0.5s',
-                  '&:hover': {
-                    transform: 'perspective(1000px) rotateY(0deg)'
-                  },
-                  maxWidth: { xs: '85%', sm: '90%', md: '100%' },
-                  mx: 'auto'
-                }}
-              >
-                <Box 
-                  component="img"
-                  src="/api/placeholder/600/450"
-                  alt="Freshly folded laundry delivery"
-                  sx={{ 
-                    width: '100%',
-                    height: 'auto',
-                    display: 'block'
-                  }}
-                />
-                
-                {/* Overlay - Adapt text size */}
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    padding: { xs: 2, md: 3 },
-                    background: 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0))',
-                    color: 'white',
-                    textAlign: 'center'
-                  }}
-                >
-                  <Typography 
-                    variant="h6" 
-                    sx={{ 
-                      fontWeight: 600,
-                      color: '#ffffff',
-                      fontSize: { xs: '0.9rem', sm: '1rem', md: '1.25rem' }
-                    }}
-                  >
-                    Join thousands of satisfied customers
-                  </Typography>
-                </Box>
-              </Box>
-            </motion.div>
-            
-            {/* Floating badge - Repositioned for mobile */}
+            {/* Badge with improved styling */}
             <motion.div
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -289,35 +227,37 @@ const ClientGetStartedSection = ({ steps }) => {
                 type: "spring",
                 stiffness: 300
               }}
+              style={{
+                position: 'absolute',
+                right: isMobile ? '5%' : isTablet ? '5%' : '0%',
+                bottom: isMobile ? '20%' : isTablet ? '20%' : '10%',
+                zIndex: 10,
+              }}
             >
               <Box
                 sx={{
-                  position: 'absolute',
-                  right: { xs: '5%', sm: '0%', md: '-5%' },
-                  bottom: { xs: '-10%', sm: '-5%', md: '10%' },
-                  zIndex: 2,
-                  width: { xs: 90, sm: 100, md: 120 },
-                  height: { xs: 90, sm: 100, md: 120 },
+                  width: { xs: 100, sm: 110, md: 130 },
+                  height: { xs: 100, sm: 110, md: 130 },
                   borderRadius: '50%',
-                  backgroundColor: theme.palette.primary.main,
-                  color: '#ffffff',
+                  backgroundColor: theme.palette.secondary.main,
+                  color: theme.palette.primary.black,
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
                   alignItems: 'center',
                   padding: { xs: 1.5, md: 2 },
                   textAlign: 'center',
-                  boxShadow: '0 8px 20px rgba(0,0,0,0.2)',
+                  boxShadow: '0 8px 25px rgba(133, 210, 179, 0.3)',
                   border: '3px solid white'
                 }}
               >
                 <Typography 
                   variant="h4" 
                   sx={{ 
-                    fontWeight: 700,
-                    color: '#ffffff',
+                    fontWeight: 800,
+                    color: theme.palette.primary.dark,
                     lineHeight: 1,
-                    fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' }
+                    fontSize: { xs: '1.8rem', sm: '2rem', md: '2.3rem' }
                   }}
                 >
                   24h
@@ -325,13 +265,84 @@ const ClientGetStartedSection = ({ steps }) => {
                 <Typography 
                   variant="body2" 
                   sx={{ 
-                    fontWeight: 600,
-                    color: '#ffffff',
-                    fontSize: { xs: '0.65rem', sm: '0.75rem', md: '0.875rem' }
+                    fontWeight: 700,
+                    color: theme.palette.primary.dark,
+                    fontSize: { xs: '0.7rem', sm: '0.8rem', md: '0.9rem' }
                   }}
                 >
                   Turnaround Time
                 </Typography>
+              </Box>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              style={{ position: 'relative' }}
+            >
+              {/* Image with improved styling */}
+              <Box
+                sx={{
+                  position: 'relative',
+                  zIndex: 1,
+                  borderRadius: { xs: 4, md: 5 },
+                  overflow: 'hidden',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+                  transform: { 
+                    xs: 'perspective(1000px) rotateY(0deg)', 
+                    md: 'perspective(1000px) rotateY(-5deg)' 
+                  },
+                  transition: 'all 0.5s',
+                  '&:hover': {
+                    transform: 'perspective(1000px) rotateY(0deg) translateY(-10px)',
+                    boxShadow: '0 30px 50px rgba(0,0,0,0.3)'
+                  },
+                  maxWidth: { xs: '90%', sm: '90%', md: '100%' },
+                  mx: 'auto',
+                  aspectRatio: '4/3',
+                  width: '100%',
+                  border: '5px solid rgba(133, 210, 179, 0.1)'
+                }}
+              >
+                <Image 
+                  src="https://images.pexels.com/photos/4108797/pexels-photo-4108797.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                  alt="Freshly folded laundry delivery"
+                  priority
+                  fill
+                  sizes="(max-width: 768px) 85vw, (max-width: 1200px) 45vw, 600px"
+                  style={{ 
+                    objectFit: 'cover',
+                    borderRadius: 'inherit'
+                  }}
+                />
+                
+                {/* Overlay with improved design */}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    padding: { xs: 2.5, md: 3.5 },
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.3) 60%, rgba(0,0,0,0))',
+                    color: 'white',
+                    textAlign: 'center',
+                    zIndex: 2
+                  }}
+                >
+                  <Typography 
+                    variant="h6" 
+                    sx={{ 
+                      fontWeight: 600,
+                      color: theme.palette.primary.white,
+                      fontSize: { xs: '1rem', sm: '1.1rem', md: '1.3rem' },
+                      textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+                    }}
+                  >
+                    Join thousands of satisfied customers
+                  </Typography>
+                </Box>
               </Box>
             </motion.div>
           </Grid>

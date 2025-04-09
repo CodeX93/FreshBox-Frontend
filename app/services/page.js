@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { 
   Box, 
   Container, 
@@ -33,6 +33,9 @@ import OrderSummary from './components/OrderSummary';
 import DeliveryInfo from './components/DeliveryInfo';
 import CTABanner from './components/CTABanner';
 
+// Define constants 
+const TURQUOISE = '#28ddcd';
+
 export default function ServicesPage() {
   const customTheme = useTheme();
   const isMobile = useMediaQuery(customTheme.breakpoints.down('md'));
@@ -45,55 +48,84 @@ export default function ServicesPage() {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [highlightCart, setHighlightCart] = useState(false);
 
+  // Use a ref for the scroll handler to prevent it from being recreated on every render
+  const handleScrollRef = useRef(null);
+
   // Handle scroll position for sticky elements
   useEffect(() => {
-    const handleScroll = () => {
+    // Create a stable scroll handler using useCallback
+    const stableScrollHandler = () => {
+      // Update scroll position
       setScrollPosition(window.scrollY);
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    
+    // Assign the stable handler to the ref
+    handleScrollRef.current = stableScrollHandler;
+    
+    // Add event listener with the referenced handler
+    window.addEventListener('scroll', handleScrollRef.current);
+    
+    // Clean up event listener on component unmount
+    return () => {
+      if (handleScrollRef.current) {
+        window.removeEventListener('scroll', handleScrollRef.current);
+      }
+    };
+  }, []); // Empty dependency array ensures this effect runs only once
   
   // Handle adding a service to cart
-  const handleAddToCart = (service, option) => {
-    const existingItemIndex = cart.findIndex(
-      item => item.serviceId === service.id && item.option === option.name
-    );
-
+  const handleAddToCart = (service, quantity = 1) => {
+    // Extract service ID (could be _id from MongoDB or id)
+    const serviceId = service._id || service.id;
+    
+    // Create a standardized service name
+    const serviceName = service.name || service.title;
+    
+    // Check if service already exists in cart
+    const existingItemIndex = cart.findIndex(item => item.serviceId === serviceId);
+  
     let newCart;
     
     if (existingItemIndex > -1) {
       // If item already exists, update quantity
       newCart = [...cart];
+      const newQuantity = newCart[existingItemIndex].quantity + quantity;
+      const price = Number(newCart[existingItemIndex].price || 0);
+      
       newCart[existingItemIndex] = {
         ...newCart[existingItemIndex],
-        quantity: newCart[existingItemIndex].quantity + 1,
-        totalPrice: (newCart[existingItemIndex].basePrice + newCart[existingItemIndex].optionPrice) * 
-                   (newCart[existingItemIndex].quantity + 1)
+        quantity: newQuantity,
+        totalPrice: price * newQuantity
       };
     } else {
-      // Add new item
+      // Add new item with standardized properties
+      const price = Number(service.price || 0);
       const cartItem = {
-        id: `${service.id}-${Date.now()}`,
-        serviceId: service.id,
-        name: service.title,
-        basePrice: service.price,
-        option: option.name,
-        optionPrice: option.price,
-        totalPrice: service.price + option.price,
-        quantity: 1,
-        image: service.image
+        id: `${serviceId}-${Date.now()}`,
+        serviceId: serviceId,
+        _id: service._id,  // Keep MongoDB ID if it exists
+        name: serviceName,
+        price: price,
+        priceType: service.priceType || 'per item',
+        totalPrice: price * quantity,
+        quantity: quantity,
+        imageUrl: service.imageUrl,
+        category: service.category,
+        specifications: service.specifications || []
       };
       newCart = [...cart, cartItem];
     }
     
+    // Update state with the new cart
     setCart(newCart);
+    
+    // Store cart in localStorage
+    localStorage.setItem('laundryServiceCart', JSON.stringify(newCart));
     
     // Show notification
     setNotification({
       open: true,
-      message: `${service.title} (${option.name}) added to cart`,
+      message: `${serviceName} added to cart`,
       severity: 'success'
     });
     
@@ -128,10 +160,11 @@ export default function ServicesPage() {
     
     setCart(cart.map(item => {
       if (item.id === itemId) {
+        const price = Number(item.price || 0);
         return {
           ...item,
           quantity: newQuantity,
-          totalPrice: (item.basePrice + item.optionPrice) * newQuantity
+          totalPrice: price * newQuantity
         };
       }
       return item;
@@ -139,10 +172,19 @@ export default function ServicesPage() {
   };
   
   // Calculate cart totals
-  const cartTotal = cart.reduce((total, item) => total + item.totalPrice, 0);
-  const cartItemCount = cart.reduce((count, item) => count + item.quantity, 0);
+  const calculateCartTotal = () => {
+    return cart.reduce((total, item) => {
+      const price = Number(item.price || 0);
+      const quantity = Number(item.quantity || 1);
+      return total + (price * quantity);
+    }, 0);
+  };
   
-  const handleTabChange = (event, newValue) => {
+  const cartTotal = calculateCartTotal();
+  const cartItemCount = cart.reduce((count, item) => count + Number(item.quantity || 1), 0);
+  
+  // Handle tab change with useCallback to ensure stability
+  const handleTabChange = useCallback((event, newValue) => {
     setActiveTab(newValue);
     
     // Scroll to top of services list on tab change
@@ -150,17 +192,17 @@ export default function ServicesPage() {
     if (servicesList) {
       servicesList.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  };
+  }, []); // Empty dependency array ensures stable reference
   
   // Toggle cart drawer
-  const toggleCartDrawer = (open) => {
+  const toggleCartDrawer = useCallback((open) => {
     setCartDrawerOpen(open);
-  };
+  }, []);
   
   // Close notification
-  const handleCloseNotification = () => {
-    setNotification({ ...notification, open: false });
-  };
+  const handleCloseNotification = useCallback(() => {
+    setNotification((prev) => ({ ...prev, open: false }));
+  }, []);
   
   // Animation variants
   const containerVariants = {
@@ -183,6 +225,16 @@ export default function ServicesPage() {
       }
     }
   };
+  useEffect(() => {
+    try {
+      const savedCart = localStorage.getItem('laundryServiceCart');
+      if (savedCart) {
+        setCart(JSON.parse(savedCart));
+      }
+    } catch (error) {
+      console.error('Error loading cart from localStorage:', error);
+    }
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -315,11 +367,11 @@ export default function ServicesPage() {
             bottom: 20, 
             right: 20,
             zIndex: 1000,
-            bgcolor: theme.palette.primary.main,
+            bgcolor: TURQUOISE,
             transform: highlightCart ? 'scale(1.2)' : 'scale(1)',
             transition: 'transform 0.3s ease',
             boxShadow: highlightCart ? 
-              '0 0 0 6px rgba(40, 221, 205, 0.3), 0 6px 16px rgba(0,0,0,0.2)' : 
+              `0 0 0 6px rgba(40, 221, 205, 0.3), 0 6px 16px rgba(0,0,0,0.2)` : 
               '0 6px 10px rgba(0,0,0,0.2)'
           }}
           onClick={() => toggleCartDrawer(true)}
@@ -357,7 +409,7 @@ export default function ServicesPage() {
           }
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, bgcolor: theme.palette.primary.main, color: 'white' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, bgcolor: TURQUOISE, color: 'white' }}>
           <Typography variant="h6" sx={{ fontWeight: 600 }}>
             Your Cart ({cartItemCount} {cartItemCount === 1 ? 'item' : 'items'})
           </Typography>
@@ -401,7 +453,7 @@ export default function ServicesPage() {
             width: '100%',
             borderRadius: 2,
             '& .MuiAlert-icon': {
-              color: notification.severity === 'success' ? theme.palette.primary.main : undefined
+              color: notification.severity === 'success' ? TURQUOISE : undefined
             }
           }}
         >

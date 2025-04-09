@@ -149,87 +149,90 @@ const sampleLaundryOrders = [
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#28ddcd',  // Fresh Box teal color
-      light: '#7aefe4',
-      dark: '#1bb3a6',
-      contrastText: '#ffffff',
+      main: '#85D2B3',     // Medium green as primary color
+      light: '#BDF4E3',    // Light mint
+      dark: '#2E7B5C',     // Dark green
+      white: '#FFFFFF',    // Added white for component compatibility
+      mainHover: '#90DDBE', // Light medium green for hover states
+      black: '#000000',    // Added black for component compatibility
+      darkBlue: '#0a1929'  // Kept from original theme for compatibility
     },
     secondary: {
-      main: '#ff6b6b',  // Complementary color for alerts/important actions
-      light: '#ff9e9e',
-      dark: '#c73c3c',
-    },
-    info: {
-      main: '#3d7aed', // For processing status
-    },
-    success: {
-      main: '#4caf50', // For delivered status
-    },
-    warning: {
-      main: '#ff9800', // For scheduled status
+      main: '#B5ECD9',     // Mint as secondary color
+      light: '#BDF4E3',    // Light mint
+      dark: '#2E7B5C',     // Dark green
     },
     background: {
-      default: '#f8f9fa',
-      paper: '#ffffff',
+      default: 'transparent', // Change default background to transparent
+      paper: 'transparent',
     },
-    divider: 'rgba(0, 0, 0, 0.08)',
+    text: {
+      primary: '#2E7B5C',    // Dark green for primary text
+      secondary: '#555555',  // Medium gray for secondary text
+    }
   },
   typography: {
-    fontFamily: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
-    h4: {
-      fontWeight: 600,
-    },
-    h5: {
-      fontWeight: 600,
-    },
-    h6: {
-      fontWeight: 600,
-    },
-    subtitle1: {
-      fontWeight: 500,
-    },
-    button: {
-      fontWeight: 500,
-      textTransform: 'none',
-    },
-  },
-  shape: {
-    borderRadius: 12,
+    fontFamily: 'Inter, sans-serif',
   },
   components: {
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
-          border: '1px solid rgba(0, 0, 0, 0.05)',
-        },
-      },
+    MuiCssBaseline: {
+      styleOverrides: `
+        html, body {
+          margin: 0;
+          padding: 0;
+          border: none;
+          outline: none;
+          overflow-x: hidden;
+        }
+        body::before {
+          display: none !important;
+        }
+      `,
     },
-    MuiChip: {
-      styleOverrides: {
-        root: {
-          fontWeight: 500,
-        },
+    MuiAppBar: {
+      defaultProps: {
+        elevation: 0,
       },
-    },
-    MuiButton: {
       styleOverrides: {
         root: {
           boxShadow: 'none',
-          '&:hover': {
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-          },
+          borderTop: 'none',
+          borderBottom: 'none',
+          border: 'none',
+          outline: 'none',
+          backgroundColor: 'transparent',
+          background: 'transparent',
+        },
+      },
+    },
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'transparent',
+          background: 'transparent',
+        },
+      },
+    },
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'transparent',
+          background: 'transparent',
         },
       },
     },
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundImage: 'none',
+          // Ensure Paper components from MUI don't affect the AppBar
+          '&.MuiAppBar-root': {
+            backgroundColor: 'transparent',
+            background: 'transparent',
+          },
         },
       },
     },
-  },
+  }
 });
 
 // Utility function to format dates
@@ -793,8 +796,8 @@ const LaundryOrderTracking = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
-        <Navbar />
+      <Box sx={{ bgcolor: '#ffffff', minHeight: '100vh' }}>
+        
         
         <Container maxWidth="lg" sx={{ pt: 12, pb: 8 }}>
           <Box sx={{ mb: 4 }}>

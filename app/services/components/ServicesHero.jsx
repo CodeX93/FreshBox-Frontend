@@ -63,7 +63,7 @@ const ServicesHero = () => {
 
   return (
     <Box sx={{ 
-      background: `linear-gradient(rgba(13, 59, 110, 0.8), rgba(40, 221, 205, 0.8)), url('/laundry-bg.jpg')`, 
+      background: `linear-gradient(rgba(13, 59, 110, 0.8), #2E7B5C), url('/laundry-bg.jpg')`, 
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       pt: { xs: 16, sm: 18, md: 16 }, // Increased top padding to prevent navbar collision
@@ -125,9 +125,10 @@ const ServicesHero = () => {
                       px: { xs: 3, md: 4 },
                       borderRadius: 2,
                       fontWeight: 600,
-                      backgroundColor: theme.palette.secondary.main,
+                      color:'white',
+                      backgroundColor: theme.palette.primary.darkBlue,
                       '&:hover': {
-                        backgroundColor: theme.palette.secondary.dark,
+                        backgroundColor: theme.palette.primary.main,
                       }
                     }}
                   >

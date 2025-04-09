@@ -1,183 +1,350 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import {
+  Box,
   Typography,
   Grid,
-  Card,
-  CardContent,
-  Box,
-  ThemeProvider
+  Container,
+  useTheme,
+  useMediaQuery,
+  Button
 } from '@mui/material';
-import { motion } from 'framer-motion';
-import { theme } from '../../../contexts/Theme';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import SettingsIcon from '@mui/icons-material/Settings';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import StarIcon from '@mui/icons-material/Star';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-const ClientWhyChooseUsSection = ({ features }) => {
+// Feature Card Component 
+const FeatureCard = ({ icon, title, description, bgColor, textColor = 'white' }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  
   return (
-    <ThemeProvider theme={theme}>
-      {/* Section Title */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-      >
-        <Typography
-          variant="h2"
-          component="h2"
-          align="center"
-          gutterBottom
-          sx={{ 
-            mb: { xs: 3, md: 4 },
-            color: '#1a202c',
-            position: 'relative',
-            display: 'inline-block',
-            margin: '0 auto',
-            textAlign: 'center',
-            width: '100%',
-            '&:after': {
-              content: '""',
-              position: 'absolute',
-              bottom: -10,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: 80,
-              height: 4,
-              backgroundColor: theme.palette.primary.main,
-              borderRadius: 2
-            }
-          }}
-        >
-          Why Choose Us?
-        </Typography>
-      </motion.div>
-
-      {/* Features Grid */}
-      <Grid container spacing={4} sx={{ mt: 1 }}>
-        {features.map((feature, index) => (
-          <Grid item xs={12} sm={6} key={index}>
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.6, 
-                delay: 0.1 * index,
-                ease: "easeOut"
-              }}
-              whileHover={{ 
-                y: -10,
-                transition: { duration: 0.3 }
-              }}
-            >
-              <Card
-                elevation={2}
-                sx={{
-                  height: '100%',
-                  borderRadius: 3,
-                  overflow: 'hidden',
-                  border: '1px solid rgba(0,0,0,0.05)',
-                  transition: 'box-shadow 0.3s',
-                  '&:hover': {
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
-                  }
-                }}
-              >
-                <Box sx={{ display: 'flex', height: '100%' }}>
-                  {/* Icon Column */}
-                  <Box
-                    sx={{
-                      backgroundColor: feature.color,
-                      color: 'white',
-                      p: 3,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: 80
-                    }}
-                  >
-                    <motion.div
-                      initial={{ scale: 0, rotateY: 180 }}
-                      animate={{ scale: 1, rotateY: 0 }}
-                      transition={{ 
-                        duration: 0.5, 
-                        delay: 0.2 + (0.1 * index),
-                        type: "spring",
-                        stiffness: 200
-                      }}
-                      whileHover={{ 
-                        scale: 1.2,
-                        rotate: [0, -10, 10, -10, 0],
-                        transition: { duration: 0.5 }
-                      }}
-                    >
-                      {feature.icon}
-                    </motion.div>
-                  </Box>
-                  
-                  {/* Content */}
-                  <CardContent 
-                    sx={{ 
-                      flexGrow: 1,
-                      backgroundColor: 'white',
-                      p: 3
-                    }}
-                  >
-                    <Typography 
-                      variant="h6" 
-                      component="h3" 
-                      gutterBottom
-                      sx={{ 
-                        color: '#1a202c',
-                        fontWeight: 600 
-                      }}
-                    >
-                      {feature.title}
-                    </Typography>
-                    <Typography 
-                      variant="body1" 
-                      sx={{ 
-                        color: '#4a5568',
-                        lineHeight: 1.6
-                      }}
-                    >
-                      {feature.description}
-                    </Typography>
-                  </CardContent>
-                </Box>
-              </Card>
-            </motion.div>
-          </Grid>
-        ))}
-      </Grid>
-      
-      {/* Bottom Tagline */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.7, delay: 0.8 }}
-      >
-        <Box
-          sx={{
-            textAlign: 'center',
-            mt: { xs: 4, md: 5 },
-            p: 3,
-            borderRadius: 2,
-            backgroundColor: `${theme.palette.primary.main}10`,
-            border: `1px solid ${theme.palette.primary.main}`,
-          }}
-        >
-          <Typography 
-            variant="h6"
-            sx={{ 
-              color: '#1a202c',
-              fontWeight: 500
-            }}
-          >
-            Join thousands of happy customers who have simplified their laundry routine
-          </Typography>
-        </Box>
-      </motion.div>
-    </ThemeProvider>
+    <Box
+      sx={{
+        backgroundColor: bgColor,
+        color: textColor,
+        p: isMobile ? 2 : 3,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        borderRadius: 2,
+      }}
+    >
+      <Box sx={{ 
+        mb: 1, 
+        color: textColor, 
+        display: 'flex',
+        fontSize: isMobile ? '1.2rem' : '1.5rem',
+      }}>
+        {icon}
+      </Box>
+      <Typography variant="h6" component="h3" sx={{ 
+        fontWeight: 600, 
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+        mb: 1,
+        fontSize: isMobile ? '0.9rem' : '1.1rem',
+        color: textColor,
+      }}>
+        {title}
+      </Typography>
+      <Typography variant="body2" sx={{ 
+        color: textColor === 'white' ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.7)',
+        fontSize: isMobile ? '0.75rem' : '0.85rem',
+      }}>
+        {description}
+      </Typography>
+    </Box>
   );
 };
 
-export default ClientWhyChooseUsSection;
+const WhyChooseUsSection = () => {
+  const router = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  // Color palette
+  const darkGreen = '#213B25';
+  const lightGreen = '#B5E2D0';
+  const darkBrown = '#21130D';
+  const white = '#FFFFFF';
+
+  // Mobile Layout
+  if (isMobile) {
+    return (
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Box textAlign="center" mb={4}>
+          <Typography 
+            variant="h2" 
+            component="h2"
+            sx={{ 
+              color: '#000',
+              fontWeight: 700,
+              fontSize: '2.5rem',
+              lineHeight: 1.1,
+              mb: 2,
+              textTransform: 'uppercase',
+            }}
+          >
+            Why Choose Us?
+          </Typography>
+          <Typography 
+            variant="body1" 
+            sx={{ 
+              color: '#555',
+              maxWidth: '90%',
+              mx: 'auto',
+              fontSize: '0.9rem',
+            }}
+          >
+            Everyday we work hard to make life of our clients better and happier.
+          </Typography>
+        </Box>
+
+        {/* Extended Feature Grid */}
+        <Grid container spacing={2}>
+          {[
+            {
+              icon: <LightbulbOutlinedIcon fontSize="small" />,
+              title: "Expert Care",
+              description: "Professionally trained staff with specialized knowledge.",
+              bgColor: darkGreen
+            },
+            {
+              icon: <CalendarTodayIcon fontSize="small" />,
+              title: "Free Pickup & Delivery",
+              description: "Convenient door-to-door service that saves you time.",
+              bgColor: darkGreen
+            },
+            {
+              icon: <AccessTimeIcon fontSize="small" />,
+              title: "24-Hour Service",
+              description: "Quick turnaround times with 24-hour service available.",
+              bgColor: white,
+              textColor: darkGreen
+            },
+            {
+              icon: <SettingsIcon fontSize="small" />,
+              title: "Advanced Technology",
+              description: "State-of-the-art cleaning equipment and techniques.",
+              bgColor: darkBrown
+            },
+            {
+              icon: <LightbulbOutlinedIcon fontSize="small" />,
+              title: "Eco-Friendly",
+              description: "Green cleaning solutions safer for your clothes and family.",
+              bgColor: darkGreen
+            },
+            {
+              icon: <SettingsIcon fontSize="small" />,
+              title: "Customized Solutions",
+              description: "Personalized service plans tailored to your needs.",
+              bgColor: darkGreen
+            },
+            {
+              icon: <StarIcon fontSize="small" />,
+              title: "Quality Guarantee",
+              description: "100% satisfaction guarantee with free re-cleaning if not satisfied.",
+              bgColor: darkBrown
+            }
+          ].map((feature, index) => (
+            <Grid 
+              item 
+              xs={6} 
+              key={index} 
+              sx={{ 
+                height: '15vh',
+                ...(index === 6 && { xs: 12 }) // Full width for last item
+              }}
+            >
+              <FeatureCard 
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+                bgColor={feature.bgColor}
+                textColor={feature.textColor}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    );
+  }
+
+  // Desktop Layout
+  return (
+    <Box 
+      component="section" 
+      sx={{ 
+        position: 'relative',
+        overflow: 'hidden',
+        backgroundColor: '#fff',
+        width: '100%',
+        height: '100vh',
+      }}
+    >
+      <Grid container sx={{ height: '100%' }}>
+        {/* Left Column - Feature Cards */}
+        <Grid 
+          item 
+          xs={4} 
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+          }}
+        >
+          {/* Feature 1 */}
+          <Box sx={{ height: '50%', p: 1 }}>
+            <FeatureCard
+              icon={<MonetizationOnIcon fontSize="large" />}
+              title="Competitive Pricing"
+              description="Experience quality laundry services without breaking the bank—we offer fair and competitive pricing."
+              bgColor={darkGreen}
+            />
+          </Box>
+          
+          {/* Feature 2 */}
+          <Box sx={{ height: '50%', p: 1 }}>
+            <FeatureCard
+              icon={<EmojiEventsIcon fontSize="large" />}
+              title="Expert Care"
+              description="Professionally trained staff with specialized knowledge in fabric care and stain removal."
+              bgColor={darkBrown}
+            />
+          </Box>
+        </Grid>
+
+        {/* Center Column - Title and Info */}
+        <Grid 
+          item 
+          xs={4} 
+          sx={{ 
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            justifyContent: 'center',
+          }}
+        >
+          <Box 
+            sx={{ 
+              textAlign: 'center',
+              p: 3,
+            }}
+          >
+            <Typography 
+              variant="subtitle1" 
+              sx={{ 
+                color: darkGreen,
+                fontWeight: 500,
+                mb: 1,
+                textTransform: 'uppercase',
+                letterSpacing: 2,
+              }}
+            >
+              / Why FreshBox?
+            </Typography>
+            <Typography 
+              variant="h2" 
+              sx={{ 
+                color: darkBrown,
+                fontWeight: 700,
+                fontSize: '3rem',
+                lineHeight: 1.1,
+                mb: 2,
+              }}
+            >
+              The FreshBox<br />Difference
+            </Typography>
+            <Typography 
+              variant="body1" 
+              sx={{ 
+                color: '#555',
+                maxWidth: '80%',
+                mx: 'auto',
+                mb: 3,
+                fontSize: '0.9rem',
+              }}
+            >
+              Everyday we work hard to make life of our clients better and happier by providing 
+              premium laundry and dry cleaning services with quick turnaround times.
+            </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+              <Button 
+                variant="text" 
+                endIcon={<KeyboardArrowRightIcon />}
+                onClick={() => router.push('/support')}
+                sx={{ 
+                  color: darkGreen,
+                  fontWeight: 500,
+                  '&:hover': {
+                    backgroundColor: 'transparent',
+                    textDecoration: 'underline'
+                  }
+                }}
+              >
+                Contact Now
+              </Button>
+              <Button 
+                variant="text" 
+                endIcon={<KeyboardArrowRightIcon />}
+                sx={{ 
+                  color: darkGreen,
+                  fontWeight: 500,
+                  '&:hover': {
+                    backgroundColor: 'transparent',
+                    textDecoration: 'underline'
+                  }
+                }}
+              >
+                Book Free Estimate
+              </Button>
+            </Box>
+          </Box>
+        </Grid>
+
+        {/* Right Column - Feature Cards */}
+        <Grid 
+          item 
+          xs={4} 
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+          }}
+        >
+          {/* Feature 3 */}
+          <Box sx={{ height: '50%', p: 1 }}>
+            <FeatureCard
+              icon={<AccessTimeIcon fontSize="large" />}
+              title="24-Hour Service"
+              description="Quick turnaround times with 24-hour service available for urgent cleaning needs."
+              bgColor={darkGreen}
+            />
+          </Box>
+          
+          {/* Feature 4 */}
+          <Box sx={{ height: '50%', p: 1 }}>
+            <FeatureCard
+              icon={<StarIcon fontSize="large" />}
+              title="100% Satisfaction"
+              description="Don't just take our word for it—see what our clients say about FreshBox Laundry."
+              bgColor={darkBrown}
+            />
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+export default WhyChooseUsSection;

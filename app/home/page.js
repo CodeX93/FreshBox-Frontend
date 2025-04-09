@@ -16,7 +16,7 @@ export default function Home() {
       <ServicesSection />
       <QualityPromiseSection />
       <WhyChooseUsSection />
-      <GetStartedSection />
+      {/* <GetStartedSection /> */}
       <ProcessSection/>
       <FAQSection />
     </>

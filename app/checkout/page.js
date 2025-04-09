@@ -19,12 +19,12 @@ import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PersonIcon from '@mui/icons-material/Person';
 import PaymentIcon from '@mui/icons-material/Payment';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 
 // Component imports
-
 import AddressForm from './_components/AddressForm';
 import ServicesSummary from './_components/ServicesSummary';
 import ScheduleForm from './_components/ScheduleForm';
@@ -36,7 +36,14 @@ import OrderConfirmation from './_components/OrderConfirmation';
 // Data and utilities
 import { steps, coveredPostcodes, timeSlots } from './checkoutData';
 
+// Define constants
+const TURQUOISE = '#2E7B5C';
+const DARK_BLUE = '#2E7B5C';
+
 export default function CheckoutProcess() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
   const [activeStep, setActiveStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [addressError, setAddressError] = useState(false);
@@ -82,30 +89,52 @@ export default function CheckoutProcess() {
     saveCard: false,
   });
   
-  // Cart state
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      name: "Wash & Fold",
-      option: "Standard (48h)",
-      basePrice: 1.50,
-      optionPrice: 0,
-      quantity: 3,
-      totalPrice: 4.50,
-    },
-    {
-      id: 2,
-      name: "Dry Cleaning",
-      option: "Express (24h)",
-      basePrice: 3.50,
-      optionPrice: 7,
-      quantity: 2,
-      totalPrice: 21.00,
-    }
-  ]);
+  // Cart state - initialize empty and will be populated from localStorage
+  const [cart, setCart] = useState([]);
   
-  // Calculate cart totals
-  const cartTotal = cart.reduce((total, item) => total + item.totalPrice, 0);
+  // Load cart from localStorage on component mount
+  useEffect(() => {
+    try {
+      const savedCart = localStorage.getItem('laundryServiceCart');
+      if (savedCart) {
+        setCart(JSON.parse(savedCart));
+      } else {
+        // If no cart in localStorage and not coming from services page,
+        // redirect back to services
+        if (!searchParams.get('from') || searchParams.get('from') !== 'services') {
+          router.push('/services');
+        }
+      }
+    } catch (error) {
+      console.error('Error loading cart from localStorage:', error);
+    }
+  }, [router, searchParams]);
+  
+  // Calculate cart totals based on API service format
+  const calculateCartTotal = () => {
+    if (!cart || cart.length === 0) return 0;
+    
+    return cart.reduce((total, item) => {
+      // Handle different cart item formats
+      if (item.totalPrice) {
+        // Use pre-calculated total if available
+        return total + Number(item.totalPrice);
+      } else {
+        // Calculate from price and quantity
+        const price = Number(item.price || item.basePrice || 0);
+        const optionPrice = Number(item.optionPrice || 0);
+        const quantity = Number(item.quantity || 1);
+        return total + ((price + optionPrice) * quantity);
+      }
+    }, 0);
+  };
+  
+  const cartTotal = calculateCartTotal();
+
+  // Get cart item count
+  const cartItemCount = cart.reduce((count, item) => {
+    return count + Number(item.quantity || 1);
+  }, 0);
 
   // Check if address is in coverage area
   const checkCoverage = (postcode) => {
@@ -171,6 +200,8 @@ export default function CheckoutProcess() {
       if (isValid) {
         // Simulate payment processing
         setTimeout(() => {
+          // Clear cart from localStorage after successful order
+          localStorage.removeItem('laundryServiceCart');
           setOrderComplete(true);
           setIsLoading(false);
         }, 2000);
@@ -229,6 +260,35 @@ export default function CheckoutProcess() {
     });
   };
 
+  // Get service name from item
+  const getServiceName = (item) => {
+    return item.name || item.title || 'Service';
+  };
+
+  // Get service price display
+  const getServicePriceDisplay = (item) => {
+    // Handle different price formats in cart items
+    if (item.basePrice !== undefined && item.optionPrice !== undefined) {
+      return `$${(Number(item.basePrice) + Number(item.optionPrice)).toFixed(2)}`;
+    } else if (item.price !== undefined) {
+      return `$${Number(item.price).toFixed(2)} ${item.priceType || ''}`;
+    }
+    return '$0.00';
+  };
+
+  // Function to adapt cart items for ServicesSummary component
+  const adaptCartForSummary = () => {
+    return cart.map(item => ({
+      id: item._id || item.id || `service-${Date.now()}`,
+      name: getServiceName(item),
+      option: item.option || item.priceType || '',
+      price: getServicePriceDisplay(item),
+      quantity: item.quantity || 1,
+      category: item.category || '',
+      specifications: item.specifications || []
+    }));
+  };
+
   // Content for each step
   const getStepContent = (step) => {
     switch (step) {
@@ -243,7 +303,7 @@ export default function CheckoutProcess() {
       case 1:
         return (
           <ServicesSummary 
-            cart={cart}
+            cart={adaptCartForSummary()}
             total={cartTotal}
           />
         );
@@ -291,7 +351,7 @@ export default function CheckoutProcess() {
               <Grid item xs={12} md={8}>
                 <Paper elevation={3} sx={{ borderRadius: 2, overflow: 'hidden', mb: 4 }}>
                   <Box sx={{ 
-                    bgcolor: 'primary.main', 
+                    bgcolor: TURQUOISE, 
                     color: 'white',
                     p: 2,
                   }}>
@@ -316,7 +376,7 @@ export default function CheckoutProcess() {
                             <Box
                               sx={{
                                 borderRadius: '50%',
-                                bgcolor: active || completed ? 'primary.main' : 'grey.300',
+                                bgcolor: active || completed ? TURQUOISE : 'grey.300',
                                 color: active || completed ? 'white' : 'text.secondary',
                                 width: 40,
                                 height: 40,
@@ -339,15 +399,18 @@ export default function CheckoutProcess() {
                     {getStepContent(activeStep)}
                     
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
-                      <Button
-                        variant="outlined"
-                        disabled={activeStep === 0 || isLoading}
-                        onClick={handleBack}
-                        startIcon={<ArrowBackIcon />}
-                        sx={{ borderRadius: 2 }}
-                      >
-                        Back
-                      </Button>
+                      {activeStep !== 1 && (
+                        <Button
+                          variant="outlined"
+                          disabled={activeStep === 0 || isLoading}
+                          onClick={handleBack}
+                          startIcon={<ArrowBackIcon />}
+                          sx={{ borderRadius: 2,bgcolor:'#2E7B5C',color:'#ffffff' }}
+                        >
+                          Back
+                        </Button>
+                      )}
+                      {activeStep === 1 && <Box />} {/* Empty box to maintain layout when back button is hidden */}
                       <Button
                         variant="contained"
                         onClick={handleNext}
@@ -356,7 +419,9 @@ export default function CheckoutProcess() {
                         sx={{ 
                           borderRadius: 2,
                           px: 3,
-                          py: 1
+                          py: 1,
+                          bgcolor: TURQUOISE,
+                         
                         }}
                       >
                         {activeStep === steps.length - 1 ? 'Complete Order' : 'Continue'}
@@ -371,10 +436,13 @@ export default function CheckoutProcess() {
                   <OrderSummary 
                     cart={cart}
                     cartTotal={cartTotal}
+                    cartItemCount={cartItemCount}
                     addressData={addressData}
                     scheduleData={scheduleData}
                     activeStep={activeStep}
                     timeSlots={timeSlots}
+                    getServiceName={getServiceName}
+                    getServicePriceDisplay={getServicePriceDisplay}
                   />
                 </Box>
               </Grid>
