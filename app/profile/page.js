@@ -239,7 +239,7 @@ const RecentOrderCard = ({ order }) => {
             label={order.status} 
             size="small" 
             color={
-              order.status === 'Delivered' ? 'success' : 
+              order.status === 'Delivered' ? '#BDF4E3' : 
               order.status === 'In Progress' ? 'primary' : 
               'secondary'
             }
@@ -273,7 +273,7 @@ const RecentOrderCard = ({ order }) => {
             sx={{ 
               textTransform: 'none',
               fontWeight: 600, 
-              color: '#28ddcd'
+              color: '#2E7B5C'
             }}
           >
             View Details
@@ -678,7 +678,7 @@ export default function Profile() {
       <Box sx={{ maxWidth: '1100px', mx: 'auto', px: { xs: 2, md: 3 } }}>
         {isLoading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-            <CircularProgress sx={{ color: '#28ddcd' }} />
+            <CircularProgress sx={{ color: '#2E7B5C' }} />
           </Box>
         ) : (
           <motion.div
@@ -703,8 +703,8 @@ export default function Profile() {
                   <Box 
                     sx={{ 
                       height: '120px', 
-                      bgcolor: '#28ddcd',
-                      backgroundImage: 'linear-gradient(120deg, #28ddcd 0%, #38efd9 100%)',
+                      bgcolor: '#2E7B5C',
+                      backgroundImage: 'linear-gradient(120deg, #2E7B5C 0%, #2E7B5C 100%)',
                       position: 'relative'
                     }}
                   />
@@ -726,7 +726,7 @@ export default function Profile() {
     height: { xs: 100, md: 120 },
     border: '4px solid white',
     boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
-    bgcolor: '#28ddcd',
+    bgcolor: '#2E7B5C',
     fontSize: { xs: '2.5rem', md: '3rem' }
   }}
   imgProps={{
@@ -766,7 +766,7 @@ export default function Profile() {
                             style={{ display: 'none' }}
                             onChange={handleProfilePictureUpload}
                           />
-                          <Edit size={16} color="#28ddcd" />
+                          <Edit size={16} color="#2E7B5C" />
                         </Box>
                       )}
                     </Box>
@@ -811,10 +811,10 @@ export default function Profile() {
                         sx={{ 
                           borderRadius: 2,
                           textTransform: 'none',
-                          color: isEditing ? 'error.main' : '#28ddcd',
-                          borderColor: isEditing ? 'error.main' : '#28ddcd',
+                          color: isEditing ? 'error.main' : '#2E7B5C',
+                          borderColor: isEditing ? 'error.main' : '#2E7B5C',
                           '&:hover': {
-                            borderColor: isEditing ? 'error.dark' : '#20c5b7',
+                            borderColor: isEditing ? 'error.dark' : '#2E7B5C',
                             bgcolor: isEditing ? 'rgba(211, 47, 47, 0.04)' : 'rgba(40, 221, 205, 0.04)'
                           }
                         }}
@@ -830,9 +830,9 @@ export default function Profile() {
                           sx={{ 
                             borderRadius: 2,
                             textTransform: 'none',
-                            bgcolor: '#28ddcd',
+                            bgcolor: '#2E7B5C',
                             '&:hover': {
-                              bgcolor: '#20c5b7'
+                              bgcolor: '#2E7B5C'
                             }
                           }}
                         >
@@ -850,10 +850,10 @@ export default function Profile() {
                       scrollButtons={isMobile ? "auto" : false}
                       sx={{ 
                         '& .MuiTabs-indicator': {
-                          backgroundColor: '#28ddcd',
+                          backgroundColor: '#2E7B5C',
                         },
                         '& .MuiTab-root.Mui-selected': {
-                          color: '#28ddcd',
+                          color: '#2E7B5C',
                         }
                       }}
                     >
@@ -969,9 +969,9 @@ export default function Profile() {
                                 sx={{ 
                                   borderRadius: 2,
                                   textTransform: 'none',
-                                  bgcolor: '#28ddcd',
+                                  bgcolor: '#2E7B5C',
                                   '&:hover': {
-                                    bgcolor: '#20c5b7'
+                                    bgcolor: '#2E7B5C'
                                   }
                                 }}
                               >
@@ -1091,13 +1091,13 @@ export default function Profile() {
                                 }
                                 sx={{
                                   '& .MuiSwitch-switchBase.Mui-checked': {
-                                    color: '#28ddcd',
+                                    color: '#2E7B5C',
                                     '&:hover': {
                                       backgroundColor: 'rgba(40, 221, 205, 0.08)',
                                     },
                                   },
                                   '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                                    backgroundColor: '#28ddcd',
+                                    backgroundColor: '#2E7B5C',
                                   },
                                 }}
                               />
@@ -1123,13 +1123,13 @@ export default function Profile() {
                                 }
                                 sx={{
                                   '& .MuiSwitch-switchBase.Mui-checked': {
-                                    color: '#28ddcd',
+                                    color: '#2E7B5C',
                                     '&:hover': {
                                       backgroundColor: 'rgba(40, 221, 205, 0.08)',
                                     },
                                   },
                                   '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                                    backgroundColor: '#28ddcd',
+                                    backgroundColor: '#2E7B5C',
                                   },
                                 }}
                               />
@@ -1151,9 +1151,9 @@ export default function Profile() {
                             sx={{ 
                               borderRadius: 2,
                               textTransform: 'none',
-                              bgcolor: '#28ddcd',
+                              bgcolor: '#2E7B5C',
                               '&:hover': {
-                                bgcolor: '#20c5b7'
+                                bgcolor: '#2E7B5C'
                               }
                             }}
                           >
@@ -1175,10 +1175,10 @@ export default function Profile() {
                         sx={{ 
                           textTransform: 'none',
                           borderRadius: 2,
-                          color: '#28ddcd',
-                          borderColor: '#28ddcd',
+                          color: '#2E7B5C',
+                          borderColor: '#2E7B5C',
                           '&:hover': {
-                            borderColor: '#20c5b7',
+                            borderColor: '#2E7B5C',
                             bgcolor: 'rgba(40, 221, 205, 0.04)'
                           }
                         }}
@@ -1213,10 +1213,10 @@ export default function Profile() {
                           sx={{ 
                             textTransform: 'none',
                             borderRadius: 2,
-                            color: '#28ddcd',
-                            borderColor: '#28ddcd',
+                            color: '#2E7B5C',
+                            borderColor: '#2E7B5C',
                             '&:hover': {
-                              borderColor: '#20c5b7',
+                              borderColor: '#2E7B5C',
                               bgcolor: 'rgba(40, 221, 205, 0.04)'
                             }
                           }}
@@ -1234,7 +1234,7 @@ export default function Profile() {
                             mb: 2, 
                             borderRadius: 2, 
                             boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-                            border: method.isDefault ? '1px solid #28ddcd' : 'none'
+                            border: method.isDefault ? '1px solid #2E7B5C' : 'none'
                           }}
                         >
                           <CardContent sx={{ p: 2 }}>
@@ -1260,7 +1260,7 @@ export default function Profile() {
                                     sx={{ 
                                       borderRadius: 1,
                                       mr: 1,
-                                      bgcolor: '#28ddcd'
+                                      bgcolor: '#2E7B5C'
                                     }}
                                   />
                                 )}
@@ -1306,10 +1306,10 @@ export default function Profile() {
                               mt: 2,
                               textTransform: 'none',
                               borderRadius: 2,
-                              color: '#28ddcd',
-                              borderColor: '#28ddcd',
+                              color: '#2E7B5C',
+                              borderColor: '#2E7B5C',
                               '&:hover': {
-                                borderColor: '#20c5b7',
+                                borderColor: '#2E7B5C',
                                 bgcolor: 'rgba(40, 221, 205, 0.04)'
                               }
                             }}

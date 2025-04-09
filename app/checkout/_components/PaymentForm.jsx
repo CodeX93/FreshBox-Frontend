@@ -1,28 +1,51 @@
 import React from 'react';
-import { 
-  Box, 
-  Typography, 
-  Grid, 
-  TextField, 
-  FormControl, 
-  FormLabel, 
+import {
+  Box,
+  Typography,
+  Grid,
+  TextField,
+  FormControl,
+  FormLabel,
   RadioGroup,
-  FormControlLabel, 
+  FormControlLabel,
   Radio,
-  Checkbox 
+  Checkbox
 } from '@mui/material';
 
 function PaymentForm({ paymentData, handlePaymentChange, total }) {
+  const borderStyle = {
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#2E7B5C',
+      },
+      '&:hover fieldset': {
+        borderColor: '#2E7B5C',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#2E7B5C',
+      },
+    },
+    '& .MuiInputLabel-root': {
+      color: '#2E7B5C', // Change label color when the field is focused
+    },
+    '& .MuiInputLabel-root.Mui-focused': {
+      color: '#2E7B5C', // Change label color when the field is focused
+    },
+  };
+
   return (
     <Box>
       <Typography variant="h6" sx={{ mb: 3 }}>
         Payment
       </Typography>
-      
+
       <Typography variant="subtitle1" sx={{ mb: 2 }}>
-        Total to pay: <Box component="span" sx={{ fontWeight: 700 }}>£{total.toFixed(2)}</Box>
+        Total to pay:{' '}
+        <Box component="span" sx={{ fontWeight: 700 }}>
+          £{total.toFixed(2)}
+        </Box>
       </Typography>
-      
+
       <FormControl component="fieldset" sx={{ mb: 3 }}>
         <FormLabel component="legend">Payment Method</FormLabel>
         <RadioGroup
@@ -30,11 +53,47 @@ function PaymentForm({ paymentData, handlePaymentChange, total }) {
           value={paymentData.paymentMethod}
           onChange={handlePaymentChange}
         >
-          <FormControlLabel value="card" control={<Radio />} label="Credit/Debit Card" />
-          <FormControlLabel value="paypal" control={<Radio />} label="PayPal" />
+          <FormControlLabel
+            value="card"
+            control={
+              <Radio
+                sx={{
+                  color: '#2E7B5C',
+                  '&.Mui-checked': {
+                    color: '#2E7B5C',
+                  },
+                }}
+              />
+            }
+            label="Credit/Debit Card"
+            sx={{
+              '& .MuiFormControlLabel-label': {
+                color: paymentData.paymentMethod === 'card' ? '#2E7B5C' : 'inherit',
+              },
+            }}
+          />
+          <FormControlLabel
+            value="paypal"
+            control={
+              <Radio
+                sx={{
+                  color: '#2E7B5C',
+                  '&.Mui-checked': {
+                    color: '#2E7B5C',
+                  },
+                }}
+              />
+            }
+            label="PayPal"
+            sx={{
+              '& .MuiFormControlLabel-label': {
+                color: paymentData.paymentMethod === 'paypal' ? '#2E7B5C' : 'inherit',
+              },
+            }}
+          />
         </RadioGroup>
       </FormControl>
-      
+
       {paymentData.paymentMethod === 'card' && (
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -46,9 +105,10 @@ function PaymentForm({ paymentData, handlePaymentChange, total }) {
               value={paymentData.cardNumber}
               onChange={handlePaymentChange}
               placeholder="1234 5678 9012 3456"
+              sx={borderStyle}
             />
           </Grid>
-          
+
           <Grid item xs={12} sm={6}>
             <TextField
               required
@@ -58,9 +118,10 @@ function PaymentForm({ paymentData, handlePaymentChange, total }) {
               value={paymentData.expiryDate}
               onChange={handlePaymentChange}
               placeholder="MM/YY"
+              sx={borderStyle}
             />
           </Grid>
-          
+
           <Grid item xs={12} sm={6}>
             <TextField
               required
@@ -70,9 +131,10 @@ function PaymentForm({ paymentData, handlePaymentChange, total }) {
               value={paymentData.cvv}
               onChange={handlePaymentChange}
               placeholder="123"
+              sx={borderStyle}
             />
           </Grid>
-          
+
           <Grid item xs={12}>
             <TextField
               required
@@ -81,9 +143,10 @@ function PaymentForm({ paymentData, handlePaymentChange, total }) {
               name="nameOnCard"
               value={paymentData.nameOnCard}
               onChange={handlePaymentChange}
+              sx={borderStyle}
             />
           </Grid>
-          
+
           <Grid item xs={12}>
             <FormControlLabel
               control={
@@ -91,7 +154,12 @@ function PaymentForm({ paymentData, handlePaymentChange, total }) {
                   name="saveCard"
                   checked={paymentData.saveCard}
                   onChange={handlePaymentChange}
-                  color="primary"
+                  sx={{
+                    color: '#2E7B5C',
+                    '&.Mui-checked': {
+                      color: '#2E7B5C',
+                    },
+                  }}
                 />
               }
               label="Save card for future orders"
@@ -99,7 +167,7 @@ function PaymentForm({ paymentData, handlePaymentChange, total }) {
           </Grid>
         </Grid>
       )}
-      
+
       <Box sx={{ mt: 2 }}>
         <Typography variant="body2" color="text.secondary">
           By completing your purchase, you agree to our Terms of Service and Privacy Policy.

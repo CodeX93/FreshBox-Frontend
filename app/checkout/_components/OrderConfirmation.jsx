@@ -97,35 +97,48 @@ function OrderConfirmation({ cartTotal, contactData, scheduleData }) {
             </Grid>
             
             <Grid item xs={12}>
-              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                <Button 
-                  variant="contained" 
-                  color="primary" 
-                  size="large"
-                  href="/dashboard"
-                  sx={{ 
-                    borderRadius: 2,
-                    px: 4,
-                    py: 1.5,
-                    mr: 2
-                  }}
-                >
-                  Track My Order
-                </Button>
-                <Button 
-                  variant="outlined" 
-                  color="primary"
-                  href="/"
-                  sx={{ 
-                    borderRadius: 2,
-                    px: 4,
-                    py: 1.5
-                  }}
-                >
-                  Continue Shopping
-                </Button>
-              </Box>
-            </Grid>
+  <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 2 }}>
+    <Button
+      variant="contained"
+      size="large"
+      href="/"
+      sx={{
+        backgroundColor: '#2E7B5C', // Set background color
+        color: '#fff', // Set text color to white
+        borderRadius: 2,
+        px: 4,
+        py: 1.5,
+        '&:hover': {
+          backgroundColor: '#256C47', // Darker shade for hover effect
+        },
+      }}
+    >
+      Track My Order
+    </Button>
+
+    <Button
+  variant="outlined"
+  size="large"
+  href="/"
+  sx={{
+    borderColor: '#2E7B5C', // Set border color
+    color: '#2E7B5C', // Set text color to match the border
+    borderRadius: 2,
+    px: 4,
+    py: 1.5,
+    '&:hover': {
+      backgroundColor: '#2E7B5C', // Set background color on hover
+      color: '#fff', // Change text color on hover to white
+      borderColor: '#2E7B5C', // Keep border color on hover
+    },
+  }}
+>
+  Continue Shopping
+</Button>
+
+  </Box>
+</Grid>
+
           </Grid>
         </Box>
       </Paper>

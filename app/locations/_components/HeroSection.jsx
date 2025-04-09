@@ -17,7 +17,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { theme } from '../../../contexts/Theme'; // Import your theme context
 
 // Constants
-const DARK_TURQUOISE = '#20c5b7'; // Dark turquoise color
+const DARK_TURQUOISE = '#2E7B5C'; // Dark turquoise color
 
 const HeroSection = () => {
   const [zipCode, setZipCode] = useState('');

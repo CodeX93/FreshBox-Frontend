@@ -21,8 +21,8 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { useRouter } from 'next/navigation';
 
 // Define constants
-const TURQUOISE = '#28ddcd';
-const DARK_BLUE = '#0D3B6E';
+const TURQUOISE = '#2E7B5C';
+const DARK_BLUE = '#0a1929';
 
 const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, updateQuantity }) => {
   const theme = useTheme();
@@ -269,9 +269,10 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
     py: 1.5,
     borderRadius: 2,
     fontWeight: 600,
+    color:'#ffffff',
     backgroundColor: TURQUOISE,
     '&:hover': {
-      backgroundColor: '#22c8b9',
+      backgroundColor: '#2E7B5C',
     }
   }}
 >

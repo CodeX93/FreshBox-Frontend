@@ -20,8 +20,8 @@ import {
 } from '@mui/icons-material';
 
 // Define constants
-const TURQUOISE = '#28ddcd';
-const TURQUOISE_DARK = '#20c5b7';
+const TURQUOISE = '#2E7B5C';
+const TURQUOISE_DARK = '#2E7B5C';
 
 // Support categories
 const supportCategories = [

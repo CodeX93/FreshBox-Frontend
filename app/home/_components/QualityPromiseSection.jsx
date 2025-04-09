@@ -1,134 +1,257 @@
 'use client';
 
 import React from 'react';
-import { Box, Container, useTheme, useMediaQuery } from '@mui/material';
-import TestimonialSection from '../ClientSideInterations/ClientQualityPromiseSection';
+import { 
+  Box, 
+  Typography, 
+  Container, 
+  Grid, 
+  Card, 
+  useTheme, 
+  useMediaQuery,
+  Avatar 
+} from '@mui/material';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import StarIcon from '@mui/icons-material/Star';
 
-// This is the main page component that takes full screen with enhanced visual elements
-export default function TestimonialPage() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  
+// Feature items with icon
+const FeatureItem = ({ text }) => {
   return (
-    <Box
-      sx={{
-        width: '100%',
-        height: '100vh', // Set to full viewport height
-        position: 'relative',
-        bgcolor: '#f9fbfa', // Very light mint tint instead of pure white
-        overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center', // Center content vertically
-        justifyContent: 'center', // Center content horizontally
-      }}
-    >
-      {/* Background decorative elements */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '-10%',
-          right: '-5%',
-          width: { xs: '200px', md: '300px', lg: '400px' },
-          height: { xs: '200px', md: '300px', lg: '400px' },
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(189, 244, 227, 0.4) 0%, rgba(189, 244, 227, 0) 70%)',
-          zIndex: 0,
-        }}
+    <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
+      <CheckCircleOutlineIcon 
+        sx={{ 
+          color: '#2E7B5C', 
+          mr: 1.5, 
+          fontSize: '1.3rem',
+          mt: 0.3
+        }} 
       />
-      
-      <Box
-        sx={{
-          position: 'absolute',
-          bottom: '-8%',
-          left: '-5%',
-          width: { xs: '180px', md: '250px', lg: '350px' },
-          height: { xs: '180px', md: '250px', lg: '350px' },
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(189, 244, 227, 0.3) 0%, rgba(189, 244, 227, 0) 70%)',
-          zIndex: 0,
-        }}
-      />
-      
-      {/* Subtle pattern overlay */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          opacity: 0.03,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23075E54' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          zIndex: 0,
-        }}
-      />
-      
-      {/* Camera/photo button shown in screenshot */}
-      <Box
-        sx={{
-          position: 'fixed',
-          bottom: '30px',
-          left: '30px',
-          width: { xs: '45px', md: '50px' },
-          height: { xs: '45px', md: '50px' },
-          borderRadius: '50%',
-          backgroundColor: '#2E7B5C',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          zIndex: 100,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-          '&:hover': {
-            transform: 'scale(1.05)',
-            boxShadow: '0 6px 16px rgba(0,0,0,0.25)',
-          },
+      <Typography 
+        variant="body1" 
+        sx={{ 
+          color: '#333', 
+          fontWeight: 500,
+          fontSize: '1rem',
+          lineHeight: 1.4
         }}
       >
-        <Box
-          component="span"
-          sx={{
-            color: 'white',
-            fontSize: { xs: '20px', md: '24px' },
-            fontWeight: 'bold',
-          }}
-        >
-          ⬤
-        </Box>
-      </Box>
-      
-      <Container
-        maxWidth={false}
-        sx={{
-          position: 'relative',
-          zIndex: 1,
-          width: '100%',
-          height: '100%',
-          padding: 0,
-          margin: 0,
-          maxWidth: 'none', // Remove max width constraint
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'visible', // Allow buttons to extend beyond container
-        }}
-      >
-        <TestimonialSection />
-      </Container>
-      
-      {/* Bottom decorative bar */}
-      <Box
-        sx={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: '5px',
-          background: 'linear-gradient(90deg, #2E7B5C 0%, #85D2B3 50%, #2E7B5C 100%)',
-          zIndex: 10,
-        }}
-      />
+        {text}
+      </Typography>
     </Box>
   );
-}
+};
+
+// Testimonial Card Component
+const TestimonialCard = () => {
+  return (
+    <Card 
+      elevation={0} 
+      sx={{ 
+        bgcolor: '#0F3034', 
+        borderRadius: '8px',
+        mb: 2,
+        p: 2
+      }}
+    >
+      <Box sx={{ display: 'flex', mb: 1 }}>
+        {[1, 2, 3, 4, 5].map((star) => (
+          <StarIcon 
+            key={star} 
+            sx={{ 
+              color: '#FFD700', 
+              fontSize: '1.1rem',
+              mr: 0.3
+            }} 
+          />
+        ))}
+      </Box>
+
+      <Typography 
+        variant="h6" 
+        sx={{ 
+          color: 'white', 
+          fontWeight: 600,
+          fontSize: '1.1rem',
+          mb: 0.5
+        }}
+      >
+        Michael T
+      </Typography>
+
+      <Typography 
+        variant="body2" 
+        sx={{ 
+          color: 'white',
+          fontSize: '0.85rem',
+          lineHeight: 1.5
+        }}
+      >
+        "The convenience of LaundryHeap has completely changed my weekly routine. I get so much time back!"
+      </Typography>
+    </Card>
+  );
+};
+
+// Main benefit card component
+const BenefitCard = ({ icon, title, description }) => {
+  return (
+    <Box sx={{ mb: 5 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
+        <Box component="span" sx={{ mr: 2, color: '#2E7B5C', fontSize: '1.8rem' }}>
+          {icon}
+        </Box>
+        <Typography 
+          variant="h6" 
+          sx={{ 
+            color: '#2E7B5C', 
+            fontWeight: 600 
+          }}
+        >
+          {title}
+        </Typography>
+      </Box>
+      <Typography 
+        variant="body2" 
+        sx={{ 
+          color: '#333',
+          lineHeight: 1.6
+        }}
+      >
+        {description}
+      </Typography>
+    </Box>
+  );
+};
+
+// Main component
+const QualityPromiseSection = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+
+  // Features list
+  const features = [
+    "Eco-friendly cleaning processes and detergents",
+    "Expert handling of delicate fabrics and special care items",
+    "Reliable pickup and delivery scheduling",
+    "Satisfaction guarantee on all services",
+    "Transparent pricing with no hidden fees"
+  ];
+
+  // Benefits items
+  const benefits = [
+    {
+      icon: "✋",
+      title: "Reliable & Protected Handling",
+      description: "Our skilled team carefully handles your items, guaranteeing top-tier protection and safety at every step."
+    },
+    {
+      icon: "✋",
+      title: "10 Years of Trusted Service",
+      description: "Thousands trust us for our consistent, reliable service worldwide backed by a decade of expertise."
+    },
+    {
+      icon: "✋",
+      title: "Exceptional Care, Always",
+      description: "Each item is cleaned with precision, using methods that maintain and protect your garment's quality."
+    }
+  ];
+
+  return (
+    <Container maxWidth="lg" sx={{ py: 6 }}>
+      {/* Benefits Section */}
+      <Grid container spacing={4} sx={{ mb: 6 }}>
+        {benefits.map((benefit, index) => (
+          <Grid item xs={12} md={4} key={index}>
+            <BenefitCard 
+              icon={benefit.icon}
+              title={benefit.title}
+              description={benefit.description}
+            />
+          </Grid>
+        ))}
+      </Grid>
+
+      {/* Quality Promise Section */}
+      <Grid container spacing={3}>
+        {/* Left side: Quality Promise */}
+        <Grid item xs={12} md={7}>
+          <Box 
+            sx={{ 
+              bgcolor: '#C8FFE3', 
+              borderRadius: '10px',
+              p: { xs: 3, md: 4 },
+              height: '100%'
+            }}
+          >
+            <Typography 
+              variant="h3" 
+              component="h2" 
+              sx={{ 
+                color: '#0F3034', 
+                fontWeight: 700,
+                fontSize: { xs: '1.8rem', md: '2.2rem' },
+                mb: 2
+              }}
+            >
+              Our Quality Promise
+            </Typography>
+            
+            <Typography 
+              variant="body1" 
+              sx={{ 
+                color: '#0F3034',
+                mb: 4,
+                fontSize: '1.1rem',
+                maxWidth: '90%'
+              }}
+            >
+              At FreshBox, we're committed to providing the highest quality laundry and dry cleaning services available.
+            </Typography>
+            
+            {features.map((feature, index) => (
+              <FeatureItem key={index} text={feature} />
+            ))}
+          </Box>
+        </Grid>
+        
+        {/* Right side: Testimonials grid */}
+        <Grid item xs={12} md={5}>
+          <Grid container spacing={2}>
+            {/* Create 2x3 grid of testimonials */}
+            {Array.from({ length: 6 }).map((_, index) => (
+              <Grid item xs={12} sm={6} key={index}>
+                <TestimonialCard />
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      </Grid>
+
+      {/* Why Choose Us Button */}
+      <Box sx={{ mt: 6, textAlign: 'center' }}>
+        <Box
+          component="button"
+          sx={{
+            border: '2px solid #0F3034',
+            borderRadius: '50px',
+            py: 1.5,
+            px: 4,
+            color: '#0F3034',
+            fontWeight: 600,
+            fontSize: '1.1rem',
+            backgroundColor: 'transparent',
+            cursor: 'pointer',
+            '&:hover': {
+              backgroundColor: 'rgba(15, 48, 52, 0.05)'
+            }
+          }}
+        >
+          WHY CHOOSE US?
+        </Box>
+      </Box>
+    </Container>
+  );
+};
+
+export default QualityPromiseSection;

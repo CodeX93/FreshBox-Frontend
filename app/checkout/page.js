@@ -37,8 +37,8 @@ import OrderConfirmation from './_components/OrderConfirmation';
 import { steps, coveredPostcodes, timeSlots } from './checkoutData';
 
 // Define constants
-const TURQUOISE = '#28ddcd';
-const DARK_BLUE = '#0D3B6E';
+const TURQUOISE = '#2E7B5C';
+const DARK_BLUE = '#2E7B5C';
 
 export default function CheckoutProcess() {
   const router = useRouter();
@@ -399,15 +399,18 @@ export default function CheckoutProcess() {
                     {getStepContent(activeStep)}
                     
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
-                      <Button
-                        variant="outlined"
-                        disabled={activeStep === 0 || isLoading}
-                        onClick={handleBack}
-                        startIcon={<ArrowBackIcon />}
-                        sx={{ borderRadius: 2 }}
-                      >
-                        Back
-                      </Button>
+                      {activeStep !== 1 && (
+                        <Button
+                          variant="outlined"
+                          disabled={activeStep === 0 || isLoading}
+                          onClick={handleBack}
+                          startIcon={<ArrowBackIcon />}
+                          sx={{ borderRadius: 2,bgcolor:'#2E7B5C',color:'#ffffff' }}
+                        >
+                          Back
+                        </Button>
+                      )}
+                      {activeStep === 1 && <Box />} {/* Empty box to maintain layout when back button is hidden */}
                       <Button
                         variant="contained"
                         onClick={handleNext}
@@ -418,9 +421,7 @@ export default function CheckoutProcess() {
                           px: 3,
                           py: 1,
                           bgcolor: TURQUOISE,
-                          '&:hover': {
-                            bgcolor: '#22c8b9',
-                          }
+                         
                         }}
                       >
                         {activeStep === steps.length - 1 ? 'Complete Order' : 'Continue'}

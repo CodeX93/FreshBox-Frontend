@@ -73,7 +73,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
       title: "Book Online",
       description: "Schedule your pickup and delivery times that work for your busy schedule. Same-day service available.",
       step: 1,
-      imagePath: "/images/booking-laundry.jpg", // Replace with actual image path
+      imagePath: "https://plus.unsplash.com/premium_photo-1661768289109-c814be8d7c3d?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Ym9va2luZ3xlbnwwfHwwfHx8MA%3D%3D", // Booking / scheduling
       detailedDescription: "Our intuitive booking system allows you to schedule laundry services in just a few clicks. Select your preferred pickup time, delivery window, and any special instructions for your items. We offer flexible scheduling options including same-day service, next-day delivery, and recurring weekly or monthly pickups to fit your lifestyle. No more waiting in laundromats or planning your day around laundry cycles - we work around your schedule.",
       features: [
         "24/7 online booking system",
@@ -88,7 +88,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
       title: "We Clean",
       description: "Our expert team handles your clothes with care using eco-friendly products and professional techniques.",
       step: 2,
-      imagePath: "/images/cleaning-process.jpg", // Replace with actual image path
+      imagePath: "https://plus.unsplash.com/premium_photo-1677234147281-3b505c036d36?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2xlYW58ZW58MHx8MHx8fDA%3D", // Laundry machine / cleaning
       detailedDescription: "Once we collect your items, they're brought to our state-of-the-art cleaning facility where our trained professionals sort, pre-treat, and process each garment according to its specific care requirements. We use premium, eco-friendly detergents and cleaning agents that are tough on stains but gentle on fabrics and the environment. Our industrial-grade machines provide superior cleaning while maintaining the integrity and color of your clothes.",
       features: [
         "Professional stain treatment",
@@ -103,7 +103,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
       title: "We Deliver",
       description: "Receive your freshly cleaned clothes back at your door, exactly when you need them.",
       step: 3,
-      imagePath: "/images/delivery-service.jpg", // Replace with actual image path
+      imagePath: "https://images.unsplash.com/photo-1695654390723-479197a8c4a3?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZGVsaXZlcnl8ZW58MHx8MHx8fDA%3D", // Delivery person or package
       detailedDescription: "After cleaning, your items are carefully folded or hung, packaged, and delivered right to your doorstep. Our professional delivery team ensures your laundry arrives at the scheduled time, fresh and ready to wear. We understand the importance of reliability - you'll receive notifications before delivery and can track your order in real-time through our app. If you're not home, we'll follow your delivery preferences to ensure your clean clothes are safely stored until you return.",
       features: [
         "Contactless delivery options",
@@ -118,7 +118,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
       title: "Satisfaction Guaranteed",
       description: "If you're not completely satisfied, we'll make it right. Your happiness is our priority.",
       step: 4,
-      imagePath: "/images/satisfaction-guarantee.jpg", // Replace with actual image path
+      imagePath: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=1200&q=80", // Happy customer / satisfaction
       detailedDescription: "Your satisfaction is our top priority. If you're not completely happy with our service, we'll make it right - whether that means re-cleaning an item at no additional cost or providing a full refund. Our customer service team is available 24/7 to address any concerns and ensure you have the best experience possible. We stand behind every garment we process and value the trust you place in us with your favorite items.",
       features: [
         "100% satisfaction guarantee",
@@ -129,6 +129,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
       ]
     }
   ];
+  
 
   const fadeInVariants = {
     hidden: { opacity: 0, y: 40 },

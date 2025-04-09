@@ -8,16 +8,21 @@ import {
   Grid,
   Container,
   useTheme,
-  useMediaQuery
+  useMediaQuery,
+  Button
 } from '@mui/material';
-import { motion } from 'framer-motion';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import StarIcon from '@mui/icons-material/Star';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-// Feature Card Component for the left and bottom sections
-const FeatureCard = ({ icon, title, description, bgColor }) => {
+// Feature Card Component 
+const FeatureCard = ({ icon, title, description, bgColor, textColor = 'white' }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   
@@ -25,33 +30,35 @@ const FeatureCard = ({ icon, title, description, bgColor }) => {
     <Box
       sx={{
         backgroundColor: bgColor,
-        color: 'white',
+        color: textColor,
         p: isMobile ? 2 : 3,
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
+        borderRadius: 2,
       }}
     >
       <Box sx={{ 
         mb: 1, 
-        color: '#fff', 
+        color: textColor, 
         display: 'flex',
         fontSize: isMobile ? '1.2rem' : '1.5rem',
       }}>
         {icon}
       </Box>
       <Typography variant="h6" component="h3" sx={{ 
-        fontWeight: 400, 
+        fontWeight: 600, 
         textTransform: 'uppercase',
         letterSpacing: 1,
         mb: 1,
         fontSize: isMobile ? '0.9rem' : '1.1rem',
+        color: textColor,
       }}>
         {title}
       </Typography>
       <Typography variant="body2" sx={{ 
-        color: 'rgba(255,255,255,0.8)',
+        color: textColor === 'white' ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.7)',
         fontSize: isMobile ? '0.75rem' : '0.85rem',
       }}>
         {description}
@@ -60,173 +67,120 @@ const FeatureCard = ({ icon, title, description, bgColor }) => {
   );
 };
 
-const ExactWhyChooseUsClone = () => {
+const WhyChooseUsSection = () => {
   const router = useRouter();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isTablet = useMediaQuery(theme.breakpoints.down('lg'));
 
-  // Example of using router
-  const handleFeatureClick = (path) => {
-    router.push(path);
-  };
+  // Color palette
+  const darkGreen = '#213B25';
+  const lightGreen = '#B5E2D0';
+  const darkBrown = '#21130D';
+  const white = '#FFFFFF';
 
-  // On mobile and tablet, we'll use a different layout
+  // Mobile Layout
   if (isMobile) {
     return (
-      <Box 
-        component="section" 
-        sx={{ 
-          position: 'relative',
-          overflow: 'hidden',
-          backgroundColor: '#fff',
-          width: '100%',
-          minHeight: '100vh',
-        }}
-      >
-        {/* Mobile layout - stacked grid */}
-        <Grid container sx={{ minHeight: '100vh' }}>
-          {/* Top - Why Choose Us */}
-          <Grid 
-            item 
-            xs={12}
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Box textAlign="center" mb={4}>
+          <Typography 
+            variant="h2" 
+            component="h2"
             sx={{ 
-              backgroundColor: '#f5f5f5',
-              p: 3,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              minHeight: '25vh',
+              color: '#000',
+              fontWeight: 700,
+              fontSize: '2.5rem',
+              lineHeight: 1.1,
+              mb: 2,
+              textTransform: 'uppercase',
             }}
           >
-            <Box 
+            Why Choose Us?
+          </Typography>
+          <Typography 
+            variant="body1" 
+            sx={{ 
+              color: '#555',
+              maxWidth: '90%',
+              mx: 'auto',
+              fontSize: '0.9rem',
+            }}
+          >
+            Everyday we work hard to make life of our clients better and happier.
+          </Typography>
+        </Box>
+
+        {/* Extended Feature Grid */}
+        <Grid container spacing={2}>
+          {[
+            {
+              icon: <LightbulbOutlinedIcon fontSize="small" />,
+              title: "Expert Care",
+              description: "Professionally trained staff with specialized knowledge.",
+              bgColor: darkGreen
+            },
+            {
+              icon: <CalendarTodayIcon fontSize="small" />,
+              title: "Free Pickup & Delivery",
+              description: "Convenient door-to-door service that saves you time.",
+              bgColor: darkGreen
+            },
+            {
+              icon: <AccessTimeIcon fontSize="small" />,
+              title: "24-Hour Service",
+              description: "Quick turnaround times with 24-hour service available.",
+              bgColor: white,
+              textColor: darkGreen
+            },
+            {
+              icon: <SettingsIcon fontSize="small" />,
+              title: "Advanced Technology",
+              description: "State-of-the-art cleaning equipment and techniques.",
+              bgColor: darkBrown
+            },
+            {
+              icon: <LightbulbOutlinedIcon fontSize="small" />,
+              title: "Eco-Friendly",
+              description: "Green cleaning solutions safer for your clothes and family.",
+              bgColor: darkGreen
+            },
+            {
+              icon: <SettingsIcon fontSize="small" />,
+              title: "Customized Solutions",
+              description: "Personalized service plans tailored to your needs.",
+              bgColor: darkGreen
+            },
+            {
+              icon: <StarIcon fontSize="small" />,
+              title: "Quality Guarantee",
+              description: "100% satisfaction guarantee with free re-cleaning if not satisfied.",
+              bgColor: darkBrown
+            }
+          ].map((feature, index) => (
+            <Grid 
+              item 
+              xs={6} 
+              key={index} 
               sx={{ 
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
+                height: '15vh',
+                ...(index === 6 && { xs: 12 }) // Full width for last item
               }}
             >
-              <Typography 
-                variant="h2" 
-                component="h2" 
-                sx={{ 
-                  color: '#000',
-                  fontWeight: 700,
-                  fontSize: '2.5rem',
-                  lineHeight: 1.1,
-                  mb: 2,
-                  textTransform: 'uppercase',
-                }}
-              >
-                Why Choose Us?
-              </Typography>
-              <Typography 
-                variant="body1" 
-                sx={{ 
-                  color: '#555',
-                  maxWidth: '90%',
-                  fontSize: '0.9rem',
-                }}
-              >
-                Everyday we work hard to make life of our clients better and happier.
-              </Typography>
-            </Box>
-          </Grid>
-
-          {/* Center - Image */}
-          <Grid 
-            item 
-            xs={12}
-            sx={{ 
-              position: 'relative',
-              height: '30vh',
-            }}
-          >
-            <Box
-              component="img"
-              src="https://images.unsplash.com/photo-1614644147798-f8c0fc9da7f6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-              alt="Woman in green sweater"
-              sx={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-              }}
-            />
-          </Grid>
-
-          {/* Feature grid - 7 reasons */}
-          <Grid container>
-            {/* Row 1 */}
-            <Grid item xs={6} sx={{ height: '15vh', backgroundColor: '#1e3a4c' }}>
-              <FeatureCard
-                icon={<LightbulbOutlinedIcon fontSize="small" />}
-                title="Expert Care"
-                description="Professionally trained staff with specialized knowledge."
-                bgColor="#1e3a4c"
+              <FeatureCard 
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+                bgColor={feature.bgColor}
+                textColor={feature.textColor}
               />
             </Grid>
-            <Grid item xs={6} sx={{ height: '15vh', backgroundColor: '#1e3a4c' }}>
-              <FeatureCard
-                icon={<CalendarTodayIcon fontSize="small" />}
-                title="Free Pickup & Delivery"
-                description="Convenient door-to-door service that saves you time."
-                bgColor="#1e3a4c"
-              />
-            </Grid>
-            
-            {/* Row 2 */}
-            <Grid item xs={6} sx={{ height: '15vh', backgroundColor: '#fff' }}>
-              <FeatureCard
-                icon={<AccessTimeIcon fontSize="small" />}
-                title="24-Hour Service"
-                description="Quick turnaround times with 24-hour service available."
-                bgColor="#fff"
-              />
-            </Grid>
-            <Grid item xs={6} sx={{ height: '15vh', backgroundColor: '#0a0a0a' }}>
-              <FeatureCard
-                icon={<SettingsIcon fontSize="small" />}
-                title="Advanced Technology"
-                description="State-of-the-art cleaning equipment and techniques."
-                bgColor="#0a0a0a"
-              />
-            </Grid>
-            
-            {/* Row 3 */}
-            <Grid item xs={6} sx={{ height: '15vh', backgroundColor: '#1e3a4c' }}>
-              <FeatureCard
-                icon={<LightbulbOutlinedIcon fontSize="small" />}
-                title="Eco-Friendly"
-                description="Green cleaning solutions safer for your clothes and family."
-                bgColor="#1e3a4c"
-              />
-            </Grid>
-            <Grid item xs={6} sx={{ height: '15vh', backgroundColor: '#1e3a4c' }}>
-              <FeatureCard
-                icon={<SettingsIcon fontSize="small" />}
-                title="Customized Solutions"
-                description="Personalized service plans tailored to your needs."
-                bgColor="#1e3a4c"
-              />
-            </Grid>
-            
-            {/* Row 4 */}
-            <Grid item xs={12} sx={{ height: '15vh', backgroundColor: '#0a0a0a' }}>
-              <FeatureCard
-                icon={<LightbulbOutlinedIcon fontSize="small" />}
-                title="Quality Guarantee"
-                description="100% satisfaction guarantee on all services with free re-cleaning if you're not completely satisfied."
-                bgColor="#0a0a0a"
-              />
-            </Grid>
-          </Grid>
+          ))}
         </Grid>
-      </Box>
+      </Container>
     );
   }
 
-  // Desktop layout
+  // Desktop Layout
   return (
     <Box 
       component="section" 
@@ -235,15 +189,14 @@ const ExactWhyChooseUsClone = () => {
         overflow: 'hidden',
         backgroundColor: '#fff',
         width: '100%',
-        height: '100vh', // Full viewport height
+        height: '100vh',
       }}
     >
       <Grid container sx={{ height: '100%' }}>
-        {/* Left Column - 5 Feature Cards */}
+        {/* Left Column - Feature Cards */}
         <Grid 
           item 
           xs={4} 
-          md={4} 
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -251,330 +204,147 @@ const ExactWhyChooseUsClone = () => {
           }}
         >
           {/* Feature 1 */}
-          <Box sx={{ height: '20%', backgroundColor: '#1e3a4c' }}>
+          <Box sx={{ height: '50%', p: 1 }}>
             <FeatureCard
-              icon={<LightbulbOutlinedIcon fontSize="large" />}
-              title="Expert Care"
-              description="Professionally trained staff with specialized knowledge in fabric care and stain removal."
-              bgColor="#1e3a4c"
+              icon={<MonetizationOnIcon fontSize="large" />}
+              title="Competitive Pricing"
+              description="Experience quality laundry services without breaking the bank—we offer fair and competitive pricing."
+              bgColor={darkGreen}
             />
           </Box>
           
           {/* Feature 2 */}
-          <Box sx={{ height: '20%', backgroundColor: '#fff' }}>
+          <Box sx={{ height: '50%', p: 1 }}>
             <FeatureCard
-              icon={<AccessTimeIcon fontSize="large" />}
-              title="24-Hour Service"
-              description="Quick turnaround times with 24-hour service available for urgent cleaning needs."
-              bgColor="#fff"
-            />
-          </Box>
-          
-          {/* Feature 3 */}
-          <Box sx={{ height: '20%', backgroundColor: '#1e3a4c' }}>
-            <FeatureCard
-              icon={<CalendarTodayIcon fontSize="large" />}
-              title="Eco-Friendly"
-              description="Green cleaning solutions that are safer for your clothes, your family, and the environment."
-              bgColor="#1e3a4c"
-            />
-          </Box>
-          
-          {/* Feature 6 */}
-          <Box sx={{ height: '20%', backgroundColor: '#fff' }}>
-            <FeatureCard
-              icon={<SettingsIcon fontSize="large" />}
-              title="Customized Solutions"
-              description="Personalized service plans tailored to your specific cleaning needs and preferences."
-              bgColor="#fff"
-            />
-          </Box>
-          
-          {/* Feature 7 */}
-          <Box sx={{ height: '20%', backgroundColor: '#1e3a4c' }}>
-            <FeatureCard
-              icon={<LightbulbOutlinedIcon fontSize="large" />}
-              title="Quality Guarantee"
-              description="100% satisfaction guarantee on all services with free re-cleaning if you're not completely satisfied."
-              bgColor="#1e3a4c"
+              icon={<EmojiEventsIcon fontSize="large" />}
+              title="Expert Care"
+              description="Professionally trained staff with specialized knowledge in fabric care and stain removal."
+              bgColor={darkBrown}
             />
           </Box>
         </Grid>
 
-        {/* Center Column - Image */}
+        {/* Center Column - Title and Info */}
         <Grid 
           item 
           xs={4} 
-          md={4} 
           sx={{ 
-            position: 'relative',
-            height: '100%',
-          }}
-        >
-          <Box
-            component="img"
-            src="https://images.unsplash.com/photo-1614644147798-f8c0fc9da7f6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-            alt="Woman in green sweater"
-            sx={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-            }}
-          />
-        </Grid>
-
-        {/* Right Column - Feature Cards and Title */}
-        <Grid 
-          item 
-          xs={4} 
-          md={4} 
-          sx={{
             display: 'flex',
             flexDirection: 'column',
             height: '100%',
-          }}
-        >
-          {/* Title Section */}
-          <Box 
-            sx={{ 
-              height: '33.33%',
-              backgroundColor: '#f5f5f5',
-              p: 3,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}
-          >
-            <Box 
-              sx={{ 
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-end',
-                textAlign: 'right',
-                height: '100%',
-                justifyContent: 'center',
-              }}
-            >
-              <Typography 
-                variant="h2" 
-                component="h2" 
-                sx={{ 
-                  color: '#000',
-                  fontWeight: 700,
-                  fontSize: { xs: '2.5rem', md: '3rem' },
-                  lineHeight: 1,
-                  mb: 1,
-                  textTransform: 'uppercase',
-                }}
-              >
-                Why<br />Choose<br />Us?
-              </Typography>
-              <Typography 
-                variant="body1" 
-                sx={{ 
-                  color: '#555',
-                  maxWidth: '80%',
-                  fontSize: '0.9rem',
-                }}
-              >
-                Everyday we work hard to make life of our clients better and happier.
-              </Typography>
-            </Box>
-          </Box>
-          
-          {/* Feature 4 */}
-          <Box sx={{ height: '33.33%', backgroundColor: '#1e3a4c' }}>
-            <FeatureCard
-              icon={<CalendarTodayIcon fontSize="large" />}
-              title="Free Pickup & Delivery"
-              description="Convenient door-to-door service that saves you time and hassle with scheduled pickups and deliveries."
-              bgColor="#1e3a4c"
-            />
-          </Box>
-          
-          {/* Feature 5 */}
-          <Box sx={{ height: '33.33%', backgroundColor: '#0a0a0a' }}>
-            <FeatureCard
-              icon={<SettingsIcon fontSize="large" />}
-              title="Advanced Technology"
-              description="State-of-the-art cleaning equipment and techniques that deliver superior results while being gentle on fabrics."
-              bgColor="#0a0a0a"
-            />
-          </Box>
-        </Grid>
-      </Grid>
-    </Box>
-  );
-        >
-          <FeatureCard
-            icon={<LightbulbOutlinedIcon fontSize="large" />}
-            title="Sample Headline"
-            description="Sample text. Click to select the text box."
-            bgColor="#1e3a4c"
-          />
-        </Grid>
-
-        {/* Top Center - Image (continues into middle too) */}
-        <Grid 
-          item 
-          xs={8} 
-          md={4} 
-          sx={{ 
-            position: 'relative',
-            height: '100%', // Full height for the image
-            gridRow: 'span 3',
-          }}
-          rowSpan={3}
-        >
-          <Box
-            component="img"
-            src="https://images.unsplash.com/photo-1614644147798-f8c0fc9da7f6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-            alt="Woman in green sweater"
-            sx={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-            }}
-          />
-        </Grid>
-
-        {/* Top Right - Why Choose Us */}
-        <Grid 
-          item 
-          xs={12} 
-          md={4} 
-          sx={{ 
-            backgroundColor: '#f5f5f5',
-            p: 3,
-            display: 'flex',
-            flexDirection: 'column',
             justifyContent: 'center',
-            height: '33.33%',
           }}
         >
           <Box 
             sx={{ 
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-end',
-              textAlign: 'right',
-              height: '100%',
-              justifyContent: 'center',
+              textAlign: 'center',
+              p: 3,
             }}
           >
             <Typography 
-              variant="h2" 
-              component="h2" 
+              variant="subtitle1" 
               sx={{ 
-                color: '#000',
-                fontWeight: 700,
-                fontSize: { xs: '2.5rem', md: '3rem' },
-                lineHeight: 1,
+                color: darkGreen,
+                fontWeight: 500,
                 mb: 1,
                 textTransform: 'uppercase',
+                letterSpacing: 2,
               }}
             >
-              Why<br />Choose<br />Us?
+              / Why FreshBox?
+            </Typography>
+            <Typography 
+              variant="h2" 
+              sx={{ 
+                color: darkBrown,
+                fontWeight: 700,
+                fontSize: '3rem',
+                lineHeight: 1.1,
+                mb: 2,
+              }}
+            >
+              The FreshBox<br />Difference
             </Typography>
             <Typography 
               variant="body1" 
               sx={{ 
                 color: '#555',
                 maxWidth: '80%',
+                mx: 'auto',
+                mb: 3,
                 fontSize: '0.9rem',
               }}
             >
-              Everyday we work hard to make life of our clients better and happier.
+              Everyday we work hard to make life of our clients better and happier by providing 
+              premium laundry and dry cleaning services with quick turnaround times.
             </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+              <Button 
+                variant="text" 
+                endIcon={<KeyboardArrowRightIcon />}
+                onClick={() => router.push('/support')}
+                sx={{ 
+                  color: darkGreen,
+                  fontWeight: 500,
+                  '&:hover': {
+                    backgroundColor: 'transparent',
+                    textDecoration: 'underline'
+                  }
+                }}
+              >
+                Contact Now
+              </Button>
+              <Button 
+                variant="text" 
+                endIcon={<KeyboardArrowRightIcon />}
+                sx={{ 
+                  color: darkGreen,
+                  fontWeight: 500,
+                  '&:hover': {
+                    backgroundColor: 'transparent',
+                    textDecoration: 'underline'
+                  }
+                }}
+              >
+                Book Free Estimate
+              </Button>
+            </Box>
           </Box>
         </Grid>
 
-        {/* Middle Left - Empty but needed for layout */}
+        {/* Right Column - Feature Cards */}
         <Grid 
           item 
           xs={4} 
-          md={4} 
-          sx={{ 
-            backgroundColor: '#fff',
+          sx={{
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
-            height: '33.33%',
+            height: '100%',
           }}
         >
-          <FeatureCard
-            icon={<AccessTimeIcon fontSize="large" />}
-            title="Sample Headline"
-            description="Sample text. Click to select the text box."
-            bgColor="#fff"
-          />
-        </Grid>
-
-        {/* Middle Right - Green Calendar Box */}
-        <Grid 
-          item 
-          xs={12} 
-          md={4} 
-          sx={{ 
-            backgroundColor: '#1e3a4c',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            height: '33.33%',
-          }}
-        >
-          <FeatureCard
-            icon={<CalendarTodayIcon fontSize="large" />}
-            title="Sample Headline"
-            description="Sample text. Click to select the text box."
-            bgColor="#1e3a4c"
-          />
-        </Grid>
-
-        {/* Bottom Left - White Box */}
-        <Grid 
-          item 
-          xs={4} 
-          md={4} 
-          sx={{ 
-            backgroundColor: '#1e3a4c',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            height: '33.33%',
-          }}
-        >
-          <FeatureCard
-            icon={<AccessTimeIcon fontSize="large" />}
-            title="Sample Headline"
-            description="Sample text. Click to select the text box."
-            bgColor="#1e3a4c"
-          />
-        </Grid>
-
-        {/* Bottom Right - Black Settings Box */}
-        <Grid 
-          item 
-          xs={12} 
-          md={4} 
-          sx={{ 
-            backgroundColor: '#0a0a0a',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            height: '33.33%',
-          }}
-        >
-          <FeatureCard
-            icon={<SettingsIcon fontSize="large" />}
-            title="Sample Headline"
-            description="Sample text. Click to select the text box."
-            bgColor="#0a0a0a"
-          />
+          {/* Feature 3 */}
+          <Box sx={{ height: '50%', p: 1 }}>
+            <FeatureCard
+              icon={<AccessTimeIcon fontSize="large" />}
+              title="24-Hour Service"
+              description="Quick turnaround times with 24-hour service available for urgent cleaning needs."
+              bgColor={darkGreen}
+            />
+          </Box>
+          
+          {/* Feature 4 */}
+          <Box sx={{ height: '50%', p: 1 }}>
+            <FeatureCard
+              icon={<StarIcon fontSize="large" />}
+              title="100% Satisfaction"
+              description="Don't just take our word for it—see what our clients say about FreshBox Laundry."
+              bgColor={darkBrown}
+            />
+          </Box>
         </Grid>
       </Grid>
     </Box>
   );
 };
 
-export default ExactWhyChooseUsClone;
+export default WhyChooseUsSection;

@@ -60,7 +60,14 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
             >
               <FormControlLabel 
                 value="home" 
-                control={<Radio />} 
+                control={ <Radio
+                  sx={{
+                    color: '#2E7B5C', // default color
+                    '&.Mui-checked': {
+                      color: '#2E7B5C', // color when checked
+                    },
+                  }}
+                />} 
                 label={
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <HomeIcon sx={{ mr: 1 }} />
@@ -70,7 +77,14 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
               />
               <FormControlLabel 
                 value="office" 
-                control={<Radio />} 
+                control={ <Radio
+                  sx={{
+                    color: '#2E7B5C', // default color
+                    '&.Mui-checked': {
+                      color: '#2E7B5C', // color when checked
+                    },
+                  }}
+                />} 
                 label={
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <BusinessIcon sx={{ mr: 1 }} />
@@ -88,6 +102,19 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
             fullWidth
             label="Postcode"
             name="postcode"
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#2E7B5C', // default border
+                },
+                '&:hover fieldset': {
+                  borderColor: '#2E7B5C', // on hover
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#2E7B5C', // when focused
+                },
+              },
+            }}
             value={addressData.postcode}
             onChange={handleAddressChange}
             error={addressError}
@@ -96,14 +123,28 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
         </Grid>
         
         <Grid item xs={12}>
-          <TextField
-            required
-            fullWidth
-            label="Address Line 1"
-            name="addressLine1"
-            value={addressData.addressLine1}
-            onChange={handleAddressChange}
-          />
+        <TextField
+  required
+  fullWidth
+  label="Address Line 1"
+  name="addressLine1"
+  value={addressData.addressLine1}
+  onChange={handleAddressChange}
+  sx={{
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#2E7B5C', // default border
+      },
+      '&:hover fieldset': {
+        borderColor: '#2E7B5C', // on hover
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#2E7B5C', // when focused
+      },
+    },
+  }}
+/>
+
         </Grid>
         
         <Grid item xs={12}>
@@ -113,6 +154,19 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
             name="addressLine2"
             value={addressData.addressLine2}
             onChange={handleAddressChange}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#2E7B5C', // default border
+                },
+                '&:hover fieldset': {
+                  borderColor: '#2E7B5C', // on hover
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#2E7B5C', // when focused
+                },
+              },
+            }}
           />
         </Grid>
         
@@ -124,6 +178,19 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
             value={addressData.city}
             onChange={handleAddressChange}
             disabled
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#2E7B5C', // default border
+                },
+                '&:hover fieldset': {
+                  borderColor: '#2E7B5C', // on hover
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#2E7B5C', // when focused
+                },
+              },
+            }}
           />
         </Grid>
         
@@ -137,6 +204,19 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
             multiline
             rows={3}
             placeholder="E.g., Doorbell doesn't work, please call when arriving"
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#2E7B5C', // default border
+                },
+                '&:hover fieldset': {
+                  borderColor: '#2E7B5C', // on hover
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#2E7B5C', // when focused
+                },
+              },
+            }}
           />
         </Grid>
       </Grid>

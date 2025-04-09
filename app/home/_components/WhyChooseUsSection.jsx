@@ -1,417 +1,274 @@
-'use client';
-
+"use client"
 import React from 'react';
-import {
-  Box,
-  Typography,
-  Grid,
-  Container,
-  useTheme,
-  useMediaQuery,
-  Button
+import { 
+  Box, 
+  Typography, 
+  Grid, 
+  Container, 
+  Button,
+  SvgIcon
 } from '@mui/material';
-import { motion } from 'framer-motion';
-import Link from 'next/link'
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import SettingsIcon from '@mui/icons-material/Settings';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import StarIcon from '@mui/icons-material/Star';
 import { useRouter } from 'next/navigation';
 
-// Feature Card Component for the benefits section
-const FeatureCard = ({ icon, title, description, bgColor }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  
-  return (
-    <Box
-      sx={{
-        backgroundColor: bgColor,
-        color: 'white',
-        p: isMobile ? 2 : 3,
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
-    >
-      <Box sx={{ 
-        mb: 1, 
-        color: '#fff', 
-        display: 'flex',
-        fontSize: isMobile ? '1.2rem' : '1.5rem',
-      }}>
-        {icon}
-      </Box>
-      <Typography variant="h6" component="h3" sx={{ 
-        fontWeight: 400, 
-        textTransform: 'uppercase',
-        letterSpacing: 1,
-        mb: 1,
-        fontSize: isMobile ? '0.9rem' : '1.1rem',
-      }}>
-        {title}
-      </Typography>
-      <Typography variant="body2" sx={{ 
-        color: 'rgba(255,255,255,0.8)',
-        fontSize: isMobile ? '0.75rem' : '0.85rem',
-      }}>
-        {description}
-      </Typography>
-    </Box>
-  );
-};
-
-const WhyChooseUsSection = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isTablet = useMediaQuery(theme.breakpoints.down('lg'));
+const WhyChooseUs = () => {
   const router = useRouter();
 
-  // Replace the blues with green shades
-  const darkGreen = '#213B25'; // Dark green replacing #1e3a4c
-  const lightGreen = '#FFFFFF'; // White for cards that need better text contrast
-  const darkBrown = '#21130D'; // Dark brown/black replacing #0a0a0a
+  // Custom icons using SvgIcon
+  const DollarIcon = (props) => (
+    <SvgIcon {...props}>
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+    </SvgIcon>
+  );
 
-  // On mobile and tablet, we'll use a different layout
-  if (isMobile) {
-    return (
-      <Box 
-        component="section" 
-        id="why-razor-section"
-        sx={{ 
-          position: 'relative',
-          overflow: 'hidden',
-          backgroundColor: '#fff',
-          width: '100%',
-          minHeight: '100vh',
-        }}
-      >
-        {/* Mobile layout - stacked grid */}
-        <Grid container sx={{ minHeight: '100vh' }}>
-          {/* Top - Why Choose Us */}
-          <Grid 
-            item 
-            xs={12}
-            sx={{ 
-              backgroundColor: '#f5f5f5',
-              p: 3,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              minHeight: '25vh',
-            }}
-          >
-            <Box 
-              sx={{ 
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
-              }}
-            >
-                              <Typography 
-                variant="subtitle1" 
-                component="p" 
-                sx={{ 
-                  color: darkGreen,
-                  fontWeight: 500,
-                  mb: 1,
-                }}
-              >
-                / Why FreshBox?
-              </Typography>
-              <Typography 
-                variant="h2" 
-                component="h2" 
-                sx={{ 
-                  color: darkBrown,
-                  fontWeight: 700,
-                  fontSize: '2.5rem',
-                  lineHeight: 1.1,
-                  mb: 2,
-                }}
-              >
-                The Razor Difference
-              </Typography>
-              <Typography 
-                variant="body1" 
-                sx={{ 
-                  color: '#555',
-                  maxWidth: '90%',
-                  fontSize: '0.9rem',
-                }}
-              >
-                For over a decade, we've been a proud service provider, earning and maintaining the trust of 
-                the community in Saskatoon, Martensville, Warman, and surrounding areas.
-              </Typography>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mt: 2 }}>
-                <Button 
-                  variant="text" 
-                  endIcon={<KeyboardArrowRightIcon />}
-                  sx={{ 
-                    color: darkGreen,
-                    fontWeight: 500,
-                    px: 0,
-                    '&:hover': {
-                      backgroundColor: 'transparent',
-                      textDecoration: 'underline'
-                    }
-                  }}
-                >
-                  Call Now
-                </Button>
-                <Button 
-                  variant="text" 
-                  endIcon={<KeyboardArrowRightIcon />}
-                  sx={{ 
-                    color: darkGreen,
-                    fontWeight: 500,
-                    px: 0,
-                    '&:hover': {
-                      backgroundColor: 'transparent',
-                      textDecoration: 'underline'
-                    }
-                  }}
-                >
-                  Book Free Estimate
-                </Button>
-              </Box>
-            </Box>
-          </Grid>
+  const CheckIcon = (props) => (
+    <SvgIcon {...props}>
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+    </SvgIcon>
+  );
 
-          {/* Feature grid - reasons */}
-          <Grid container>
-            {/* Row 1 */}
-            <Grid item xs={6} sx={{ height: '18vh', backgroundColor: darkGreen }}>
-              <FeatureCard
-                icon={<MonetizationOnIcon fontSize="small" />}
-                title="Competitive Pricing"
-                description="Experience quality laundry services without breaking the bank—we offer fair and competitive pricing."
-                bgColor={darkGreen}
-              />
-            </Grid>
-            <Grid item xs={6} sx={{ height: '18vh', backgroundColor: darkGreen }}>
-              <FeatureCard
-                icon={<EmojiEventsIcon fontSize="small" />}
-                title="Expert Care"
-                description="Professionally trained staff with specialized knowledge in fabric care and stain removal."
-                bgColor={darkGreen}
-              />
-            </Grid>
-            
-            {/* Row 2 */}
-            <Grid item xs={6} sx={{ height: '18vh', backgroundColor: lightGreen }}>
-              <FeatureCard
-                icon={<AccessTimeIcon fontSize="small" />}
-                title="24-Hour Service"
-                description="Quick turnaround times with 24-hour service available for urgent cleaning needs."
-                bgColor={lightGreen}
-              />
-            </Grid>
-            <Grid item xs={6} sx={{ height: '18vh', backgroundColor: darkBrown }}>
-              <FeatureCard
-                icon={<StarIcon fontSize="small" />}
-                title="100% Satisfaction"
-                description="Don't just take our word for it—see what our clients say about FreshBox Laundry."
-                bgColor={darkBrown}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Box>
-    );
-  }
+  const SettingsIcon = (props) => (
+    <SvgIcon {...props}>
+      <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.38.12-.58l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.22-.07.47.12.58l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.38-.12.58l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.58l-2.03-1.58z"/>
+    </SvgIcon>
+  );
 
-  // Desktop layout
+  const ThumbsUpIcon = (props) => (
+    <SvgIcon {...props}>
+      <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
+    </SvgIcon>
+  );
+
   return (
-    <Box 
-      component="section" 
-      id="why-razor-section"
-      sx={{ 
-        position: 'relative',
-        overflow: 'hidden',
-        backgroundColor: '#fff',
-        width: '100%',
-        height: '100vh', // Full viewport height
-      }}
-    >
-      <Grid container sx={{ height: '100%' }}>
-        {/* Left Column - Feature Cards */}
-        <Grid 
-          item 
-          xs={4} 
-          md={4} 
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
-          }}
-        >
-          {/* Feature 1 */}
-          <Box sx={{ height: '50%', backgroundColor: darkGreen }}>
-            <FeatureCard
-              icon={<MonetizationOnIcon fontSize="large" />}
-              title="Competitive Pricing"
-              description="Experience quality laundry services without breaking the bank—we offer fair and competitive pricing."
-              bgColor={darkGreen}
-            />
-          </Box>
-          
-          {/* Feature 2 */}
-          <Box sx={{ height: '50%', backgroundColor: darkBrown }}>
-            <FeatureCard
-              icon={<EmojiEventsIcon fontSize="large" />}
-              title="Expert Care"
-              description="Professionally trained staff with specialized knowledge in fabric care and stain removal."
-              bgColor={darkBrown}
-            />
-          </Box>
-        </Grid>
-
-        {/* Center Column - Title and Info */}
-        <Grid 
-          item 
-          xs={4} 
-          md={4} 
+    <Container maxWidth="lg" sx={{ py: 6 }}>
+      <Box textAlign="center" mb={4}>
+        <Typography 
+          variant="overline" 
           sx={{ 
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
+            color: '#213B25', 
+            fontWeight: 600, 
+            textTransform: 'uppercase',
+            letterSpacing: 2,
+            mb: 1 
           }}
         >
-          {/* Title Section */}
+          Why Choose Us?
+        </Typography>
+        <Typography 
+          variant="h2" 
+          sx={{ 
+            color: '#213B25', 
+            fontWeight: 700,
+            fontSize: '2.5rem',
+            mb: 2 
+          }}
+        >
+          Why <Box component="span" sx={{color: '#B5E2D0'}}>FreshBox Pro</Box> is The Right Choice for You?
+        </Typography>
+      </Box>
+
+      <Grid container spacing={3}>
+        {/* No Hidden Fees Card */}
+        <Grid item xs={12} md={6}>
           <Box 
             sx={{ 
+              backgroundColor: '#B5E2D0', 
+              borderRadius: 2, 
+              p: 3, 
               height: '100%',
-              backgroundColor: '#fff',
-              p: 3,
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'center',
             }}
           >
-            <Box 
+            <Box sx={{ 
+              color: '#213B25', 
+              mb: 2,
+              display: 'flex',
+              alignItems: 'center',
+            }}>
+              <DollarIcon sx={{ fontSize: 48 }} />
+            </Box>
+            <Typography 
+              variant="h6" 
               sx={{ 
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                height: '100%',
-                justifyContent: 'center',
+                color: '#213B25', 
+                fontWeight: 600, 
+                mb: 1,
+                fontSize: '1.1rem'
               }}
             >
-              <Typography 
-                variant="subtitle1" 
-                component="p" 
-                sx={{ 
-                  color: darkGreen,
-                  fontWeight: 500,
-                  mb: 1,
-                }}
-              >
-                / Why FreshBox?
-              </Typography>
-              <Typography 
-                variant="h2" 
-                component="h2" 
-                sx={{ 
-                  color: darkBrown,
-                  fontWeight: 700,
-                  fontSize: { xs: '2.5rem', md: '3.5rem' },
-                  lineHeight: 1,
-                  mb: 2,
-                }}
-              >
-                The FreshBox<br />Difference
-              </Typography>
-              <Typography 
-                variant="body1" 
-                sx={{ 
-                  color: '#555',
-                  maxWidth: '80%',
-                  mb: 3,
-                  fontSize: '0.9rem',
-                }}
-              >
-                Everyday we work hard to make life of our clients better and happier by providing 
-                premium laundry and dry cleaning services with quick turnaround times.
-              </Typography>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-                <Button 
-                  variant="text" 
-                  endIcon={<KeyboardArrowRightIcon />}
-                  onClick={()=>{router.push('/support')}}
-                  sx={{ 
-                    color: darkGreen,
-                    fontWeight: 500,
-                    px: 0,
-                    '&:hover': {
-                      backgroundColor: 'transparent',
-                      textDecoration: 'underline'
-                    }
-                  }}
-                >
-                  Contact Now
-                </Button>
-                <Button 
-                  variant="text" 
-                  endIcon={<KeyboardArrowRightIcon />}
-                  sx={{ 
-                    color: darkGreen,
-                    fontWeight: 500,
-                    px: 0,
-                    '&:hover': {
-                      backgroundColor: 'transparent',
-                      textDecoration: 'underline'
-                    }
-                  }}
-                >
-                  Book Free Estimate
-                </Button>
-              </Box>
-            </Box>
+              No Hidden Fees
+            </Typography>
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                color: '#213B25', 
+                opacity: 0.8 
+              }}
+            >
+              We believe in complete transparency. Our pricing is clearly based on the weight or number of items—no confusing charges or unexpected costs. What you see is exactly what you pay, with no surprises—just honest, upfront value every time.
+            </Typography>
           </Box>
         </Grid>
 
-        {/* Right Column - Feature Cards */}
-        <Grid 
-          item 
-          xs={4} 
-          md={4} 
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
-          }}
-        >
-          {/* Feature 3 */}
-          <Box sx={{ height: '50%', backgroundColor: darkGreen }}>
-            <FeatureCard
-              icon={<AccessTimeIcon fontSize="large" />}
-              title="24-Hour Service"
-              description="Quick turnaround times with 24-hour service available for urgent cleaning needs."
-              bgColor={darkGreen}
-            />
+        {/* Contactless Service Card */}
+        <Grid item xs={12} md={6}>
+          <Box 
+            sx={{ 
+              backgroundColor: '#B5E2D0', 
+              borderRadius: 2, 
+              p: 3, 
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Box sx={{ 
+              color: '#213B25', 
+              mb: 2,
+              display: 'flex',
+              alignItems: 'center',
+            }}>
+              <CheckIcon sx={{ fontSize: 48 }} />
+            </Box>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#213B25', 
+                fontWeight: 600, 
+                mb: 1,
+                fontSize: '1.1rem'
+              }}
+            >
+              Contactless Service
+            </Typography>
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                color: '#213B25', 
+                opacity: 0.8 
+              }}
+            >
+              Our Contactless Service offers safe, hassle-free pickup and delivery right at your doorstep. Enjoy the convenience of having your items collected and delivered without any direct contact, ensuring a seamless and secure experience from start to finish.
+            </Typography>
           </Box>
-          
-          {/* Feature 4 */}
-          <Box sx={{ height: '50%', backgroundColor: darkBrown }}>
-            <FeatureCard
-              icon={<StarIcon fontSize="large" />}
-              title="100% Satisfaction"
-              description="Don't just take our word for it—see what our clients say about FreshBox Laundry."
-              bgColor={darkBrown}
-            />
+        </Grid>
+
+        {/* Customizable Preferences Card - Double Height */}
+        <Grid item xs={12} md={8}>
+          <Box 
+            sx={{ 
+              backgroundColor: '#B5E2D0', 
+              borderRadius: 2, 
+              p: 3, 
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Box sx={{ 
+              color: '#213B25', 
+              mb: 2,
+              display: 'flex',
+              alignItems: 'center',
+            }}>
+              <SettingsIcon sx={{ fontSize: 48 }} />
+            </Box>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#213B25', 
+                fontWeight: 600, 
+                mb: 1,
+                fontSize: '1.1rem'
+              }}
+            >
+              Customizable Preferences
+            </Typography>
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                color: '#213B25', 
+                opacity: 0.8 
+              }}
+            >
+              Our Customizable Preferences allow you to tailor your service to your exact needs. Whether it's choosing your preferred detergent, fabric softener, or folding style, we ensure that every detail is personalized to fit your preferences. Enjoy a more convenient and personalized experience, with every order carefully handled just the way you like it.
+            </Typography>
+          </Box>
+        </Grid>
+
+        {/* 100% Satisfaction Card - Double Width */}
+        <Grid item xs={12} md={4}>
+          <Box 
+            sx={{ 
+              backgroundColor: '#213B25', 
+              borderRadius: 2, 
+              p: 3, 
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              color: 'white',
+            }}
+          >
+            <Box sx={{ 
+              color: 'white', 
+              mb: 2,
+              display: 'flex',
+              alignItems: 'center',
+            }}>
+              <ThumbsUpIcon sx={{ fontSize: 48, color: 'white' }} />
+            </Box>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: 'white', 
+                fontWeight: 600, 
+                mb: 1,
+                fontSize: '1.1rem'
+              }}
+            >
+              100% Satisfaction Guarantee
+            </Typography>
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                color: 'rgba(255,255,255,0.8)', 
+                mb: 2 
+              }}
+            >
+              Our Customizable Preferences allow you to tailor your service to your exact needs. Whether it's choosing your preferred detergent, fabric softener, or folding style, we ensure that every detail is personalized to fit your preferences.
+            </Typography>
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                color: 'rgba(255,255,255,0.8)', 
+                mb: 2 
+              }}
+            >
+              Join thousands of happy customers who have simplified their laundry routine
+            </Typography>
+            <Button 
+              variant="contained" 
+              onClick={() => router.push('/support')}
+              sx={{ 
+                bgcolor: 'white', 
+                color: '#213B25',
+                '&:hover': {
+                  bgcolor: '#f0f0f0'
+                },
+                textTransform: 'none',
+                px: 3,
+                py: 1,
+                borderRadius: 2,
+                fontWeight: 600
+              }}
+            >
+              Get Started
+            </Button>
           </Box>
         </Grid>
       </Grid>
-    </Box>
+    </Container>
   );
 };
 
-export default WhyChooseUsSection;
+export default WhyChooseUs;

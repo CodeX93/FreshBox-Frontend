@@ -26,8 +26,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { theme } from '@/lib/theme';
 
 // Constants
-const TURQUOISE = theme.palette.primary.main;
-const DARK_TURQUOISE = '#20c5b7';
+const TURQUOISE = '#B5ECD9';
+const DARK_TURQUOISE = '#2E7B5C';
 const LIGHT_TURQUOISE = '#5de6d8';
 
 // Navigation data - moved outside component
@@ -60,7 +60,8 @@ const CommercialSubMenu = [
 ];
 
 // Reusable styled components
-const NavButton = ({ children, ...props }) => {
+// Reusable styled components
+const NavButton = ({ children, scrolled, ...props }) => {
   // Extract trigger to prevent passing it to DOM
   const { trigger, ...otherProps } = props;
   
@@ -71,8 +72,9 @@ const NavButton = ({ children, ...props }) => {
       px: { sm: 0.25, md: 0.5, lg: 1 },
       py: 0.75,
       borderRadius: '6px',
-      color: 'white',
+      color: scrolled ? '#0a1929' : 'white',
       fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
+      fontWeight:'bold',
       whiteSpace: 'nowrap',
       transition: 'all 0.3s ease',
       '&:hover': {
@@ -279,7 +281,7 @@ export default function Navbar() {
               <Box>
                 <Box sx={{ 
                   p: 1.5,
-                  bgcolor: TURQUOISE, 
+                  bgcolor: DARK_TURQUOISE, 
                   color: 'white'
                 }}>
                   <Typography 
@@ -313,11 +315,11 @@ export default function Navbar() {
                         '&:hover': {
                           bgcolor: 'rgba(40, 221, 205, 0.1)',
                           '& .MuiBox-root.icon-container': {
-                            bgcolor: TURQUOISE,
+                            bgcolor: DARK_TURQUOISE,
                             transform: 'scale(1.1) rotate(5deg)'
                           },
                           '& .item-title': {
-                            color: TURQUOISE,
+                            color: DARK_TURQUOISE,
                             transform: 'translateX(4px)'
                           }
                         },
@@ -334,7 +336,7 @@ export default function Navbar() {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          bgcolor: TURQUOISE,
+                          bgcolor: DARK_TURQUOISE,
                           p: 0.75,
                           borderRadius: '8px',
                           width: 36,
@@ -381,12 +383,12 @@ export default function Navbar() {
                       onClick={handleClose}
                       sx={{ 
                         borderRadius: '8px',
-                        bgcolor: TURQUOISE,
+                        bgcolor: DARK_TURQUOISE,
                         transition: 'all 0.3s ease',
                         fontSize: { xs: '0.8rem', sm: '0.9rem' },
                         py: 1,
                         '&:hover': { 
-                          bgcolor: DARK_TURQUOISE,
+                          bgcolor: TURQUOISE,
                           transform: 'translateY(-2px)',
                           boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
                         }
@@ -463,9 +465,9 @@ export default function Navbar() {
     >
       <Box sx={{ 
         p: 2, 
-        bgcolor: TURQUOISE, 
+        bgcolor: DARK_TURQUOISE, 
         color: 'white',
-        backgroundImage: 'linear-gradient(135deg, #28ddcd, #20c5b7)'
+        backgroundImage: 'linear-gradient(135deg, #2E7B5C, #2E7B5C)'
       }}>
         <Typography variant="subtitle1" fontWeight={600}>Select Plan</Typography>
         <Typography variant="body2">
@@ -497,6 +499,7 @@ export default function Navbar() {
             sx={{ 
               py: 1.5, 
               bgcolor: isCurrentPlan ? planColors[plan].bgColor : 'transparent',
+              color:'#0a1929',
               pointerEvents: isCurrentPlan ? 'none' : 'auto',
               transition: 'background-color 0.3s ease',
               '&:hover': {
@@ -535,10 +538,10 @@ export default function Navbar() {
           href="/plans"
           sx={{ 
             borderRadius: '8px',
-            bgcolor: TURQUOISE,
+            bgcolor: '#2E7B5C',
             transition: 'all 0.3s ease',
             '&:hover': { 
-              bgcolor: DARK_TURQUOISE,
+              bgcolor: '#2E7B5C',
               transform: 'translateY(-2px)',
               boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
             }
@@ -573,7 +576,7 @@ export default function Navbar() {
         p: 2, 
         bgcolor: TURQUOISE, 
         color: 'white',
-        backgroundImage: 'linear-gradient(135deg, #28ddcd, #20c5b7)'
+        backgroundImage: 'linear-gradient(135deg, #2E7B5C, #2E7B5C)'
       }}>
         <Typography variant="subtitle1" fontWeight={600}>
           {user?.name || 'Your Account'}
@@ -599,7 +602,7 @@ export default function Navbar() {
             '&:hover': {
               bgcolor: 'rgba(40, 221, 205, 0.05)',
               '& .MuiSvgIcon-root': {
-                color: TURQUOISE,
+                color: '#2E7B5C',
                 transform: 'scale(1.1)'
               }
             }
@@ -836,7 +839,7 @@ export default function Navbar() {
               mb: 1,
               transition: 'all 0.3s ease',
               '&:hover': {
-                bgcolor: 'rgba(40, 221, 205, 0.05)'
+                bgcolor: '#2E7B5C'
               }
             }
           }}>
@@ -901,14 +904,14 @@ export default function Navbar() {
                               '&:hover': {
                                 bgcolor: 'rgba(40, 221, 205, 0.1)',
                                 '& .MuiListItemIcon-root': {
-                                  color: TURQUOISE
+                                  color: DARK_TURQUOISE
                                 }
                               }
                             }}
                           >
                             <ListItemIcon sx={{ 
                               minWidth: 40, 
-                              color: 'text.secondary',
+                              color: DARK_TURQUOISE,
                               transition: 'all 0.3s ease'
                             }}>
                               {submenuItem.icon}
@@ -931,7 +934,7 @@ export default function Navbar() {
                             mb: 1,
                             ml: 2,
                             borderRadius: '8px', 
-                            color: TURQUOISE,
+                            color: DARK_TURQUOISE,
                             border: `1px solid ${TURQUOISE}`,
                             '&:hover': {
                               bgcolor: 'rgba(40, 221, 205, 0.05)'
@@ -1023,7 +1026,7 @@ export default function Navbar() {
                               py: 1,
                               transition: 'all 0.3s ease',
                               '&:hover': {
-                                bgcolor: 'rgba(40, 221, 205, 0.1)',
+                                bgcolor: '#2E7B5C',
                                 '& .MuiListItemIcon-root': {
                                   color: TURQUOISE
                                 }
@@ -1032,7 +1035,7 @@ export default function Navbar() {
                           >
                             <ListItemIcon sx={{ 
                               minWidth: 40, 
-                              color: 'text.secondary',
+                              color: '#2E7B5C',
                               transition: 'all 0.3s ease'
                             }}>
                               {submenuItem.icon}
@@ -1070,60 +1073,60 @@ export default function Navbar() {
 
         {/* Drawer footer */}
         <Box sx={{ 
-          p: 2, 
-          borderTop: '1px solid', 
-          borderColor: 'grey.100',
-          bgcolor: 'grey.50'
-        }}>
-          {!isAuthenticated && (
-            <>
-            <Button
-              variant="outlined"
-              color="primary"
-              fullWidth
-              component={Link}
-              href="/auth/login"
-              startIcon={<LoginIcon />}
-              sx={{ 
-                mb: 2,
-                borderRadius: '8px',
-                py: 1.2,
-                fontSize: '1rem',
-                color: TURQUOISE,
-                borderColor: TURQUOISE,
-                '&:hover': {
-                  borderColor: DARK_TURQUOISE,
-                  bgcolor: 'rgba(40, 221, 205, 0.05)'
-                }
-              }}
-            >
-              Log In
-            </Button>
-            <Button
-            variant="outlined"
-            color="primary"
-            fullWidth
-            component={Link}
-            href="/auth/register"
-            startIcon={<SignUpIcon />}
-            sx={{ 
-              mb: 2,
-              borderRadius: '8px',
-              py: 1.2,
-              fontSize: '1rem',
-              color: TURQUOISE,
-              borderColor: TURQUOISE,
-              '&:hover': {
-                borderColor: DARK_TURQUOISE,
-                bgcolor: 'rgba(40, 221, 205, 0.05)'
-              }
-            }}
-          >
-          Sign Up
-          </Button>
-          </>
-          )}
-        </Box>
+  p: 2, 
+  borderTop: '1px solid', 
+  borderColor: 'grey.100',
+  bgcolor: 'grey.50'
+}}>
+  {!isAuthenticated && (
+    <Box sx={{ display: 'flex', gap: 1 }}>
+      <Button
+        variant="outlined"
+        component={Link}
+        href="/auth/login"
+        startIcon={<LoginIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
+        sx={{ 
+          borderRadius: '8px',
+          py: 0.75,
+          px: { xs: 1.5, sm: 2 },
+          fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
+          color: TURQUOISE,
+          borderColor: TURQUOISE,
+          '&:hover': { 
+            bgcolor: 'rgba(40, 221, 205, 0.05)',
+            borderColor: DARK_TURQUOISE
+          },
+          transition: 'all 0.3s ease',
+          flexGrow: 1
+        }}
+      >
+        Log In
+      </Button>
+      <Button
+        variant="outlined"
+        component={Link}
+        href="/auth/register"
+        startIcon={<SignUpIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
+        sx={{ 
+          borderRadius: '8px',
+          py: 0.75,
+          px: { xs: 1.5, sm: 2 },
+          fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
+          color: TURQUOISE,
+          borderColor: TURQUOISE,
+          '&:hover': { 
+            bgcolor: 'rgba(40, 221, 205, 0.05)',
+            borderColor: DARK_TURQUOISE
+          },
+          transition: 'all 0.3s ease',
+          flexGrow: 1
+        }}
+      >
+        SignUp
+      </Button>
+    </Box>
+  )}
+</Box>
       </Box>
     </Drawer>
   );
@@ -1143,7 +1146,7 @@ export default function Navbar() {
           aria-controls={plansMenuId}
           aria-haspopup="true"
           endIcon={<ExpandMoreIcon sx={{ 
-            color: 'white',
+            color: scrolled ? '#0a1929' : 'white',
             display: { sm: 'none', md: 'inline-flex' },
             fontSize: { sm: '0.8rem', md: '1rem' }
           }} />}
@@ -1153,13 +1156,13 @@ export default function Navbar() {
             px: { sm: 0.25, md: 0.5, lg: 1 },
             py: 0.5,
             minWidth: { sm: 'auto' },
-            color: 'white',
+            color: scrolled ? '#0a1929' : 'white',
             fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
             whiteSpace: 'nowrap',
-            border: '1px solid rgba(255, 255, 255, 0.5)',
+            border: scrolled ? '1px solid #0a1929' : '1px solid rgba(255, 255, 255, 0.5)',
             '&:hover': { 
-              bgcolor: 'rgba(255, 255, 255, 0.1)',
-              borderColor: 'white'
+              bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.1)',
+              borderColor: scrolled ? '#0a1929' : 'white'
             },
             transition: 'all 0.3s ease'
           }}
@@ -1186,11 +1189,11 @@ export default function Navbar() {
             px: { sm: 0.25, md: 0.5, lg: 1 },
             py: 0.5,
             minWidth: { sm: 'auto' },
-            color: 'white',
+            color: scrolled ? '#0a1929' : 'white',
             fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
             whiteSpace: 'nowrap',
             '&:hover': {
-              bgcolor: 'rgba(255, 255, 255, 0.1)'
+              bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.1)'
             },
             transition: 'all 0.3s ease'
           }}
@@ -1202,7 +1205,8 @@ export default function Navbar() {
           >
             <OrdersIcon sx={{ 
               fontSize: { sm: '0.9rem', md: '1rem', lg: '1.1rem' },
-              mr: { sm: 0, md: 0.25, lg: 0.5 }
+              mr: { sm: 0, md: 0.25, lg: 0.5 },
+              color: scrolled ? '#0a1929' : 'white'
             }} />
           </Badge>
           <Box sx={{ display: { sm: 'none', md: 'block' } }}>
@@ -1223,11 +1227,11 @@ export default function Navbar() {
             px: { sm: 0.25, md: 0.5, lg: 1 },
             py: 0.5,
             minWidth: { sm: 'auto' },
-            color: 'white',
+            color: scrolled ? '#0a1929' : 'white',
             fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
             whiteSpace: 'nowrap',
             '&:hover': {
-              bgcolor: 'rgba(255, 255, 255, 0.1)'
+              bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.1)'
             },
             transition: 'all 0.3s ease'
           }}
@@ -1239,7 +1243,8 @@ export default function Navbar() {
           >
             <ChatIcon sx={{ 
               fontSize: { sm: '0.9rem', md: '1rem', lg: '1.1rem' },
-              mr: { sm: 0, md: 0.25, lg: 0.5 }
+              mr: { sm: 0, md: 0.25, lg: 0.5 },
+              color: scrolled ? '#0a1929' : 'white'
             }} />
           </Badge>
           <Box sx={{ display: { sm: 'none', md: 'block' } }}>
@@ -1259,13 +1264,13 @@ export default function Navbar() {
           borderRadius: '6px',
           px: { sm: 0.25, md: 0.5, lg: 1 },
           py: 0.5,
-          color: 'white',
+          color: scrolled ? '#0a1929' : 'white',
           fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
           whiteSpace: 'nowrap',
           textTransform: 'none',
           minWidth: { sm: 'auto' },
           '&:hover': {
-            bgcolor: 'rgba(255, 255, 255, 0.1)'
+            bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.1)'
           },
           transition: 'all 0.3s ease'
         }}
@@ -1341,38 +1346,40 @@ return (
         px: 2
       }}
     >
-            {navItems.map((item) => 
-              item.hasSubmenu ? (
-                <Box key={item.name}>
-            <NavButton 
-              endIcon={<ExpandMoreIcon />}
-              onClick={
-                item.name === 'FreshBox Care and Pricing' ? handleServicesMenuOpen :
-                item.name === 'Commercial' ? handleCommercialMenuOpen :
-                item.name === 'Getting Started' ? handleGettingStartedMenuOpen : null
-              }
-              aria-describedby={
-                item.name === 'FreshBox Care and Pricing' ? servicesPopupId :
-                item.name === 'Commercial' ? commercialPopupId :
-                item.name === 'Getting Started' ? gettingStartedPopupId : undefined
-              }
-            >
-              {item.name}
-            </NavButton>
-            {item.name === 'FreshBox Care and Pricing' && renderServicesSubmenu()}
-            {item.name === 'Commercial' && renderCommercialSubmenu()}
-            {item.name === 'Getting Started' && renderGettingStartedSubmenu()}
-          </Box>
-        ) : (
-          <NavButton 
-            key={item.name}
-            component={Link}
-            href={item.path}
-          >
-            {item.name}
-          </NavButton>
-        )
-      )}
+           {navItems.map((item) => 
+  item.hasSubmenu ? (
+    <Box key={item.name}>
+      <NavButton 
+        scrolled={scrolled}
+        endIcon={<ExpandMoreIcon />}
+        onClick={
+          item.name === 'FreshBox Care and Pricing' ? handleServicesMenuOpen :
+          item.name === 'Commercial' ? handleCommercialMenuOpen :
+          item.name === 'Getting Started' ? handleGettingStartedMenuOpen : null
+        }
+        aria-describedby={
+          item.name === 'FreshBox Care and Pricing' ? servicesPopupId :
+          item.name === 'Commercial' ? commercialPopupId :
+          item.name === 'Getting Started' ? gettingStartedPopupId : undefined
+        }
+      >
+        {item.name}
+      </NavButton>
+      {item.name === 'FreshBox Care and Pricing' && renderServicesSubmenu()}
+      {item.name === 'Commercial' && renderCommercialSubmenu()}
+      {item.name === 'Getting Started' && renderGettingStartedSubmenu()}
+    </Box>
+  ) : (
+    <NavButton 
+      key={item.name}
+      scrolled={scrolled}
+      component={Link}
+      href={item.path}
+    >
+      {item.name}
+    </NavButton>
+  )
+)}
     </Box>
 
           {/* Right side buttons */}
@@ -1418,71 +1425,71 @@ return (
         </>
             ) : (
               <>
-              <Button
-              variant="outlined"
-              component={Link}
-              href="/auth/login"
-              startIcon={<LoginIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
-              sx={{ 
-                borderRadius: '8px',
-                py: 0.75,
-                px: { xs: 1.5, sm: 2 },
-                fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-                color: 'white',
-                borderColor: 'rgba(255, 255, 255, 0.5)',
-                '&:hover': { 
-                  bgcolor: 'rgba(255, 255, 255, 0.1)',
-                  borderColor: 'white'
-                },
-                transition: 'all 0.3s ease'
-              }}
-            >
-              Log In
-            </Button>
-            <Button
-              variant="outlined"
-              component={Link}
-              href="/auth/register"
-              startIcon={<SignUpIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
-              sx={{ 
-                borderRadius: '8px',
-                py: 0.75,
-                px: { xs: 1.5, sm: 2 },
-                fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-                color: 'white',
-                borderColor: 'rgba(255, 255, 255, 0.5)',
-                '&:hover': { 
-                  bgcolor: 'rgba(255, 255, 255, 0.1)',
-                  borderColor: 'white'
-                },
-                transition: 'all 0.3s ease'
-              }}
-            >
-             SignUp
-            </Button>
+             <Button
+  variant="outlined"
+  component={Link}
+  href="/auth/login"
+  startIcon={<LoginIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
+  sx={{ 
+    borderRadius: '8px',
+    py: 0.75,
+    px: { xs: 1.5, sm: 2 },
+    fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
+    color: scrolled ? '#0a1929' : 'white',
+    borderColor: scrolled ? '#0a1929' : 'rgba(255, 255, 255, 0.5)',
+    '&:hover': { 
+      bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.1)',
+      borderColor: scrolled ? '#0a1929' : 'white'
+    },
+    transition: 'all 0.3s ease'
+  }}
+>
+  Log In
+</Button>
+<Button
+  variant="outlined"
+  component={Link}
+  href="/auth/register"
+  startIcon={<SignUpIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
+  sx={{ 
+    borderRadius: '8px',
+    py: 0.75,
+    px: { xs: 1.5, sm: 2 },
+    fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
+    color: scrolled ? '#0a1929' : 'white',
+    borderColor: scrolled ? '#0a1929' : 'rgba(255, 255, 255, 0.5)',
+    '&:hover': { 
+      bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.1)',
+      borderColor: scrolled ? '#0a1929' : 'white'
+    },
+    transition: 'all 0.3s ease'
+  }}
+>
+  SignUp
+</Button>
             </>
           )}
             
             {/* Mobile menu icon */}
             <IconButton
-        aria-label="menu"
-        color="inherit"
-        onClick={toggleDrawer(true)}
-        sx={{ 
-          display: { xs: 'flex', md: 'none' },
-          color: 'white',
-          border: '1px solid rgba(255, 255, 255, 0.5)',
-          borderRadius: '8px',
-          p: { xs: 1, sm: 0.8 },
-          backgroundColor: 'rgba(40, 221, 205, 0.2)',
-          '&:hover': {
-            bgcolor: 'rgba(255, 255, 255, 0.2)',
-            borderColor: 'white'
-          }
-        }}
-      >
-        <MenuIcon />
-      </IconButton>
+  aria-label="menu"
+  color="inherit"
+  onClick={toggleDrawer(true)}
+  sx={{ 
+    display: { xs: 'flex', md: 'none' },
+    color: scrolled ? '#0a1929' : 'white',
+    border: scrolled ? '1px solid #0a1929' : '1px solid rgba(255, 255, 255, 0.5)',
+    borderRadius: '8px',
+    p: { xs: 1, sm: 0.8 },
+    backgroundColor: scrolled ? 'rgba(40, 221, 205, 0.1)' : 'rgba(40, 221, 205, 0.2)',
+    '&:hover': {
+      bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.2)',
+      borderColor: scrolled ? '#0a1929' : 'white'
+    }
+  }}
+>
+  <MenuIcon />
+</IconButton>
     </Box>
   </Toolbar>
 </Container>

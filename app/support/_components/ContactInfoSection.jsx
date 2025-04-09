@@ -15,8 +15,8 @@ import {
 import ClientContactInfo from '../ClientSideInterations/ClientContactInfo';
 
 // Define constants
-const TURQUOISE = '#28ddcd';
-const TURQUOISE_LIGHT = '#e8f9f8';
+const TURQUOISE = '#2E7B5C';
+const TURQUOISE_LIGHT = '#2E7B5C';
 
 // Define contact information - this static data will be indexed by search engines
 const contactOptions = [

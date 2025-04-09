@@ -25,8 +25,8 @@ import {
 } from '@mui/icons-material';
 
 // Define constants
-const TURQUOISE = '#28ddcd';
-const DARK_TURQUOISE = '#20c5b7';
+const TURQUOISE = '#2E7B5C';
+const DARK_TURQUOISE = '#2E7B5C';
 const TURQUOISE_LIGHT = '#e8f9f8';
 
 const ClientHeroSection = ({ 

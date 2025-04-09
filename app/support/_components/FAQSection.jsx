@@ -3,9 +3,9 @@ import { Box, Typography } from '@mui/material';
 import ClientFAQSection from '../ClientSideInterations/ClientFAQSection';
 
 // Define constants
-const TURQUOISE = '#28ddcd';
-const TURQUOISE_DARK = '#20c5b7';
-const TURQUOISE_LIGHT = '#e8f9f8';
+const TURQUOISE = '#2E7B5C';
+const TURQUOISE_DARK = '#2E7B5C';
+const TURQUOISE_LIGHT = '#2E7B5C';
 
 // FAQ data
 const faqData = [

@@ -11,8 +11,8 @@ import {
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 // Define constants
-const TURQUOISE = '#28ddcd';
-const DARK_BLUE = '#0D3B6E';
+const TURQUOISE = '#2E7B5C';
+const DARK_BLUE = '#2E7B5C';
 
 function ServicesSummary({ cart, total }) {
   // Function to calculate item price based on item structure

@@ -1,129 +1,285 @@
+"use client"
 import React from 'react';
-import { Box } from '@mui/material';
-import { theme } from '../../../contexts/Theme';
-import ClientServicesSection from '../ClientSideInterations/ClientServicesSection';
+import { 
+  Box, 
+  Typography, 
+  Container, 
+  Grid, 
+  Card, 
+  CardContent, 
+  Button, 
+  Avatar,
+  useMediaQuery,
+  useTheme
+} from '@mui/material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-// Enhanced services data with optimized descriptions
+// Service data exactly matching screenshot
 const services = [
   {
     name: "Dry Cleaning",
-    description: "Professional care for delicate garments requiring special attention. Our eco-friendly processes preserve colors and extend garment life.",
+    description: "Professional care for your delicate garments that require special attention.",
     slug: "dry-cleaning",
-    features: ["Garment inspection", "Stain pre-treatment", "Expert pressing", "Eco-friendly solvents", "Same-day service"],
-    imageUrl: "https://images.unsplash.com/photo-1545173168-9f1947eebb7f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
-    imageAlt: "Professional dry cleaning service with hanging clothes"
+    serviceLabel: "Service"
   },
   {
     name: "Wash & Fold",
-    description: "Convenient solution for everyday laundry needs. Save time with professionally washed and perfectly folded clothes.",
+    description: "Convenient solution for your everyday laundry needs, washed and perfectly folded.",
     slug: "wash-fold",
-    features: ["Sorted by color", "Premium detergents", "Precisely folded", "Careful handling", "Weight-based pricing"],
-    imageUrl: "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
-    imageAlt: "Neatly folded laundry clothes stacked in piles"
+    serviceLabel: "Service"
   },
   {
     name: "Laundry",
-    description: "Custom laundering for shirts, blouses and machine-washable garments. Hand-finished for that crisp, professional look.",
+    description: "Custom laundering for shirts, blouses, and other machine-washable garments.",
     slug: "laundry",
-    features: ["Starch options", "Hang or fold", "Button protection", "Hand-finished", "Wrinkle prevention"],
-    imageUrl: "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
-    imageAlt: "Modern laundry machines in a clean laundromat"
+    serviceLabel: "Service"
   },
   {
     name: "Household Items",
-    description: "Special care for comforters, bedding, linens and home textiles. Each fabric receives the specialized treatment it requires.",
+    description: "Special care for comforters, bedding, table linens, and other home textiles.",
     slug: "household",
-    features: ["Specialty cleaning", "Careful handling", "Perfect finishing", "Allergy-free option", "Custom folding"],
-    imageUrl: "https://images.unsplash.com/photo-1583401656728-63592c6fe154?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
-    imageAlt: "Clean household textiles including folded comforters and linens"
+    serviceLabel: "Service"
   }
 ];
 
-// Enhanced ServicesSection with better background elements
-export default function ServicesSection() {
+// Service Card Component
+const ServiceCard = ({ service }) => {
   return (
-    <Box
-      sx={{
-        position: 'relative',
-        width: '100%',
-        height: '100vh',
-        background: 'linear-gradient(135deg, #2E7B5C 0%, #1e5c42 100%)',
-        overflow: 'hidden',
+    <Card 
+      elevation={0} 
+      sx={{ 
+        borderRadius: 2, 
+        mb: 2, 
+        bgcolor: '#c8ffe3',
+        overflow: 'hidden'
       }}
     >
-      {/* Enhanced decorative elements for a more dynamic background */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: { xs: -50, md: -100 },
-          right: { xs: -50, md: -100 },
-          width: { xs: 150, md: 300 },
-          height: { xs: 150, md: 300 },
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${theme.palette.primary.light}40 0%, ${theme.palette.primary.main}00 70%)`,
-          filter: 'blur(60px)',
-          zIndex: 0,
-        }}
-      />
-      
-      <Box
-        sx={{
-          position: 'absolute',
-          bottom: { xs: -30, md: -50 },
-          left: { xs: -30, md: -50 },
-          width: { xs: 100, md: 200 },
-          height: { xs: 100, md: 200 },
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${theme.palette.secondary.light}40 0%, ${theme.palette.secondary.main}00 70%)`,
-          filter: 'blur(40px)',
-          zIndex: 0,
-        }}
-      />
-      
-      {/* Additional decorative elements for visual interest */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '30%',
-          left: '15%',
-          width: { xs: 80, md: 150 },
-          height: { xs: 80, md: 150 },
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${theme.palette.primary.light}30 0%, ${theme.palette.primary.main}00 70%)`,
-          filter: 'blur(30px)',
-          zIndex: 0,
-        }}
-      />
-      
-      <Box
-        sx={{
-          position: 'absolute',
-          bottom: '20%',
-          right: '20%',
-          width: { xs: 60, md: 120 },
-          height: { xs: 60, md: 120 },
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${theme.palette.secondary.light}20 0%, ${theme.palette.secondary.main}00 70%)`,
-          filter: 'blur(25px)',
-          zIndex: 0,
-        }}
-      />
-      
-      {/* Subtle pattern overlay for texture */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.03\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'3\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'3\'/%3E%3C/g%3E%3C/svg%3E")',
-          zIndex: 0,
-        }}
-      />
-      
-      {/* Pass the enhanced services data to the client component */}
-      <ClientServicesSection services={services} />
+      <CardContent sx={{ p: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Avatar
+            sx={{ 
+              mr: 2,
+              bgcolor: '#183734',
+              width: 40,
+              height: 40
+            }}
+          >
+            {/* This would be your shirt/clothing icon */}
+            <Box 
+              sx={{ 
+                width: 24, 
+                height: 16, 
+                bgcolor: 'white', 
+                borderRadius: 0.5 
+              }}
+            />
+          </Avatar>
+          <Box>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#183734', 
+                fontWeight: 500,
+                fontSize: '1.1rem'
+              }}
+            >
+              {service.name}
+            </Typography>
+            <Typography 
+              variant="caption" 
+              sx={{ 
+                display: 'block', 
+                color: '#183734', 
+                mb: 0.25
+              }}
+            >
+              {service.serviceLabel}
+            </Typography>
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                color: '#183734',
+                lineHeight: 1.4,
+                fontSize: '0.875rem'
+              }}
+            >
+              {service.description}
+            </Typography>
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
+  );
+};
+
+// Main Component
+const ServicesSection = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  return (
+    <Box sx={{ bgcolor: '#0F3034', minHeight: '100vh', p: 3 }}>
+      <Container maxWidth="lg">
+        {/* Top Section */}
+        <Grid container spacing={2} sx={{ mb: 6 }}>
+          {/* Left Card */}
+          <Grid item xs={12} md={6}>
+            <Card 
+              elevation={0} 
+              sx={{ 
+                borderRadius: 2, 
+                bgcolor: '#c8ffe3', 
+                p: 3, 
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}
+            >
+              <Box>
+                <Typography 
+                  variant="h4" 
+                  component="h1" 
+                  sx={{ 
+                    color: '#183734', 
+                    fontWeight: 500, 
+                    mb: 1
+                  }}
+                >
+                  FreshBox Care
+                </Typography>
+                <Typography 
+                  variant="body1" 
+                  sx={{ 
+                    color: '#183734', 
+                    mb: 3
+                  }}
+                >
+                  Your clothes are treated with the utmost care, receiving the attention they deserve.
+                </Typography>
+                <Button 
+                  variant="contained" 
+                  endIcon={<ArrowForwardIcon />}
+                  sx={{ 
+                    bgcolor: '#183734', 
+                    color: 'white', 
+                    textTransform: 'none',
+                    '&:hover': {
+                      bgcolor: '#132a27'
+                    }
+                  }}
+                >
+                  Explore Pricing
+                </Button>
+              </Box>
+              <Typography 
+                variant="body2" 
+                sx={{ 
+                  color: '#183734', 
+                  mt: 4
+                }}
+              >
+                Our minimum order value is $35. All orders include free delivery.
+              </Typography>
+            </Card>
+          </Grid>
+          
+          {/* Right Services */}
+          <Grid item xs={12} md={6}>
+            <Box>
+              {services.map((service) => (
+                <ServiceCard key={service.slug} service={service} />
+              ))}
+            </Box>
+          </Grid>
+        </Grid>
+        
+        {/* Bottom Call-to-Action Section */}
+        <Box sx={{ mt: 6 }}>
+          <Card 
+            elevation={0} 
+            sx={{ 
+              borderRadius: 2, 
+              bgcolor: '#c8ffe3', 
+              overflow: 'hidden'
+            }}
+          >
+            <Grid container>
+              <Grid item xs={12} md={8} sx={{ p: 3 }}>
+                <Typography 
+                  variant="h5" 
+                  sx={{ 
+                    color: '#183734', 
+                    fontWeight: 500, 
+                    mb: 1.5
+                  }}
+                >
+                  Ready to experience our premium cleaning services?
+                </Typography>
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    color: '#183734', 
+                    mb: 3,
+                    maxWidth: '90%'
+                  }}
+                >
+                  We take pride in delivering top-tier cleaning services that leave your home or office spotless. Experience the difference of professional cleaning tailored to your needs.
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 1.5 }}>
+                  <Button 
+                    variant="contained" 
+                    size="small"
+                    sx={{ 
+                      bgcolor: '#183734', 
+                      color: 'white', 
+                      textTransform: 'none',
+                      fontSize: '0.75rem',
+                      '&:hover': {
+                        bgcolor: '#132a27'
+                      }
+                    }}
+                  >
+                    Schedule Your Cleaning Today
+                  </Button>
+                  <Button 
+                    variant="contained" 
+                    size="small"
+                    sx={{ 
+                      bgcolor: '#9ef7d5', 
+                      color: '#183734', 
+                      textTransform: 'none',
+                      fontSize: '0.75rem',
+                      '&:hover': {
+                        bgcolor: '#8ae7c5'
+                      }
+                    }}
+                  >
+                    Learn more
+                  </Button>
+                </Box>
+              </Grid>
+              {!isMobile && (
+                <Grid item md={4} sx={{ display: 'flex' }}>
+                  {/* This would be your folded laundry image */}
+                  <Box 
+                    component="img"
+                    src="https://images.unsplash.com/photo-1563453392212-326f5e854473?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Y2xlYW5pbmclMjBzZXJ2aWNlfGVufDB8fDB8fHww" 
+                    alt="Folded laundry"
+                    sx={{ 
+                      width: '100%', 
+                      height: '100%', 
+                      objectFit: 'cover' 
+                    }}
+                  />
+                </Grid>
+              )}
+            </Grid>
+          </Card>
+        </Box>
+      </Container>
     </Box>
   );
-}
+};
+
+export default ServicesSection;

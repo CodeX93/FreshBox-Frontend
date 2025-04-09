@@ -45,8 +45,8 @@ import {
 import { useAuth } from '../../../contexts/AuthContext';
 
 // Define brand colors
-const BRAND_PRIMARY = '#28ddcd'; // Turquoise
-const BRAND_ACCENT = '#e6b012';  // Yellow/Gold
+const BRAND_PRIMARY = '#2E7B5C'; // Turquoise
+const BRAND_ACCENT = '#2E7B5C';  // Yellow/Gold
 
 // Custom styled components
 const CustomStepConnector = styled(StepConnector)(({ theme }) => ({

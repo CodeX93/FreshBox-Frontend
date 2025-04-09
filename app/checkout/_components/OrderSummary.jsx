@@ -14,7 +14,7 @@ function OrderSummary({ cart, cartTotal, addressData, scheduleData, activeStep, 
   return (
     <Paper elevation={3} sx={{ borderRadius: 2, overflow: 'hidden' }}>
       <Box sx={{ 
-        bgcolor: 'primary.main', 
+        bgcolor: '#2E7B5C', 
         color: 'white',
         p: 2,
         display: 'flex',

@@ -32,7 +32,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 // Define constants
-const TURQUOISE = '#28ddcd';
+const TURQUOISE = '#2E7B5C';
 const DARK_BLUE = '#0D3B6E';
 
 const ServiceCard = ({ service, handleAddToCart }) => {
@@ -345,10 +345,12 @@ const ServiceCard = ({ service, handleAddToCart }) => {
               color="primary"
               startIcon={<CartIcon />}
               fullWidth={isSmall}
+              
               onClick={() => handleAddToCart(service, quantity)}
               sx={{ 
                 ml: { xs: 0, sm: 'auto' },
                 bgcolor: TURQUOISE,
+                color:'#ffffff',
                 '&:hover': {
                   bgcolor: alpha(TURQUOISE, 0.9)
                 }

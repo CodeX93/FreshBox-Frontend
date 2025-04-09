@@ -27,9 +27,9 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Define constants
-const TURQUOISE = '#28ddcd';
-const TURQUOISE_DARK = '#20c5b7';
-const TURQUOISE_LIGHT = '#e8f9f8';
+const TURQUOISE = '#2E7B5C';
+const TURQUOISE_DARK = '#2E7B5C';
+const TURQUOISE_LIGHT = '#2E7B5C';
 
 const ClientFAQSection = ({ 
   faqData, 
@@ -496,7 +496,7 @@ const ClientFAQSection = ({
             </Typography>
             <Typography 
               variant="body1" 
-              color="text.secondary"
+              color="#ffffff"
               sx={{ mb: { xs: 2, sm: 2 } }}
             >
               Our support team is available 24/7 to help you with any questions about our laundry and cleaning services.

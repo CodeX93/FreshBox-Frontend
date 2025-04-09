@@ -28,8 +28,8 @@ import ServiceCard from './ServiceCard';
 import { serviceApi } from '../../../api/service'; // Update this path if needed
 
 // Define constants
-const TURQUOISE = '#28ddcd';
-const DARK_BLUE = '#0D3B6E';
+const TURQUOISE = '#2E7B5C';
+const DARK_BLUE = '#0a1929';
 
 // Map to associate categories with icons
 const categoryIcons = {
