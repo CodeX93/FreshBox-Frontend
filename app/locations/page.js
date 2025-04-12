@@ -18,7 +18,7 @@ import Navbar from '../../components/Navbar';
 const LocationPage = () => {
   return (
     <>
-    <Navbar/>
+    <Navbar light={false}/>
     <Box component="main">
       {/* Hero section with ZIP code check */}
       <HeroSection />

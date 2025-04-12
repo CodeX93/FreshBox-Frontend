@@ -7,7 +7,7 @@ import {
   AppBar, Toolbar, Typography, Box, Button, Container, IconButton,
   Drawer, List, ListItem, ListItemText, ListItemIcon, Collapse,
   Divider, useScrollTrigger, Fade, Paper, Popper, ClickAwayListener,
-  useTheme, useMediaQuery, Avatar, Menu, Badge, MenuItem, Tooltip
+ useMediaQuery, Avatar, Menu, Badge, MenuItem, Tooltip
 } from '@mui/material';
 
 import {
@@ -23,10 +23,10 @@ import {
 } from '@mui/icons-material';
 import Logo from '../Assets/logo2.png';
 import { useAuth } from '../contexts/AuthContext';
-import { theme } from '@/lib/theme';
+import {theme} from "../contexts/Theme"
 
 // Constants
-const TURQUOISE = '#94FFD4';
+const TURQUOISE = theme.palette.primary.main;
 const DARK_TURQUOISE = '#2E7B5C';
 const LIGHT_TURQUOISE = '#5de6d8';
 
@@ -60,37 +60,46 @@ const CommercialSubMenu = [
 ];
 
 // Reusable styled components
-// Reusable styled components
-const NavButton = ({ children, scrolled, ...props }) => {
-  // Extract trigger to prevent passing it to DOM
+const NavButton = ({ children, scrolled, light, ...props }) => {
+  
   const { trigger, ...otherProps } = props;
+
+  let textColor;
+
+  if (light && !scrolled) {
+    textColor = 'white';
+  } else {
+    textColor = theme.palette.primary.darkBlue;
+  }
   
   return (
-    <Button color="inherit" {...otherProps} sx={{ 
-      mx: { sm: 0.25, md: 0.25, lg: 0.5 },
-      fontWeight: 600,
-      px: { sm: 0.25, md: 0.5, lg: 1 },
-      py: 0.75,
-      borderRadius: '6px',
-      color: scrolled ? '#0a1929' : 'white',
-      fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
-      fontWeight:'bold',
-      whiteSpace: 'nowrap',
-      transition: 'all 0.3s ease',
-      '&:hover': {
-        bgcolor: 'rgba(255, 255, 255, 0.2)',
-        transform: 'translateY(-1px)',
-      },
-      ...(props.sx || {})
-    }}>
+    <Button
+      color="inherit"
+      {...otherProps}
+      sx={{
+        mx: { sm: 0.25, md: 0.25, lg: 0.5 },
+        fontWeight: 600,
+        px: { sm: 0.25, md: 0.5, lg: 1 },
+        py: 0.75,
+        color: textColor,
+        fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
+        fontWeight: 'bold',
+        whiteSpace: 'nowrap',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          transform: 'translateY(-1px)',
+        },
+        ...(props.sx || {}),
+      }}
+    >
       {children}
     </Button>
   );
 };
 
-export default function Navbar() {
+export default function Navbar({ light = false }) {
   const { user, logout, isAuthenticated } = useAuth();
-  const theme = useTheme();
+  
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
   
@@ -1113,6 +1122,7 @@ export default function Navbar() {
             color: scrolled ? '#0a1929' : 'white',
             fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
             whiteSpace: 'nowrap',
+      
             border: scrolled ? '1px solid #0a1929' : '1px solid rgba(255, 255, 255, 0.5)',
             '&:hover': { 
               bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.1)',
@@ -1218,7 +1228,7 @@ export default function Navbar() {
           borderRadius: '6px',
           px: { sm: 0.25, md: 0.5, lg: 1 },
           py: 0.5,
-          color: scrolled ? '#0a1929' : 'white',
+          color: scrolled ? theme.palette.primary.darkBlue : 'white',
           fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
           whiteSpace: 'nowrap',
           textTransform: 'none',
@@ -1233,8 +1243,8 @@ export default function Navbar() {
           sx={{ 
             width: { sm: 22, md: 24, lg: 26 }, 
             height: { sm: 22, md: 24, lg: 26 }, 
-            bgcolor: 'white',
-            color: TURQUOISE,
+            bgcolor: scrolled? theme.palette.primary.darkBlue : theme.palette.primary.darkBlue,
+            color: scrolled? theme.palette.primary.darkBlue : theme.palette.primary.darkBlue,
             fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
             mr: { sm: 0, md: 0.25, lg: 0.5 },
             fontWeight: 'bold',
@@ -1264,191 +1274,191 @@ return (
     {renderMobileDrawer()}
     
     <AppBar
-  component="header" 
-  position="fixed" 
-  elevation={0}
-  sx={{
-    bgcolor: scrolled ? TURQUOISE : "transparent",
-    background: scrolled ? TURQUOISE : "transparent",
-    color: "white",
-    boxShadow: scrolled ? "0px 2px 8px rgba(0, 0, 0, 0.15)" : "none",
-    transition: "all 0.3s ease",
-    top: 0,
-    left: 0,
-    right: 0,
-    width: '100%',
-    marginTop: 0,
-    paddingTop: 0
-  }}
->
-<Container 
-  maxWidth="xl"
-  sx={{ px: { xs: 2, sm: 3 } }} // Added horizontal padding
->
+      component="header" 
+      position="fixed" 
+      elevation={0}
+      sx={{
+        bgcolor: light 
+          ? (scrolled ? TURQUOISE : "transparent") 
+          : (scrolled ? theme.palette.primary.main : theme.palette.primary.main),
+        background: light 
+          ? (scrolled ? TURQUOISE : "transparent") 
+          : (scrolled ? theme.palette.primary.main : theme.palette.primary.main),
+        color: light 
+          ? (scrolled ? theme.palette.primary.darkBlue : 'white') 
+          : theme.palette.primary.darkBlue,
+        boxShadow: scrolled ? "0px 2px 8px rgba(0, 0, 0, 0.15)" : "none",
+        transition: "all 0.3s ease",
+        top: 0,
+        left: 0,
+        right: 0,
+        width: '100%',
+        marginTop: 0,
+        paddingTop: 0
+      }}
+    >
+      <Container 
+        maxWidth="xl"
+        sx={{ px: { xs: 2, sm: 3 } }} // Added horizontal padding
+      >
         <Toolbar disableGutters>
           {/* Logo and brand */}
           {renderLogo()}
 
           {/* Desktop navigation links */}
           <Box 
-      sx={{ 
-        display: { xs: 'none', md: 'flex' }, 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        gap: { md: 0.25, lg: 0.5 },
-        mx: 'auto',
-        px: 2
-      }}
-    >
-           {navItems.map((item) => 
-  item.hasSubmenu ? (
-    <Box key={item.name}>
-      <NavButton 
-        scrolled={scrolled}
-        endIcon={<ExpandMoreIcon />}
-        onClick={
-          item.name === 'FreshBox Care and Pricing' ? handleServicesMenuOpen :
-          item.name === 'Commercial' ? handleCommercialMenuOpen :
-          item.name === 'Getting Started' ? handleGettingStartedMenuOpen : null
-        }
-        aria-describedby={
-          item.name === 'FreshBox Care and Pricing' ? servicesPopupId :
-          item.name === 'Commercial' ? commercialPopupId :
-          item.name === 'Getting Started' ? gettingStartedPopupId : undefined
-        }
-      >
-        {item.name}
-      </NavButton>
-      {item.name === 'FreshBox Care and Pricing' && renderServicesSubmenu()}
-      {item.name === 'Commercial' && renderCommercialSubmenu()}
-      {item.name === 'Getting Started' && renderGettingStartedSubmenu()}
-    </Box>
-  ) : (
-    <NavButton 
-      key={item.name}
-      scrolled={scrolled}
-      component={Link}
-      href={item.path}
-    >
-      {item.name}
-    </NavButton>
-  )
-)}
-    </Box>
+            sx={{ 
+              display: { xs: 'none', md: 'flex' }, 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              gap: { md: 0.25, lg: 0.5 },
+              mx: 'auto',
+              px: 2
+            }}
+          >
+            {navItems.map((item) => 
+              item.hasSubmenu ? (
+                <Box key={item.name}>
+                 <NavButton 
+  scrolled={scrolled}
+  light={light}  // Add this line
+  endIcon={<ExpandMoreIcon />}
+  onClick={
+    item.name === 'FreshBox Care and Pricing' ? handleServicesMenuOpen :
+    item.name === 'Commercial' ? handleCommercialMenuOpen :
+    item.name === 'Getting Started' ? handleGettingStartedMenuOpen : null
+  }
+  aria-describedby={
+    item.name === 'FreshBox Care and Pricing' ? servicesPopupId :
+    item.name === 'Commercial' ? commercialPopupId :
+    item.name === 'Getting Started' ? gettingStartedPopupId : undefined
+  }
+>
+  {item.name}
+</NavButton>
+                  {item.name === 'FreshBox Care and Pricing' && renderServicesSubmenu()}
+                  {item.name === 'Commercial' && renderCommercialSubmenu()}
+                  {item.name === 'Getting Started' && renderGettingStartedSubmenu()}
+                </Box>
+              ) : (
+                <NavButton 
+                key={item.name}
+                scrolled={scrolled}
+                light={light}  // Add this line
+                component={Link}
+                href={item.path}
+              >
+                {item.name}
+              </NavButton>
+              )
+            )}
+          </Box>
 
           {/* Right side buttons */}
           <Box sx={{ 
-      display: 'flex', 
-      alignItems: 'center', 
-      gap: { xs: 1, sm: 1.5 },
-      pr: { xs: 1, sm: 2 } // Added right padding
-    }}>
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: { xs: 1, sm: 1.5 },
+            pr: { xs: 1, sm: 2 } // Added right padding
+          }}>
             {isAuthenticated ? (
               <>
                 {/* Show on medium and up screens */}
                 <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
-            {renderAuthButtons()}
-          </Box>
+                  {renderAuthButtons()}
+                </Box>
                 
                 {/* Show only on xs screens */}
                 <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
-            <Tooltip title="My Account">
-              <IconButton
-                onClick={handleUserMenuOpen}
-                sx={{
-                  color: 'white',
-                  border: '1px solid rgba(255, 255, 255, 0.5)',
-                  borderRadius: '8px',
-                  p: 0.8,
-                  '&:hover': {
-                    bgcolor: 'rgba(255, 255, 255, 0.1)',
-                    borderColor: 'white'
-                  }
-                }}
-              >
+                  <Tooltip title="My Account">
+                    <IconButton
+                      onClick={handleUserMenuOpen}
+                      sx={{
+                        color: 'white',
+                        border: '1px solid rgba(255, 255, 255, 0.5)',
+                        
+                        p: 0.8,
+                        '&:hover': {
+                          bgcolor: 'rgba(255, 255, 255, 0.1)',
+                          borderColor: 'white'
+                        }
+                      }}
+                    >
                       <Badge 
-                  badgeContent={unreadMessageCount + ongoingOrdersCount} 
-                  color="error"
-                  sx={{ '& .MuiBadge-badge': { fontSize: '0.6rem' } }}
-                >
-                  <AccountCircleIcon />
-                </Badge>
-              </IconButton>
-            </Tooltip>
-          </Box>
-        </>
+                        badgeContent={unreadMessageCount + ongoingOrdersCount} 
+                        color="error"
+                        sx={{ '& .MuiBadge-badge': { fontSize: '0.6rem' } }}
+                      >
+                        <AccountCircleIcon />
+                      </Badge>
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </>
             ) : (
               <>
-             <Button
-  variant="contained"
-  component={Link}
-  href="/auth/login"
-  startIcon={<LoginIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
-  sx={{ 
-    borderRadius: '8px',
-    py: 0.75,
-    px: { xs: 1.5, sm: 2 },
-    fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-    color: scrolled ? '#94FFD4' : '#0a1929',
-    bgcolor:scrolled ? '#0a1929':'#94FFD4',
-    borderColor: scrolled ? '#0a1929' : '#94FFD4',
-    '&:hover': { 
-      bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.1)',
-      borderColor: scrolled ? '#0a1929' : 'white'
-    },
-    transition: 'all 0.3s ease'
-  }}
->
-  Log In
-</Button>
-<Button
-  variant="contained"
-  component={Link}
-  href="/auth/register"
-  startIcon={<SignUpIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
-  sx={{ 
-    borderRadius: '8px',
-    py: 0.75,
-    px: { xs: 1.5, sm: 2 },
-    fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-    color: scrolled ? '#94FFD4' : '#0a1929',
-    borderColor: scrolled ? '#0a1929' : 'rgba(255, 255, 255, 0.5)',
-    bgcolor:scrolled ? '#0a1929':'#135D66',
-    '&:hover': { 
-      bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.1)',
-      borderColor: scrolled ? '#0a1929' : 'white'
-    },
-    transition: 'all 0.3s ease'
-  }}
->
-  SignUp
-</Button>
-            </>
-          )}
+                <Button
+                  variant="contained"
+                  component={Link}
+                  href="/auth/login"
+                  startIcon={<LoginIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
+                  sx={{ 
+                    borderRadius: '8px',
+                    py: 0.75,
+                    px: { xs: 1.5, sm: 2 },
+                    fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
+                    color: scrolled ? '#94FFD4' : '#0a1929',
+                    bgcolor:scrolled ? '#0a1929':'#94FFD4',
+                   
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  Log In
+                </Button>
+                <Button
+                  variant="contained"
+                  component={Link}
+                  href="/auth/register"
+                  startIcon={<SignUpIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
+                  sx={{ 
+                    borderRadius: '8px',
+                    py: 0.75,
+                    px: { xs: 1.5, sm: 2 },
+                    fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
+                    color: scrolled ? '#94FFD4' : '#0a1929',
+                    borderColor: scrolled ? '#0a1929' : 'rgba(255, 255, 255, 0.5)',
+                    bgcolor:scrolled ? '#0a1929':'#135D66',
+                    '&:hover': { 
+                      bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.1)',
+                    },
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  SignUp
+                </Button>
+              </>
+            )}
             
             {/* Mobile menu icon */}
             <IconButton
-  aria-label="menu"
-  color="inherit"
-  onClick={toggleDrawer(true)}
-  sx={{ 
-    display: { xs: 'flex', md: 'none' },
-    color: scrolled ? '#0a1929' : 'white',
-    border: scrolled ? '1px solid #0a1929' : '1px solid rgba(255, 255, 255, 0.5)',
-    borderRadius: '8px',
-    p: { xs: 1, sm: 0.8 },
-    backgroundColor: scrolled ? 'rgba(40, 221, 205, 0.1)' : 'rgba(40, 221, 205, 0.2)',
-    '&:hover': {
-      bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.2)',
-      borderColor: scrolled ? '#0a1929' : 'white'
-    }
-  }}
->
-  <MenuIcon />
-</IconButton>
-    </Box>
-  </Toolbar>
-</Container>
+              aria-label="menu"
+              color="inherit"
+              onClick={toggleDrawer(true)}
+              sx={{ 
+                display: { xs: 'flex', md: 'none' },
+                color: scrolled ? '#0a1929' : 'white',
+                border: scrolled ? '1px solid #0a1929' : '1px solid rgba(255, 255, 255, 0.5)',
+                borderRadius: '8px',
+                p: { xs: 1, sm: 0.8 },
+                backgroundColor: scrolled ? 'rgba(40, 221, 205, 0.1)' : 'rgba(40, 221, 205, 0.2)',
+                
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </Container>
     </AppBar>
   </>
 );

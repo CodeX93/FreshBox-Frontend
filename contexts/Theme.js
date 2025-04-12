@@ -3,14 +3,15 @@ import { createTheme } from '@mui/material/styles';
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#E3FEF7',     // Medium green as primary color
+      main: '#94FFD4',     // Medium green as primary color
       light: '#94FFD4',    // Light mint
       dark: '#164934',     // Dark green
       white: '#E3FEF7',    // Added white for component compatibility
       mainHover: '#90DDBE', // Light medium green for hover states
       black: '#000000',    // Added black for component compatibility
       darkBlue: '#003C43' ,
-      whitishMint:'#E3FEF7' // Kept from original theme for compatibility
+      whitishMint:'#E3FEF7'
+       // Kept from original theme for compatibility
     },
     secondary: {
       main: '#B5ECD9',     // Mint as secondary color

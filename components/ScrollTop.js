@@ -5,7 +5,6 @@ import { Fab, Zoom } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { theme } from '../contexts/Theme'; // Import your theme context
 
-
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -44,7 +43,7 @@ const ScrollToTop = () => {
           bottom: 20,
           right: 20,
           
-          backgroundColor: theme.palette.primary.light, // Using your turquoise color
+          backgroundColor: theme.palette.primary.darkBlue, // Using your turquoise color
           '&:hover': {
             backgroundColor: theme.palette.primary.dark, // Using your turquoise color
           },

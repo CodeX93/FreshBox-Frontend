@@ -21,6 +21,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CloseIcon from '@mui/icons-material/Close';
 
+
 // Import theme and components
 import { theme } from '../../contexts/Theme'; // Update path to match your project structure
 import Navbar from '../../components/Navbar';
@@ -237,7 +238,10 @@ export default function ServicesPage() {
   }, []);
 
   return (
+    <>
+      <Navbar light={false}/>
     <ThemeProvider theme={theme}>
+      
       <Box 
         sx={{ 
           bgcolor: 'background.default', 
@@ -460,6 +464,8 @@ export default function ServicesPage() {
           {notification.message}
         </Alert>
       </Snackbar>
+ 
     </ThemeProvider>
+    </>   
   );
 }

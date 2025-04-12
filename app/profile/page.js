@@ -657,7 +657,7 @@ export default function Profile() {
 
   return (
     <>
-    <Navbar />
+      <Navbar light={false}/>
     <Box sx={{ 
       minHeight: '100vh', 
       bgcolor: '#f8f9fb', 

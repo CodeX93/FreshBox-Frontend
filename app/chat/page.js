@@ -22,6 +22,7 @@ import {
   AppBar,
   Toolbar
 } from '@mui/material';
+import {theme} from "../../contexts/Theme"
 import { 
   Send as SendIcon, 
   AttachFile as AttachFileIcon,
@@ -36,6 +37,7 @@ import {
   Menu as MenuIcon
 } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
+import Navbar from "../../components/Navbar"
 
 // Mock data for conversations
 const mockConversations = [
@@ -202,7 +204,7 @@ const formatTime = (time) => {
 
 // Chat Screen Component
 export default function RiderChatScreen() {
-  const theme = useTheme();
+  
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
   
@@ -338,14 +340,20 @@ export default function RiderChatScreen() {
   };
 
   // Main turquoise color
-  const turquoiseColor = '#2E7B5C';
+  const turquoiseColor = theme.palette.primary.main;
+  const darkBlueColor = theme.palette.primary.darkBlue;
+  const whitishMintColor = theme.palette.primary.whitishMint;
+  const mainHoverColor = theme.palette.primary.mainHover;
 
   return (
+    <>
+    <Navbar/>
     <Box sx={{ 
       display: 'flex', 
       height: '100vh',
-      bgcolor: '#f5f7f9',
-      overflow: 'hidden'
+      bgcolor: whitishMintColor,
+      overflow: 'hidden',
+      mt:5,
     }}>
       {/* Conversation List */}
       <Box sx={{ 
@@ -353,7 +361,7 @@ export default function RiderChatScreen() {
         display: showConversations || !isMobile ? 'flex' : 'none',
         flexDirection: 'column',
         borderRight: `1px solid ${theme.palette.divider}`,
-        bgcolor: 'background.paper',
+        bgcolor: whitishMintColor,
         zIndex: 10
       }}>
         <AppBar position="static" elevation={1} sx={{ bgcolor: 'background.paper' }}>
@@ -361,11 +369,11 @@ export default function RiderChatScreen() {
             <IconButton 
               edge="start" 
               onClick={handleBackToHome} 
-              sx={{ mr: 1, color: turquoiseColor }}
+              sx={{ mr: 1, color: darkBlueColor }}
             >
               <BackIcon />
             </IconButton>
-            <Typography variant="h6" sx={{ color: turquoiseColor, flexGrow: 1, fontWeight: 600 }}>
+            <Typography variant="h6" sx={{ color: darkBlueColor, flexGrow: 1, fontWeight: 600 }}>
               Chat Messages
             </Typography>
             <IconButton edge="end" sx={{ color: turquoiseColor }}>
@@ -408,8 +416,8 @@ export default function RiderChatScreen() {
                 >
                   <Avatar
                     sx={{ 
-                      bgcolor: `${turquoiseColor}50`, 
-                      color: turquoiseColor,
+                      bgcolor: darkBlueColor, 
+                      color: 'white',
                     }}
                   >
                     {getInitials(conversation.name)}
@@ -433,7 +441,7 @@ export default function RiderChatScreen() {
                     <span style={{ 
                       display: 'block', 
                       marginTop: '4px', 
-                      color: 'rgba(0, 0, 0, 0.6)',
+                      color: theme.palette.text.secondary,
                       fontSize: '0.875rem', 
                       fontFamily: '"Roboto","Helvetica","Arial",sans-serif',
                       lineHeight: '1.43',
@@ -471,7 +479,7 @@ export default function RiderChatScreen() {
         flexGrow: 1,
         display: (!showConversations || !isMobile) ? 'flex' : 'none',
         flexDirection: 'column',
-        bgcolor: '#f5f7f9',
+        bgcolor: whitishMintColor,
         position: 'relative'
       }}>
         {selectedConversation ? (
@@ -487,8 +495,8 @@ export default function RiderChatScreen() {
                 <Avatar
                   sx={{ 
                     mr: 2, 
-                    bgcolor: `${turquoiseColor}50`, 
-                    color: turquoiseColor 
+                    bgcolor: darkBlueColor, 
+                    color: 'white' 
                   }}
                 >
                   {getInitials(selectedConversation.name)}
@@ -536,8 +544,8 @@ export default function RiderChatScreen() {
                           height: 32, 
                           mr: 1,
                           mt: 0.5, 
-                          bgcolor: `${turquoiseColor}50`, 
-                          color: turquoiseColor,
+                          bgcolor: darkBlueColor, 
+                          color: 'white',
                           display: { xs: 'none', sm: 'flex' }
                         }}
                       >
@@ -619,7 +627,7 @@ export default function RiderChatScreen() {
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       borderRadius: 4,
-                      bgcolor: '#f5f7f9',
+                      bgcolor: whitishMintColor,
                       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
                         borderColor: turquoiseColor,
                       }
@@ -634,7 +642,7 @@ export default function RiderChatScreen() {
                             color: 'white', 
                             bgcolor: turquoiseColor,
                             '&:hover': {
-                              bgcolor: '#20c5b7',
+                              bgcolor: mainHoverColor,
                             }
                           }}
                           disabled={!newMessage.trim()}
@@ -663,8 +671,8 @@ export default function RiderChatScreen() {
                 width: 80, 
                 height: 80, 
                 mb: 2,
-                bgcolor: `${turquoiseColor}30`, 
-                color: turquoiseColor 
+                bgcolor: darkBlueColor, 
+                color: 'white' 
               }}
             >
               <SendIcon sx={{ fontSize: 40 }} />
@@ -720,8 +728,8 @@ export default function RiderChatScreen() {
                     width: 80, 
                     height: 80, 
                     mb: 2,
-                    bgcolor: `${turquoiseColor}50`, 
-                    color: turquoiseColor 
+                    bgcolor: darkBlueColor, 
+                    color: 'white' 
                   }}
                 >
                   {getInitials(selectedConversation.name)}
@@ -744,7 +752,7 @@ export default function RiderChatScreen() {
               </Typography>
               
               <Box sx={{ mb: 3 }}>
-                <Paper elevation={0} sx={{ borderRadius: 2, p: 2, bgcolor: '#f5f7f9' }}>
+                <Paper elevation={0} sx={{ borderRadius: 2, p: 2, bgcolor: whitishMintColor }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                     <Typography variant="body2" color="text.secondary">
                       Order ID
@@ -795,7 +803,7 @@ export default function RiderChatScreen() {
                     borderRadius: 2,
                     bgcolor: turquoiseColor,
                     '&:hover': {
-                      bgcolor: '#20c5b7',
+                      bgcolor: mainHoverColor,
                     }
                   }}
                 >
@@ -807,5 +815,6 @@ export default function RiderChatScreen() {
         )}
       </Drawer>
     </Box>
+    </>
   );
 }

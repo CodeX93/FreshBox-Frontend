@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Box, Container, useTheme, useMediaQuery } from '@mui/material';
 import { motion, useScroll, useTransform } from 'framer-motion';
-
+import Navbar from "../../components/Navbar"
 // Import section components
 import HeroSection from './_components/HeroSection';
 import CommercialLaundrySection from './_components/ComercialLaundarySection';
@@ -91,6 +91,9 @@ export default function CommercialPage() {
   };
 
   return (
+    <>
+    <Navbar light={false}/>
+    
     <Box sx={{ 
       width: '100%', 
       overflowX: 'hidden',
@@ -126,5 +129,6 @@ export default function CommercialPage() {
         <RequestQuoteSection />
       </Box>
     </Box>
+    </>
   );
 }

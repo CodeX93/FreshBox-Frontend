@@ -37,6 +37,7 @@ import {
   AccordionDetails,
   Stack
 } from '@mui/material';
+import Navbar from '../../components/Navbar';
 import { 
   LocalLaundryService, 
   CheckCircle, 
@@ -62,7 +63,7 @@ import {
   Phone
 } from '@mui/icons-material';
 import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
-import Navbar from '../../components/Navbar';
+
 import Footer from '../../components/Footer';
 
 // Sample data for laundry orders (reusing your existing data)
@@ -795,11 +796,13 @@ const LaundryOrderTracking = () => {
   };
 
   return (
+    <> 
+    <Navbar light={false}/>
     <ThemeProvider theme={theme}>
       <Box sx={{ bgcolor: '#ffffff', minHeight: '100vh' }}>
         
         
-        <Container maxWidth="lg" sx={{ pt: 12, pb: 8 }}>
+        <Container maxWidth="lg" sx={{ pt: 12, pb: 8,mt:4 }}>
           <Box sx={{ mb: 4 }}>
             <Typography variant="h4" gutterBottom>My Laundry Orders</Typography>
             <Typography variant="body1" color="text.secondary">
@@ -1125,6 +1128,7 @@ const LaundryOrderTracking = () => {
         
       </Box>
     </ThemeProvider>
+    </>
   );
 };
 

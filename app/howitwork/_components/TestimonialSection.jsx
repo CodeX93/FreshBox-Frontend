@@ -1,3 +1,4 @@
+// PART 1: Updated TestimonialsSection component
 'use client';
 
 import React from 'react';
@@ -8,7 +9,9 @@ import {
   Card,
   CardContent,
   Box,
-  Divider
+  Divider,
+  useMediaQuery,
+  useTheme as useMuiTheme
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
@@ -16,7 +19,10 @@ import AnimatedSection from './AnimatedSection'; // Update this path
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../../../contexts/Theme'; // Update this path to match your project structure
 
-const TestimonialsSection = () => {
+const TestimonialsSection = ({ fadeInUp, scrollY }) => {
+  const muiTheme = useMuiTheme();
+  const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'));
+  
   const testimonials = [
     {
       text: "I never knew laundry could be this easy! The service is prompt, my clothes come back perfectly clean, and the app makes scheduling a breeze.",
@@ -48,20 +54,20 @@ const TestimonialsSection = () => {
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
+    hidden: { opacity: 0, y: 30 },
     visible: index => ({ 
       opacity: 1, 
       y: 0,
       transition: { 
-        duration: 0.5,
-        delay: 0.2 + (index * 0.2),
+        duration: 0.4,
+        delay: 0.1 + (index * 0.1),
         ease: "easeOut"
       }
     }),
     hover: { 
-      y: -10,
-      boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
-      transition: { duration: 0.3 }
+      y: -5,
+      boxShadow: '0 10px 20px rgba(0,0,0,0.12)',
+      transition: { duration: 0.2 }
     }
   };
 
@@ -71,7 +77,7 @@ const TestimonialsSection = () => {
       opacity: 1, 
       scale: 1,
       transition: { 
-        duration: 0.5,
+        duration: 0.4,
         type: "spring",
         stiffness: 300,
         damping: 15
@@ -85,8 +91,8 @@ const TestimonialsSection = () => {
       opacity: 1, 
       scale: 1,
       transition: { 
-        duration: 0.3,
-        delay: 0.6 + (index * 0.1),
+        duration: 0.2,
+        delay: 0.3 + (index * 0.05),
         type: "spring",
         stiffness: 300,
         damping: 15
@@ -102,7 +108,7 @@ const TestimonialsSection = () => {
         backgroundColor="transparent"
       >
         <Box sx={{ 
-          py: { xs: 8, md: 12 },
+          py: { xs: 2, md: 4 },
           position: 'relative',
           overflow: 'hidden'
         }}>
@@ -111,10 +117,10 @@ const TestimonialsSection = () => {
             sx={{
               bgcolor: theme.palette.primary.darkBlue,
               borderRadius: 4,
-              py: { xs: 6, md: 8 },
-              px: { xs: 3, sm: 4, md: 6 },
+              py: { xs: 3, md: 4 },
+              px: { xs: 2, sm: 3, md: 4 },
               position: 'relative',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.1)'
+              boxShadow: '0 15px 30px rgba(0,0,0,0.1)'
             }}
           >
             <motion.div
@@ -127,12 +133,11 @@ const TestimonialsSection = () => {
                 variant="h2"
                 component="h2"
                 align="center"
-                gutterBottom
                 sx={{ 
-                  mb: 2, 
+                  mb: 1, 
                   fontWeight: 700,
                   color: '#FBFFCF',
-                  fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' }
+                  fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' }
                 }}
               >
                 What Our Customers Say
@@ -142,18 +147,18 @@ const TestimonialsSection = () => {
                 variant="h6"
                 align="center"
                 sx={{ 
-                  mb: { xs: 5, md: 8 },
+                  mb: { xs: 2, md: 3 },
                   color: 'rgba(251, 255, 207, 0.8)',
                   maxWidth: '700px',
                   mx: 'auto',
-                  fontSize: { xs: '1rem', md: '1.25rem' }
+                  fontSize: { xs: '0.9rem', md: '1rem' }
                 }}
               >
                 Don't just take our word for it
               </Typography>
             </motion.div>
 
-            <Grid container spacing={{ xs: 4, md: 6 }}>
+            <Grid container spacing={{ xs: 2, md: 3 }}>
               {testimonials.map((testimonial, index) => (
                 <Grid item xs={12} md={4} key={index}>
                   <motion.div
@@ -170,11 +175,11 @@ const TestimonialsSection = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         position: 'relative',
-                        pt: 5,
-                        pb: 3,
-                        px: { xs: 2, sm: 3 },
+                        pt: 3.5,
+                        pb: 2,
+                        px: { xs: 2, sm: 2.5 },
                         borderRadius: 3,
-                        boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+                        boxShadow: '0 8px 20px rgba(0,0,0,0.08)',
                         border: '1px solid rgba(226, 232, 240, 0.8)',
                         overflow: 'visible',
                         backgroundColor: 'rgba(21, 33, 43, 0.7)'
@@ -185,7 +190,7 @@ const TestimonialsSection = () => {
                           position: 'absolute',
                           top: 0,
                           left: 0,
-                          height: '6px',
+                          height: '5px',
                           width: '40%',
                           backgroundColor: theme.palette.primary.main,
                           borderTopLeftRadius: 3
@@ -201,21 +206,21 @@ const TestimonialsSection = () => {
                         <Box
                           sx={{ 
                             position: 'absolute',
-                            top: -22,
-                            left: 24,
-                            width: 44,
-                            height: 44,
+                            top: -18,
+                            left: 20,
+                            width: 36,
+                            height: 36,
                             borderRadius: '50%',
                             backgroundColor: theme.palette.primary.light,
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            boxShadow: '0 4px 12px rgba(40, 221, 205, 0.3)'
+                            boxShadow: '0 4px 10px rgba(40, 221, 205, 0.3)'
                           }}
                         >
                           <FormatQuoteIcon 
                             sx={{ 
-                              fontSize: 26,
+                              fontSize: 20,
                               color: theme.palette.primary.whitishMint,
                             }}
                           />
@@ -224,9 +229,9 @@ const TestimonialsSection = () => {
                       
                       <CardContent sx={{ 
                         flexGrow: 1, 
-                        pt: 3,
-                        pb: 1,
-                        px: { xs: 1, sm: 2 },
+                        pt: 1.5,
+                        pb: 0.5,
+                        px: { xs: 0.5, sm: 1 },
                         display: 'flex',
                         flexDirection: 'column'
                       }}>
@@ -236,16 +241,20 @@ const TestimonialsSection = () => {
                           sx={{ 
                             fontStyle: 'italic',
                             color: theme.palette.primary.whitishMint,
-                            mb: 3,
-                            fontSize: '1.05rem',
-                            lineHeight: 1.6,
-                            flex: 1
+                            mb: 2,
+                            fontSize: { xs: '0.85rem', sm: '0.9rem', md: '0.95rem' },
+                            lineHeight: 1.5,
+                            flex: 1,
+                            display: '-webkit-box',
+                            WebkitLineClamp: isMobile ? 3 : 4,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden'
                           }}
                         >
                           "{testimonial.text}"
                         </Typography>
                         <Divider sx={{ 
-                          my: 2,
+                          my: 1.5,
                           borderColor: 'rgba(251, 255, 207, 0.2)'
                         }} />
                         <Typography 
@@ -253,15 +262,15 @@ const TestimonialsSection = () => {
                           sx={{ 
                             fontWeight: 600, 
                             color: '#FBFFCF',
-                            fontSize: '1rem',
-                            mt: 1
+                            fontSize: '0.9rem',
+                            mt: 0.5
                           }}
                         >
                           {testimonial.author}
                         </Typography>
                         <Box sx={{ 
                           display: 'flex', 
-                          mt: 1.5,
+                          mt: 1,
                           mb: 0.5
                         }}>
                           {[...Array(5)].map((_, i) => (
@@ -277,8 +286,8 @@ const TestimonialsSection = () => {
                                 component="span"
                                 sx={{
                                   color: i < testimonial.rating ? '#F5DE8C' : 'rgba(226, 232, 240, 0.3)',
-                                  mr: 0.7,
-                                  fontSize: '1.25rem'
+                                  mr: 0.5,
+                                  fontSize: '1rem'
                                 }}
                               >
                                 ★

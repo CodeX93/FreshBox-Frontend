@@ -182,7 +182,7 @@ export default function RootLayout({ children }) {
                 overflow: 'hidden',
               }}
             >
-              <Navbar />
+          
               
               <Box
                 component="main"

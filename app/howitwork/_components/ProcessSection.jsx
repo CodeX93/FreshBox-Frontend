@@ -326,7 +326,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                        
                         mb: 2
                       }}
                     >
@@ -384,6 +384,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                       {processes[0].features.map((feature, index) => (
                         <Box 
                           component={motion.li}
+                          
                           custom={index}
                           initial="hidden"
                           animate={phaseOneControls}
@@ -411,7 +412,8 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                     elevation={6}
                     sx={{
                       p: 2,
-                      background: 'white',
+                      
+                      background: theme.palette.primary.whitishMint,
                       borderRadius: 3,
                       overflow: 'hidden',
                       transform: 'rotate(2deg)',
@@ -423,9 +425,9 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        boxShadow: `inset 0 0 0 10px white`,
+                        
                         zIndex: 1,
-                        borderRadius: '12px',
+                        
                         pointerEvents: 'none'
                       }
                     }}
@@ -436,13 +438,12 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                       alt={processes[0].title}
                       sx={{
                         width: '100%',
+                        
                         height: 'auto',
                         display: 'block',
-                        borderRadius: 1,
+                        
                         transition: 'transform 0.6s ease-in-out',
-                        '&:hover': {
-                          transform: 'scale(1.03)'
-                        }
+                        
                       }}
                     />
                   </Paper>
@@ -477,8 +478,8 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                     elevation={6}
                     sx={{
                       p: 2,
-                      background: '#ffffff',
-                      borderRadius: 3,
+                      background: theme.palette.primary.whitishMint,
+                      
                       overflow: 'hidden',
                       transform: 'rotate(2deg)',
                       position: 'relative',
@@ -489,7 +490,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        boxShadow: `inset 0 0 0 10px white`,
+                        
                         zIndex: 1,
                         borderRadius: '12px',
                         pointerEvents: 'none'
@@ -505,7 +506,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         width: '100%',
                         height: 'auto',
                         display: 'block',
-                        borderRadius: 1,
+                        
                         transition: 'transform 0.6s ease-in-out',
                         '&:hover': {
                           transform: 'scale(1.03)'
@@ -532,7 +533,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                        
                         mb: 2
                       }}
                     >
@@ -641,7 +642,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                        
                         mb: 2
                       }}
                     >
@@ -726,7 +727,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                     elevation={6}
                     sx={{
                       p: 2,
-                      background: 'white',
+                      background: theme.palette.primary.whitishMint,
                       borderRadius: 3,
                       overflow: 'hidden',
                       transform: 'rotate(2deg)',
@@ -738,7 +739,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        boxShadow: `inset 0 0 0 10px white`,
+                        
                         zIndex: 1,
                         borderRadius: '12px',
                         pointerEvents: 'none'
@@ -792,7 +793,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                     elevation={6}
                     sx={{
                       p: 2,
-                      background: 'white',
+                      background: theme.palette.primary.whitishMint,
                       borderRadius: 3,
                       overflow: 'hidden',
                       transform: 'rotate(2deg)',
@@ -804,7 +805,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        boxShadow: `inset 0 0 0 10px white`,
+                        
                         zIndex: 1,
                         borderRadius: '12px',
                         pointerEvents: 'none'
@@ -846,7 +847,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                        
                         mb: 2
                       }}
                     >

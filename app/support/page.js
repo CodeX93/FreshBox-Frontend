@@ -1,6 +1,6 @@
 import { Box, Container, Grid } from '@mui/material';
 import ClientSupportPage from './ClientSideInterations/ClientSupportPage';
-
+import Navbar from "../../components/Navbar"
 // Define constants for SEO content
 const TURQUOISE = '#28ddcd';
 const TURQUOISE_DARK = '#20c5b7';
@@ -8,6 +8,9 @@ const TURQUOISE_LIGHT = '#e8f9f8';
 
 export default function SupportPage() {
   return (
+    <>
+    <Navbar light={false}/>
+    
     <Box sx={{ 
       pt: { xs: 0, sm: 0, md: 0 }, // Removed padding-top to allow NavBar to be transparent
       pb: { xs: 8, sm: 10, md: 12 },
@@ -44,5 +47,6 @@ export default function SupportPage() {
       {/* Client component to handle interactive elements */}
       <ClientSupportPage />
     </Box>
+    </>
   );
 }

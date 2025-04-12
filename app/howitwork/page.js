@@ -1,3 +1,4 @@
+// PART 2: Updated HowItWorksPage component
 'use client';
 import React, { useEffect, useState } from 'react';
 import { Box, Container, useMediaQuery, useTheme } from '@mui/material';
@@ -9,13 +10,13 @@ import TestimonialsSection from './_components/TestimonialSection';
 import GetStartedSection from './_components/GetStartedSection';
 import FAQSection from './_components/FAQSection';
 import HeroSection from './_components/HeroSection';
-
 // Adding animations
 import { motion } from 'framer-motion';
+import {theme} from "../../contexts/Theme"
 
 const HowItWorksPage = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  
+  
   const [scrollY, setScrollY] = useState(0);
 
   // Handle smooth scrolling
@@ -42,7 +43,6 @@ const HowItWorksPage = () => {
 
     document.addEventListener('click', handleAnchorClick);
     window.addEventListener('scroll', handleScroll);
-    
     return () => {
       document.removeEventListener('click', handleAnchorClick);
       window.removeEventListener('scroll', handleScroll);
@@ -52,19 +52,19 @@ const HowItWorksPage = () => {
   // Animation variants
   const fadeInUp = {
     hidden: { opacity: 0, y: 60 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { 
-        duration: 0.6, 
-        ease: "easeOut" 
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
       }
     }
   };
 
   return (
     <>
-      <Navbar />
+      <Navbar light={false}/>
       <Box
         component="main"
         sx={{
@@ -85,67 +85,29 @@ const HowItWorksPage = () => {
             }
           }}
         >
-          <HeroSection 
+          <HeroSection
             fadeInUp={fadeInUp}
             scrollY={scrollY}
           />
-          
           <Box sx={{ position: 'relative', zIndex: 2 }}>
-            <ProcessSection 
+            <ProcessSection
               fadeInUp={fadeInUp}
               scrollY={scrollY}
             />
           </Box>
-          
-          {/* <Box sx={{ 
-            position: 'relative', 
-            background: theme.palette.background.paper,
-            zIndex: 1,
-            py: { xs: 8, md: 12 }
-          }}>
-            <WhyChooseUsSection 
-              fadeInUp={fadeInUp}
-              scrollY={scrollY}
-            />
-          </Box> */}
-
-          <Box sx={{ 
+          <Box sx={{
             position: 'relative',
-            background: theme.palette.grey[50],
-            zIndex: 2,
-            py: { xs: 8, md: 12 } 
+            background: theme.palette.primary.whitishMint,
+            py: 0, // Remove padding here to prevent extra space
+            mb: 0 // Remove margin bottom
           }}>
-            <TestimonialsSection 
+            <TestimonialsSection
               fadeInUp={fadeInUp}
               scrollY={scrollY}
             />
           </Box>
-          
-          {/* <Box sx={{ 
-            position: 'relative', 
-            zIndex: 3,
-            py: { xs: 6, md: 10 } 
-          }}>
-            <GetStartedSection 
-              fadeInUp={fadeInUp}
-              scrollY={scrollY}
-            />
-          </Box> */}
-          
-          {/* <Box sx={{ 
-            position: 'relative', 
-            background: theme.palette.background.paper,
-            zIndex: 2,
-            py: { xs: 8, md: 12 } 
-          }}>
-            <FAQSection 
-              fadeInUp={fadeInUp}
-              scrollY={scrollY}
-            />
-          </Box> */}
         </motion.div>
       </Box>
-      
     </>
   );
 };

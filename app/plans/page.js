@@ -30,6 +30,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import StarIcon from '@mui/icons-material/Star';
 import { motion } from 'framer-motion';
 import { styled } from '@mui/material/styles';
+import Navbar from '../../components/Navbar';
 
 // Custom styled components
 const PlanCard = styled(Card)(({ theme, planType }) => ({
@@ -99,6 +100,8 @@ const PlansPage = () => {
   };
 
   return (
+    <>
+      {/* <Navbar light={false}/> */}
     <Container maxWidth="lg" sx={{ py: 8 }}>
       <Fade in={true} timeout={600}>
         <Box>
@@ -559,6 +562,7 @@ const PlansPage = () => {
         </Box>
       </Fade>
     </Container>
+    </>
   );
 };
 

@@ -12,6 +12,7 @@ import ClientSideInteractions from './ClientSideInterations/ClientHeroSection';
 export default function Home() {
   return (
     <>
+        <Navbar light={true}/>
       <ClientSideInteractions />
       <ServicesSection />
       <QualityPromiseSection />
