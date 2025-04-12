@@ -101,159 +101,228 @@ const TestimonialsSection = () => {
         id="testimonials-section"
         backgroundColor="transparent"
       >
-        <Container maxWidth="xl">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: false, amount: 0.3 }}
-            variants={headingVariants}
+        <Box sx={{ 
+          py: { xs: 8, md: 12 },
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          <Container 
+            maxWidth="xl" 
+            sx={{
+              bgcolor: theme.palette.primary.darkBlue,
+              borderRadius: 4,
+              py: { xs: 6, md: 8 },
+              px: { xs: 3, sm: 4, md: 6 },
+              position: 'relative',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.1)'
+            }}
           >
-            <Typography
-              variant="h2"
-              component="h2"
-              align="center"
-              gutterBottom
-              sx={{ 
-                mb: 1, 
-                fontWeight: 700,
-                color: theme.palette.primary.darkBlue
-              }}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: false, amount: 0.3 }}
+              variants={headingVariants}
             >
-              What Our Customers Say
-            </Typography>
-            
-            <Typography
-              variant="h6"
-              align="center"
-              sx={{ 
-                mb: 6,
-                color: '#4a5568'
-              }}
-            >
-              Don't just take our word for it
-            </Typography>
-          </motion.div>
+              <Typography
+                variant="h2"
+                component="h2"
+                align="center"
+                gutterBottom
+                sx={{ 
+                  mb: 2, 
+                  fontWeight: 700,
+                  color: '#FBFFCF',
+                  fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' }
+                }}
+              >
+                What Our Customers Say
+              </Typography>
+              
+              <Typography
+                variant="h6"
+                align="center"
+                sx={{ 
+                  mb: { xs: 5, md: 8 },
+                  color: 'rgba(251, 255, 207, 0.8)',
+                  maxWidth: '700px',
+                  mx: 'auto',
+                  fontSize: { xs: '1rem', md: '1.25rem' }
+                }}
+              >
+                Don't just take our word for it
+              </Typography>
+            </motion.div>
 
-          <Grid container spacing={4}>
-            {testimonials.map((testimonial, index) => (
-              <Grid item xs={12} md={4} key={index}>
-                <motion.div
-                  custom={index}
-                  initial="hidden"
-                  whileInView="visible"
-                  whileHover="hover"
-                  viewport={{ once: false, amount: 0.3 }}
-                  variants={cardVariants}
-                >
-                  <Card 
-                    sx={{ 
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      position: 'relative',
-                      pt: 4,
-                      borderRadius: 3,
-                      boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
-                      border: '1px solid rgba(226, 232, 240, 0.8)',
-                      overflow: 'visible'
-                    }}
+            <Grid container spacing={{ xs: 4, md: 6 }}>
+              {testimonials.map((testimonial, index) => (
+                <Grid item xs={12} md={4} key={index}>
+                  <motion.div
+                    custom={index}
+                    initial="hidden"
+                    whileInView="visible"
+                    whileHover="hover"
+                    viewport={{ once: false, amount: 0.3 }}
+                    variants={cardVariants}
                   >
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        height: '5px',
-                        width: '30%',
-                        backgroundColor: theme.palette.primary.main,
-                        borderTopLeftRadius: 3
+                    <Card 
+                      sx={{ 
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        position: 'relative',
+                        pt: 5,
+                        pb: 3,
+                        px: { xs: 2, sm: 3 },
+                        borderRadius: 3,
+                        boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+                        border: '1px solid rgba(226, 232, 240, 0.8)',
+                        overflow: 'visible',
+                        backgroundColor: 'rgba(21, 33, 43, 0.7)'
                       }}
-                    />
-                    
-                    <motion.div
-                      variants={quoteIconVariants}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: false, amount: 0.3 }}
                     >
                       <Box
-                        sx={{ 
+                        sx={{
                           position: 'absolute',
-                          top: -20,
-                          left: 20,
-                          width: 40,
-                          height: 40,
-                          borderRadius: '50%',
-                          backgroundColor: theme.palette.primary.light, // Changed to turquoise background
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          boxShadow: '0 4px 12px rgba(40, 221, 205, 0.3)' // Matching shadow color
+                          top: 0,
+                          left: 0,
+                          height: '6px',
+                          width: '40%',
+                          backgroundColor: theme.palette.primary.main,
+                          borderTopLeftRadius: 3
                         }}
+                      />
+                      
+                      <motion.div
+                        variants={quoteIconVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: false, amount: 0.3 }}
                       >
-                        <FormatQuoteIcon 
+                        <Box
                           sx={{ 
-                            fontSize: 24,
-                            color: theme.palette.primary.whitishMint, // Changed to white for better contrast
+                            position: 'absolute',
+                            top: -22,
+                            left: 24,
+                            width: 44,
+                            height: 44,
+                            borderRadius: '50%',
+                            backgroundColor: theme.palette.primary.light,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            boxShadow: '0 4px 12px rgba(40, 221, 205, 0.3)'
                           }}
-                        />
-                      </Box>
-                    </motion.div>
-                    
-                    <CardContent sx={{ flexGrow: 1, pt: 2 }}>
-                      <Typography variant="body1" paragraph sx={{ fontStyle: 'italic',color:theme.palette.primary.dark }}>
-                        "{testimonial.text}"
-                      </Typography>
-                      <Divider sx={{ my: 2 }} />
-                      <Typography variant="subtitle1" sx={{ fontWeight: 600, color: theme.palette.primary.dark }}>
-                        {testimonial.author}
-                      </Typography>
-                      <Box sx={{ display: 'flex', mt: 1 }}>
-                        {[...Array(5)].map((_, i) => (
-                          <motion.div
-                            key={i}
-                            custom={i}
-                            variants={starVariants}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: false, amount: 0.3 }}
-                          >
-                            <Box
-                              component="span"
-                              sx={{
-                                color: i < testimonial.rating ? '#F5DE8C' : '#E2E8F0',
-                                mr: 0.5,
-                                fontSize: '1.2rem'
-                              }}
+                        >
+                          <FormatQuoteIcon 
+                            sx={{ 
+                              fontSize: 26,
+                              color: theme.palette.primary.whitishMint,
+                            }}
+                          />
+                        </Box>
+                      </motion.div>
+                      
+                      <CardContent sx={{ 
+                        flexGrow: 1, 
+                        pt: 3,
+                        pb: 1,
+                        px: { xs: 1, sm: 2 },
+                        display: 'flex',
+                        flexDirection: 'column'
+                      }}>
+                        <Typography 
+                          variant="body1" 
+                          paragraph 
+                          sx={{ 
+                            fontStyle: 'italic',
+                            color: theme.palette.primary.whitishMint,
+                            mb: 3,
+                            fontSize: '1.05rem',
+                            lineHeight: 1.6,
+                            flex: 1
+                          }}
+                        >
+                          "{testimonial.text}"
+                        </Typography>
+                        <Divider sx={{ 
+                          my: 2,
+                          borderColor: 'rgba(251, 255, 207, 0.2)'
+                        }} />
+                        <Typography 
+                          variant="subtitle1" 
+                          sx={{ 
+                            fontWeight: 600, 
+                            color: '#FBFFCF',
+                            fontSize: '1rem',
+                            mt: 1
+                          }}
+                        >
+                          {testimonial.author}
+                        </Typography>
+                        <Box sx={{ 
+                          display: 'flex', 
+                          mt: 1.5,
+                          mb: 0.5
+                        }}>
+                          {[...Array(5)].map((_, i) => (
+                            <motion.div
+                              key={i}
+                              custom={i}
+                              variants={starVariants}
+                              initial="hidden"
+                              whileInView="visible"
+                              viewport={{ once: false, amount: 0.3 }}
                             >
-                              ★
-                            </Box>
-                          </motion.div>
-                        ))}
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </Grid>
-            ))}
-          </Grid>
-          
-          {/* Background decorative element */}
-          <Box
-            sx={{
-              position: 'absolute',
-              top: '10%',
-              right: 0,
-              width: '30%',
-              height: '50%',
-              backgroundColor: theme.palette.primary.light,
-              opacity: 0.05,
-              borderTopLeftRadius: 100,
-              borderBottomLeftRadius: 100,
-              zIndex: -1
-            }}
-          />
-        </Container>
+                              <Box
+                                component="span"
+                                sx={{
+                                  color: i < testimonial.rating ? '#F5DE8C' : 'rgba(226, 232, 240, 0.3)',
+                                  mr: 0.7,
+                                  fontSize: '1.25rem'
+                                }}
+                              >
+                                ★
+                              </Box>
+                            </motion.div>
+                          ))}
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+            
+            {/* Background decorative elements */}
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '10%',
+                right: 0,
+                width: '25%',
+                height: '50%',
+                backgroundColor: 'rgba(40, 221, 205, 0.07)',
+                borderTopLeftRadius: 100,
+                borderBottomLeftRadius: 100,
+                zIndex: 0
+              }}
+            />
+            
+            <Box
+              sx={{
+                position: 'absolute',
+                bottom: '15%',
+                left: 0,
+                width: '20%',
+                height: '40%',
+                backgroundColor: 'rgba(40, 221, 205, 0.05)',
+                borderTopRightRadius: 100,
+                borderBottomRightRadius: 100,
+                zIndex: 0
+              }}
+            />
+          </Container>
+        </Box>
       </AnimatedSection>
     </ThemeProvider>
   );

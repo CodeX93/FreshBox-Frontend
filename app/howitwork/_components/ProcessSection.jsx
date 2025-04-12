@@ -211,7 +211,8 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            position: 'relative'
+            position: 'relative',
+            bgcolor: theme.palette.primary.light,
           }}
         >
           {/* Background accent */}
@@ -253,7 +254,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                   mb: 8,
                   mx: 'auto',
                   maxWidth: 600,
-                  color: '#4a5568'
+                  color: theme.palette.primary.darkBlue,
                 }}
               >
                 Just 4 simple steps to get your laundry done with professional care
@@ -278,6 +279,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                       py: 1.5,
                       borderColor: theme.palette.primary.main,
                       color: theme.palette.primary.main,
+                      bgcolor:theme.palette.primary.darkBlue,
                       '&:hover': {
                         borderColor: theme.palette.primary.dark,
                         backgroundColor: 'rgba(40, 221, 205, 0.08)'
@@ -302,7 +304,8 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
             alignItems: 'center',
             py: { xs: 8, md: 12 },
             position: 'relative',
-            background: theme.palette.primary.light
+            backgroundColor: theme.palette.primary.whitishMint,
+            
           }}
         >
           <Container maxWidth="lg">
@@ -459,7 +462,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
             alignItems: 'center',
             py: { xs: 8, md: 12 },
             position: 'relative',
-            background: '#ffffff'
+            backgroundColor: theme.palette.primary.whitishMint,
           }}
         >
           <Container maxWidth="lg">
@@ -490,6 +493,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         zIndex: 1,
                         borderRadius: '12px',
                         pointerEvents: 'none'
+                        
                       }
                     }}
                   >
@@ -616,7 +620,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
             alignItems: 'center',
             py: { xs: 8, md: 12 },
             position: 'relative',
-            background: theme.palette.primary.light
+            backgroundColor: theme.palette.primary.whitishMint,
           }}
         >
           <Container maxWidth="lg">
@@ -773,7 +777,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
             alignItems: 'center',
             py: { xs: 8, md: 12 },
             position: 'relative',
-            background: '#ffffff'
+            backgroundColor: theme.palette.primary.whitishMint,
           }}
         >
           <Container maxWidth="lg">
