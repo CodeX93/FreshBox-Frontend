@@ -255,9 +255,9 @@ export default function Navbar() {
   const renderSubmenuWithPopper = ({
     id, open, anchorEl, handleClose, title, description, submenuItems, allLink, allLinkText
   }) => (
-    <Popper 
+    <Popper
       id={id}
-      open={open} 
+      open={open}
       anchorEl={anchorEl}
       transition
       placement="bottom-start"
@@ -265,132 +265,85 @@ export default function Navbar() {
     >
       {({ TransitionProps }) => (
         <Fade {...TransitionProps} timeout={350}>
-          <Paper 
+          <Paper
             elevation={3}
-            sx={{ 
-              mt: 1.5, 
+            sx={{
+              mt: 1.5,
               width: { sm: 280, md: 300, lg: 320 },
               overflow: 'hidden',
-              borderRadius: '12px',
+              borderRadius: '20px',
               border: '1px solid',
-              borderColor: 'grey.100',
-              boxShadow: '0 8px 16px rgba(0,0,0,0.1)'
+              borderColor: 'rgba(29, 85, 95, 0.1)',
+              boxShadow: '0 8px 16px rgba(0,0,0,0.05)'
             }}
           >
             <ClickAwayListener onClickAway={handleClose}>
-              <Box>
-                <Box sx={{ 
-                  p: 1.5,
-                  bgcolor: DARK_TURQUOISE, 
-                  color: 'white'
-                }}>
-                  <Typography 
-                    variant="h6" 
-                    fontWeight={600} 
-                    sx={{ fontSize: { xs: '1rem', sm: '1.1rem' } }}
-                  >
-                    {title}
-                  </Typography>
-                  <Typography 
-                    variant="body2" 
-                    sx={{ fontSize: { xs: '0.75rem', sm: '0.8rem' } }}
-                  >
-                    {description}
-                  </Typography>
-                </Box>
+              <Box sx={{ p: 2 }}>
                 <Box>
                   {submenuItems.map((item, index) => (
-                    <Box 
+                    <Box
                       key={item.name}
                       component={Link}
                       href={item.path}
                       onClick={handleClose}
                       sx={{
                         display: 'flex',
-                        alignItems: 'flex-start',
+                        alignItems: 'center',
                         textDecoration: 'none',
                         color: 'text.primary',
-                        p: 1.5,
-                        transition: 'all 0.3s ease',
+                        py: 1.5,
+                        transition: 'all 0.2s ease',
                         '&:hover': {
-                          bgcolor: 'rgba(40, 221, 205, 0.1)',
-                          '& .MuiBox-root.icon-container': {
-                            bgcolor: DARK_TURQUOISE,
-                            transform: 'scale(1.1) rotate(5deg)'
-                          },
                           '& .item-title': {
-                            color: DARK_TURQUOISE,
-                            transform: 'translateX(4px)'
+                            color: '#1D555F', // Teal color from design
                           }
-                        },
-                        borderBottom: index < submenuItems.length - 1 ? '1px solid' : 'none',
-                        borderColor: 'grey.100'
+                        }
                       }}
                     >
-                      <Box 
+                      <Box
                         className="icon-container"
-                        sx={{ 
-                          color: 'white', 
-                          mr: 1.5,
-                          transition: 'all 0.3s ease',
+                        sx={{
+                          color: '#34D399', // Mint green color
+                          mr: 2,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          bgcolor: DARK_TURQUOISE,
-                          p: 0.75,
-                          borderRadius: '8px',
-                          width: 36,
-                          height: 36
+                          width: 30,
+                          height: 30
                         }}
                       >
                         {item.icon}
                       </Box>
-                      <Box sx={{ flex: 1 }}>
-                        <Typography 
-                          className="item-title"
-                          fontWeight={600} 
-                          sx={{ 
-                            mb: 0.25,
-                            transition: 'all 0.3s ease',
-                            fontSize: { xs: '0.9rem', sm: '0.95rem' }
-                          }}
-                        >
-                          {item.name}
-                        </Typography>
-                        {item.description && (
-                          <Typography 
-                            variant="body2" 
-                            color="text.secondary"
-                            sx={{ fontSize: { xs: '0.7rem', sm: '0.75rem' } }}
-                          >
-                            {item.description}
-                          </Typography>
-                        )}
-                      </Box>
-                      <Box sx={{ ml: 'auto', display: 'flex', alignItems: 'center' }}>
-                        <ChevronRightIcon fontSize="small" color="action" />
-                      </Box>
+                      <Typography
+                        className="item-title"
+                        sx={{
+                          fontSize: '1.1rem',
+                          fontWeight: 500,
+                          color: '#1D555F', // Teal text color
+                          transition: 'color 0.2s ease',
+                        }}
+                      >
+                        {item.name}
+                      </Typography>
                     </Box>
                   ))}
                 </Box>
                 {allLink && (
-                  <Box sx={{ p: 1.5, bgcolor: 'grey.50', borderTop: '1px solid', borderColor: 'grey.100' }}>
-                    <Button 
+                  <Box sx={{ mt: 1 }}>
+                    <Button
                       component={Link}
                       href={allLink}
                       fullWidth
-                      variant="contained"
+                      variant="text"
                       onClick={handleClose}
-                      sx={{ 
-                        borderRadius: '8px',
-                        bgcolor: DARK_TURQUOISE,
-                        transition: 'all 0.3s ease',
-                        fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                        py: 1,
-                        '&:hover': { 
-                          bgcolor: TURQUOISE,
-                          transform: 'translateY(-2px)',
-                          boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+                      sx={{
+                        color: '#1D555F', // Teal text color
+                        textTransform: 'none',
+                        fontWeight: 500,
+                        fontSize: '1rem',
+                        '&:hover': {
+                          backgroundColor: 'rgba(29, 85, 95, 0.05)',
+                          textDecoration: 'underline'
                         }
                       }}
                     >
@@ -405,7 +358,6 @@ export default function Navbar() {
       )}
     </Popper>
   );
-
   // Simplify submenu renders by passing config objects
   const renderServicesSubmenu = () => renderSubmenuWithPopper({
     id: servicesPopupId,

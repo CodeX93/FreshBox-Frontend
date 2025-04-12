@@ -116,7 +116,7 @@ const TestimonialsSection = () => {
               sx={{ 
                 mb: 1, 
                 fontWeight: 700,
-                color: theme.palette.primary.dark
+                color: theme.palette.primary.darkBlue
               }}
             >
               What Our Customers Say
@@ -184,7 +184,7 @@ const TestimonialsSection = () => {
                           width: 40,
                           height: 40,
                           borderRadius: '50%',
-                          backgroundColor: theme.palette.primary.main, // Changed to turquoise background
+                          backgroundColor: theme.palette.primary.light, // Changed to turquoise background
                           display: 'flex',
                           justifyContent: 'center',
                           alignItems: 'center',
@@ -194,14 +194,14 @@ const TestimonialsSection = () => {
                         <FormatQuoteIcon 
                           sx={{ 
                             fontSize: 24,
-                            color: 'white', // Changed to white for better contrast
+                            color: theme.palette.primary.whitishMint, // Changed to white for better contrast
                           }}
                         />
                       </Box>
                     </motion.div>
                     
                     <CardContent sx={{ flexGrow: 1, pt: 2 }}>
-                      <Typography variant="body1" paragraph sx={{ fontStyle: 'italic' }}>
+                      <Typography variant="body1" paragraph sx={{ fontStyle: 'italic',color:theme.palette.primary.dark }}>
                         "{testimonial.text}"
                       </Typography>
                       <Divider sx={{ my: 2 }} />
@@ -221,7 +221,7 @@ const TestimonialsSection = () => {
                             <Box
                               component="span"
                               sx={{
-                                color: i < testimonial.rating ? theme.palette.secondary.main : '#E2E8F0',
+                                color: i < testimonial.rating ? '#F5DE8C' : '#E2E8F0',
                                 mr: 0.5,
                                 fontSize: '1.2rem'
                               }}

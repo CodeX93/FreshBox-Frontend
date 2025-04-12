@@ -89,7 +89,7 @@ export default function Footer() {
                         left: 0,
                         width: '40px',
                         height: '3px',
-                        bgcolor: theme.palette.primary.main, // Using your turquoise color
+                        bgcolor: theme.palette.primary.light, // Using your turquoise color
                         transition: 'width 0.3s ease',
                       },
                       '&:hover::after': {
@@ -168,7 +168,7 @@ export default function Footer() {
                     left: 0,
                     width: '40px',
                     height: '3px',
-                    bgcolor: theme.palette.primary.main, // Using your turquoise color
+                    bgcolor: theme.palette.primary.light, // Using your turquoise color
                     transition: 'width 0.3s ease',
                   },
                   '&:hover::after': {
@@ -216,7 +216,7 @@ export default function Footer() {
                     left: 0,
                     width: '40px',
                     height: '3px',
-                    bgcolor: theme.palette.primary.main, // Using your turquoise color
+                    bgcolor: theme.palette.primary.light, // Using your turquoise color
                     transition: 'width 0.3s ease',
                   },
                   '&:hover::after': {
@@ -264,7 +264,7 @@ export default function Footer() {
                     left: 0,
                     width: '40px',
                     height: '3px',
-                    bgcolor: theme.palette.primary.main, // Using your turquoise color
+                    bgcolor: theme.palette.primary.darkBlue, // Using your turquoise color
                     transition: 'width 0.3s ease',
                   },
                   '&:hover::after': {

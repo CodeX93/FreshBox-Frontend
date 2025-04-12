@@ -8,7 +8,8 @@ import {
   Button,
   Grid,
   Paper,
-  useMediaQuery
+  useMediaQuery,
+  Chip
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -34,12 +35,12 @@ const HeroSection = ({ fadeInUp, scrollY }) => {
           display: 'flex',
           alignItems: 'center',
           overflow: 'hidden',
-          background: `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`,
+          backgroundColor: '#e6f9f3', // Light mint background from the design
           pt: { xs: 8, md: 0 },
           pb: { xs: 10, md: 0 },
         }}
       >
-        {/* Animated background elements */}
+        {/* Animated background elements - keeping them for visual interest */}
         <Box
           component={motion.div}
           animate={{
@@ -54,7 +55,7 @@ const HeroSection = ({ fadeInUp, scrollY }) => {
             width: 200,
             height: 200,
             borderRadius: '50%',
-            background: `linear-gradient(135deg, ${theme.palette.primary.light}33, ${theme.palette.primary.main}33)`,
+            background: `rgba(127, 244, 212, 0.2)`, // Light mint circle
           }}
         />
         
@@ -72,7 +73,7 @@ const HeroSection = ({ fadeInUp, scrollY }) => {
             width: 150,
             height: 150,
             borderRadius: '50%',
-            background: `linear-gradient(135deg, ${theme.palette.primary.light}22, ${theme.palette.primary.main}22)`,
+            background: `rgba(127, 244, 212, 0.2)`, // Light mint circle
           }}
         />
 
@@ -81,7 +82,6 @@ const HeroSection = ({ fadeInUp, scrollY }) => {
             container 
             spacing={6} 
             alignItems="center"
-            direction={isMobile ? 'column-reverse' : 'row'}
           >
             <Grid item xs={12} md={6}>
               <Box
@@ -91,36 +91,49 @@ const HeroSection = ({ fadeInUp, scrollY }) => {
                 variants={fadeInUp}
                 style={scrollY > 0 ? scrollAnimation : {}}
               >
+                <Chip 
+                  label="20% Discount for 1 Month Subscription" 
+                  sx={{ 
+                    mb: 2,
+                    backgroundColor: '#94FFD4',
+                    color: '#000',
+                    fontWeight: 500,
+                    borderRadius: '16px',
+                    py: 0.5
+                  }} 
+                />
+                
                 <Typography
                   variant="h1"
                   component="h1"
                   sx={{
-                    fontWeight: 800,
-                    fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4rem' },
-                    color: 'white',
+                    fontWeight: 700,
+                    fontSize: { xs: '2.5rem', sm: '3.5rem', md: '3.5rem' },
+                    color: '#1e3a37', // Dark teal color from design
                     lineHeight: 1.2,
                     mb: 2,
                   }}
                 >
-                  Laundry Made <Box component="span" sx={{ color: theme.palette.primary.main }}>Simple</Box>
+                  Laundry Made Simple
                 </Typography>
                 
                 <Typography
                   variant="h5"
                   sx={{
-                    color: 'white',
+                    color: '#1e3a37', // Dark teal color for body text
                     opacity: 0.9,
                     mb: 4,
                     maxWidth: 600,
+                    fontWeight: 400,
+                    fontSize: '1.25rem'
                   }}
                 >
                   We pick up, clean, and deliver your laundry so you can focus on what matters most. Professional service with just a few clicks.
                 </Typography>
 
-                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 4 }}>
                   <Button
                     variant="contained"
-                    color="secondary"
                     size="large"
                     endIcon={<ArrowForwardIcon />}
                     href="#process"
@@ -129,18 +142,70 @@ const HeroSection = ({ fadeInUp, scrollY }) => {
                       py: 1.5,
                       px: 3,
                       fontWeight: 600,
-                      boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+                      backgroundColor: '#94FFD4',
+                      color: '#1e3a37',
+                      boxShadow: 'none',
                       '&:hover': {
-                        transform: 'translateY(-3px)',
-                        boxShadow: '0 6px 25px rgba(0,0,0,0.2)',
+                        backgroundColor: '#8edfbf',
+                        boxShadow: 'none',
                       },
-                      transition: 'transform 0.3s, box-shadow 0.3s',
                     }}
                   >
-                    See How It Works
+                    See How it works
                   </Button>
+                </Box>
+
+                {/* Stats section */}
+                <Box sx={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                  <Box>
+                    <Typography
+                      variant="h3"
+                      component="p"
+                      sx={{
+                        fontWeight: 700,
+                        fontSize: '2rem',
+                        color: '#1e3a37',
+                        display: 'flex',
+                        alignItems: 'baseline',
+                      }}
+                    >
+                      18m+
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: '#1e3a37',
+                        fontSize: '0.875rem',
+                      }}
+                    >
+                      Happy<br />Customers
+                    </Typography>
+                  </Box>
                   
-                 
+                  <Box>
+                    <Typography
+                      variant="h3"
+                      component="p"
+                      sx={{
+                        fontWeight: 700,
+                        fontSize: '2rem',
+                        color: '#1e3a37',
+                        display: 'flex',
+                        alignItems: 'baseline',
+                      }}
+                    >
+                      10+
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: '#1e3a37',
+                        fontSize: '0.875rem',
+                      }}
+                    >
+                      Years of<br />Experience
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
             </Grid>
@@ -151,64 +216,114 @@ const HeroSection = ({ fadeInUp, scrollY }) => {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
+                sx={{
+                  position: 'relative',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
               >
-                <Paper
-                  elevation={16}
+                {/* Bubbles in the background */}
+                <Box
+                  component={motion.div}
                   sx={{
-                    borderRadius: 4,
-                    overflow: 'hidden',
-                    transform: isMobile ? 'none' : 'perspective(1000px) rotateY(-5deg) rotateX(5deg)',
-                    transition: '0.5s all',
-                    '&:hover': {
-                      transform: isMobile ? 'none' : 'perspective(1000px) rotateY(0deg) rotateX(0deg)',
-                    },
-                    boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
-                    border: '5px solid white',
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '50%',
+                    backgroundColor: '#94FFD4',
+                    zIndex: 0,
                   }}
-                >
+                />
+                
+                {/* Small decorative bubbles */}
+                {[1, 2, 3, 4, 5].map((_, index) => (
                   <Box
-                    component="img"
-                    src="/images/laundry-service.jpg" // Replace with your actual image path
-                    alt="Laundry Service"
+                    key={index}
+                    component={motion.div}
+                    animate={{
+                      y: [0, -10, 0],
+                      transition: { 
+                        repeat: Infinity, 
+                        duration: 2 + Math.random() * 3, 
+                        ease: "easeInOut",
+                        delay: Math.random() * 2
+                      },
+                    }}
                     sx={{
-                      width: '100%',
-                      height: 'auto',
-                      display: 'block',
+                      position: 'absolute',
+                      width: 10 + Math.random() * 30,
+                      height: 10 + Math.random() * 30,
+                      borderRadius: '50%',
+                      border: '2px solid #1e3a37',
+                      top: `${20 + Math.random() * 60}%`,
+                      left: `${20 + Math.random() * 60}%`,
+                      zIndex: 2,
                     }}
                   />
-                </Paper>
+                ))}
+                
+                {/* Washing machine SVG - embedded directly to avoid external image dependencies */}
+                <Box
+                  component="div"
+                  sx={{
+                    width: '60%',
+                    position: 'relative',
+                    zIndex: 1,
+                  }}
+                >
+                  <svg 
+                    viewBox="0 0 300 400" 
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={{ width: '100%', height: 'auto' }}
+                  >
+                    {/* Washing machine body */}
+                    <rect x="30" y="20" width="240" height="360" rx="10" fill="#ffffff" stroke="#cccccc" strokeWidth="2" />
+                    
+                    {/* Control panel */}
+                    <rect x="30" y="20" width="240" height="60" rx="10" fill="#f0f0f0" stroke="#cccccc" strokeWidth="1" />
+                    
+                    {/* Display */}
+                    <rect x="50" y="35" width="80" height="30" rx="5" fill="#e0e0e0" />
+                    
+                    {/* Knobs and buttons */}
+                    <circle cx="170" cy="50" r="15" fill="#d0d0d0" stroke="#a0a0a0" strokeWidth="1" />
+                    <circle cx="210" cy="50" r="10" fill="#d0d0d0" stroke="#a0a0a0" strokeWidth="1" />
+                    <circle cx="240" cy="50" r="10" fill="#d0d0d0" stroke="#a0a0a0" strokeWidth="1" />
+                    
+                    {/* Door */}
+                    <circle cx="150" cy="200" r="90" fill="#f0f0f0" stroke="#cccccc" strokeWidth="2" />
+                    <circle cx="150" cy="200" r="80" fill="#ffffff" stroke="#e0e0e0" strokeWidth="2" />
+                    
+                    {/* Door window */}
+                    <circle cx="150" cy="200" r="70" fill="#c8e6ff" stroke="#b0d8f0" strokeWidth="2" />
+                    
+                    {/* Drum visible through window */}
+                    <circle cx="150" cy="200" r="50" fill="none" stroke="#d0d0d0" strokeWidth="3" />
+                    
+                    {/* Water/clothes simulation */}
+                    <path d="M110,180 Q150,160 190,180 Q170,220 130,220 Q110,200 110,180" fill="#b0d0ff" opacity="0.7" />
+                    
+                    {/* Drum holes */}
+                    {Array.from({ length: 12 }).map((_, i) => {
+                      const angle = (i * 30) * Math.PI / 180;
+                      const x = 150 + 40 * Math.cos(angle);
+                      const y = 200 + 40 * Math.sin(angle);
+                      return <circle key={i} cx={x} cy={y} r="5" fill="#e0e0e0" />;
+                    })}
+                    
+                    {/* Door handle */}
+                    <rect x="240" y="190" width="20" height="40" rx="5" fill="#d0d0d0" stroke="#b0b0b0" strokeWidth="1" />
+                    
+                    {/* Reflection highlights */}
+                    <ellipse cx="120" cy="170" rx="25" ry="15" fill="#ffffff" opacity="0.3" />
+                    <ellipse cx="180" cy="230" rx="20" ry="10" fill="#ffffff" opacity="0.2" />
+                  </svg>
+                </Box>
               </Box>
             </Grid>
           </Grid>
         </Container>
-
-        {/* Wave Divider */}
-        <Box
-          sx={{
-            position: 'absolute',
-            bottom: -2,
-            left: 0,
-            width: '100%',
-            overflow: 'hidden',
-            lineHeight: 0,
-          }}
-        >
-          <Box
-            component="svg"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1200 120"
-            preserveAspectRatio="none"
-            sx={{
-              position: 'relative',
-              display: 'block',
-              width: 'calc(100% + 1.3px)',
-              height: 70,
-              fill: '#ffffff', // Using white as the wave color
-            }}
-          >
-            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C57.63,118.92,150.87,124.61,214.19,113.25,265.34,103.88,310.94,80.78,362.28,67.9c17-4.27,34.27-6.82,51.72-6.82Q433.32,61.08,450.72,67Z" />
-          </Box>
-        </Box>
       </Box>
     </ThemeProvider>
   );

@@ -43,9 +43,10 @@ const ScrollToTop = () => {
           position: 'fixed',
           bottom: 20,
           right: 20,
-          backgroundColor: theme.palette.primary.main,
+          
+          backgroundColor: theme.palette.primary.light, // Using your turquoise color
           '&:hover': {
-            backgroundColor: theme.palette.primary.dark,
+            backgroundColor: theme.palette.primary.dark, // Using your turquoise color
           },
           zIndex: 1000,
           boxShadow: '0 4px 10px rgba(0,0,0,0.2)'

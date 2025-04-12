@@ -319,7 +319,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         width: 70,
                         height: 70,
                         borderRadius: '50%',
-                        backgroundColor: theme.palette.primary.main,
+                        backgroundColor: '#94FFD4',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -332,7 +332,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         component="span"
                         sx={{
                           fontWeight: 'bold',
-                          color: 'white'
+                          color: '#003C43'
                         }}
                       >
                         1
@@ -474,7 +474,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                     elevation={6}
                     sx={{
                       p: 2,
-                      background: 'white',
+                      background: '#ffffff',
                       borderRadius: 3,
                       overflow: 'hidden',
                       transform: 'rotate(2deg)',
@@ -524,7 +524,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         width: 70,
                         height: 70,
                         borderRadius: '50%',
-                        backgroundColor: theme.palette.primary.main,
+                        backgroundColor: '#94FFD4',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -537,7 +537,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         component="span"
                         sx={{
                           fontWeight: 'bold',
-                          color: 'white'
+                          color: '#003C43'
                         }}
                       >
                         2
@@ -633,7 +633,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         width: 70,
                         height: 70,
                         borderRadius: '50%',
-                        backgroundColor: theme.palette.primary.main,
+                        backgroundColor: theme.palette.primary.light,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -646,7 +646,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         component="span"
                         sx={{
                           fontWeight: 'bold',
-                          color: 'white'
+                          color: '#003C43'
                         }}
                       >
                         3
@@ -838,7 +838,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         width: 70,
                         height: 70,
                         borderRadius: '50%',
-                        backgroundColor: theme.palette.primary.main,
+                        backgroundColor: theme.palette.primary.light,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -851,7 +851,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         component="span"
                         sx={{
                           fontWeight: 'bold',
-                          color: 'white'
+                          color: '#003C43'
                         }}
                       >
                         4

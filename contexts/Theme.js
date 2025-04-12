@@ -9,7 +9,8 @@ export const theme = createTheme({
       white: '#E3FEF7',    // Added white for component compatibility
       mainHover: '#90DDBE', // Light medium green for hover states
       black: '#000000',    // Added black for component compatibility
-      darkBlue: '#0a1929'  // Kept from original theme for compatibility
+      darkBlue: '#003C43' ,
+      whitishMint:'#E3FEF7' // Kept from original theme for compatibility
     },
     secondary: {
       main: '#B5ECD9',     // Mint as secondary color
