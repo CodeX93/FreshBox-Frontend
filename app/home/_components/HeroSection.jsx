@@ -190,7 +190,7 @@ export default function HeroSection() {
                   boxShadow: '0 12px 25px rgba(0, 0, 0, 0.3)',
                 },
                 height: { xs: '52px', sm: '56px' }, // Explicit height for better control
-                bgcolor: '#FFFFFF', // White background for the entire pill
+                bgcolor: '#94FFD4', // White background for the entire pill
               }}
             >
               <Box
@@ -204,7 +204,7 @@ export default function HeroSection() {
                   justifyContent: 'center',
                   position: 'relative',
                   overflow: 'hidden',
-                  bgcolor: '#FFFFFF', // White background for the left side
+                  bgcolor: '#94FFD4', // White background for the left side
                   '&::after': {
                     content: '""',
                     position: 'absolute',
@@ -244,30 +244,32 @@ export default function HeroSection() {
                   flexGrow: 1,
                   display: 'flex',
                   alignItems: 'center',
-                  bgcolor: '#FFFFFF', // White background for the right side
+                  bgcolor: '#94FFD4', // White background for the right side
                   height: '100%'
                 }}
               >
                 <InputBase
-                  placeholder="Where (Add address)"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  sx={{
-                    ml: 2,
-                    flex: 1,
-                    color: 'text.primary',
-                    fontSize: { xs: '0.85rem', sm: '0.9rem' }, // Smaller font
-                    '& input::placeholder': {
-                      color: 'text.secondary',
-                      opacity: 0.7,
-                    },
-                    height: '100%'
-                  }}
-                />
+  placeholder={`Where\n(Add address)`}
+  value={address}
+  onChange={(e) => setAddress(e.target.value)}
+  sx={{
+    ml: 2,
+    flex: 1,
+    color: 'text.primary',
+    fontSize: { xs: '0.85rem', sm: '0.9rem' },
+    '& input::placeholder': {
+      color: 'text.secondary',
+      opacity: 0.7,
+      whiteSpace: 'pre-line', // Enables line breaks in placeholder
+    },
+    height: '100%',
+  }}
+/>
+
                 <IconButton 
                   sx={{ 
-                    bgcolor: theme.palette.primary.main,
-                    color: theme.palette.primary.dark,
+                    bgcolor: '#135D66',
+                    color: '#E3FEF7',
                     borderRadius: '50%',
                     '&:hover': {
                       bgcolor: theme.palette.primary.mainHover,

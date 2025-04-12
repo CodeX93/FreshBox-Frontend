@@ -50,7 +50,7 @@ const ServiceCard = ({ service }) => {
       sx={{ 
         borderRadius: 2, 
         mb: 2, 
-        bgcolor: '#c8ffe3',
+        bgcolor: '#94FFD4',
         overflow: 'hidden'
       }}
     >
@@ -79,7 +79,7 @@ const ServiceCard = ({ service }) => {
               variant="h6" 
               sx={{ 
                 color: '#183734', 
-                fontWeight: 500,
+                fontWeight: 'bolder',
                 fontSize: '1.1rem'
               }}
             >
@@ -98,7 +98,7 @@ const ServiceCard = ({ service }) => {
             <Typography 
               variant="body2" 
               sx={{ 
-                color: '#183734',
+                color: '#003C43',
                 lineHeight: 1.4,
                 fontSize: '0.875rem'
               }}
@@ -118,7 +118,7 @@ const ServicesSection = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
-    <Box sx={{ bgcolor: '#0F3034', minHeight: '100vh', p: 3 }}>
+    <Box sx={{ bgcolor: '#003C43', minHeight: '100vh', p: 3 }}>
       <Container maxWidth="lg">
         {/* Top Section */}
         <Grid container spacing={2} sx={{ mb: 6 }}>
@@ -128,7 +128,7 @@ const ServicesSection = () => {
               elevation={0} 
               sx={{ 
                 borderRadius: 2, 
-                bgcolor: '#c8ffe3', 
+                bgcolor: '#94FFD4', 
                 p: 3, 
                 height: '100%',
                 display: 'flex',
@@ -142,7 +142,7 @@ const ServicesSection = () => {
                   component="h1" 
                   sx={{ 
                     color: '#183734', 
-                    fontWeight: 500, 
+                    fontWeight: 'bolder', 
                     mb: 1
                   }}
                 >
@@ -200,7 +200,7 @@ const ServicesSection = () => {
             elevation={0} 
             sx={{ 
               borderRadius: 2, 
-              bgcolor: '#c8ffe3', 
+              bgcolor: '#94FFD4', 
               overflow: 'hidden'
             }}
           >
@@ -209,8 +209,8 @@ const ServicesSection = () => {
                 <Typography 
                   variant="h5" 
                   sx={{ 
-                    color: '#183734', 
-                    fontWeight: 500, 
+                    color: '#003C43', 
+                    fontWeight: 'bolder', 
                     mb: 1.5
                   }}
                 >
@@ -219,7 +219,7 @@ const ServicesSection = () => {
                 <Typography 
                   variant="body2" 
                   sx={{ 
-                    color: '#183734', 
+                    color: '#003C43', 
                     mb: 3,
                     maxWidth: '90%'
                   }}
@@ -231,8 +231,8 @@ const ServicesSection = () => {
                     variant="contained" 
                     size="small"
                     sx={{ 
-                      bgcolor: '#183734', 
-                      color: 'white', 
+                      bgcolor: '#003C43', 
+                      color: '#E3FEF7', 
                       textTransform: 'none',
                       fontSize: '0.75rem',
                       '&:hover': {
@@ -246,8 +246,8 @@ const ServicesSection = () => {
                     variant="contained" 
                     size="small"
                     sx={{ 
-                      bgcolor: '#9ef7d5', 
-                      color: '#183734', 
+                      bgcolor: '#F5DE8C', 
+                      color: '#003C43', 
                       textTransform: 'none',
                       fontSize: '0.75rem',
                       '&:hover': {

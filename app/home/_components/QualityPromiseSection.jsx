@@ -97,14 +97,14 @@ const BenefitCard = ({ icon, title, description }) => {
   return (
     <Box sx={{ mb: 5 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-        <Box component="span" sx={{ mr: 2, color: '#2E7B5C', fontSize: '1.8rem' }}>
+        <Box component="span" sx={{ mr: 2, color: '#0a1929', fontSize: '1.8rem' }}>
           {icon}
         </Box>
         <Typography 
           variant="h6" 
           sx={{ 
-            color: '#2E7B5C', 
-            fontWeight: 600 
+            color: '#003C43', 
+            fontWeight: 'bolder' 
           }}
         >
           {title}
@@ -178,7 +178,7 @@ const QualityPromiseSection = () => {
         <Grid item xs={12} md={7}>
           <Box 
             sx={{ 
-              bgcolor: '#C8FFE3', 
+              bgcolor: '#94FFD4', 
               borderRadius: '10px',
               p: { xs: 3, md: 4 },
               height: '100%'
@@ -228,28 +228,7 @@ const QualityPromiseSection = () => {
         </Grid>
       </Grid>
 
-      {/* Why Choose Us Button */}
-      <Box sx={{ mt: 6, textAlign: 'center' }}>
-        <Box
-          component="button"
-          sx={{
-            border: '2px solid #0F3034',
-            borderRadius: '50px',
-            py: 1.5,
-            px: 4,
-            color: '#0F3034',
-            fontWeight: 600,
-            fontSize: '1.1rem',
-            backgroundColor: 'transparent',
-            cursor: 'pointer',
-            '&:hover': {
-              backgroundColor: 'rgba(15, 48, 52, 0.05)'
-            }
-          }}
-        >
-          WHY CHOOSE US?
-        </Box>
-      </Box>
+     
     </Container>
   );
 };

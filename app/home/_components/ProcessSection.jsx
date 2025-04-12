@@ -52,7 +52,7 @@ const ProcessSection = () => {
       component="section" 
       id="process-section"
       sx={{ 
-        background: 'linear-gradient(180deg, #BDF4E3 0%, rgba(181, 236, 217, 0.3) 100%)',
+        background: '#003C43',
         overflowX: 'hidden',
         position: 'relative',
         pt: { xs: 8, md: 12 },
@@ -108,7 +108,7 @@ const ProcessSection = () => {
             component="h2"
             sx={{ 
               fontWeight: 700, 
-              color: '#2E7B5C',
+              color: '#FBFFCF',
               fontSize: { xs: '2rem', sm: '2.5rem', md: '3.2rem' },
               mb: 3,
               position: 'relative',
@@ -122,7 +122,7 @@ const ProcessSection = () => {
                 width: '80px',
                 height: '4px',
                 backgroundColor: '#85D2B3',
-                borderRadius: '2px'
+                fontWeight:'bolder'
               }
             }}
           >
@@ -132,7 +132,7 @@ const ProcessSection = () => {
             variant="h6" 
             component="p"
             sx={{ 
-              color: '#555555',
+              color: '#E3FEF7',
               maxWidth: '750px',
               mx: 'auto',
               fontSize: { xs: '1rem', sm: '1.1rem', md: '1.25rem' },

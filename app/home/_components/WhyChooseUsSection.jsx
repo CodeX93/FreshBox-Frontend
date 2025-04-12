@@ -40,19 +40,30 @@ const WhyChooseUs = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 6 }}>
-      <Box textAlign="center" mb={4}>
-        <Typography 
-          variant="overline" 
-          sx={{ 
-            color: '#213B25', 
-            fontWeight: 600, 
-            textTransform: 'uppercase',
-            letterSpacing: 2,
-            mb: 1 
+       {/* Why Choose Us Button */}
+       <Box sx={{ mb:2 }}>
+        <Box
+          component="button"
+          sx={{
+            border: '3px solid #0F3034',
+            borderRadius: '50px',
+            py: 1.5,
+            px: 4,
+            color: '#0F3034',
+            fontWeight: 'bolder',
+            fontSize: '1.1rem',
+            backgroundColor: 'transparent',
+            cursor: 'pointer',
+            '&:hover': {
+              backgroundColor: 'rgba(15, 48, 52, 0.05)'
+            }
           }}
         >
-          Why Choose Us?
-        </Typography>
+          WHY CHOOSE US?
+        </Box>
+      </Box>
+      <Box textAlign="center" mb={4}>
+     
         <Typography 
           variant="h2" 
           sx={{ 
@@ -62,7 +73,7 @@ const WhyChooseUs = () => {
             mb: 2 
           }}
         >
-          Why <Box component="span" sx={{color: '#B5E2D0'}}>FreshBox Pro</Box> is The Right Choice for You?
+          Why <Box component="span" sx={{color: '#94FFD4'}}>FreshBox Pro</Box> is The Right Choice for You?
         </Typography>
       </Box>
 
@@ -71,7 +82,7 @@ const WhyChooseUs = () => {
         <Grid item xs={12} md={6}>
           <Box 
             sx={{ 
-              backgroundColor: '#B5E2D0', 
+              backgroundColor: '#94FFD4', 
               borderRadius: 2, 
               p: 3, 
               height: '100%',
@@ -80,7 +91,7 @@ const WhyChooseUs = () => {
             }}
           >
             <Box sx={{ 
-              color: '#213B25', 
+              color: '#003C43', 
               mb: 2,
               display: 'flex',
               alignItems: 'center',
@@ -90,7 +101,7 @@ const WhyChooseUs = () => {
             <Typography 
               variant="h6" 
               sx={{ 
-                color: '#213B25', 
+                color: '#003C43', 
                 fontWeight: 600, 
                 mb: 1,
                 fontSize: '1.1rem'
@@ -101,7 +112,7 @@ const WhyChooseUs = () => {
             <Typography 
               variant="body2" 
               sx={{ 
-                color: '#213B25', 
+                color: '#003C43', 
                 opacity: 0.8 
               }}
             >
@@ -114,7 +125,7 @@ const WhyChooseUs = () => {
         <Grid item xs={12} md={6}>
           <Box 
             sx={{ 
-              backgroundColor: '#B5E2D0', 
+              backgroundColor: '#94FFD4', 
               borderRadius: 2, 
               p: 3, 
               height: '100%',
@@ -123,7 +134,7 @@ const WhyChooseUs = () => {
             }}
           >
             <Box sx={{ 
-              color: '#213B25', 
+              color: '#003C43', 
               mb: 2,
               display: 'flex',
               alignItems: 'center',
@@ -133,7 +144,7 @@ const WhyChooseUs = () => {
             <Typography 
               variant="h6" 
               sx={{ 
-                color: '#213B25', 
+                color: '#003C43', 
                 fontWeight: 600, 
                 mb: 1,
                 fontSize: '1.1rem'
@@ -144,7 +155,7 @@ const WhyChooseUs = () => {
             <Typography 
               variant="body2" 
               sx={{ 
-                color: '#213B25', 
+                color: '#003C43', 
                 opacity: 0.8 
               }}
             >
@@ -157,7 +168,7 @@ const WhyChooseUs = () => {
         <Grid item xs={12} md={8}>
           <Box 
             sx={{ 
-              backgroundColor: '#B5E2D0', 
+              backgroundColor: '#94FFD4', 
               borderRadius: 2, 
               p: 3, 
               height: '100%',
@@ -166,7 +177,7 @@ const WhyChooseUs = () => {
             }}
           >
             <Box sx={{ 
-              color: '#213B25', 
+              color: '#003C43', 
               mb: 2,
               display: 'flex',
               alignItems: 'center',
@@ -176,7 +187,7 @@ const WhyChooseUs = () => {
             <Typography 
               variant="h6" 
               sx={{ 
-                color: '#213B25', 
+                color: '#003C43', 
                 fontWeight: 600, 
                 mb: 1,
                 fontSize: '1.1rem'
@@ -187,7 +198,7 @@ const WhyChooseUs = () => {
             <Typography 
               variant="body2" 
               sx={{ 
-                color: '#213B25', 
+                color: '#003C43', 
                 opacity: 0.8 
               }}
             >
@@ -200,7 +211,7 @@ const WhyChooseUs = () => {
         <Grid item xs={12} md={4}>
           <Box 
             sx={{ 
-              backgroundColor: '#213B25', 
+              backgroundColor: '#003C43', 
               borderRadius: 2, 
               p: 3, 
               height: '100%',
@@ -210,7 +221,7 @@ const WhyChooseUs = () => {
             }}
           >
             <Box sx={{ 
-              color: 'white', 
+              color: '#FBFFCF', 
               mb: 2,
               display: 'flex',
               alignItems: 'center',
@@ -220,7 +231,7 @@ const WhyChooseUs = () => {
             <Typography 
               variant="h6" 
               sx={{ 
-                color: 'white', 
+                color: '#FBFFCF', 
                 fontWeight: 600, 
                 mb: 1,
                 fontSize: '1.1rem'
@@ -231,16 +242,17 @@ const WhyChooseUs = () => {
             <Typography 
               variant="body2" 
               sx={{ 
-                color: 'rgba(255,255,255,0.8)', 
+                color: '#FBFFCF', 
                 mb: 2 
               }}
             >
               Our Customizable Preferences allow you to tailor your service to your exact needs. Whether it's choosing your preferred detergent, fabric softener, or folding style, we ensure that every detail is personalized to fit your preferences.
             </Typography>
+            <br/>
             <Typography 
               variant="body2" 
               sx={{ 
-                color: 'rgba(255,255,255,0.8)', 
+                color: '#FBFFCF', 
                 mb: 2 
               }}
             >
@@ -250,7 +262,7 @@ const WhyChooseUs = () => {
               variant="contained" 
               onClick={() => router.push('/support')}
               sx={{ 
-                bgcolor: 'white', 
+                bgcolor: '#FBFFCF', 
                 color: '#213B25',
                 '&:hover': {
                   bgcolor: '#f0f0f0'

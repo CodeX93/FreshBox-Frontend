@@ -26,7 +26,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { theme } from '@/lib/theme';
 
 // Constants
-const TURQUOISE = '#B5ECD9';
+const TURQUOISE = '#94FFD4';
 const DARK_TURQUOISE = '#2E7B5C';
 const LIGHT_TURQUOISE = '#5de6d8';
 
@@ -1081,7 +1081,7 @@ export default function Navbar() {
   {!isAuthenticated && (
     <Box sx={{ display: 'flex', gap: 1 }}>
       <Button
-        variant="outlined"
+        variant="contained"
         component={Link}
         href="/auth/login"
         startIcon={<LoginIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
@@ -1090,8 +1090,8 @@ export default function Navbar() {
           py: 0.75,
           px: { xs: 1.5, sm: 2 },
           fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-          color: TURQUOISE,
-          borderColor: TURQUOISE,
+          color: '#94FFD4',
+          borderColor: '#94FFD4',
           '&:hover': { 
             bgcolor: 'rgba(40, 221, 205, 0.05)',
             borderColor: DARK_TURQUOISE
@@ -1150,7 +1150,9 @@ export default function Navbar() {
             display: { sm: 'none', md: 'inline-flex' },
             fontSize: { sm: '0.8rem', md: '1rem' }
           }} />}
+          
           sx={{ 
+          
             fontWeight: 600,
             borderRadius: '6px',
             px: { sm: 0.25, md: 0.5, lg: 1 },
@@ -1426,7 +1428,7 @@ return (
             ) : (
               <>
              <Button
-  variant="outlined"
+  variant="contained"
   component={Link}
   href="/auth/login"
   startIcon={<LoginIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
@@ -1435,8 +1437,9 @@ return (
     py: 0.75,
     px: { xs: 1.5, sm: 2 },
     fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-    color: scrolled ? '#0a1929' : 'white',
-    borderColor: scrolled ? '#0a1929' : 'rgba(255, 255, 255, 0.5)',
+    color: scrolled ? '#94FFD4' : '#0a1929',
+    bgcolor:scrolled ? '#0a1929':'#94FFD4',
+    borderColor: scrolled ? '#0a1929' : '#94FFD4',
     '&:hover': { 
       bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.1)',
       borderColor: scrolled ? '#0a1929' : 'white'
@@ -1447,7 +1450,7 @@ return (
   Log In
 </Button>
 <Button
-  variant="outlined"
+  variant="contained"
   component={Link}
   href="/auth/register"
   startIcon={<SignUpIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
@@ -1456,8 +1459,9 @@ return (
     py: 0.75,
     px: { xs: 1.5, sm: 2 },
     fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-    color: scrolled ? '#0a1929' : 'white',
+    color: scrolled ? '#94FFD4' : '#0a1929',
     borderColor: scrolled ? '#0a1929' : 'rgba(255, 255, 255, 0.5)',
+    bgcolor:scrolled ? '#0a1929':'#135D66',
     '&:hover': { 
       bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.1)',
       borderColor: scrolled ? '#0a1929' : 'white'

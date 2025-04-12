@@ -142,19 +142,18 @@ const FAQSection = () => {
               position: 'relative', 
               maxWidth: 600,
               mx: 'auto',
-              mb: 4 
+              color:'#FBFFCF',
+              mb: 4, 
+              
             }}
           >
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
               <TextField
                 fullWidth
                 variant="outlined"
                 inputRef={searchRef}
                 placeholder="Search for answers..."
                 value={searchQuery}
+                
                 onChange={(e) => setSearchQuery(e.target.value)}
                 InputProps={{
                   startAdornment: (
@@ -166,25 +165,14 @@ const FAQSection = () => {
                     </IconButton>
                   ),
                   sx: {
+                    
                     backgroundColor: '#FFFBE6',
-                    borderRadius: 4,
-                    boxShadow: '0 4px 15px rgba(45, 64, 89, 0.1)',
-                    '& .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#F5D547',
-                      borderWidth: 2
-                    },
-                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#2D4059'
-                    }
+                    borderRadius: 1,
+                    
                   }
                 }}
-                sx={{
-                  '& .MuiInputBase-root': {
-                    borderRadius: 4,
-                  }
-                }}
+
               />
-            </motion.div>
           </Box>
 
           {/* FAQ List */}
@@ -192,7 +180,7 @@ const FAQSection = () => {
             sx={{ 
               border: '2px solid #F5D547', 
               borderRadius: 3,
-              backgroundColor: '#FFFBE6',
+              backgroundColor: '#FBFFCF',
               overflow: 'hidden',
               boxShadow: '0 10px 30px rgba(45, 64, 89, 0.1)'
             }}
@@ -273,7 +261,7 @@ const FAQSection = () => {
           <Box 
             sx={{ 
               mt: 4, 
-              backgroundColor: '#2D4059', 
+              backgroundColor: '#003C43', 
               borderRadius: 3, 
               p: 4, 
               color: 'white',
@@ -314,7 +302,7 @@ const FAQSection = () => {
                 variant="h5" 
                 sx={{ 
                   mb: 2, 
-                  color: '#F5D547',
+                  color: '#FBFFCF',
                   fontWeight: 700
                 }}
               >
@@ -337,8 +325,8 @@ const FAQSection = () => {
                   variant="contained" 
                   onClick={() => router.push('/support')}
                   sx={{ 
-                    backgroundColor: '#F5D547', 
-                    color: '#2D4059',
+                    backgroundColor: '#FBFFCF', 
+                    color: '#003C43',
                     fontWeight: 700,
                     px: 4,
                     py: 1.5,
