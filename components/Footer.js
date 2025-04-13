@@ -97,7 +97,7 @@ export default function Footer() {
                       }
                     }}
                   >
-                    LaundryHeap
+                    FreshBox
                   </Typography>
                   <Typography variant="body2" sx={{ opacity: 0.7, mb: 2 }}>
                     Professional laundry and dry cleaning services delivered to your doorstep. Quality care for all your garments.
@@ -133,7 +133,7 @@ export default function Footer() {
                 
                 {[
                   { icon: <PhoneIcon fontSize="small" sx={{ mr: 1, opacity: 0.7 }} />, text: "(800) 555-WASH" },
-                  { icon: <EmailIcon fontSize="small" sx={{ mr: 1, opacity: 0.7 }} />, text: "info@laundryheap.com" },
+                  { icon: <EmailIcon fontSize="small" sx={{ mr: 1, opacity: 0.7 }} />, text: "info@freshbox.com" },
                   { icon: <LocationIcon fontSize="small" sx={{ mr: 1, mt: 0.3, opacity: 0.7 }} />, text: "123 Clean Street\nLaundry City, LC 12345" }
                 ].map((item, index) => (
                   <Fade key={index} in={animateIn} style={{ transitionDelay: `${200 + index * 100}ms` }}>

@@ -14,6 +14,8 @@ import { theme } from '../../../contexts/Theme';
 
 const ServicesHero = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('lg'));
+  const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
   
   // Animation variants
   const fadeIn = {
@@ -32,30 +34,31 @@ const ServicesHero = () => {
     <ThemeProvider theme={theme}>
       <Box sx={{ 
         backgroundColor: theme.palette.primary.whitishMint, // Using theme's whitish mint
-        pt: { xs: 12, sm: 14, md: 10 },
-        pb: { xs: 8, sm: 10, md: 10 },
+        pt: { xs: 10, sm: 12, md: 10 },
+        pb: { xs: 6, sm: 8, md: 10 },
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         position: 'relative',
         overflow: 'hidden',
-        minHeight: { xs: 'auto', md: '90vh' },
-        maxHeight: 900,
+        minHeight: { xs: 'auto', sm: 'auto', md: '90vh' },
+        maxHeight: { xs: 'none', md: 900 },
       }}>
         <Container maxWidth="lg">
-          <Grid container spacing={{ xs: 4, md: 6 }} alignItems="center">
+          <Grid container spacing={{ xs: 3, sm: 4, md: 6 }} alignItems="center">
             {/* Left side - Text content */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
               <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
                 variants={fadeIn}
+                style={{ padding: isSmallMobile ? '0 8px' : '0' }}
               >
                 <Typography variant="h1" sx={{ 
                   fontWeight: 700,
-                  fontSize: { xs: '2.5rem', sm: '3rem', md: '3rem' },
-                  mb: { xs: 2, md: 3 },
+                  fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
+                  mb: { xs: 1.5, sm: 2, md: 3 },
                   color: theme.palette.primary.dark, // Using theme's dark green
                   lineHeight: 1.2
                 }}>
@@ -65,23 +68,24 @@ const ServicesHero = () => {
                 <Typography variant="h5" sx={{ 
                   fontWeight: 400, 
                   color: theme.palette.primary.dark, // Using theme's dark green
-                  mb: { xs: 4, md: 5 },
-                  fontSize: { xs: '1rem', sm: '1.1rem', md: '1.1rem' },
-                  maxWidth: '90%'
+                  mb: { xs: 3, sm: 4, md: 5 },
+                  fontSize: { xs: '0.875rem', sm: '1rem', md: '1.1rem' },
+                  maxWidth: { xs: '100%', md: '90%' }
                 }}>
                   Save time with our professional cleaning services
                 </Typography>
 
                 <Box sx={{ 
                   display: 'flex', 
-                  gap: 2,
-                  mb: 4
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  gap: { xs: 1.5, sm: 2 },
+                  mb: { xs: 3, sm: 4 }
                 }}>
                   <Button 
                     variant="contained" 
                     sx={{ 
-                      py: 1.5, 
-                      px: 4,
+                      py: { xs: 1.25, sm: 1.5 }, 
+                      px: { xs: 3, sm: 4 },
                       borderRadius: 1,
                       fontWeight: 600,
                       backgroundColor: theme.palette.primary.main, // Using theme's primary color
@@ -92,7 +96,8 @@ const ServicesHero = () => {
                         backgroundColor: theme.palette.primary.mainHover, // Using theme's hover color
                         boxShadow: 'none'
                       },
-                      minWidth: 150
+                      minWidth: { xs: '100%', sm: 150 },
+                      fontSize: { xs: '0.875rem', sm: 'inherit' }
                     }}
                   >
                     Book Now
@@ -101,8 +106,8 @@ const ServicesHero = () => {
                   <Button 
                     variant="contained" 
                     sx={{ 
-                      py: 1.5, 
-                      px: 4,
+                      py: { xs: 1.25, sm: 1.5 }, 
+                      px: { xs: 3, sm: 4 },
                       borderRadius: 1,
                       textTransform: 'none',
                       fontWeight: 600,
@@ -113,7 +118,8 @@ const ServicesHero = () => {
                         backgroundColor: theme.palette.primary.dark, // Using theme's dark color for hover
                         boxShadow: 'none'
                       },
-                      minWidth: 150
+                      minWidth: { xs: '100%', sm: 150 },
+                      fontSize: { xs: '0.875rem', sm: 'inherit' }
                     }}
                   >
                     Learn More
@@ -123,15 +129,21 @@ const ServicesHero = () => {
             </Grid>
 
             {/* Right side - Image with circles */}
-            <Grid item xs={12} md={6}>
-              <Box sx={{ position: 'relative', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }} sx={{ mb: { xs: 2, md: 0 } }}>
+              <Box sx={{ 
+                position: 'relative', 
+                height: { xs: '280px', sm: '320px', md: '100%' }, 
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center' 
+              }}>
                 {/* Large circle background */}
                 <Box
                   sx={{
                     position: 'absolute',
-                    width: '90%',
+                    width: { xs: '80%', sm: '85%', md: '90%' },
                     height: 0,
-                    paddingBottom: '90%',
+                    paddingBottom: { xs: '80%', sm: '85%', md: '90%' },
                     borderRadius: '50%',
                     backgroundColor: theme.palette.primary.main, // Using theme's primary color
                     opacity: 0.5,
@@ -140,7 +152,7 @@ const ServicesHero = () => {
                 />
                 
                 {/* Decorative bubbles/circles */}
-                {[...Array(10)].map((_, index) => (
+                {[...Array(isSmallMobile ? 6 : 10)].map((_, index) => (
                   <motion.div
                     key={index}
                     animate={{
@@ -154,13 +166,14 @@ const ServicesHero = () => {
                     }}
                     style={{
                       position: 'absolute',
-                      width: 8 + Math.random() * 20,
-                      height: 8 + Math.random() * 20,
+                      width: isSmallMobile ? (6 + Math.random() * 15) : (8 + Math.random() * 20),
+                      height: isSmallMobile ? (6 + Math.random() * 15) : (8 + Math.random() * 20),
                       borderRadius: '50%',
                       border: `1px solid ${theme.palette.primary.dark}`, // Using theme's dark color
                       top: `${10 + Math.random() * 80}%`,
                       left: `${10 + Math.random() * 80}%`,
                       zIndex: 1,
+                      display: { xs: index < 6 ? 'block' : 'none', md: 'block' }
                     }}
                   />
                 ))}
@@ -173,10 +186,10 @@ const ServicesHero = () => {
                   sx={{
                     position: 'relative',
                     zIndex: 2,
-                    width: '60%',
+                    width: { xs: '50%', sm: '55%', md: '60%' },
                     height: 'auto',
                     objectFit: 'contain',
-                    ml: { xs: 0, md: 4 }
+                    ml: { xs: 0, sm: 2, md: 4 }
                   }}
                 />
               </Box>

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Box, 
   Typography, 
@@ -16,6 +16,9 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const ProcessStep = ({ process, isEven }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [hasImageError, setHasImageError] = useState(false);
   
   const fadeIn = {
     hidden: { opacity: 0, y: 40 },
@@ -43,6 +46,15 @@ const ProcessStep = ({ process, isEven }) => {
       transition: { duration: 0.7, delay: 0.1, ease: "easeOut" }
     }
   };
+
+  // Use the secondary image as fallback if primary fails or isn't available
+  const imageSrc = hasImageError && process.secondaryImagePath 
+    ? process.secondaryImagePath 
+    : process.imagePath;
+    
+  const imageAlt = hasImageError && process.secondaryImageAlt
+    ? process.secondaryImageAlt
+    : process.imageAlt;
 
   return (
     <motion.div
@@ -201,16 +213,21 @@ const ProcessStep = ({ process, isEven }) => {
           </Box>
         </motion.div>
         
-        {/* Image Section */}
-        <motion.div variants={imageFade} style={{ 
-          flex: isMobile ? '1 1 100%' : 1,
-          order: { xs: 1, md: isEven ? 1 : 2 },
-        }}>
+        {/* Image Section - Improved for better responsiveness */}
+        <motion.div 
+          variants={imageFade} 
+          style={{ 
+            flex: isMobile ? '1 1 100%' : 1,
+            order: { xs: 1, md: isEven ? 1 : 2 },
+            width: '100%'
+          }}
+        >
           <Box 
             sx={{ 
               position: 'relative',
-              height: { xs: 280, sm: 320, md: 400 },
-              width: { xs: '100%', md: '100%' },
+              // More responsive height to maintain proper aspect ratio across all screens
+              height: { xs: 250, sm: 320, md: 380, lg: 450 },
+              width: '100%',
               overflow: 'hidden',
               borderRadius: { 
                 xs: '20px', 
@@ -223,19 +240,67 @@ const ProcessStep = ({ process, isEven }) => {
               '&:hover': {
                 transform: isEven ? 'perspective(1000px) rotateY(-2deg)' : 'perspective(1000px) rotateY(2deg)',
                 boxShadow: '0 20px 50px rgba(10, 25, 41, 0.2)',
+              },
+              // Loading state styling
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(10, 25, 41, 0.2)',
+                zIndex: imageLoaded ? -1 : 1,
+                transition: 'opacity 0.3s ease',
+                opacity: imageLoaded ? 0 : 1,
               }
             }}
           >
+            {/* Loading indicator */}
+            {!imageLoaded && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  zIndex: 3,
+                  width: 40,
+                  height: 40,
+                  borderRadius: '50%',
+                  border: '3px solid rgba(133, 210, 179, 0.3)',
+                  borderTopColor: theme.palette.primary.main,
+                  animation: 'spin 1s linear infinite',
+                  '@keyframes spin': {
+                    '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' },
+                    '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' }
+                  }
+                }}
+              />
+            )}
+            
+            {/* Improved responsive Image component */}
             <Image 
-              src={process.imagePath}
-              alt={process.imageAlt}
+              src={imageSrc}
+              alt={imageAlt || `Step ${process.number}`}
               fill
-              sizes="(max-width: 768px) 100vw, 50vw"
+              priority={process.number <= 2} // Load first two images with priority
+              quality={85}
+              sizes="(max-width: 480px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 45vw"
               style={{ 
                 objectFit: 'cover',
                 borderRadius: 'inherit'
               }}
+              onLoadingComplete={() => setImageLoaded(true)}
+              onError={() => {
+                setHasImageError(true);
+                // If even secondary image fails, we still want to remove loading indicator
+                if (!process.secondaryImagePath) {
+                  setImageLoaded(true);
+                }
+              }}
             />
+            
             {/* Overlay with theme colors */}
             <Box
               sx={{
@@ -248,6 +313,7 @@ const ProcessStep = ({ process, isEven }) => {
                 zIndex: 1,
                 mixBlendMode: 'multiply',
                 transition: 'all 0.3s ease',
+                opacity: imageLoaded ? 1 : 0,
                 '&:hover': {
                   background: 'linear-gradient(135deg, rgba(133, 210, 179, 0.3) 0%, rgba(46, 123, 92, 0.6) 100%)',
                 }
@@ -277,6 +343,7 @@ const ProcessStep = ({ process, isEven }) => {
   );
 };
 
+// Modified to improve how we handle secondary images
 const ClientProcessSection = ({ processes }) => {
   // Add process numbers if they don't exist
   const processesWithNumbers = processes.map((process, index) => 
@@ -285,7 +352,14 @@ const ClientProcessSection = ({ processes }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="lg">
+      <Container 
+        maxWidth="lg"
+        sx={{
+          // Ensure container is responsive on all screen sizes
+          px: { xs: 2, sm: 3, md: 4 },
+          overflowX: 'hidden' // Prevent horizontal scrolling on small screens
+        }}
+      >
         <Box sx={{ pt: 4 }}>
           {processesWithNumbers.map((process, index) => (
             <ProcessStep 

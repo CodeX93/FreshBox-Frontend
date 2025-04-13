@@ -86,7 +86,7 @@ const TestimonialCard = () => {
           lineHeight: 1.5
         }}
       >
-        "The convenience of LaundryHeap has completely changed my weekly routine. I get so much time back!"
+        "The convenience of FreshBox has completely changed my weekly routine. I get so much time back!"
       </Typography>
     </Card>
   );
