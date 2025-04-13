@@ -97,7 +97,7 @@ const BenefitCard = ({ icon, title, description }) => {
   return (
     <Box sx={{ mb: 5 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-        <Box component="span" sx={{ mr: 2, color: '#0a1929', fontSize: '1.8rem' }}>
+        <Box component="span" sx={{ mr: 2, color: '#003C43', fontSize: '1.8rem' }}>
           {icon}
         </Box>
         <Typography 
@@ -141,21 +141,22 @@ const QualityPromiseSection = () => {
   // Benefits items
   const benefits = [
     {
-      icon: "✋",
+      icon: <span style={{ color: '#003C43', fontSize: '1.5rem' }}>✋</span>,
       title: "Reliable & Protected Handling",
       description: "Our skilled team carefully handles your items, guaranteeing top-tier protection and safety at every step."
     },
     {
-      icon: "✋",
+      icon: <span style={{ color: '#003C43', fontSize: '1.5rem' }}>✋</span>,
       title: "10 Years of Trusted Service",
       description: "Thousands trust us for our consistent, reliable service worldwide backed by a decade of expertise."
     },
     {
-      icon: "✋",
+      icon: <span style={{ color: '#003C43', fontSize: '1.5rem' }}>✋</span>,
       title: "Exceptional Care, Always",
       description: "Each item is cleaned with precision, using methods that maintain and protect your garment's quality."
     }
   ];
+  
 
   return (
     <Container maxWidth="lg" sx={{ py: 6 }}>

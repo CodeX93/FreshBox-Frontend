@@ -35,16 +35,18 @@ import {
   ArrowBack as ArrowBackIcon
 } from '@mui/icons-material';
 import { useAuth } from '../../../contexts/AuthContext';
+import { theme } from "../../../contexts/Theme";
 
 // Define brand colors
-const BRAND_PRIMARY = '#2E7B5C'; // Turquoise
-const BRAND_ACCENT = '#2E7B5C';  // Yellow/Gold
+const BRAND_PRIMARY = theme.palette.primary.main; // Medium green primary color
+const BRAND_DARK_BLUE = theme.palette.primary.darkBlue; // Dark blue color
+const BRAND_WHITISH_MINT = theme.palette.primary.whitishMint; // Light mint color
 
 export default function LoginPage() {
   const router = useRouter();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+  const muiTheme = useTheme();
+  const isMobile = useMediaQuery(muiTheme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(muiTheme.breakpoints.down('md'));
   
   const { 
     login, 
@@ -228,7 +230,7 @@ export default function LoginPage() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f7f9fc',
+        backgroundColor: BRAND_WHITISH_MINT,
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -241,8 +243,8 @@ export default function LoginPage() {
           right: -150,
           width: 400,
           height: 400,
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${BRAND_PRIMARY}20, ${BRAND_PRIMARY}05)`,
+          backgroundColor: BRAND_PRIMARY,
+          opacity: 0.3,
           filter: 'blur(50px)',
           zIndex: 0,
         }}
@@ -255,8 +257,8 @@ export default function LoginPage() {
           left: -100,
           width: 300,
           height: 300,
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${BRAND_ACCENT}20, ${BRAND_ACCENT}05)`,
+          backgroundColor: BRAND_PRIMARY,
+          opacity: 0.2,
           filter: 'blur(50px)',
           zIndex: 0,
         }}
@@ -279,7 +281,6 @@ export default function LoginPage() {
             sx={{
               borderRadius: 4,
               overflow: 'hidden',
-              boxShadow: '0 8px 40px rgba(0,0,0,0.08)',
               width: '100%',
               maxHeight: '90vh',
               overflowY: 'auto',
@@ -291,7 +292,7 @@ export default function LoginPage() {
                 width: '8px',
               },
               '&::-webkit-scrollbar-thumb': {
-                backgroundColor: 'rgba(0,0,0,0.1)',
+                backgroundColor: BRAND_PRIMARY,
                 borderRadius: '4px',
               }
             }}
@@ -301,7 +302,7 @@ export default function LoginPage() {
               sx={{
                 height: 6,
                 width: '100%',
-                background: `${BRAND_PRIMARY}`,
+                background: BRAND_PRIMARY,
               }}
             />
 
@@ -320,7 +321,7 @@ export default function LoginPage() {
                 gutterBottom
                 sx={{
                   fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' },
-                  color: '#2A3342',
+                  color: BRAND_DARK_BLUE,
                   lineHeight: 1.3,
                 }}
               >
@@ -328,11 +329,11 @@ export default function LoginPage() {
               </Typography>
               <Typography
                 variant="body1"
-                color="text.secondary"
                 sx={{
                   fontSize: { xs: '0.875rem', sm: '0.9rem' },
                   maxWidth: '80%',
                   mx: 'auto',
+                  color: 'rgba(0, 60, 67, 0.7)',
                 }}
               >
                 Log in to your account to continue
@@ -349,10 +350,10 @@ export default function LoginPage() {
               <Box
                 sx={{
                   display: 'flex',
-                  borderRadius: 3,
-                  bgcolor: '#f7f9fc',
+                  bgcolor: BRAND_WHITISH_MINT,
                   p: 0.5,
-                  mb: 2
+                  mb: 2,
+                  borderRadius: 2,
                 }}
               >
                 <Button
@@ -361,10 +362,10 @@ export default function LoginPage() {
                   sx={{
                     py: 1,
                     bgcolor: authMethod === 'email' ? 'white' : 'transparent',
-                    color: authMethod === 'email' ? '#2A3342' : 'text.secondary',
+                    color: authMethod === 'email' ? BRAND_DARK_BLUE : 'rgba(0, 60, 67, 0.7)',
                     fontWeight: authMethod === 'email' ? 600 : 500,
-                    boxShadow: authMethod === 'email' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none',
-                    borderRadius: 2.5,
+                    boxShadow: authMethod === 'email' ? '0 2px 8px rgba(0,60,67,0.08)' : 'none',
+                    borderRadius: 1.5,
                     textTransform: 'none',
                     transition: 'all 0.3s ease',
                     fontSize: { xs: '0.85rem', sm: '0.9rem' },
@@ -372,7 +373,10 @@ export default function LoginPage() {
                       bgcolor: authMethod === 'email' ? 'white' : 'rgba(255,255,255,0.6)'
                     }
                   }}
-                  startIcon={<EmailIcon sx={{ fontSize: { xs: '1.1rem', sm: '1.2rem' } }} />}
+                  startIcon={<EmailIcon sx={{ 
+                    fontSize: { xs: '1.1rem', sm: '1.2rem' },
+                    color: authMethod === 'email' ? BRAND_DARK_BLUE : 'rgba(0, 60, 67, 0.7)'
+                  }} />}
                 >
                   Email
                 </Button>
@@ -382,10 +386,10 @@ export default function LoginPage() {
                   sx={{
                     py: 1,
                     bgcolor: authMethod === 'phone' ? 'white' : 'transparent',
-                    color: authMethod === 'phone' ? '#2A3342' : 'text.secondary',
+                    color: authMethod === 'phone' ? BRAND_DARK_BLUE : 'rgba(0, 60, 67, 0.7)',
                     fontWeight: authMethod === 'phone' ? 600 : 500,
-                    boxShadow: authMethod === 'phone' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none',
-                    borderRadius: 2.5,
+                    boxShadow: authMethod === 'phone' ? '0 2px 8px rgba(0,60,67,0.08)' : 'none',
+                    borderRadius: 1.5,
                     textTransform: 'none',
                     transition: 'all 0.3s ease',
                     fontSize: { xs: '0.85rem', sm: '0.9rem' },
@@ -393,7 +397,10 @@ export default function LoginPage() {
                       bgcolor: authMethod === 'phone' ? 'white' : 'rgba(255,255,255,0.6)'
                     }
                   }}
-                  startIcon={<PhoneIcon sx={{ fontSize: { xs: '1.1rem', sm: '1.2rem' } }} />}
+                  startIcon={<PhoneIcon sx={{ 
+                    fontSize: { xs: '1.1rem', sm: '1.2rem' },
+                    color: authMethod === 'phone' ? BRAND_DARK_BLUE : 'rgba(0, 60, 67, 0.7)'
+                  }} />}
                 >
                   Phone
                 </Button>
@@ -419,7 +426,12 @@ export default function LoginPage() {
                   sx={{
                     mb: 2,
                     borderRadius: 2,
-                    '& .MuiAlert-icon': { alignItems: 'center' }
+                    '& .MuiAlert-icon': { alignItems: 'center' },
+                    backgroundColor: 'rgba(148, 255, 212, 0.2)',
+                    color: BRAND_DARK_BLUE,
+                    '& .MuiAlert-icon': {
+                      color: BRAND_DARK_BLUE
+                    }
                   }}
                 >
                   {success}
@@ -453,12 +465,18 @@ export default function LoginPage() {
                         mb: 2,
                         '& .MuiOutlinedInput-root': {
                           borderRadius: 2,
+                          '&.Mui-focused fieldset': {
+                            borderColor: BRAND_PRIMARY,
+                          },
+                        },
+                        '& .MuiInputLabel-root.Mui-focused': {
+                          color: BRAND_DARK_BLUE,
                         },
                       }}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <EmailIcon color="action" sx={{ color: 'text.secondary' }} />
+                            <EmailIcon sx={{ color: 'rgba(0, 60, 67, 0.6)' }} />
                           </InputAdornment>
                         ),
                       }}
@@ -479,12 +497,18 @@ export default function LoginPage() {
                         mb: 1,
                         '& .MuiOutlinedInput-root': {
                           borderRadius: 2,
+                          '&.Mui-focused fieldset': {
+                            borderColor: BRAND_PRIMARY,
+                          },
+                        },
+                        '& .MuiInputLabel-root.Mui-focused': {
+                          color: BRAND_DARK_BLUE,
                         },
                       }}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <LockIcon color="action" sx={{ color: 'text.secondary' }} />
+                            <LockIcon sx={{ color: 'rgba(0, 60, 67, 0.6)' }} />
                           </InputAdornment>
                         ),
                         endAdornment: (
@@ -493,6 +517,7 @@ export default function LoginPage() {
                               aria-label="toggle password visibility"
                               onClick={handleTogglePasswordVisibility}
                               edge="end"
+                              sx={{ color: 'rgba(0, 60, 67, 0.6)' }}
                             >
                               {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                             </IconButton>
@@ -508,9 +533,12 @@ export default function LoginPage() {
                           fontSize="0.9rem"
                           fontWeight={500}
                           sx={{
-                            color: BRAND_PRIMARY,
+                            color: BRAND_DARK_BLUE,
                             cursor: 'pointer',
-                            '&:hover': { textDecoration: 'underline' },
+                            '&:hover': { 
+                              textDecoration: 'underline',
+                              color: 'rgba(0, 60, 67, 0.8)'
+                            },
                           }}
                         >
                           Forgot password?
@@ -530,18 +558,44 @@ export default function LoginPage() {
                         fontSize: '1rem',
                         mb: 2,
                         bgcolor: BRAND_PRIMARY,
+                        color: BRAND_DARK_BLUE,
                         '&:hover': {
-                          bgcolor: '#20c5b7', // Darker turquoise
+                          bgcolor: BRAND_DARK_BLUE,
+                          color: BRAND_WHITISH_MINT,
                         },
-                        boxShadow: `0 4px 14px ${BRAND_PRIMARY}4D`,
+                        '&:disabled': {
+                          bgcolor: 'rgba(148, 255, 212, 0.5)',
+                          color: 'rgba(0, 60, 67, 0.5)',
+                        }
                       }}
                     >
                       {loading ? (
-                        <CircularProgress size={24} sx={{ color: 'white' }} />
+                        <CircularProgress size={24} sx={{ color: BRAND_DARK_BLUE }} />
                       ) : (
                         'Log in'
                       )}
                     </Button>
+                    
+                    <Box sx={{ textAlign: 'center', mt: 2 }}>
+                      <Typography variant="body2" sx={{ color: 'rgba(0, 60, 67, 0.7)' }}>
+                        New to FreshBox?{' '}
+                        <Link href="/auth/register" passHref>
+                          <Typography
+                            component="span"
+                            sx={{
+                              color: BRAND_DARK_BLUE,
+                              fontWeight: 600,
+                              cursor: 'pointer',
+                              '&:hover': {
+                                textDecoration: 'underline',
+                              },
+                            }}
+                          >
+                            Register Now
+                          </Typography>
+                        </Link>
+                      </Typography>
+                    </Box>
                   </Box>
                 </Fade>
               )}
@@ -568,12 +622,18 @@ export default function LoginPage() {
                             mb: 2,
                             '& .MuiOutlinedInput-root': {
                               borderRadius: 2,
+                              '&.Mui-focused fieldset': {
+                                borderColor: BRAND_PRIMARY,
+                              },
                             },
+                            '& .MuiInputLabel-root.Mui-focused': {
+                              color: BRAND_DARK_BLUE,
+                            }
                           }}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
-                                <PhoneIcon color="action" sx={{ color: 'text.secondary' }} />
+                                <PhoneIcon sx={{ color: 'rgba(0, 60, 67, 0.6)' }} />
                               </InputAdornment>
                             ),
                           }}
@@ -591,14 +651,20 @@ export default function LoginPage() {
                             fontSize: '1rem',
                             mb: 2,
                             bgcolor: BRAND_PRIMARY,
+                            color: BRAND_DARK_BLUE,
                             '&:hover': {
-                              bgcolor: '#20c5b7', // Darker turquoise
+                              bgcolor: BRAND_DARK_BLUE,
+                              color: BRAND_WHITISH_MINT,
                             },
-                            boxShadow: `0 4px 14px ${BRAND_PRIMARY}4D`,
+                            boxShadow: `0 4px 14px rgba(148, 255, 212, 0.4)`,
+                            '&:disabled': {
+                              bgcolor: 'rgba(148, 255, 212, 0.5)',
+                              color: 'rgba(0, 60, 67, 0.5)',
+                            }
                           }}
                         >
                           {loading ? (
-                            <CircularProgress size={24} sx={{ color: 'white' }} />
+                            <CircularProgress size={24} sx={{ color: BRAND_DARK_BLUE }} />
                           ) : (
                             'Send Verification Code'
                           )}
@@ -613,7 +679,7 @@ export default function LoginPage() {
                             variant="body1"
                             sx={{
                               fontSize: '0.95rem',
-                              color: 'text.secondary',
+                              color: 'rgba(0, 60, 67, 0.7)',
                               mb: 1,
                             }}
                           >
@@ -622,7 +688,7 @@ export default function LoginPage() {
                           <Typography
                             variant="body1"
                             fontWeight={600}
-                            sx={{ color: '#2A3342' }}
+                            sx={{ color: BRAND_DARK_BLUE }}
                           >
                             {phoneNumber}
                           </Typography>
@@ -643,6 +709,12 @@ export default function LoginPage() {
                             mb: 2,
                             '& .MuiOutlinedInput-root': {
                               borderRadius: 2,
+                              '&.Mui-focused fieldset': {
+                                borderColor: BRAND_PRIMARY,
+                              },
+                            },
+                            '& .MuiInputLabel-root.Mui-focused': {
+                              color: BRAND_DARK_BLUE,
                             },
                           }}
                         />
@@ -659,14 +731,20 @@ export default function LoginPage() {
                             fontSize: '1rem',
                             mb: 2,
                             bgcolor: BRAND_PRIMARY,
+                            color: BRAND_DARK_BLUE,
                             '&:hover': {
-                              bgcolor: '#20c5b7', // Darker turquoise
+                              bgcolor: BRAND_DARK_BLUE,
+                              color: BRAND_WHITISH_MINT,
                             },
-                            boxShadow: `0 4px 14px ${BRAND_PRIMARY}4D`,
+                            boxShadow: `0 4px 14px rgba(148, 255, 212, 0.4)`,
+                            '&:disabled': {
+                              bgcolor: 'rgba(148, 255, 212, 0.5)',
+                              color: 'rgba(0, 60, 67, 0.5)',
+                            }
                           }}
                         >
                           {loading ? (
-                            <CircularProgress size={24} sx={{ color: 'white' }} />
+                            <CircularProgress size={24} sx={{ color: BRAND_DARK_BLUE }} />
                           ) : (
                             'Verify Code'
                           )}
@@ -674,15 +752,15 @@ export default function LoginPage() {
                         
                         <Button
                           fullWidth
-                          startIcon={<ArrowBackIcon />}
+                          startIcon={<ArrowBackIcon sx={{ color: BRAND_DARK_BLUE }} />}
                           onClick={() => setPhoneStep(1)}
                           sx={{
                             py: 1.5,
                             borderRadius: 2,
-                            color: 'text.secondary',
+                            color: BRAND_DARK_BLUE,
                             fontWeight: 500,
                             '&:hover': {
-                              bgcolor: 'rgba(0,0,0,0.03)',
+                              bgcolor: 'rgba(148, 255, 212, 0.15)',
                             },
                             textTransform: 'none',
                           }}
@@ -699,7 +777,7 @@ export default function LoginPage() {
                             variant="body1"
                             sx={{
                               fontSize: '0.95rem',
-                              color: 'text.secondary',
+                              color: 'rgba(0, 60, 67, 0.7)',
                               mb: 1,
                             }}
                           >
@@ -721,179 +799,17 @@ export default function LoginPage() {
                             mb: 2,
                             '& .MuiOutlinedInput-root': {
                               borderRadius: 2,
-                            },
-                          }}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                <PersonIcon color="action" sx={{ color: 'text.secondary' }} />
-                              </InputAdornment>
-                            ),
+                              '&.Mui-focused fieldset': {
+                                borderColor: BRAND_PRIMARY
+                              }
+                            }
                           }}
                         />
-                        
-                        <Button
-                          type="submit"
-                          fullWidth
-                          variant="contained"
-                          disabled={loading || !userName.trim()}
-                          sx={{
-                            py: 1.5,
-                            borderRadius: 2,
-                            fontWeight: 600,
-                            fontSize: '1rem',
-                            mb: 2,
-                            bgcolor: BRAND_PRIMARY,
-                            '&:hover': {
-                              bgcolor: '#20c5b7', // Darker turquoise
-                            },
-                            boxShadow: `0 4px 14px ${BRAND_PRIMARY}4D`,
-                          }}
-                        >
-                          {loading ? (
-                            <CircularProgress size={24} sx={{ color: 'white' }} />
-                          ) : (
-                            'Complete Registration'
-                          )}
-                        </Button>
                       </Box>
                     )}
                   </Box>
                 </Fade>
               )}
-
-              {/* Social Login Divider */}
-              
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-  <Typography
-    variant="body2"
-    sx={{
-      color: 'text.secondary',
-      px: 1.5,
-      mb:2,
-      position: 'relative',
-      fontWeight:'bold',
-      bgcolor: 'white',
-      display: 'inline-block',
-    }}
-  >
-    Or Login Using
-  </Typography>
-</Box>
-
-
-              {/* Social Login Buttons */}
-              <Stack direction="column" spacing={1.5} sx={{ mb: 2 }}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  onClick={handleGoogleLogin}
-                  sx={{
-                    py: 1.25,
-                    borderRadius: 2,
-                    borderColor: 'rgba(0,0,0,0.12)',
-                    color: 'text.primary',
-                    textTransform: 'none',
-                    fontWeight: 500,
-                    position: 'relative',
-                    pl: 4,
-                    justifyContent: 'center',
-                    '&:hover': {
-                      borderColor: 'rgba(0,0,0,0.26)',
-                      bgcolor: 'rgba(0,0,0,0.02)',
-                    },
-                  }}
-                >
-                  <GoogleIcon sx={{ 
-                    position: 'absolute', 
-                    left: 16,
-                    fontSize: '1.25rem'
-                  }} />
-                  Google
-                </Button>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  onClick={handleFacebookLogin}
-                  sx={{
-                    py: 1.25,
-                    borderRadius: 2,
-                    borderColor: 'rgba(0,0,0,0.12)',
-                    color: 'text.primary',
-                    textTransform: 'none',
-                    fontWeight: 500,
-                    position: 'relative',
-                    pl: 4,
-                    justifyContent: 'center',
-                    '&:hover': {
-                      borderColor: 'rgba(0,0,0,0.26)',
-                      bgcolor: 'rgba(0,0,0,0.02)',
-                    },
-                  }}
-                >
-                  <FacebookIcon sx={{ 
-                    position: 'absolute', 
-                    left: 16,
-                    fontSize: '1.25rem'
-                  }} />
-                  Facebook
-                </Button>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  onClick={handleAppleLogin}
-                  sx={{
-                    py: 1.25,
-                    borderRadius: 2,
-                    borderColor: 'rgba(0,0,0,0.12)',
-                    color: 'text.primary',
-                    textTransform: 'none',
-                    fontWeight: 500,
-                    position: 'relative',
-                    pl: 4,
-                    justifyContent: 'center',
-                    '&:hover': {
-                      borderColor: 'rgba(0,0,0,0.26)',
-                      bgcolor: 'rgba(0,0,0,0.02)',
-                    },
-                  }}
-                >
-                  <AppleIcon sx={{ 
-                    position: 'absolute', 
-                    left: 16,
-                    fontSize: '1.25rem'
-                  }} />
-                  Apple
-                </Button>
-              </Stack>
-
-              {/* Sign Up Link */}
-              <Box
-                sx={{
-                  textAlign: 'center',
-                  bgcolor: 'rgba(0,0,0,0.02)',
-                  py: 2,
-                  px: 3,
-                  borderRadius: 2,
-                }}
-              >
-                <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-                  Don't have an account?{' '}
-                  <Link href="/auth/register" passHref>
-                    <Typography
-                      component="span"
-                      color={BRAND_PRIMARY}
-                      fontWeight={600}
-                      sx={{
-                        cursor: 'pointer',
-                        '&:hover': { textDecoration: 'underline' },
-                      }}
-                    >
-                      Sign up
-                    </Typography>
-                  </Link>
-                </Typography>
-              </Box>
             </Box>
           </Paper>
         </Fade>

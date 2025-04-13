@@ -27,7 +27,7 @@ import {theme} from "../contexts/Theme"
 
 // Constants
 const TURQUOISE = theme.palette.primary.main;
-const DARK_TURQUOISE = '#2E7B5C';
+const DARK_TURQUOISE = theme.palette.primary.darkBlue;
 const LIGHT_TURQUOISE = '#5de6d8';
 
 // Navigation data - moved outside component
@@ -426,9 +426,9 @@ export default function Navbar({ light = false }) {
     >
       <Box sx={{ 
         p: 2, 
-        bgcolor: DARK_TURQUOISE, 
-        color: 'white',
-        backgroundImage: 'linear-gradient(135deg, #2E7B5C, #2E7B5C)'
+        bgcolor: TURQUOISE, 
+        color: DARK_TURQUOISE,
+        
       }}>
         <Typography variant="subtitle1" fontWeight={600}>Select Plan</Typography>
         <Typography variant="body2">
@@ -499,10 +499,12 @@ export default function Navbar({ light = false }) {
           href="/plans"
           sx={{ 
             borderRadius: '8px',
-            bgcolor: '#2E7B5C',
+            bgcolor: TURQUOISE,
+            color:DARK_TURQUOISE,
             transition: 'all 0.3s ease',
             '&:hover': { 
-              bgcolor: '#2E7B5C',
+              bgcolor: DARK_TURQUOISE,
+              color:TURQUOISE,
               transform: 'translateY(-2px)',
               boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
             }
@@ -520,6 +522,7 @@ export default function Navbar({ light = false }) {
       anchorEl={userMenuAnchorEl}
       keepMounted
       open={userMenuOpen}
+
       onClose={handleUserMenuClose}
       PaperProps={{
         elevation: 3,
@@ -530,14 +533,15 @@ export default function Navbar({ light = false }) {
           boxShadow: '0 8px 16px rgba(0,0,0,0.1)',
           border: '1px solid',
           borderColor: 'grey.100'
+          
         }
       }}
     >
       <Box sx={{ 
         p: 2, 
         bgcolor: TURQUOISE, 
-        color: 'white',
-        backgroundImage: 'linear-gradient(135deg, #2E7B5C, #2E7B5C)'
+        color:DARK_TURQUOISE,
+        
       }}>
         <Typography variant="subtitle1" fontWeight={600}>
           {user?.name || 'Your Account'}
@@ -635,7 +639,7 @@ export default function Navbar({ light = false }) {
           justifyContent: 'space-between',
           borderBottom: '1px solid',
           borderColor: 'grey.100',
-          backgroundImage: 'linear-gradient(135deg, #28ddcd, #20c5b7)',
+          backgroundColor:TURQUOISE,
           color: 'white'
         }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -648,7 +652,7 @@ export default function Navbar({ light = false }) {
               justifyContent: 'center',
               borderRadius: '50%',
               overflow: 'hidden',
-              bgcolor: 'white',
+              bgcolor:theme.palette.primary.whitishMint,
               p: 0.5
             }}>
               <Image
@@ -660,7 +664,7 @@ export default function Navbar({ light = false }) {
                 style={{ objectFit: 'contain' }}
               />
             </Box>
-            <Typography variant="h6" component="div" sx={{ ml: 1.5, fontWeight: 700 }}>
+            <Typography variant="h6" component="div" sx={{ ml: 1.5, fontWeight: 700,color:DARK_TURQUOISE }}>
               FreshBox
             </Typography>
           </Box>
@@ -685,7 +689,7 @@ export default function Navbar({ light = false }) {
                   <Avatar 
                     sx={{ 
                       bgcolor: TURQUOISE,
-                      color: 'white',
+                      color: DARK_TURQUOISE,
                       width: 40,
                       height: 40
                     }}
@@ -713,7 +717,8 @@ export default function Navbar({ light = false }) {
                     startIcon={<AccountCircleIcon />}
                     sx={{ 
                       borderRadius: '8px',
-                      color: TURQUOISE,
+                      bgColor: TURQUOISE,
+                      color:DARK_TURQUOISE,
                       borderColor: TURQUOISE,
                       '&:hover': { 
                         borderColor: DARK_TURQUOISE,
@@ -731,7 +736,8 @@ export default function Navbar({ light = false }) {
                     startIcon={<LogoutIcon />}
                     sx={{ 
                       borderRadius: '8px',
-                      color: 'error.main',
+                      bgColor: TURQUOISE,
+                      color:DARK_TURQUOISE,
                       borderColor: 'error.main',
                       '&:hover': { 
                         borderColor: 'error.dark',
@@ -758,6 +764,7 @@ export default function Navbar({ light = false }) {
                     borderRadius: '8px',
                     py: 1,
                     bgcolor: TURQUOISE,
+                    color:DARK_TURQUOISE,
                     '&:hover': { bgcolor: DARK_TURQUOISE }
                   }}
                   startIcon={
@@ -777,6 +784,7 @@ export default function Navbar({ light = false }) {
                     borderRadius: '8px',
                     py: 1,
                     bgcolor: TURQUOISE,
+                    color:DARK_TURQUOISE,
                     '&:hover': { bgcolor: DARK_TURQUOISE }
                   }}
                   startIcon={
@@ -799,8 +807,11 @@ export default function Navbar({ light = false }) {
               borderRadius: '8px', 
               mb: 1,
               transition: 'all 0.3s ease',
+              bgcolor: theme.palette.primary.whitishMint,
+              color:DARK_TURQUOISE,
               '&:hover': {
-                bgcolor: '#2E7B5C'
+                bgcolor: DARK_TURQUOISE,
+                    color:TURQUOISE,
               }
             }
           }}>
@@ -923,6 +934,8 @@ export default function Navbar({ light = false }) {
                               borderRadius: '8px', 
                               mb: 0.5, 
                               py: 1,
+                              color:DARK_TURQUOISE,
+                              bgColor:TURQUOISE,
                               transition: 'all 0.3s ease',
                               '&:hover': {
                                 bgcolor: 'rgba(40, 221, 205, 0.1)',
@@ -1050,9 +1063,10 @@ export default function Navbar({ light = false }) {
           borderRadius: '8px',
           py: 0.75,
           px: { xs: 1.5, sm: 2 },
+          fontWeight:'bolder',
           fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-          color: '#94FFD4',
-          borderColor: '#94FFD4',
+          color: DARK_TURQUOISE,
+          bgColor: TURQUOISE,
           '&:hover': { 
             bgcolor: 'rgba(40, 221, 205, 0.05)',
             borderColor: DARK_TURQUOISE
@@ -1072,9 +1086,10 @@ export default function Navbar({ light = false }) {
           borderRadius: '8px',
           py: 0.75,
           px: { xs: 1.5, sm: 2 },
+          fontWeight:'bolder',
           fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-          color: TURQUOISE,
-          borderColor: TURQUOISE,
+          color: DARK_TURQUOISE,
+          bgColor: TURQUOISE,
           '&:hover': { 
             bgcolor: 'rgba(40, 221, 205, 0.05)',
             borderColor: DARK_TURQUOISE
