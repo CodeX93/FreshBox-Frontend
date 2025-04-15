@@ -25,19 +25,22 @@ const HeroSection = () => {
 
   return (
     <Box 
-    sx={{
-      width: '100%',
-      height: '100vh', // full viewport height
-      backgroundColor: theme.palette.primary.whitishMint,
-      position: 'relative',
-      overflow: 'hidden',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center', // optional: vertically center if needed
-      px: { xs: 2, md: 4 },
-      py: { xs: 4, md: 6 },
-    }}
-  >
+  sx={{
+    width: '100%',
+    height: '100vh',
+    backgroundColor: theme.palette.primary.whitishMint,
+    position: 'relative',
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    px: { xs: 2, md: 4 },
+    pt: { xs: '80px', md: '100px' }, // 👈 Add padding to avoid navbar
+    pb: { xs: 4, md: 6 }, // keep existing vertical padding
+    boxSizing: 'border-box',
+  }}
+>
+
   
       <Container maxWidth="xl">
         <Grid container spacing={4} alignItems="center">
@@ -114,13 +117,26 @@ const HeroSection = () => {
           </Grid>
 
           {/* Right section with image */}
-          <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
-            <Box
-              component="img"
-              src="https://s3-alpha-sig.figma.com/img/7910/f37b/d3870f67507c15197443b9a8cd7ae26f?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=NQ13Cu4-3Ft~-j-DDOUsdSQWUTNYL~R9w7MCJf6KEa~iagCEpmMgg7gwwWdwattXzay4~gIqyoMey4GxW1mIOsghpJGnA31LlYxCq1jdm1kwJME5SwFgtMeGQOz1mP3dzxY40HCpqqLlRp3rFEOwx8RlqzZ34FI-Ie5p83D3dw4BPM26Tgc-ZRiwmSdsDz0teCgu0zB5RrqCaVazk09mOU2haiKohb-~JLFWxFR8gB5TOFz2HiSdW4yQfTDqH~IPG79VNe7mXNPwxxIOp7XXOIavWYQJsBmHynFDNz1ZbF~1CwolCecxKshexTMJGF8TNfUYaZ1YgsTjX~gqE2s2Yw__"
-              alt="Location Illustration"
-              sx={{ maxWidth: '100%', height: 'auto', zIndex: 2 }}
-            />
+          <Grid
+  item
+  xs={12}
+  md={6}
+  sx={{
+    display: 'flex',
+    justifyContent: 'center',
+    mt: { xs: 4, md: 0 }, // Adds top margin on mobile for spacing
+  }}
+>
+          <Box
+    component="img"
+    src="https://s3-alpha-sig.figma.com/img/7910/f37b/d3870f67507c15197443b9a8cd7ae26f?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=NQ13Cu4-3Ft~-j-DDOUsdSQWUTNYL~R9w7MCJf6KEa~iagCEpmMgg7gwwWdwattXzay4~gIqyoMey4GxW1mIOsghpJGnA31LlYxCq1jdm1kwJME5SwFgtMeGQOz1mP3dzxY40HCpqqLlRp3rFEOwx8RlqzZ34FI-Ie5p83D3dw4BPM26Tgc-ZRiwmSdsDz0teCgu0zB5RrqCaVazk09mOU2haiKohb-~JLFWxFR8gB5TOFz2HiSdW4yQfTDqH~IPG79VNe7mXNPwxxIOp7XXOIavWYQJsBmHynFDNz1ZbF~1CwolCecxKshexTMJGF8TNfUYaZ1YgsTjX~gqE2s2Yw__"
+    alt="Location Illustration"
+    sx={{
+      maxWidth: { xs: '90%', sm: '100%' },
+      height: 'auto',
+      zIndex: 2,
+    }}
+  />
           </Grid>
         </Grid>
       </Container>

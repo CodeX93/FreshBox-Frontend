@@ -8,109 +8,118 @@ import {
   Container,
   Grid,
   useMediaQuery,
-  useTheme,
+  Stack,
 } from '@mui/material';
-import {theme} from "../../../contexts/Theme"
+import { theme } from "../../../contexts/Theme";
 
 const HeroSection = () => {
-  const priamryColor = theme.palette.primary.main;
+  const primaryColor = theme.palette.primary.main;
   const darkBlueColor = theme.palette.primary.darkBlue;
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isExtraSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Box 
       sx={{
         width: '100%',
-        height: '100vh',
+        minHeight: { xs: 'auto', md: '100vh' },
         backgroundColor: theme.palette.primary.whitishMint,
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
         px: { xs: 2, md: 4 },
-        py: { xs: 4, md: 6 },
+        py: { xs: 6, md: 6 },
       }}
     >
       <Container maxWidth="xl">
-        <Grid container spacing={4} alignItems="center">
+        <Grid container spacing={{ xs: 3, md: 4 }} alignItems="center">
           {/* Left section */}
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
             <Box sx={{ pr: { md: 6 } }}>
               <Typography
                 variant="h2"
                 sx={{
                   fontWeight: 800,
                   color: darkBlueColor,
-                  fontSize: { xs: '2rem', md: '2.8rem' },
-                  mb: 2,
-                  whiteSpace: 'nowrap',
+                  fontSize: { xs: '1.75rem', sm: '2rem', md: '2.5rem', lg: '2.8rem' },
+                  mb: { xs: 1.5, md: 2 },
                   lineHeight: 1.2,
+                  textAlign: { xs: 'center', md: 'left' },
                 }}
               >
                 Commercial Laundry Solutions
               </Typography>
               <Typography
                 sx={{
-                  fontSize: { xs: '1rem', md: '1.2rem' },
+                  fontSize: { xs: '0.95rem', sm: '1rem', md: '1.1rem', lg: '1.2rem' },
                   color: darkBlueColor,
-                  mb: 4,
+                  mb: { xs: 3, md: 4 },
                   maxWidth: '600px',
+                  textAlign: { xs: 'center', md: 'left' },
+                  mx: { xs: 'auto', md: 0 },
                 }}
               >
                 FreshBox provides comprehensive commercial laundry solutions with eco-friendly processes and flexible scheduling designed to adapt to your unique business needs.
               </Typography>
 
-              <Box 
-                sx={{ 
-                  display: 'flex', 
-                  gap: 2, 
-                  mb: 4 
+              <Stack 
+                direction={{ xs: 'column', sm: 'row' }}
+                spacing={{ xs: 1.5, sm: 2 }} 
+                mb={4}
+                sx={{
+                  justifyContent: { xs: 'center', md: 'flex-start' },
                 }}
               >
                 <Button
                   variant="contained"
+                  fullWidth={isExtraSmall}
                   sx={{
-                    bgcolor: priamryColor,
+                    bgcolor: primaryColor,
                     color: darkBlueColor,
-                    px: 4,
+                    px: { xs: 3, md: 4 },
                     py: 1.5,
                     borderRadius: '50px',
                     fontWeight: 600,
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.9rem', md: '1rem' },
                     '&:hover': {
                       bgcolor: '#8cdec0',
                     },
                     textTransform: 'none',
+                    maxWidth: { xs: '100%', sm: '200px' },
                   }}
                 >
                   Request A Quote
                 </Button>
                 <Button
                   variant="contained"
+                  fullWidth={isExtraSmall}
                   sx={{
                     bgcolor: darkBlueColor,
                     color: 'white',
-                    px: 4,
+                    px: { xs: 3, md: 4 },
                     py: 1.5,
                     borderRadius: '50px',
                     fontWeight: 600,
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.9rem', md: '1rem' },
                     '&:hover': {
                       bgcolor: '#00494f',
                     },
                     textTransform: 'none',
+                    maxWidth: { xs: '100%', sm: '200px' },
                   }}
                 >
                   Learn More
                 </Button>
-              </Box>
+              </Stack>
 
               <Box sx={{ 
                 display: 'flex', 
-                flexWrap: 'nowrap', 
-                gap: 4,
+                flexWrap: { xs: 'wrap', md: 'nowrap' }, 
+                gap: { xs: 2, md: 4 },
                 alignItems: 'center',
-                overflow: 'auto',
+                justifyContent: { xs: 'center', md: 'flex-start' },
+                overflow: 'visible',
                 '&::-webkit-scrollbar': {
                   display: 'none'
                 },
@@ -124,6 +133,8 @@ const HeroSection = () => {
                       display: 'flex',
                       alignItems: 'center',
                       flexShrink: 0,
+                      mb: { xs: 1, md: 0 },
+                      minWidth: { xs: '45%', sm: 'auto' },
                     }}
                   >
                     <Box
@@ -133,14 +144,15 @@ const HeroSection = () => {
                         borderRadius: '50%',
                         bgcolor: darkBlueColor,
                         mr: 1.5,
+                        flexShrink: 0,
                       }}
                     />
                     <Typography 
                       sx={{ 
                         color: darkBlueColor,
-                        fontSize: '0.9rem',
+                        fontSize: { xs: '0.85rem', md: '0.9rem' },
                         fontWeight: 500,
-                        whiteSpace: 'nowrap',
+                        whiteSpace: { xs: 'normal', md: 'nowrap' },
                       }}
                     >
                       {feature}
@@ -151,8 +163,8 @@ const HeroSection = () => {
             </Box>
           </Grid>
 
-          {/* Right section with image */}
-          <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
+          {/* Right section with image - now visible on all screen sizes */}
+          <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }} sx={{ mb: { xs: 2, md: 0 } }}>
             <Box
               sx={{
                 position: 'relative',
@@ -161,6 +173,7 @@ const HeroSection = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                maxHeight: { xs: '250px', sm: '350px', md: '450px' },
               }}
             >
               <Box
@@ -180,34 +193,34 @@ const HeroSection = () => {
         </Grid>
       </Container>
 
-      {/* Background circle */}
+      {/* Background circle - responsive size (hidden on mobile) */}
       <Box
         sx={{
           position: 'absolute',
           top: '50%',
-          right: '-30%',
+          right: { sm: '-50%', md: '-30%' },
           transform: 'translateY(-50%)',
-          width: '1000px',
-          height: '1000px',
+          width: { sm: '800px', md: '1000px' },
+          height: { sm: '800px', md: '1000px' },
           borderRadius: '50%',
-          bgcolor: priamryColor,
+          bgcolor: primaryColor,
           zIndex: 1,
           opacity: 0.3,
-          display: { xs: 'none', md: 'block' },
+          display: { xs: 'none', sm: 'block' }, // Hide on mobile
         }}
       />
 
-      {/* Decorative bubbles */}
+      {/* Decorative bubbles - hidden on mobile */}
       {[
-        { top: '5%', right: '5%', size: 18 },
-        { top: '8%', right: '8%', size: 25 },
-        { top: '4%', right: '12%', size: 15 },
-        { top: '45%', right: '25%', size: 35 },
-        { top: '55%', right: '35%', size: 20 },
-        { bottom: '25%', right: '23%', size: 28 },
-        { bottom: '20%', right: '30%', size: 15, filled: true, opacity: 0.3 },
-        { bottom: '15%', right: '18%', size: 40 },
-        { bottom: '12%', right: '15%', size: 12, filled: true, opacity: 0.4 },
+        { top: '5%', right: '5%', size: { sm: 16, md: 18 } },
+        { top: '8%', right: '8%', size: { sm: 20, md: 25 } },
+        { top: '4%', right: '12%', size: { sm: 12, md: 15 } },
+        { top: '45%', right: '25%', size: { sm: 25, md: 35 } },
+        { top: '55%', right: '35%', size: { sm: 15, md: 20 } },
+        { bottom: '25%', right: '23%', size: { sm: 22, md: 28 } },
+        { bottom: '20%', right: '30%', size: { sm: 12, md: 15 }, filled: true, opacity: 0.3 },
+        { bottom: '15%', right: '18%', size: { sm: 30, md: 40 } },
+        { bottom: '12%', right: '15%', size: { sm: 10, md: 12 }, filled: true, opacity: 0.4 },
       ].map((bubble, idx) => (
         <Box
           key={idx}
@@ -223,7 +236,7 @@ const HeroSection = () => {
             border: bubble.filled ? 'none' : '2px solid #1a3131',
             opacity: bubble.opacity || 0.5,
             zIndex: 3,
-            display: { xs: 'none', md: 'block' },
+            display: { xs: 'none', sm: 'block' }, // Hide on mobile
           }}
         />
       ))}

@@ -8,7 +8,13 @@ import {
   TextField,
   Button,
   InputAdornment,
-  useMediaQuery
+  useMediaQuery,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { theme } from '../../../contexts/Theme'; // Import your theme context
@@ -190,74 +196,195 @@ const AvailabilitySection = () => {
           </Box>
           
           {/* Grid View of ZIP Codes */}
-          <Box sx={{ px: { xs: 2, sm: 4, md: 6 }, py: 3 }}>
-            <Grid container spacing={4} justifyContent="center">
-              {filteredData.map((item, index) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                  <Paper
-                    elevation={0}
-                    sx={{
-                      p: 3,
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      textAlign: 'center',
-                      borderRadius: 2,
-                      border: '1px solidrgb(250, 250, 250)',
-                      backgroundColor: '#fff',
-                      transition: 'transform 0.3s ease',
-                      '&:hover': {
-                        transform: 'translateY(-5px)',
-                        boxShadow: '0 6px 12px rgba(0,0,0,0.05)'
-                      }
-                    }}
-                  >
-                    <Typography 
-                      variant="h4" 
-                      component="p" 
-                      sx={{ 
-                        fontWeight: 700, 
-                        color: '#1a3131',
-                        mb: 1,
-                        fontSize: { xs: '1.5rem', md: '1.8rem' }
+          {viewMode === 'grid' && (
+            <Box sx={{ px: { xs: 2, sm: 4, md: 6 }, py: 3 }}>
+              <Grid container spacing={4} justifyContent="center">
+                {filteredData.map((item, index) => (
+                  <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                    <Paper
+                      elevation={0}
+                      sx={{
+                        p: 3,
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        textAlign: 'center',
+                        borderRadius: 2,
+                        border: '1px solid rgb(250, 250, 250)',
+                        backgroundColor: '#fff',
+                        transition: 'transform 0.3s ease',
+                        '&:hover': {
+                          transform: 'translateY(-5px)',
+                          boxShadow: '0 6px 12px rgba(0,0,0,0.05)'
+                        }
                       }}
                     >
-                      {item.zip}
-                    </Typography>
-                    
-                    <Typography 
-                      variant="body1" 
-                      sx={{ 
-                        color: '#1a3131',
-                        mb: 2,
-                        fontSize: '1rem'
-                      }}
-                    >
-                      {item.neighborhood}
-                    </Typography>
-                    
-                    <Box 
-                      sx={{ 
-                        backgroundColor: '#e3f7f4',
-                        color: theme.palette.primary.darkBlue,
-                        bgcolor:theme.palette.primary.main,
-                        py: 0.5,
-                        px: 2,
-                        borderRadius: '20px',
-                        fontSize: '0.85rem',
-                        fontWeight: 600,
-                        textTransform: 'capitalize'
-                      }}
-                    >
-                      Available
-                    </Box>
-                  </Paper>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
+                      <Typography 
+                        variant="h4" 
+                        component="p" 
+                        sx={{ 
+                          fontWeight: 700, 
+                          color: '#1a3131',
+                          mb: 1,
+                          fontSize: { xs: '1.5rem', md: '1.8rem' }
+                        }}
+                      >
+                        {item.zip}
+                      </Typography>
+                      
+                      <Typography 
+                        variant="body1" 
+                        sx={{ 
+                          color: '#1a3131',
+                          mb: 2,
+                          fontSize: '1rem'
+                        }}
+                      >
+                        {item.neighborhood}
+                      </Typography>
+                      
+                      <Box 
+                        sx={{ 
+                          backgroundColor: '#e3f7f4',
+                          color: theme.palette.primary.darkBlue,
+                          bgcolor: theme.palette.primary.main,
+                          py: 0.5,
+                          px: 2,
+                          borderRadius: '20px',
+                          fontSize: '0.85rem',
+                          fontWeight: 600,
+                          textTransform: 'capitalize'
+                        }}
+                      >
+                        Available
+                      </Box>
+                    </Paper>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          )}
+          
+          {/* List View of ZIP Codes */}
+          {viewMode === 'list' && (
+            <Box sx={{ px: { xs: 0, sm: 2, md: 4 }, py: 3 }}>
+              <TableContainer 
+                component={Paper} 
+                elevation={0}
+                sx={{
+                  borderRadius: '10px',
+                  overflow: 'hidden',
+                  mb: 3,
+                  border: '1px solid #f0f0f0',
+                  backgroundColor: '#fff'
+                }}
+              >
+                <Table sx={{ minWidth: 650 }} aria-label="zip code table">
+                  <TableHead>
+                    <TableRow sx={{ backgroundColor: theme.palette.primary.darkBlue }}>
+                      <TableCell 
+                        sx={{ 
+                          fontWeight: 600, 
+                          color: 'white', 
+                          py: 2,
+                          borderBottom: 'none',
+                          fontSize: '0.875rem',
+                          textTransform: 'uppercase'
+                        }}
+                      >
+                        ZIP Code
+                      </TableCell>
+                      <TableCell 
+                        sx={{ 
+                          fontWeight: 600, 
+                          color: 'white', 
+                          py: 2,
+                          borderBottom: 'none',
+                          fontSize: '0.875rem',
+                          textTransform: 'uppercase'
+                        }}
+                      >
+                        Neighborhood
+                      </TableCell>
+                      <TableCell 
+                        align="center"
+                        sx={{ 
+                          fontWeight: 600, 
+                          color: 'white', 
+                          py: 2,
+                          borderBottom: 'none',
+                          fontSize: '0.875rem',
+                          textTransform: 'uppercase'
+                        }}
+                      >
+                        Status
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {filteredData.map((item, index) => (
+                      <TableRow
+                        key={index}
+                        sx={{
+                          '&:nth-of-type(odd)': { backgroundColor: '#f8f8f8' },
+                          '&:nth-of-type(even)': { backgroundColor: 'white' },
+                          '&:last-child td, &:last-child th': { border: 0 },
+                          height: '60px'
+                        }}
+                      >
+                        <TableCell 
+                          component="th" 
+                          scope="row" 
+                          sx={{ 
+                            fontWeight: 600,
+                            color: '#1a3131',
+                            fontSize: '0.95rem',
+                            borderBottom: '1px solid #f0f0f0'
+                          }}
+                        >
+                          {item.zip}
+                        </TableCell>
+                        <TableCell 
+                          sx={{ 
+                            color: '#4a4a4a',
+                            fontSize: '0.9rem',
+                            borderBottom: '1px solid #f0f0f0'
+                          }}
+                        >
+                          {item.neighborhood}
+                        </TableCell>
+                        <TableCell 
+                          align="center"
+                          sx={{ 
+                            borderBottom: '1px solid #f0f0f0'
+                          }}
+                        >
+                          <Box 
+                            sx={{ 
+                              display: 'inline-block',
+                              backgroundColor: '#e3f7f4',
+                              color: theme.palette.primary.darkBlue,
+                              bgcolor: theme.palette.primary.main,
+                              py: 0.5,
+                              px: 2,
+                              borderRadius: '20px',
+                              fontSize: '0.85rem',
+                              fontWeight: 600,
+                              textTransform: 'capitalize'
+                            }}
+                          >
+                            Available
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
+          )}
         </Box>
       </Container>
     </Box>

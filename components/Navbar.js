@@ -1060,18 +1060,15 @@ export default function Navbar({ light = false }) {
         href="/auth/login"
         startIcon={<LoginIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
         sx={{ 
-          borderRadius: '8px',
+          
           py: 0.75,
           px: { xs: 1.5, sm: 2 },
           fontWeight:'bolder',
           fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
           color: DARK_TURQUOISE,
           bgColor: TURQUOISE,
-          '&:hover': { 
-            bgcolor: 'rgba(40, 221, 205, 0.05)',
-            borderColor: DARK_TURQUOISE
-          },
-          transition: 'all 0.3s ease',
+          
+          
           flexGrow: 1
         }}
       >
@@ -1083,18 +1080,14 @@ export default function Navbar({ light = false }) {
         href="/auth/register"
         startIcon={<SignUpIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
         sx={{ 
-          borderRadius: '8px',
+          
           py: 0.75,
           px: { xs: 1.5, sm: 2 },
           fontWeight:'bolder',
           fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
           color: DARK_TURQUOISE,
           bgColor: TURQUOISE,
-          '&:hover': { 
-            bgcolor: 'rgba(40, 221, 205, 0.05)',
-            borderColor: DARK_TURQUOISE
-          },
-          transition: 'all 0.3s ease',
+          
           flexGrow: 1
         }}
       >
@@ -1418,7 +1411,7 @@ return (
                   href="/auth/login"
                   startIcon={<LoginIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
                   sx={{ 
-                    borderRadius: '8px',
+                    
                     py: 0.75,
                     px: { xs: 1.5, sm: 2 },
                     fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
@@ -1436,17 +1429,15 @@ return (
                   href="/auth/register"
                   startIcon={<SignUpIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
                   sx={{ 
-                    borderRadius: '8px',
+                    
                     py: 0.75,
                     px: { xs: 1.5, sm: 2 },
                     fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
                     color: scrolled ? '#94FFD4' : '#E3FEF7',
-                    borderColor: scrolled ? '#0a1929' : 'rgba(255, 255, 255, 0.5)',
+                    
                     bgcolor:scrolled ? '#0a1929':'#135D66',
-                    '&:hover': { 
-                      bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.1)',
-                    },
-                    transition: 'all 0.3s ease'
+                    
+                    
                   }}
                 >
                   SignUp
