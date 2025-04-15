@@ -32,13 +32,14 @@ import ContactForm from './_components/ContactForm';
 import PaymentForm from './_components/PaymentForm';
 import OrderSummary from './_components/OrderSummary';
 import OrderConfirmation from './_components/OrderConfirmation';
+import {theme} from "../../contexts/Theme"
 
 // Data and utilities
 import { steps, coveredPostcodes, timeSlots } from './checkoutData';
 
 // Define constants
-const TURQUOISE = '#2E7B5C';
-const DARK_BLUE = '#2E7B5C';
+const TURQUOISE = theme.palette.primary.main;
+const DARK_BLUE = theme.palette.primary.darkBlue;
 
 export default function CheckoutProcess() {
   const router = useRouter();
@@ -337,8 +338,9 @@ export default function CheckoutProcess() {
 
   return (
     <>
+   
       {/* <Navbar /> */}
-      <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pt: 3, pb: 8,  marginTop: '100px'}}>
+      <Box sx={{ bgcolor: '#E3FEF7', minHeight: '100vh', pt: 3, pb: 8,  marginTop: '100px'}}>
         <Container maxWidth="lg">
           {orderComplete ? (
             <OrderConfirmation 
@@ -351,8 +353,8 @@ export default function CheckoutProcess() {
               <Grid item xs={12} md={8}>
                 <Paper elevation={3} sx={{ borderRadius: 2, overflow: 'hidden', mb: 4 }}>
                   <Box sx={{ 
-                    bgcolor: TURQUOISE, 
-                    color: 'white',
+                    bgcolor: DARK_BLUE, 
+                    color: theme.palette.primary.whitishMint,
                     p: 2,
                   }}>
                     <Typography variant="h5" sx={{ fontWeight: 600 }}>
@@ -376,8 +378,8 @@ export default function CheckoutProcess() {
                             <Box
                               sx={{
                                 borderRadius: '50%',
-                                bgcolor: active || completed ? TURQUOISE : 'grey.300',
-                                color: active || completed ? 'white' : 'text.secondary',
+                                bgcolor: active || completed ? DARK_BLUE : TURQUOISE,
+                                color: active || completed ? theme.palette.primary.whitishMint : DARK_BLUE,
                                 width: 40,
                                 height: 40,
                                 display: 'flex',
@@ -401,11 +403,17 @@ export default function CheckoutProcess() {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
                       {activeStep !== 1 && (
                         <Button
-                          variant="outlined"
+                          variant="contained"
                           disabled={activeStep === 0 || isLoading}
                           onClick={handleBack}
                           startIcon={<ArrowBackIcon />}
-                          sx={{ borderRadius: 2,bgcolor:'#2E7B5C',color:'#ffffff' }}
+                          sx={{ 
+                            borderRadius: 2,
+                            bgcolor:theme.palette.primary.darkBlue,
+                            color:theme.palette.primary.whitishMint,
+                            px:3,
+                            py:1,
+                          }}
                         >
                           Back
                         </Button>
@@ -416,12 +424,11 @@ export default function CheckoutProcess() {
                         onClick={handleNext}
                         endIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : <ArrowForwardIcon />}
                         disabled={isLoading}
-                        sx={{ 
-                          borderRadius: 2,
-                          px: 3,
-                          py: 1,
-                          bgcolor: TURQUOISE,
-                         
+                        sx={{ borderRadius: 2,
+                          bgcolor:theme.palette.primary.darkBlue,
+                          color:theme.palette.primary.whitishMint,
+                          px:3,
+                          py:1,
                         }}
                       >
                         {activeStep === steps.length - 1 ? 'Complete Order' : 'Continue'}

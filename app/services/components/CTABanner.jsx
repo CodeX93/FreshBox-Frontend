@@ -7,9 +7,10 @@ import {
   useTheme
 } from '@mui/material';
 import { motion } from 'framer-motion';
+import {theme} from "../../../contexts/Theme"
 
 const CTABanner = () => {
-  const theme = useTheme();
+  
 
   // Animation variants
   const containerVariants = {

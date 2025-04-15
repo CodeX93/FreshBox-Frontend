@@ -1440,7 +1440,7 @@ return (
                     py: 0.75,
                     px: { xs: 1.5, sm: 2 },
                     fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-                    color: scrolled ? '#94FFD4' : '#0a1929',
+                    color: scrolled ? '#94FFD4' : '#E3FEF7',
                     borderColor: scrolled ? '#0a1929' : 'rgba(255, 255, 255, 0.5)',
                     bgcolor:scrolled ? '#0a1929':'#135D66',
                     '&:hover': { 

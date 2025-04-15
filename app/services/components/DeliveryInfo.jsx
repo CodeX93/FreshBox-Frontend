@@ -11,9 +11,9 @@ import {
 import { motion } from 'framer-motion';
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-
+import {theme} from "../../../contexts/Theme"
 const DeliveryInfo = () => {
-  const theme = useTheme();
+  
 
   // Animation variants
   const containerVariants = {
@@ -64,7 +64,8 @@ const DeliveryInfo = () => {
         borderRadius: 2,
         border: '1px solid rgba(226, 232, 240, 0.8)',
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        bgcolor:'white'
       }}>
         <Box
           sx={{
@@ -73,14 +74,14 @@ const DeliveryInfo = () => {
             left: 0,
             width: '100%',
             height: '4px',
-            background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.primary.light})`,
+            background: theme.palette.primary.main,
           }}
         />
         
         <Typography variant="subtitle1" sx={{ 
           fontWeight: 600, 
           mb: 2,
-          color: theme.palette.primary.dark
+          color: theme.palette.primary.darkBlue
         }}>
           Delivery Information
         </Typography>
@@ -89,9 +90,9 @@ const DeliveryInfo = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
             <DeliveryDiningIcon 
               fontSize="small" 
-              sx={{ mr: 1, color: theme.palette.primary.main }} 
+              sx={{ mr: 1, color: theme.palette.primary.darkBlue }} 
             />
-            <Typography variant="body2">
+            <Typography variant="body2" sx={{color:theme.palette.primary.darkBlue}}>
               Free collection & delivery in London zones 1-3
             </Typography>
           </Box>
@@ -101,9 +102,9 @@ const DeliveryInfo = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
             <AccessTimeIcon 
               fontSize="small" 
-              sx={{ mr: 1, color: theme.palette.primary.main }} 
+              sx={{ mr: 1, color: theme.palette.primary.darkBlue }} 
             />
-            <Typography variant="body2">
+            <Typography variant="body2" sx={{color:theme.palette.primary.darkBlue}}>
               2-hour collection window
             </Typography>
           </Box>
@@ -118,7 +119,7 @@ const DeliveryInfo = () => {
           >
             <Chip 
               label="Minimum Order £15" 
-              color="primary" 
+              sx={{color:theme.palette.primary.darkBlue}}
               variant="outlined" 
               size="small" 
             />
@@ -130,7 +131,7 @@ const DeliveryInfo = () => {
           >
             <Chip 
               label="Weekend Delivery Available" 
-              color="success" 
+              sx={{color:theme.palette.primary.darkBlue}}
               variant="outlined" 
               size="small" 
             />

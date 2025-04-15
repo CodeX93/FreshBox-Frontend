@@ -18,6 +18,7 @@ import {
 } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import {theme} from "../../../contexts/Theme"
 
 const FAQSection = () => {
   const router = useRouter();
@@ -261,12 +262,15 @@ const FAQSection = () => {
 <Box
   sx={{
     mt: 4,
-    backgroundColor: '#0E2A2F',
+    backgroundColor: theme.palette.primary.darkBlue,
     borderRadius: 3,
     p: 4,
-    color: 'white',
+    color: theme.palette.primary.whitishMint,
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'left',
+    justifyContent:'left',
+    textAlign:'left',
+
     position: 'relative',
     overflow: 'hidden'
   }}
@@ -276,8 +280,9 @@ const FAQSection = () => {
       variant="h5"
       sx={{
         mb: 2,
-        color: '#FBFFCF',
-        fontWeight: 700
+        color: theme.palette.primary.yellowish,
+        fontWeight: 700,
+        textAlign:'left',
       }}
     >
       Still have questions?
@@ -286,34 +291,35 @@ const FAQSection = () => {
       sx={{
         mb: 3,
         opacity: 0.8,
-        lineHeight: 1.6
+        lineHeight: 1.6,
+        color: theme.palette.primary.yellowish,
+        textAlign:'left',
+
       }}
     >
       Our dedicated support team is ready to help. Reach out anytime, and we'll provide prompt and personalized assistance.
     </Typography>
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-    >
+    
       <Button
         variant="contained"
         onClick={() => router.push('/support')}
         sx={{
-          backgroundColor: '#FBFFCF',
-          color: '#0E2A2F',
+          backgroundColor: theme.palette.primary.yellowish,
+          color: theme.palette.primary.darkBlue,
           fontWeight: 600,
           px: 3,
           py: 1,
           borderRadius: 1,
-          textTransform: 'none',
+          
           '&:hover': {
-            backgroundColor: '#FFCB5B',
+            backgroundColor: theme.palette.primary.darkBlue,
+            color: theme.palette.primary.yellowish,
           }
         }}
       >
         Contact Support
       </Button>
-    </motion.div>
+    
   </Box>
   {/* Question Mark Graphic - Using the SVG from the document */}
   <Box
@@ -322,8 +328,8 @@ const FAQSection = () => {
       width: 180,
       height: 180,
       zIndex: 2,
-      justifyContent: 'center',
-      alignItems: 'center'
+      justifyContent: 'left',
+      alignItems: 'left'
     }}
   >
     <motion.div

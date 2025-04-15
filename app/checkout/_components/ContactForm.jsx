@@ -7,27 +7,27 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@mui/material';
-
+import {theme} from "../../../contexts/Theme"
 function ContactForm({ contactData, handleContactChange }) {
-  const greenColor = '#2E7B5C';
+  const darkBlue = theme.palette.primary.darkBlue;
 
   const inputStyles = {
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: greenColor,
+        borderColor: darkBlue,
       },
       '&:hover fieldset': {
-        borderColor: greenColor,
+        borderColor: darkBlue,
       },
       '&.Mui-focused fieldset': {
-        borderColor: greenColor,
+        borderColor: darkBlue,
       },
     },
     '& .MuiInputBase-input': {
-      color: greenColor,
+      color: darkBlue,
     },
     '& label.Mui-focused': {
-      color: greenColor,
+      color: darkBlue,
     },
   };
 
@@ -95,9 +95,9 @@ function ContactForm({ contactData, handleContactChange }) {
                 checked={contactData.createAccount}
                 onChange={handleContactChange}
                 sx={{
-                  color: greenColor,
+                  color: darkBlue,
                   '&.Mui-checked': {
-                    color: greenColor,
+                    color: darkBlue,
                   },
                 }}
               />
@@ -129,9 +129,9 @@ function ContactForm({ contactData, handleContactChange }) {
                 checked={contactData.marketingConsent}
                 onChange={handleContactChange}
                 sx={{
-                  color: greenColor,
+                  color: darkBlue,
                   '&.Mui-checked': {
-                    color: greenColor,
+                    color: darkBlue,
                   },
                 }}
               />

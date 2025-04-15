@@ -8,11 +8,18 @@ import GetStartedSection from './_components/GetStartedSection';
 import FAQSection from './_components/FAQSection';
 import ProcessSection from './_components/ProcessSection';
 import ClientSideInteractions from './ClientSideInterations/ClientHeroSection';
+import { Box } from '@mui/material'; // Changed from lucide-react to @mui/material
 
 export default function Home() {
   return (
-    <>
-        <Navbar light={true}/>
+    <Box sx={{ 
+      width: '100%',
+      bgcolor: '#E3FEF7', // whitishMint background color
+      minHeight: '100vh',
+      m: 0,
+      p: 0
+    }}>
+      <Navbar light={true}/>
       <ClientSideInteractions />
       <ServicesSection />
       <QualityPromiseSection />
@@ -20,6 +27,6 @@ export default function Home() {
       {/* <GetStartedSection /> */}
       <ProcessSection/>
       <FAQSection />
-    </>
+    </Box>
   );
 }

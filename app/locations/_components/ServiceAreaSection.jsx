@@ -13,13 +13,18 @@ import {
   useTheme,
   Fade,
 } from '@mui/material';
+import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import { motion } from 'framer-motion';
 import {
   CheckCircle as CheckCircleIcon,
   Cancel as CancelIcon,
   Schedule as ScheduleIcon,
+  
 } from '@mui/icons-material';
+
+
 import { GoogleMap, useLoadScript, OverlayView } from '@react-google-maps/api';
+import {theme } from "../../../contexts/Theme"
 
 const libraries = ['places'];
 const mapContainerStyle = {
@@ -40,7 +45,7 @@ const serviceAreas = [
 ];
 
 const ServiceAreaSection = () => {
-  const theme = useTheme();
+  
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries,
@@ -75,7 +80,7 @@ const ServiceAreaSection = () => {
   );
 
   return (
-    <Box sx={{ py: 8, backgroundColor: theme.palette.grey[50] }}>
+    <Box sx={{ py: 8, backgroundColor: theme.palette.primary.whitishMint }}>
       <Container maxWidth="lg">
         <Fade in timeout={1000}>
           <Typography
@@ -155,41 +160,52 @@ const ServiceAreaSection = () => {
                 borderRadius: 2,
                 display: 'flex',
                 flexDirection: 'column',
+                bgcolor:theme.palette.primary.darkBlue
               }}
             >
-              <Typography variant="h5" component="h3" gutterBottom fontWeight={600}>
+    <Box display="flex" alignItems="center" gap={1} mb={2}>
+  <RoomOutlinedIcon sx={{ color: theme.palette.primary.yellowish, fontSize: 30 }} />
+</Box>
+
+
+
+              <Typography variant="h5" component="h3" gutterBottom fontWeight={600} sx={{color: theme.palette.primary.yellowish}}>
                 Service Area Legend
               </Typography>
 
               <List sx={{ mt: 2 }}>
                 <LegendItem
-                  icon={<CheckCircleIcon sx={{ color: theme.palette.success.main }} />}
+                  icon={<CheckCircleIcon sx={{ color: theme.palette.success.yellowish }} />}
                   title="Active Service Areas"
                   subtitle="Same-day service available with flexible scheduling"
                   delay={0.2}
+                  Textcolor={theme.palette.primary.yellowish}
                 />
                 <LegendItem
-                  icon={<CheckCircleIcon sx={{ color: theme.palette.info.main }} />}
+                  icon={<CheckCircleIcon sx={{ color: theme.palette.info.yellowish }} />}
                   title="Premium Express Zones"
                   subtitle="3-hour turnaround available"
                   delay={0.4}
+                  Textcolor={theme.palette.primary.yellowish}
                 />
                 <LegendItem
-                  icon={<ScheduleIcon sx={{ color: theme.palette.warning.main }} />}
+                  icon={<ScheduleIcon sx={{ color: theme.palette.warning.yellowish }} />}
                   title="Coming Soon Areas"
                   subtitle="Service launching within 30 days"
                   delay={0.6}
+                  Textcolor={theme.palette.primary.yellowish}
                 />
                 <LegendItem
-                  icon={<CancelIcon sx={{ color: theme.palette.error.main }} />}
+                  icon={<CancelIcon sx={{ color: theme.palette.error.yellowish }} />}
                   title="Not Yet Available"
                   subtitle="Join our waitlist for service updates"
                   delay={0.8}
+                  Textcolor={theme.palette.primary.yellowish}
                 />
               </List>
 
               <Box sx={{ mt: 'auto', pt: 2 }}>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color={theme.palette.primary.yellowish}>
                   Our service areas are constantly expanding. Check back regularly or join our
                   waitlist to be notified when we reach your neighborhood.
                 </Typography>
@@ -202,7 +218,7 @@ const ServiceAreaSection = () => {
   );
 };
 
-const LegendItem = ({ icon, title, subtitle, delay }) => (
+const LegendItem = ({ icon, title, subtitle, delay,Textcolor }) => (
   <ListItem
     component={motion.li}
     initial={{ opacity: 0, y: 10 }}
@@ -210,8 +226,14 @@ const LegendItem = ({ icon, title, subtitle, delay }) => (
     transition={{ delay }}
     viewport={{ once: true }}
   >
-    <ListItemIcon>{icon}</ListItemIcon>
-    <ListItemText primary={title} secondary={subtitle} />
+    <ListItemIcon sx={{color:Textcolor}}>{icon}</ListItemIcon>
+    <ListItemText
+  primary={title}
+  secondary={subtitle}
+  primaryTypographyProps={{ sx: { color: Textcolor } }}
+  secondaryTypographyProps={{ sx: { color: Textcolor } }}
+/>
+
   </ListItem>
 );
 

@@ -20,8 +20,13 @@ import {
 } from '@mui/icons-material';
 
 // Define constants
-const TURQUOISE = '#2E7B5C';
-const TURQUOISE_DARK = '#2E7B5C';
+import {theme} from "../../../contexts/Theme"
+// Define constants
+const TURQUOISE = theme.palette.primary.main;
+const TURQUOISE_DARK = theme.palette.primary.darkBlue;
+const TURQUOISE_LIGHT = theme.palette.primary.whitishMint;
+const yellowish = theme.palette.primary.yellowish;
+
 
 // Support categories
 const supportCategories = [
@@ -47,7 +52,11 @@ const ContactFormSection = ({ formData, handleInputChange, handleSubmit, isSubmi
         height: '100%',
         boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        alignItems:'center',
+        justifyContent:'center',
+        textAlign:'center',
+
       }}
     >
       <Box sx={{
@@ -56,16 +65,20 @@ const ContactFormSection = ({ formData, handleInputChange, handleSubmit, isSubmi
         left: 0,
         width: '100%',
         height: '4px',
-        background: `linear-gradient(90deg, ${TURQUOISE}, ${TURQUOISE}50)`
+        alignItems:'center',
+        justifyContent:'center',
+        background: `linear-gradient(90deg, ${TURQUOISE}, ${TURQUOISE}50)`,
+        textAlign:'center',
       }} />
       
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" component="h2" fontWeight={800} sx={{ mb: 1.5, color: '#2d3748' }}>
+        <Typography variant="h4" component="h2" fontWeight={800} sx={{ mb: 1.5, color: TURQUOISE_DARK,textAlign:'center' }}>
           Contact Us
         </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 3, lineHeight: 1.6 }}>
+        <Typography variant="body1" color={TURQUOISE_DARK} sx={{ mb: 3, lineHeight: 1.6,textAlign:'center' }}>
           Fill out the form below and we'll get back to you as soon as possible.
         </Typography>
+        
         <Divider />
       </Box>
       
@@ -214,6 +227,7 @@ const ContactFormSection = ({ formData, handleInputChange, handleSubmit, isSubmi
               }}
             />
           </Grid>
+         
           <Grid item xs={12}>
             <Button
               type="submit"
@@ -224,33 +238,22 @@ const ContactFormSection = ({ formData, handleInputChange, handleSubmit, isSubmi
               sx={{ 
                 py: 1.5,
                 px: 4,
-                bgcolor: TURQUOISE,
-                color: 'white',
+                bgcolor: TURQUOISE_DARK,
+                color: TURQUOISE_LIGHT,
                 borderRadius: '12px',
                 fontWeight: 600,
                 boxShadow: '0 4px 14px rgba(40, 221, 205, 0.4)',
                 '&:hover': { 
-                  bgcolor: TURQUOISE_DARK,
-                  boxShadow: '0 6px 20px rgba(40, 221, 205, 0.6)',
+                  bgcolor: TURQUOISE,
+                  color:TURQUOISE_DARK,
+                borderColor:yellowish
                 }
               }}
             >
               {isSubmitting ? 'Sending...' : 'Send Message'}
             </Button>
             
-            <Typography 
-              variant="body2" 
-              color="text.secondary"
-              sx={{ 
-                mt: 2, 
-                display: 'flex', 
-                alignItems: 'center',
-                justifyContent: { xs: 'center', sm: 'flex-start' } 
-              }}
-            >
-              <ClockIcon fontSize="small" sx={{ mr: 0.5, color: TURQUOISE }} />
-              We typically respond within 24 hours
-            </Typography>
+       
           </Grid>
         </Grid>
       </form>

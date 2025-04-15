@@ -11,25 +11,28 @@ import {
   Radio,
   Checkbox
 } from '@mui/material';
+import {theme} from "../../../contexts/Theme"
+
 
 function PaymentForm({ paymentData, handlePaymentChange, total }) {
+  const DARK_BLUE=theme.palette.primary.darkBlue;
   const borderStyle = {
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: '#2E7B5C',
+        borderColor: DARK_BLUE,
       },
       '&:hover fieldset': {
-        borderColor: '#2E7B5C',
+        borderColor: DARK_BLUE,
       },
       '&.Mui-focused fieldset': {
-        borderColor: '#2E7B5C',
+        borderColor: DARK_BLUE,
       },
     },
     '& .MuiInputLabel-root': {
-      color: '#2E7B5C', // Change label color when the field is focused
+      color: DARK_BLUE, // Change label color when the field is focused
     },
     '& .MuiInputLabel-root.Mui-focused': {
-      color: '#2E7B5C', // Change label color when the field is focused
+      color: DARK_BLUE, // Change label color when the field is focused
     },
   };
 
@@ -58,9 +61,9 @@ function PaymentForm({ paymentData, handlePaymentChange, total }) {
             control={
               <Radio
                 sx={{
-                  color: '#2E7B5C',
+                  color: DARK_BLUE,
                   '&.Mui-checked': {
-                    color: '#2E7B5C',
+                    color: DARK_BLUE,
                   },
                 }}
               />
@@ -68,7 +71,7 @@ function PaymentForm({ paymentData, handlePaymentChange, total }) {
             label="Credit/Debit Card"
             sx={{
               '& .MuiFormControlLabel-label': {
-                color: paymentData.paymentMethod === 'card' ? '#2E7B5C' : 'inherit',
+                color: paymentData.paymentMethod === 'card' ? DARK_BLUE : 'inherit',
               },
             }}
           />
@@ -77,9 +80,9 @@ function PaymentForm({ paymentData, handlePaymentChange, total }) {
             control={
               <Radio
                 sx={{
-                  color: '#2E7B5C',
+                  color: DARK_BLUE,
                   '&.Mui-checked': {
-                    color: '#2E7B5C',
+                    color: DARK_BLUE,
                   },
                 }}
               />
@@ -87,7 +90,7 @@ function PaymentForm({ paymentData, handlePaymentChange, total }) {
             label="PayPal"
             sx={{
               '& .MuiFormControlLabel-label': {
-                color: paymentData.paymentMethod === 'paypal' ? '#2E7B5C' : 'inherit',
+                color: paymentData.paymentMethod === 'paypal' ? DARK_BLUE : 'inherit',
               },
             }}
           />

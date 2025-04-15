@@ -60,17 +60,17 @@ export default function Footer() {
     <ThemeProvider theme={theme}>
       <Box 
         sx={{ 
-          bgcolor: '#0a1929', // Keeping the black background color
-          color: 'white', 
-          pt: 8, 
-          pb: 4,
+          bgcolor: theme.palette.primary.FooterDarkColor,
+          color: 'white',
+          // Remove vertical padding
+          pt: 0,
+          pb: 0,
+          mt: 0, // Explicitly set top margin to 0
           transition: 'all 0.3s ease-in-out',
-          '&:hover': {
-            bgcolor: '#0c1e2e' // Keeping the hover color
-          }
+          position: 'relative', // Ensure proper stacking context
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" sx={{ pt: 8, pb: 4 }}>
           <Fade in={animateIn} timeout={800}>
             <Grid container spacing={4}>
               {/* Company Info */}
@@ -89,7 +89,7 @@ export default function Footer() {
                         left: 0,
                         width: '40px',
                         height: '3px',
-                        bgcolor: theme.palette.primary.light, // Using your turquoise color
+                        bgcolor: theme.palette.primary.light,
                         transition: 'width 0.3s ease',
                       },
                       '&:hover::after': {
@@ -120,7 +120,7 @@ export default function Footer() {
                           bgcolor: 'rgba(255, 255, 255, 0.1)', 
                           transition: 'all 0.3s ease',
                           '&:hover': { 
-                            bgcolor: theme.palette.primary.main, // Using your turquoise color
+                            bgcolor: theme.palette.primary.main,
                             transform: 'translateY(-3px)'
                           } 
                         }}
@@ -168,7 +168,7 @@ export default function Footer() {
                     left: 0,
                     width: '40px',
                     height: '3px',
-                    bgcolor: theme.palette.primary.light, // Using your turquoise color
+                    bgcolor: theme.palette.primary.light,
                     transition: 'width 0.3s ease',
                   },
                   '&:hover::after': {
@@ -188,7 +188,7 @@ export default function Footer() {
                                 color: 'rgba(255, 255, 255, 0.7)', 
                                 transition: 'all 0.3s ease',
                                 '&:hover': { 
-                                  color: theme.palette.primary.light, // Using your light turquoise color
+                                  color: theme.palette.primary.light,
                                   pl: 1
                                 } 
                               }}>
@@ -216,7 +216,7 @@ export default function Footer() {
                     left: 0,
                     width: '40px',
                     height: '3px',
-                    bgcolor: theme.palette.primary.light, // Using your turquoise color
+                    bgcolor: theme.palette.primary.light,
                     transition: 'width 0.3s ease',
                   },
                   '&:hover::after': {
@@ -236,7 +236,7 @@ export default function Footer() {
                                 color: 'rgba(255, 255, 255, 0.7)', 
                                 transition: 'all 0.3s ease',
                                 '&:hover': { 
-                                  color: theme.palette.primary.light, // Using your light turquoise color
+                                  color: theme.palette.primary.light,
                                   pl: 1
                                 } 
                               }}>
@@ -264,7 +264,7 @@ export default function Footer() {
                     left: 0,
                     width: '40px',
                     height: '3px',
-                    bgcolor: theme.palette.primary.darkBlue, // Using your turquoise color
+                    bgcolor: theme.palette.primary.darkBlue,
                     transition: 'width 0.3s ease',
                   },
                   '&:hover::after': {
@@ -307,11 +307,11 @@ export default function Footer() {
                           <IconButton 
                             edge="end" 
                             sx={{ 
-                              color: theme.palette.primary.main, // Using your turquoise color
+                              color: theme.palette.primary.main,
                               transition: 'all 0.3s ease',
                               '&:hover': {
                                 transform: 'rotate(20deg)',
-                                color: theme.palette.primary.light // Using your light turquoise color
+                                color: theme.palette.primary.light
                               }
                             }}
                             type="submit"
@@ -329,7 +329,7 @@ export default function Footer() {
                     <Typography 
                       variant="body2" 
                       sx={{ 
-                        color: theme.palette.primary.light, // Using your light turquoise color
+                        color: theme.palette.primary.light,
                         mb: 2,
                         fontWeight: 'medium'
                       }}
@@ -406,7 +406,7 @@ export default function Footer() {
               height: '4px',
               width: '50px',
               transform: 'translateX(-50%)',
-              bgcolor: theme.palette.primary.main, // Using your turquoise color
+              bgcolor: theme.palette.primary.main,
               opacity: 0.5
             }
           }} />
@@ -420,7 +420,7 @@ export default function Footer() {
               gap: 2 
             }}>
               <Typography variant="body2" sx={{ opacity: 0.7 }}>
-                © {new Date().getFullYear()} LaundryHeap. All rights reserved.
+                © {new Date().getFullYear()} FreshBox. All rights reserved.
               </Typography>
               <Box sx={{ display: 'flex', gap: 3 }}>
                 <Link href="/privacy-policy" style={{ textDecoration: 'none' }}>
@@ -428,7 +428,7 @@ export default function Footer() {
                     color: 'rgba(255, 255, 255, 0.7)',
                     transition: 'all 0.2s ease',
                     '&:hover': { 
-                      color: theme.palette.primary.light, // Using your light turquoise color
+                      color: theme.palette.primary.light,
                       transform: 'translateY(-2px)'
                     } 
                   }}>
@@ -440,7 +440,7 @@ export default function Footer() {
                     color: 'rgba(255, 255, 255, 0.7)',
                     transition: 'all 0.2s ease',
                     '&:hover': { 
-                      color: theme.palette.primary.light, // Using your light turquoise color
+                      color: theme.palette.primary.light,
                       transform: 'translateY(-2px)'
                     } 
                   }}>
@@ -455,4 +455,3 @@ export default function Footer() {
     </ThemeProvider>
   );
 }
-                         

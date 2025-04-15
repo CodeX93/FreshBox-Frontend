@@ -27,7 +27,7 @@ const LocationPage = () => {
       <ServiceAreaMap />
       
       {/* Detailed ZIP code checker */}
-      <ZipCodeChecker />
+      {/* <ZipCodeChecker /> */}
       
       {/* Pickup and delivery schedule by neighborhood */}
       <ScheduleSection />
@@ -36,10 +36,10 @@ const LocationPage = () => {
       <AvailabilityList />
       
       {/* Future expansion plans */}
-      <ExpansionPlans />
+      {/* <ExpansionPlans /> */}
       
       {/* Waitlist signup for non-covered areas */}
-      <WaitlistSection />
+      {/* <WaitlistSection /> */}
     </Box>
     
     </>

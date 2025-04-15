@@ -8,7 +8,6 @@ import {
   Grid,
   Box,
   useMediaQuery,
-  useTheme,
   Chip,
   Divider,
   CircularProgress,
@@ -24,15 +23,18 @@ import BusinessIcon from '@mui/icons-material/Business';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import ServiceCard from './ServiceCard';
 
+import {theme} from "../../../contexts/Theme"
 // API service to fetch data
+
 import { serviceApi } from '../../../api/service'; // Update this path if needed
 
 // Define constants
-const TURQUOISE = '#2E7B5C';
-const DARK_BLUE = '#0a1929';
+const TURQUOISE = theme.palette.primary.main;
+const DARK_BLUE = theme.palette.primary.darkBlue;
 
 // Map to associate categories with icons
 const categoryIcons = {
+  'All Services': <LocalLaundryServiceIcon />,
   'Standard': <LocalLaundryServiceIcon />,
   'Premium': <DryCleaningIcon />,
   'Specialized': <MedicalServicesIcon />,
@@ -42,6 +44,7 @@ const categoryIcons = {
 
 // Default descriptions for categories
 const categoryDescriptions = {
+  'All Services': 'Browse our complete range of laundry and cleaning services available for all your needs.',
   'Standard': 'Our standard services provide quality cleaning for everyday items at affordable prices.',
   'Premium': 'Premium services for your finest garments and special care items.',
   'Specialized': 'Specialized cleaning services for specific items that require extra attention.',
@@ -50,7 +53,7 @@ const categoryDescriptions = {
 };
 
 const ServicesList = ({ handleAddToCart }) => {
-  const theme = useTheme();
+  
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
   
@@ -78,8 +81,11 @@ const ServicesList = ({ handleAddToCart }) => {
           // Extract unique categories from services
           const uniqueCategories = [...new Set(servicesData.map(service => service.category))];
           
+          // Add "All Services" as the first category
+          const allCategories = ['All Services', ...uniqueCategories];
+          
           setServices(servicesData);
-          setCategories(uniqueCategories);
+          setCategories(allCategories);
         } else {
           setError('Failed to load services');
         }
@@ -130,14 +136,12 @@ const ServicesList = ({ handleAddToCart }) => {
   };
 
   // Get filtered services based on active tab
-  const filteredServices = activeTab === 0 
-    ? services 
-    : services.filter(service => service.category === categories[activeTab - 1]);
+  const filteredServices = categories[activeTab] === 'All Services'
+    ? services
+    : services.filter(service => service.category === categories[activeTab]);
 
   // Get current service category name
-  const currentServiceCategory = activeTab === 0 
-    ? 'All Services' 
-    : categories[activeTab - 1];
+  const currentServiceCategory = categories[activeTab] || 'All Services';
 
   if (loading) {
     return (
@@ -241,14 +245,15 @@ const ServicesList = ({ handleAddToCart }) => {
               px: { xs: 1, sm: 2 },
               py: { xs: 0.5, sm: 0.75 },
               minHeight: { xs: 48, sm: 56 },
+              bgcolor:theme.palette.primary.main,
               '& .MuiTabs-indicator': {
                 backgroundColor: TURQUOISE,
                 height: 3,
                 borderRadius: '3px 3px 0 0'
               },
               '& .Mui-selected': {
-                color: `${TURQUOISE} !important`,
-                fontWeight: 600
+                color: '#003C43 !important',
+                fontWeight: 'bolder'
               },
               '& .MuiTab-root': {
                 minHeight: { xs: 48, sm: 56 },
@@ -257,7 +262,7 @@ const ServicesList = ({ handleAddToCart }) => {
                 transition: 'all 0.3s ease',
                 mx: { xs: 0.5, sm: 1 },
                 '&:hover': {
-                  color: TURQUOISE,
+                  color: theme.palette.primary.darkBlue,
                   opacity: 0.8,
                   backgroundColor: 'rgba(40, 221, 205, 0.05)'
                 }
@@ -274,17 +279,15 @@ const ServicesList = ({ handleAddToCart }) => {
               }
             }}
           >
-            <Tab
-              icon={<LocalLaundryServiceIcon />}
-              label="All Services"
-              iconPosition="start"
-            />
             {categories.map((category, index) => (
               <Tab
                 key={index}
                 icon={categoryIcons[category] || <LocalLaundryServiceIcon />}
                 label={category}
                 iconPosition="start"
+                sx={{
+                  color: theme.palette.primary.darkBlue,
+                }}
               />
             ))}
           </Tabs>
@@ -298,7 +301,7 @@ const ServicesList = ({ handleAddToCart }) => {
             label={currentServiceCategory}
             color="primary"
             sx={{ 
-              bgcolor: TURQUOISE,
+              bgcolor: theme.palette.primary.darkBlue,
               color: 'white',
               fontWeight: 600,
               fontSize: '0.9rem',
@@ -316,18 +319,16 @@ const ServicesList = ({ handleAddToCart }) => {
               fontSize: { xs: '1.35rem', sm: '1.5rem', md: '1.75rem' }
             }}
           >
-            {activeTab === 0 ? 'All Available Services' : currentServiceCategory}
+            {currentServiceCategory === 'All Services' ? 'All Available Services' : currentServiceCategory}
           </Typography>
           
-          {activeTab !== 0 && (
-            <Typography 
-              variant="body1" 
-              color="text.secondary"
-              sx={{ mb: 2, maxWidth: 800 }}
-            >
-              {categoryDescriptions[currentServiceCategory] || `Our ${currentServiceCategory} services offer quality cleaning solutions.`}
-            </Typography>
-          )}
+          <Typography 
+            variant="body1" 
+            color="text.secondary"
+            sx={{ mb: 2, maxWidth: 800 }}
+          >
+            {categoryDescriptions[currentServiceCategory] || `Our ${currentServiceCategory} services offer quality cleaning solutions.`}
+          </Typography>
           
           <Divider sx={{ mb: 3 }} />
         </motion.div>
@@ -392,7 +393,7 @@ const ServicesList = ({ handleAddToCart }) => {
       </Grid>
       
       {/* Additional Services Information */}
-      {activeTab === 0 && (
+      {currentServiceCategory === 'All Services' && (
         <Box 
           sx={{ 
             mt: 6, 

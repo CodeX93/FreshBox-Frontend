@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Box, Container, useTheme, useMediaQuery } from '@mui/material';
-import { motion, useScroll, useTransform } from 'framer-motion';
 import Navbar from "../../components/Navbar"
 // Import section components
 import HeroSection from './_components/HeroSection';
@@ -12,9 +11,6 @@ import MassageSpaSection from './_components/MassageSpaSection';
 import HealthcareSection from './_components/HealthcareSection';
 import GymTowelSection from './_components/GymTowelSection';
 import RequestQuoteSection from './_components/RequestQuoteSection';
-
-// Define constants
-const TURQUOISE = '#28ddcd';
 
 export default function CommercialPage() {
   const theme = useTheme();
@@ -33,9 +29,6 @@ export default function CommercialPage() {
   
   // Track active section for navigation
   const [activeSection, setActiveSection] = useState('hero');
-  
-  // Scroll animation hook
-  const { scrollY } = useScroll();
   
   // Handle intersection observer to detect active section
   useEffect(() => {
@@ -81,13 +74,14 @@ export default function CommercialPage() {
     }
   };
 
-  // Section styling based on screen size
+  // Section styling - modified to eliminate extra space
   const sectionStyle = {
-    minHeight: { xs: 'auto', md: '100vh' },
     width: '100%',
     position: 'relative',
     overflowX: 'hidden',
-    overflowY: { xs: 'visible', md: 'hidden' }
+    // Display flex to properly contain child content
+    display: 'flex',
+    flexDirection: 'column'
   };
 
   return (
@@ -98,9 +92,12 @@ export default function CommercialPage() {
       width: '100%', 
       overflowX: 'hidden',
       position: 'relative',
-      bgcolor: '#fff' 
+      bgcolor: theme.palette.primary.whitishMint,
+      // Remove any padding that might create white space
+      p: 0,
+      m: 0
     }}>
-      {/* Responsive sections with minimum height */}
+      {/* Sections with modified styling */}
       <Box id="hero" ref={heroRef} sx={sectionStyle}>
         <HeroSection />
       </Box>
@@ -125,7 +122,7 @@ export default function CommercialPage() {
         <GymTowelSection />
       </Box>
 
-      <Box id="quote" ref={quoteRef} sx={sectionStyle}>
+      <Box id="quote" ref={quoteRef} sx={{...sectionStyle, mb: 0, pb: 0}}>
         <RequestQuoteSection />
       </Box>
     </Box>

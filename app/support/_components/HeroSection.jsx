@@ -6,10 +6,11 @@ import {
   Grid
 } from '@mui/material';
 import ClientHeroSection from '../ClientSideInterations/ClientHeroSection';
-
+import {theme} from "../../../contexts/Theme"
 // Define constants
-const TURQUOISE = '#2E7B5C';
-const DARK_TURQUOISE = '#2E7B5C';
+const TURQUOISE = theme.palette.primary.main;
+const DARK_TURQUOISE = theme.palette.primary.darkBlue;
+const LightMintColor = theme.palette.primary.whitishMint;
 
 // Static content for SEO
 const heroTitle = "How Can We Help You?";
@@ -29,7 +30,7 @@ const HeroSection = ({
       id="support-hero-section"
       aria-label="Support hero section"
       sx={{
-        background: DARK_TURQUOISE,
+        background: LightMintColor,
         position: 'relative',
         overflow: 'hidden',
         color: 'white',
@@ -78,6 +79,7 @@ const HeroSection = ({
           height: 0, 
           overflow: 'hidden',
           padding: '2rem', // Added padding
+          bgcolor:DARK_TURQUOISE
         }}
       >
         <h1>{heroTitle}</h1>

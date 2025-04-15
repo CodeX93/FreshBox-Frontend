@@ -16,9 +16,14 @@ import ContactFormSection from '../_components/ContactFormSection';
 import FAQSection from '../_components/FAQSection.jsx';
 import ContactInfoSection from '../_components/ContactInfoSection';
 import SuccessErrorAlerts from '../_components/SuccessErrorAlerts';
+import {theme} from "../../../contexts/Theme"
+// Define constants for SEO content
 
 export default function ClientSupportPage() {
-  const theme = useTheme();
+  const TURQUOISE = theme.palette.primary.main;
+  const TURQUOISE_DARK = theme.palette.primary.darkBlue;
+  const TURQUOISE_LIGHT = theme.palette.primary.whitishMint;
+  
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isTablet = useMediaQuery(theme.breakpoints.down('lg'));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -47,29 +52,6 @@ export default function ClientSupportPage() {
   // Set loaded state when component mounts
   useEffect(() => {
     setLoaded(true);
-    
-    // Add this to make the navbar transparent
-    const navbar = document.querySelector('nav');
-    if (navbar) {
-      navbar.style.backgroundColor = 'transparent';
-      navbar.style.boxShadow = 'none';
-      
-      // Add event listener to handle scroll and change navbar style
-      const handleScroll = () => {
-        if (window.scrollY > 100) {
-          navbar.style.backgroundColor = '#ffffff';
-          navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-        } else {
-          navbar.style.backgroundColor = 'transparent';
-          navbar.style.boxShadow = 'none';
-        }
-      };
-      
-      window.addEventListener('scroll', handleScroll);
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }
   }, []);
   
   // Handle form input changes
@@ -124,9 +106,9 @@ export default function ClientSupportPage() {
       />
       
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
-        <Grid container spacing={{ xs: 4, md: 6 }}>
-          {/* Contact Form Section */}
-          <Grid item xs={12} lg={6}>
+        {/* <Grid container spacing={{ xs: 4, md: 6 }}> */}
+ {/* Contact Form Section  */}
+          {/* <Grid item xs={12} lg={6}> */}
             <Fade in={loaded} timeout={1000}>
               <Box>
                 <ContactFormSection 
@@ -137,9 +119,9 @@ export default function ClientSupportPage() {
                 />
               </Box>
             </Fade>
-          </Grid>
+          {/* </Grid> */}
           
-          {/* FAQ Section */}
+          {/* FAQ Section
           <Grid item xs={12} lg={6}>
             <Fade in={loaded} timeout={1000} style={{ transitionDelay: '200ms' }}>
               <Box>
@@ -152,8 +134,8 @@ export default function ClientSupportPage() {
                 />
               </Box>
             </Fade>
-          </Grid>
-        </Grid>
+          </Grid> */}
+        {/* </Grid> */}
         
         {/* Contact Information */}
         <Box sx={{ mt: { xs: 6, md: 8 }, mb: 4 }}>

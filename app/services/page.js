@@ -244,7 +244,7 @@ export default function ServicesPage() {
       
       <Box 
         sx={{ 
-          bgcolor: 'background.default', 
+          bgcolor: theme.palette.primary.whitishMint, 
           minHeight: '100vh',
           position: 'relative',
           overflow: 'hidden',
@@ -297,8 +297,8 @@ export default function ServicesPage() {
                   </Box>
                 </motion.div>
 
-                <motion.div variants={itemVariants}>
-                  {/* How It Works Section - Added spacing */}
+                {/* <motion.div variants={itemVariants}>
+                  
                   <Box sx={{ mt: { xs: 6, md: 8 }, mb: { xs: 6, md: 8 } }}>
                     <Paper 
                       elevation={1}
@@ -311,14 +311,14 @@ export default function ServicesPage() {
                       <HowItWorks />
                     </Paper>
                   </Box>
-                </motion.div>
+                </motion.div> */}
 
-                <motion.div variants={itemVariants}>
-                  {/* FAQ Section */}
+                {/* <motion.div variants={itemVariants}>
+                  
                   <Box sx={{ mb: { xs: 4, md: 0 } }}>
                     <FAQSection />
                   </Box>
-                </motion.div>
+                </motion.div> */}
               </Grid>
               
               {/* Right Side - Order Summary */}
@@ -352,11 +352,11 @@ export default function ServicesPage() {
             </Grid>
             
             {/* CTA Banner */}
-            <motion.div variants={itemVariants}>
+            {/* <motion.div variants={itemVariants}>
               <Box sx={{ mt: { xs: 6, md: 8 } }}>
                 <CTABanner />
               </Box>
-            </motion.div>
+            </motion.div> */}
           </motion.div>
         </Container>
       </Box>

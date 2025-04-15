@@ -24,10 +24,12 @@ import {
   Book as GuideIcon
 } from '@mui/icons-material';
 
+import {theme} from "../../../contexts/Theme"
 // Define constants
-const TURQUOISE = '#2E7B5C';
-const DARK_TURQUOISE = '#2E7B5C';
-const TURQUOISE_LIGHT = '#e8f9f8';
+const TURQUOISE = theme.palette.primary.main;
+const DARK_TURQUOISE = theme.palette.primary.darkBlue;
+const TURQUOISE_LIGHT = theme.palette.primary.whitishMint;
+const yellowish = theme.palette.primary.yellowish;
 
 const ClientHeroSection = ({ 
   loaded, 
@@ -175,7 +177,7 @@ const ClientHeroSection = ({
                 component="h1"
                 sx={{ 
                   fontWeight: 800,
-                  color: 'white',
+                  color: DARK_TURQUOISE,
                   mb: 3, // Increased from 2 to 3
                   fontSize: { xs: '2.25rem', sm: '2.5rem', md: '3rem', lg: '3.5rem' },
                   position: 'relative',
@@ -189,14 +191,14 @@ const ClientHeroSection = ({
                   left: 0,
                   width: '30%',
                   height: 4,
-                  bgcolor: 'white',
+                  bgcolor: TURQUOISE,
                   borderRadius: 2
                 }} />
               </Typography>
               <Typography 
                 variant="h5"
                 sx={{ 
-                  color: 'rgba(255, 255, 255, 0.9)',
+                  color: DARK_TURQUOISE,
                   mb: 5, // Increased from 4 to 5
                   maxWidth: 550,
                   fontWeight: 400,
@@ -284,33 +286,15 @@ const ClientHeroSection = ({
                       sx={{ 
                         width: { xs: '100%', sm: 'calc(50% - 32px)' }, // Adjusted for new gap
                         borderRadius: 4,
-                        border: '1px solid',
-                        borderColor: 'rgba(255, 255, 255, 0.3)',
-                        transition: 'all 0.3s ease',
+                        
                         cursor: 'pointer',
                         position: 'relative',
                         overflow: 'hidden',
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                        '&:hover': { 
-                          borderColor: 'white',
-                          transform: 'translateY(-5px)',
-                          boxShadow: '0 10px 25px rgba(0,0,0,0.08)'
-                        },
-                        '&:hover .icon-background': {
-                          transform: 'scale(1.2)'
-                        }
+                        bgcolor: DARK_TURQUOISE,
+
                       }}
                     >
-                      <Box className="icon-background" sx={{
-                        position: 'absolute',
-                        top: -20,
-                        right: -20,
-                        width: 100,
-                        height: 100,
-                        borderRadius: '50%',
-                        bgcolor: `${TURQUOISE}15`,
-                        transition: 'transform 0.5s ease'
-                      }} />
+                     
                       
                       <CardContent sx={{ 
                         display: 'flex', 
@@ -319,21 +303,21 @@ const ClientHeroSection = ({
                         p: { xs: 3, sm: 4 } // Increased padding from p: { xs: 2.5, sm: 3 }
                       }}>
                         <Box sx={{ 
-                          color: DARK_TURQUOISE, 
+                          color: yellowish, 
                           mb: 2.5, // Increased from 2 to 2.5
                           p: 2, // Increased from 1.5 to 2
                           borderRadius: '12px',
-                          bgcolor: TURQUOISE_LIGHT,
+                          bgcolor: DARK_TURQUOISE,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center'
                         }}>
                           {option.icon}
                         </Box>
-                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1.5, color: '#2d3748' }}> {/* Increased margin */}
+                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1.5, color: yellowish }}> {/* Increased margin */}
                           {option.title}
                         </Typography>
-                        <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.6 }}> {/* Added line height */}
+                        <Typography variant="body1" color={TURQUOISE_LIGHT} sx={{ lineHeight: 1.6 }}> {/* Added line height */}
                           {option.desc}
                         </Typography>
                       </CardContent>

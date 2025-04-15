@@ -10,7 +10,9 @@ export const theme = createTheme({
       mainHover: '#90DDBE', // Light medium green for hover states
       black: '#000000',    // Added black for component compatibility
       darkBlue: '#003C43' ,
-      whitishMint:'#E3FEF7'
+      whitishMint:'#E3FEF7',
+      FooterDarkColor:'#003C43',
+      yellowish:'#FBFFCF'
        // Kept from original theme for compatibility
     },
     secondary: {

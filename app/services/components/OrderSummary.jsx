@@ -19,10 +19,11 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useRouter } from 'next/navigation';
+import {theme} from "../../../contexts/Theme"
 
 // Define constants
-const TURQUOISE = '#2E7B5C';
-const DARK_BLUE = '#0a1929';
+const TURQUOISE = theme.palette.primary.main;
+const DARK_BLUE = theme.palette.primary.darkBlue;
 
 const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, updateQuantity }) => {
   const theme = useTheme();
@@ -103,11 +104,15 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
       <Paper elevation={3} sx={{ 
         borderRadius: 2, 
         overflow: 'hidden',
-        border: '1px solid rgba(226, 232, 240, 0.8)'
+        border: '1px solid rgba(226, 232, 240, 0.8)',
+        backgroundColor: 'white', // Ensure solid background color
+        '@media (max-width: 600px)': {
+          backgroundColor: 'white', // Explicitly set for mobile
+        }
       }}>
         <Box sx={{ 
           bgcolor: TURQUOISE, 
-          color: 'white',
+          color: DARK_BLUE,
           p: 2,
           display: 'flex',
           alignItems: 'center'
@@ -125,7 +130,14 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
           </Badge>
         </Box>
         
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ 
+          p: 3, 
+          backgroundColor: 'white', // Ensure solid background color
+          '@media (max-width: 600px)': {
+            backgroundColor: 'white', // Explicitly set for mobile
+            boxShadow: 'none', // Remove any shadow that might affect transparency
+          }
+        }}>
           {cart.length === 0 ? (
             <Box sx={{ py: 4, textAlign: 'center' }}>
               <motion.div
@@ -136,21 +148,24 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                 <ShoppingCartIcon 
                   sx={{ 
                     fontSize: 50, 
-                    color: 'rgba(0, 0, 0, 0.1)', 
+                    color: DARK_BLUE, 
                     mb: 2 
                   }} 
                 />
               </motion.div>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+              <Typography variant="body1" color={DARK_BLUE} sx={{ mb: 2 }}>
                 Your cart is empty
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color={DARK_BLUE}>
                 Add services to get started
               </Typography>
             </Box>
           ) : (
             <>
-              <List sx={{ mb: 2 }}>
+              <List sx={{ 
+                mb: 2,
+                backgroundColor: 'white', // Ensure solid background for list
+              }}>
                 <AnimatePresence>
                   {cart.map((item) => (
                     <motion.div
@@ -159,6 +174,7 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                       animate="visible"
                       exit="exit"
                       variants={listItemVariants}
+                      style={{ backgroundColor: 'white' }} // Ensure solid background
                     >
                       <ListItem 
                         secondaryAction={
@@ -170,7 +186,11 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                             <DeleteOutlineIcon fontSize="small" />
                           </IconButton>
                         }
-                        sx={{ px: 0, py: 1 }}
+                        sx={{ 
+                          px: 0, 
+                          py: 1,
+                          backgroundColor: 'white', // Ensure solid background
+                        }}
                       >
                         <ListItemText
                           primary={
@@ -182,7 +202,7 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                             </Typography>
                           }
                           secondary={
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography variant="body2" color={DARK_BLUE}>
                               {formatPriceWithType(item)} 
                               {Number(item.quantity || 1) > 1 ? ` x ${item.quantity}` : ''}
                             </Typography>
@@ -193,7 +213,7 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                             <IconButton 
                               size="small" 
                               onClick={() => updateQuantity(getItemId(item), Math.max(1, Number(item.quantity || 1) - 1))}
-                              sx={{ color: TURQUOISE }}
+                              sx={{ color: DARK_BLUE }}
                               disabled={Number(item.quantity || 1) <= 1}
                             >
                               <RemoveIcon fontSize="small" />
@@ -203,7 +223,8 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                             mx: 1, 
                             minWidth: 20, 
                             textAlign: 'center',
-                            fontWeight: 600
+                            fontWeight: 600,
+                            color: DARK_BLUE,
                           }}>
                             {item.quantity || 1}
                           </Typography>
@@ -211,7 +232,7 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                             <IconButton 
                               size="small" 
                               onClick={() => updateQuantity(getItemId(item), Number(item.quantity || 1) + 1)}
-                              sx={{ color: TURQUOISE }}
+                              sx={{ color: DARK_BLUE }}
                             >
                               <AddIcon fontSize="small" />
                             </IconButton>
@@ -223,9 +244,10 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                         display: 'flex', 
                         justifyContent: 'flex-end', 
                         pr: 5,
-                        pb: 1
+                        pb: 1,
+                        backgroundColor: 'white', // Ensure solid background
                       }}>
-                        <Typography variant="caption" color="text.secondary">
+                        <Typography variant="caption" sx={{color: DARK_BLUE}}>
                           Subtotal: ${calculateItemTotal(item)}
                         </Typography>
                       </Box>
@@ -236,21 +258,36 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
               
               <Divider sx={{ my: 2 }} />
               
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                <Typography variant="body2">Subtotal</Typography>
-                <Typography variant="body2">${calculateSubtotal()}</Typography>
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                mb: 1,
+                backgroundColor: 'white', // Ensure solid background
+              }}>
+                <Typography variant="body2" sx={{color: DARK_BLUE}}>Subtotal</Typography>
+                <Typography variant="body2" sx={{color: DARK_BLUE}}>${calculateSubtotal()}</Typography>
               </Box>
               
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                <Typography variant="body2">Collection & Delivery</Typography>
-                <Typography variant="body2">Free</Typography>
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                mb: 1,
+                backgroundColor: 'white', // Ensure solid background
+              }}>
+                <Typography variant="body2" sx={{color: DARK_BLUE}}>Collection & Delivery</Typography>
+                <Typography variant="body2" sx={{color: DARK_BLUE}}>Free</Typography>
               </Box>
               
               <Divider sx={{ my: 2 }} />
               
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>Total</Typography>
-                <Typography variant="subtitle1" sx={{ fontWeight: 700, color: TURQUOISE }}>
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                mb: 3,
+                backgroundColor: 'white', // Ensure solid background
+              }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 700, color: DARK_BLUE}}>Total</Typography>
+                <Typography variant="subtitle1" sx={{ fontWeight: 700, color: DARK_BLUE }}>
                   ${calculateSubtotal()}
                 </Typography>
               </Box>
@@ -260,24 +297,24 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                 whileTap={{ scale: 0.98 }}
               >
                 <Button 
-  variant="contained" 
-  fullWidth 
-  size="large"
-  onClick={() => router.push('/checkout?from=services')}
-  disabled={cart.length === 0}
-  sx={{ 
-    py: 1.5,
-    borderRadius: 2,
-    fontWeight: 600,
-    color:'#ffffff',
-    backgroundColor: TURQUOISE,
-    '&:hover': {
-      backgroundColor: '#2E7B5C',
-    }
-  }}
->
-  Proceed to Checkout
-</Button>
+                  variant="contained" 
+                  fullWidth 
+                  size="large"
+                  onClick={() => router.push('/checkout?from=services')}
+                  disabled={cart.length === 0}
+                  sx={{ 
+                    py: 1.5,
+                    borderRadius: 2,
+                    fontWeight: 600,
+                    color: theme.palette.primary.whitishMint,
+                    backgroundColor: DARK_BLUE,
+                    '&:hover': {
+                      backgroundColor: DARK_BLUE,
+                    }
+                  }}
+                >
+                  Proceed to Checkout
+                </Button>
               </motion.div>
             </>
           )}

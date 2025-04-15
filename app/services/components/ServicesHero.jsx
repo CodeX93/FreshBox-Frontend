@@ -59,7 +59,7 @@ const ServicesHero = () => {
                   fontWeight: 700,
                   fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
                   mb: { xs: 1.5, sm: 2, md: 3 },
-                  color: theme.palette.primary.dark, // Using theme's dark green
+                  color: theme.palette.primary.darkBlue, // Using theme's dark green
                   lineHeight: 1.2
                 }}>
                   Premium Laundry Services

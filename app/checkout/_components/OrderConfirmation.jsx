@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { getTimeSlot, formatDate } from '../checkoutData';
+import{theme} from "../../../contexts/Theme";
 
 function OrderConfirmation({ cartTotal, contactData, scheduleData }) {
   // Generate an order number
@@ -18,7 +19,7 @@ function OrderConfirmation({ cartTotal, contactData, scheduleData }) {
     <Box sx={{ maxWidth: 800, mx: 'auto' }}>
       <Paper elevation={3} sx={{ borderRadius: 2, overflow: 'hidden', mb: 4 }}>
         <Box sx={{ 
-          bgcolor: 'success.main', 
+          bgcolor: theme.palette.primary.darkBlue,
           color: 'white',
           p: 3,
           textAlign: 'center'
@@ -90,7 +91,7 @@ function OrderConfirmation({ cartTotal, contactData, scheduleData }) {
                 <Typography variant="subtitle1">
                   Total Paid
                 </Typography>
-                <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                <Typography variant="h6" sx={{ fontWeight: 700,color:theme.palette.primary.darkBlue }}>
                   £{cartTotal.toFixed(2)}
                 </Typography>
               </Box>
@@ -103,13 +104,13 @@ function OrderConfirmation({ cartTotal, contactData, scheduleData }) {
       size="large"
       href="/"
       sx={{
-        backgroundColor: '#2E7B5C', // Set background color
-        color: '#fff', // Set text color to white
+        backgroundColor: theme.palette.primary.darkBlue,
+        color: theme.palette.primary.whitishMint,
         borderRadius: 2,
         px: 4,
         py: 1.5,
         '&:hover': {
-          backgroundColor: '#256C47', // Darker shade for hover effect
+          backgroundColor: theme.palette.primary.darkBlue,
         },
       }}
     >
@@ -121,14 +122,14 @@ function OrderConfirmation({ cartTotal, contactData, scheduleData }) {
   size="large"
   href="/"
   sx={{
-    borderColor: '#2E7B5C', // Set border color
-    color: '#2E7B5C', // Set text color to match the border
+    backgroundColor: theme.palette.primary.whitishMint,
+        color: theme.palette.primary.darkBlue,
     borderRadius: 2,
     px: 4,
     py: 1.5,
     '&:hover': {
-      backgroundColor: '#2E7B5C', // Set background color on hover
-      color: '#fff', // Change text color on hover to white
+      backgroundColor: theme.palette.primary.whitishMint,
+      backgroundColor: theme.palette.primary.whitishMint,
       borderColor: '#2E7B5C', // Keep border color on hover
     },
   }}

@@ -344,7 +344,10 @@ const LaundryOrderTracking = () => {
         fullWidth 
         maxWidth="md"
         PaperProps={{
-          sx: { borderRadius: isMobile ? 0 : 3 }
+          sx: { 
+            borderRadius: isMobile ? 0 : 3,
+            backgroundColor: 'white', // Ensure solid white background
+          }
         }}
       >
         <DialogTitle sx={{ 
@@ -353,7 +356,8 @@ const LaundryOrderTracking = () => {
           justifyContent: 'space-between',
           borderBottom: '1px solid',
           borderColor: 'divider',
-          pb: 2
+          pb: 2,
+          backgroundColor: 'white', // Ensure solid white background
         }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Avatar sx={{ 
@@ -382,12 +386,12 @@ const LaundryOrderTracking = () => {
           </IconButton>
         </DialogTitle>
         
-        <DialogContent dividers>
+        <DialogContent dividers sx={{ backgroundColor: 'white' }}>
           <Grid container spacing={4}>
             {/* Order Progress */}
             {order.status === 'processing' && (
               <Grid item xs={12}>
-                <Paper elevation={0} sx={{ p: 3, mb: 3, bgcolor: 'background.default', borderRadius: 3 }}>
+                <Paper elevation={0} sx={{ p: 3, mb: 3, bgcolor: 'white', borderRadius: 3 }}>
                   <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
                     Order Progress
                   </Typography>
@@ -452,7 +456,7 @@ const LaundryOrderTracking = () => {
                 Order Details
               </Typography>
               
-              <Paper elevation={0} sx={{ p: 3, borderRadius: 3 }}>
+              <Paper elevation={0} sx={{ p: 3, borderRadius: 3, bgcolor: 'white' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                   <Typography variant="subtitle2" color="text.secondary">
                     Total Weight
@@ -566,7 +570,7 @@ const LaundryOrderTracking = () => {
                 Order Items
               </Typography>
               
-              <Paper elevation={0} sx={{ p: 3, borderRadius: 3 }}>
+              <Paper elevation={0} sx={{ p: 3, borderRadius: 3, bgcolor: 'white' }}>
                 <List disablePadding>
                   {order.items.map((item, index) => (
                     <React.Fragment key={index}>
@@ -627,7 +631,7 @@ const LaundryOrderTracking = () => {
           </Grid>
         </DialogContent>
         
-        <DialogActions sx={{ p: 2, justifyContent: 'space-between' }}>
+        <DialogActions sx={{ p: 2, justifyContent: 'space-between', backgroundColor: 'white' }}>
           <Button onClick={closeOrderDetails} color="inherit">
             Close
           </Button>

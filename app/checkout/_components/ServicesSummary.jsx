@@ -9,10 +9,11 @@ import {
   Alert
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import {theme} from "../../../contexts/Theme"
 
 // Define constants
-const TURQUOISE = '#2E7B5C';
-const DARK_BLUE = '#2E7B5C';
+const TURQUOISE = theme.palette.primary.main;
+const DARK_BLUE = theme.palette.primary.darkBlue;
 
 function ServicesSummary({ cart, total }) {
   // Function to calculate item price based on item structure
@@ -101,7 +102,7 @@ function ServicesSummary({ cart, total }) {
               </Typography>
             }
           />
-          <Typography variant="h6" sx={{ fontWeight: 700, color: TURQUOISE }}>
+          <Typography variant="h6" sx={{ fontWeight: 700, color: DARK_BLUE }}>
             ${Number(total).toFixed(2)}
           </Typography>
         </ListItem>
@@ -111,7 +112,8 @@ function ServicesSummary({ cart, total }) {
         sx={{ 
           mt: 4,
           '& .MuiAlert-icon': {
-            color: TURQUOISE
+            color: DARK_BLUE,
+            
           }
         }}
         icon={<CheckCircleIcon />}

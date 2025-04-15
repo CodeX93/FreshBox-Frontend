@@ -14,7 +14,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 const inter = Inter({ subsets: ['latin'] });
 
 // Create responsive theme
-// Create responsive theme
 const theme = createTheme({
   breakpoints: {
     values: {
@@ -30,17 +29,17 @@ const theme = createTheme({
       main: '#28ddcd',
       light: '#E3FEF7',
       dark: '#20c5b7',
-      contrastText: '#fff',
+      contrastText: '#E3FEF7',
     },
     secondary: {
       main: '#ff6b6b',
       light: '#ff9a9a',
       dark: '#c73e3e',
-      contrastText: '#fff',
+      contrastText: '#E3FEF7',
     },
     background: {
       default: '#f8f9fa',
-      paper: '#ffffff',
+      paper: '#E3FEF7',
     },
   },
   typography: {
@@ -177,20 +176,22 @@ export default function RootLayout({ children }) {
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                minHeight: '100vh',
                 width: '100%',
                 overflow: 'hidden',
+                // Removed minHeight: '100vh' to prevent forced spacing
+                m: 0, // Explicitly set margin to 0
+                p: 0, // Explicitly set padding to 0
               }}
             >
-          
-              
               <Box
                 component="main"
                 sx={{
                   flexGrow: 1,
                   width: '100%',
-                  pt: { xs: 2, sm: 3, md: 4 },  // Responsive padding top
-                  pb: { xs: 4, sm: 5, md: 6 },  // Responsive padding bottom
+                  // Removed padding that was causing white space
+                  pt: 0,
+                  pb: 0,
+                  m: 0,
                 }}
               >
                 {children}

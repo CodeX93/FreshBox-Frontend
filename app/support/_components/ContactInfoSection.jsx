@@ -13,10 +13,12 @@ import {
 } from '@mui/icons-material';
 
 import ClientContactInfo from '../ClientSideInterations/ClientContactInfo';
-
+import {theme} from "../../../contexts/Theme"
 // Define constants
-const TURQUOISE = '#2E7B5C';
-const TURQUOISE_LIGHT = '#2E7B5C';
+const TURQUOISE = theme.palette.primary.main;
+const DARK_TURQUOISE = theme.palette.primary.darkBlue;
+const LightMintColor = theme.palette.primary.whitishMint;
+
 
 // Define contact information - this static data will be indexed by search engines
 const contactOptions = [

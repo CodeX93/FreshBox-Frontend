@@ -26,10 +26,14 @@ import {
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 
+
+import {theme} from "../../../contexts/Theme"
 // Define constants
-const TURQUOISE = '#2E7B5C';
-const TURQUOISE_DARK = '#2E7B5C';
-const TURQUOISE_LIGHT = '#2E7B5C';
+const TURQUOISE = theme.palette.primary.main;
+const TURQUOISE_DARK = theme.palette.primary.darkBlue;
+const TURQUOISE_LIGHT = theme.palette.primary.whitishMint;
+const YELLOWISH = theme.palette.primary.yellowish;
+
 
 const ClientFAQSection = ({ 
   faqData, 
@@ -119,6 +123,27 @@ const ClientFAQSection = ({
 
   return (
     <>
+     <Paper 
+      elevation={0}
+      sx={{ 
+        p: { xs: 3, sm: 4, md: 5 },
+        borderRadius: 4,
+        border: '1px solid',
+        borderColor: 'grey.100',
+        height: '100%',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
+        position: 'relative',
+        overflow: 'hidden'
+      }}
+    >
+      <Box sx={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '4px',
+        background: `linear-gradient(90deg, ${TURQUOISE}, ${TURQUOISE}50)`
+      }} />
       <Typography 
         variant="h4" 
         component="h2" 
@@ -136,7 +161,7 @@ const ClientFAQSection = ({
             transform: 'translateX(-50%)',
             width: 60,
             height: 3,
-            backgroundColor: TURQUOISE,
+            backgroundColor: TURQUOISE_DARK,
             borderRadius: 2
           }
         }}
@@ -169,12 +194,12 @@ const ClientFAQSection = ({
               border: '1px solid',
               borderColor: searchInputFocused || searchActive ? TURQUOISE : 'grey.200',
               transition: 'all 0.3s ease',
-              backgroundColor: searchInputFocused ? 'white' : '#f9fafb'
+              backgroundColor: searchInputFocused ? YELLOWISH : TURQUOISE_LIGHT
             }}
           >
             <SearchIcon 
               sx={{ 
-                color: searchInputFocused || searchActive ? TURQUOISE : 'grey.500', 
+                color: searchInputFocused || searchActive ? TURQUOISE_DARK : 'grey.500', 
                 mr: 1.5,
                 transition: 'color 0.3s ease'
               }} 
@@ -212,7 +237,7 @@ const ClientFAQSection = ({
                       color: 'grey.500',
                       minWidth: 'auto',
                       '&:hover': {
-                        backgroundColor: `${TURQUOISE}10`,
+                        backgroundColor: `${TURQUOISE_LIGHT}`,
                         color: TURQUOISE_DARK
                       }
                     }}
@@ -242,8 +267,8 @@ const ClientFAQSection = ({
                 onDelete={() => setSearchQuery('')}
                 sx={{ 
                   mb: 2, 
-                  bgcolor: TURQUOISE_LIGHT,
-                  color: TURQUOISE_DARK,
+                  bgcolor: TURQUOISE_DARK,
+                  color: TURQUOISE,
                   borderColor: TURQUOISE,
                   fontWeight: 500,
                   '& .MuiChip-deleteIcon': {
@@ -274,9 +299,9 @@ const ClientFAQSection = ({
                 mx: 'auto', 
                 textAlign: 'center',
                 py: 6,
-                bgcolor: 'rgba(0,0,0,0.02)',
+                bgcolor: 'rgba(169, 2, 2, 0.02)',
                 borderRadius: 3,
-                border: '1px dashed rgba(0,0,0,0.1)'
+                
               }}
             >
               <Box 
@@ -305,14 +330,16 @@ const ClientFAQSection = ({
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSearchQuery('')}
                 sx={{ 
-                  borderColor: TURQUOISE,
-                  color: TURQUOISE,
+                  borderColor: YELLOWISH,
+                  color: TURQUOISE_LIGHT,
+                  bgcolor:TURQUOISE_DARK,
                   borderRadius: 2,
                   px: 3,
                   py: 1,
                   '&:hover': { 
-                    borderColor: TURQUOISE_DARK,
-                    bgcolor: TURQUOISE_LIGHT 
+                    borderColor: YELLOWISH,
+                    bgcolor: TURQUOISE_DARK,
+                    color:TURQUOISE 
                   }
                 }}
               >
@@ -347,6 +374,7 @@ const ClientFAQSection = ({
                   border: '1px solid',
                   borderColor: expandedFAQ === `panel${index}` ? TURQUOISE : 'grey.200',
                   mb: 2,
+                  bgcolor:TURQUOISE_LIGHT,
                   borderRadius: '12px !important',
                   overflow: 'hidden',
                   '&::before': { display: 'none' },
@@ -371,9 +399,9 @@ const ClientFAQSection = ({
                     py: 1.5,
                     backgroundColor: expandedFAQ === `panel${index}` ? TURQUOISE_LIGHT : 'transparent',
                     transition: 'background-color 0.3s ease',
-                    '&:hover': {
-                      backgroundColor: expandedFAQ === `panel${index}` ? TURQUOISE_LIGHT : '#f9fafb'
-                    },
+                    // '&:hover': {
+                    //   backgroundColor: expandedFAQ === `panel${index}` ? TURQUOISE_LIGHT : '#f9fafb'
+                    // },
                     '& .MuiAccordionSummary-content': { 
                       display: 'flex',
                       alignItems: 'center',
@@ -383,10 +411,10 @@ const ClientFAQSection = ({
                 >
                   <Box 
                     component={motion.div}
-                    whileHover={{ scale: 1.1 }}
+                    // whileHover={{ scale: 1.1 }}
                     sx={{ 
-                      color: 'white', 
-                      bgcolor: TURQUOISE,
+                      color: TURQUOISE_DARK, 
+                      bgcolor: TURQUOISE_LIGHT,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -441,7 +469,7 @@ const ClientFAQSection = ({
         </Box>
       </motion.div>
 
-      {/* Enhanced "Still have questions" box */}
+      {/* Enhanced "Still have questions" box
       <Fade in={true} timeout={1000}>
         <Box 
           component={motion.div}
@@ -522,7 +550,8 @@ const ClientFAQSection = ({
             </Button>
           </Box>
         </Box>
-      </Fade>
+      </Fade> */}
+    </Paper>
     </>
   );
 };

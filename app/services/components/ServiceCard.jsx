@@ -11,7 +11,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Stack,
   IconButton,
   TextField,
   Collapse,
@@ -28,12 +27,11 @@ import {
   ExpandMore as ExpandMoreIcon,
   ExpandLess as ExpandLessIcon
 } from '@mui/icons-material';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
+import {theme} from "../../../contexts/Theme"
 
 // Define constants
-const TURQUOISE = '#2E7B5C';
-const DARK_BLUE = '#0D3B6E';
+const TURQUOISE = theme.palette.primary.main;
+const DARK_BLUE = theme.palette.primary.darkBlue;
 
 const ServiceCard = ({ service, handleAddToCart }) => {
   const theme = useTheme();
@@ -53,46 +51,45 @@ const ServiceCard = ({ service, handleAddToCart }) => {
   // Format price based on price type
   const formatPrice = (price, priceType) => {
     if (priceType === 'per lb') {
-      return `$${price.toFixed(2)} / lb`;
+      return `$${price.toFixed(2)}/ lb`;
     } else if (priceType === 'per item') {
-      return `$${price.toFixed(2)} / item`;
+      return `$${price.toFixed(2)}/ Item`;
     } else if (priceType === 'per set') {
-      return `$${price.toFixed(2)} / set`;
+      return `$${price.toFixed(2)}/ set`;
     } else if (priceType === 'per stain') {
-      return `$${price.toFixed(2)} / stain`;
+      return `$${price.toFixed(2)}/ stain`;
     }
     return `$${price.toFixed(2)}`;
   };
   
-  // Get color based on service category
-  const getChipColor = (category) => {
+  // Get bgcolor based on service category
+  const getCardBackground = (category) => {
     switch (category) {
       case 'Premium':
-        return theme.palette.primary.main;
+        return '#e3f7f5'; // Light turquoise
       case 'Specialized':
-        return theme.palette.secondary.main;
+        return '#e8f4fd'; // Light blue
       case 'Add-on':
-        return theme.palette.info.main;
+        return '#e6f7ed'; // Light green
       case 'Business':
-        return theme.palette.warning.main;
+        return '#fff4e6'; // Light orange
       default:
-        return TURQUOISE;
+        return '#e6f7ed'; // Default light green like in screenshot
     }
   };
   
   return (
     <Card 
-      elevation={1}
+      elevation={0}
       sx={{
-        borderRadius: 3,
+        borderRadius: 1,
         overflow: 'hidden',
         transition: 'all 0.3s ease',
         border: '1px solid',
         borderColor: 'rgba(0,0,0,0.08)',
+        bgcolor: TURQUOISE,
         '&:hover': {
-          boxShadow: 3,
-          transform: 'translateY(-4px)',
-          borderColor: alpha(TURQUOISE, 0.3)
+          boxShadow: 1,
         }
       }}
     >
@@ -100,10 +97,10 @@ const ServiceCard = ({ service, handleAddToCart }) => {
         {/* Service Image */}
         <Box 
           sx={{ 
-            width: { xs: '100%', md: 220 },
+            width: { xs: '100%', md: 180 },
             position: 'relative',
-            height: { xs: 180, md: 'auto' },
-            bgcolor: 'grey.100'
+            height: { xs: 160, md: 'auto' },
+            bgcolor: theme.palette.primary.whitishMint,
           }}
         >
           {service.imageUrl ? (
@@ -133,32 +130,24 @@ const ServiceCard = ({ service, handleAddToCart }) => {
               </Typography>
             </Box>
           )}
-          
-          <Chip 
-            label={service.category}
-            size="small"
-            sx={{ 
-              position: 'absolute',
-              top: 12,
-              left: 12,
-              fontWeight: 600,
-              bgcolor: getChipColor(service.category),
-              color: 'white'
-            }}
-          />
         </Box>
         
         {/* Service Content */}
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <CardContent sx={{ flex: '1 0 auto', py: { xs: 2, md: 3 }, px: { xs: 2, md: 3 } }}>
+          <CardContent sx={{ 
+            flex: '1 0 auto', 
+            py: { xs: 2, md: 2 }, 
+            px: { xs: 2, md: 3 },
+            pb: { xs: 1, md: 1 }
+          }}>
             <Typography 
               variant="h5" 
               component="h2"
               sx={{ 
                 fontWeight: 700,
-                mb: 1,
+                mb: 0.5,
                 color: DARK_BLUE,
-                fontSize: { xs: '1.25rem', md: '1.5rem' }
+                fontSize: { xs: '1.25rem', md: '1.4rem' }
               }}
             >
               {service.title}
@@ -167,134 +156,133 @@ const ServiceCard = ({ service, handleAddToCart }) => {
             <Typography 
               variant="body1" 
               color="text.secondary"
-              sx={{ mb: 2 }}
+              sx={{ mb: 1 }}
             >
               {service.description}
             </Typography>
             
-            <Box 
+            <Chip 
+              label={service.category}
+              size="small"
               sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                mb: 2,
-                flexWrap: 'wrap',
-                gap: 1
+                my: 1,
+                fontWeight: 600,
+                bgcolor: '#1a4d40',
+                color: 'white',
+                borderRadius: 1,
+                height: 28,
               }}
-            >
-              <Chip
-                icon={<AccessTimeIcon />}
-                label={`${service.estimatedTime} hours turnaround`}
-                size="small"
-                variant="outlined"
-                sx={{ borderColor: alpha(TURQUOISE, 0.5), color: DARK_BLUE }}
-              />
+            />
+            
+            <Box sx={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center',
+              mt: 1
+            }}>
+              <Box 
+                sx={{ 
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: DARK_BLUE,
+                  '&:hover': { opacity: 0.85 }
+                }}
+                onClick={toggleDetails}
+              >
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    fontWeight: 600,
+                    mr: 0.5,
+                    textDecoration: 'underline'
+                  }}
+                >
+                  {showDetails ? 'Hide Details' : 'View Details'}
+                </Typography>
+                {showDetails ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
+              </Box>
               
               <Typography 
                 variant="h6" 
-                color="primary"
                 sx={{ 
-                  ml: 'auto',
                   fontWeight: 700,
-                  color: DARK_BLUE
+                  color: DARK_BLUE,
+                  fontSize: '1.1rem'
                 }}
               >
                 {formatPrice(service.price, service.priceType)}
               </Typography>
             </Box>
             
-            {service.specifications && service.specifications.length > 0 && (
-              <>
-                <Box sx={{ mb: 2 }}>
-                  <Box 
-                    sx={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      cursor: 'pointer',
-                      color: TURQUOISE,
-                      '&:hover': { opacity: 0.85 }
-                    }}
-                    onClick={toggleDetails}
-                  >
-                    <Typography 
-                      variant="subtitle2" 
-                      sx={{ 
-                        fontWeight: 600,
-                        mr: 0.5
-                      }}
-                    >
-                      {showDetails ? 'Hide Details' : 'View Details'}
-                    </Typography>
-                    {showDetails ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
-                  </Box>
-                </Box>
+            <Collapse in={showDetails}>
+              <Box sx={{ mt: 2, mb: 1 }}>
+                <Divider sx={{ mb: 1.5 }} />
                 
-                <Collapse in={showDetails}>
-                  <Box sx={{ mb: 2 }}>
-                    <Divider sx={{ mb: 1.5 }} />
-                    
-                    <Typography 
-                      variant="subtitle2" 
-                      sx={{ 
-                        fontWeight: 600,
-                        mb: 1.5,
-                        color: DARK_BLUE
-                      }}
-                    >
-                      Service Includes:
-                    </Typography>
-                    
-                    <List 
-                      dense
-                      disablePadding
-                      sx={{ mb: 1 }}
-                    >
-                      {service.specifications.map((spec, index) => (
-                        <ListItem key={index} disablePadding disableGutters sx={{ mb: 0.75 }}>
-                          <ListItemIcon sx={{ minWidth: 28 }}>
-                            <CheckIcon sx={{ fontSize: 18, color: TURQUOISE }} />
-                          </ListItemIcon>
-                          <ListItemText 
-                            primary={spec} 
-                            primaryTypographyProps={{ 
-                              variant: 'body2', 
-                              color: 'text.primary' 
-                            }} 
-                          />
-                        </ListItem>
-                      ))}
-                    </List>
-                  </Box>
-                </Collapse>
-              </>
-            )}
+                <Typography 
+                  variant="subtitle2" 
+                  sx={{ 
+                    fontWeight: 600,
+                    mb: 1,
+                    color: DARK_BLUE
+                  }}
+                >
+                  Service Includes:
+                </Typography>
+                
+                <List 
+                  dense
+                  disablePadding
+                  sx={{ mb: 1 }}
+                >
+                  {service.specifications && service.specifications.map((spec, index) => (
+                    <ListItem key={index} disablePadding disableGutters sx={{ mb: 0.5 }}>
+                      <ListItemIcon sx={{ minWidth: 28 }}>
+                        <CheckIcon sx={{ fontSize: 18, color: DARK_BLUE }} />
+                      </ListItemIcon>
+                      <ListItemText 
+                        primary={spec} 
+                        primaryTypographyProps={{ 
+                          variant: 'body2', 
+                          color: DARK_BLUE, 
+                        }} 
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+            </Collapse>
           </CardContent>
-          
-          <Divider />
           
           {/* Add to Cart Action */}
           <Box 
             sx={{ 
               display: 'flex', 
-              flexDirection: { xs: 'column', sm: 'row' }, 
+              justifyContent: 'space-between',
               alignItems: 'center',
               px: { xs: 2, md: 3 },
-              py: 2
+              py: 1.5,
+              mt: 'auto'
             }}
           >
             <Box 
               sx={{ 
                 display: 'flex', 
                 alignItems: 'center',
-                mb: { xs: 2, sm: 0 },
-                width: { xs: '100%', sm: 'auto' }
               }}
             >
               <IconButton 
                 onClick={decrementQuantity}
                 size="small"
                 sx={{ 
-                  border: '1px solid',
-                  borderColor: 'rgba(0,0,0,0.12)'
+                  bgcolor: DARK_BLUE,
+                  color: theme.palette.primary.whitishMint,
+                  '&:hover': {
+                    bgcolor: '#222',
+                  },
+                  borderRadius: 0.5,
+                  width: 28,
+                  height: 28
                 }}
               >
                 <RemoveIcon fontSize="small" />
@@ -319,11 +307,15 @@ const ServiceCard = ({ service, handleAddToCart }) => {
                 size="small"
                 sx={{ 
                   mx: 1,
-                  width: 60,
+                  width: 40,
                   '& .MuiOutlinedInput-root': {
+                    height: 28,
                     '& fieldset': {
                       borderColor: 'rgba(0,0,0,0.12)',
                     },
+                  },
+                  '& .MuiOutlinedInput-input': {
+                    padding: '4px 8px'
                   }
                 }}
               />
@@ -332,8 +324,14 @@ const ServiceCard = ({ service, handleAddToCart }) => {
                 onClick={incrementQuantity}
                 size="small"
                 sx={{ 
-                  border: '1px solid',
-                  borderColor: 'rgba(0,0,0,0.12)'
+                  bgcolor: DARK_BLUE,
+                  color: theme.palette.primary.whitishMint,
+                  '&:hover': {
+                    bgcolor: '#222',
+                  },
+                  borderRadius: 0.5,
+                  width: 28,
+                  height: 28
                 }}
               >
                 <AddIcon fontSize="small" />
@@ -342,17 +340,16 @@ const ServiceCard = ({ service, handleAddToCart }) => {
             
             <Button
               variant="contained"
-              color="primary"
-              startIcon={<CartIcon />}
-              fullWidth={isSmall}
-              
               onClick={() => handleAddToCart(service, quantity)}
               sx={{ 
-                ml: { xs: 0, sm: 'auto' },
-                bgcolor: TURQUOISE,
-                color:'#ffffff',
+                bgcolor: DARK_BLUE,
+                color: theme.palette.primary.whitishMint,
+                textTransform: 'none',
+                borderRadius: 0.5,
+                px: 2,
+                py: 0.5,
                 '&:hover': {
-                  bgcolor: alpha(TURQUOISE, 0.9)
+                  bgcolor: '#102020'
                 }
               }}
             >

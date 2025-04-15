@@ -1,22 +1,18 @@
-'use client';
-
-import React,{ useEffect, useRef } from 'react';
+import React from 'react';
 import { 
   Box, 
   Container, 
   Typography, 
-  Grid,
-  Paper,
   Button,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Card,
-  Divider,
+  CardContent,
+  Grid,
+  useMediaQuery,
   useTheme,
-  useMediaQuery
+  Divider,
+  Paper,
 } from '@mui/material';
+import {theme} from "../../../contexts/Theme"
 import { 
   MedicalServices as HealthcareIcon,
   Sanitizer as SanitizerIcon,
@@ -27,100 +23,63 @@ import {
   VerifiedUser as CertifiedIcon,
   CheckCircle as CheckCircleIcon
 } from '@mui/icons-material';
-import { motion, useAnimation, useInView } from 'framer-motion';
 
-// Define constants
-const TURQUOISE = '#2E7B5C';
-
-// Motion components
-const MotionBox = motion(Box);
-const MotionPaper = motion(Paper);
-const MotionTypography = motion(Typography);
-const MotionCard = motion(Card);
-
-export default function HealthcareSection() {
-  const theme = useTheme();
+const HealthcareSection = () => {
+  const darkBlueColor = theme.palette.primary.darkBlue;
+  const primaryColor = theme.palette.primary.main;
+  const whitishMint = theme.palette.primary.whitishMint;
+  const yellowishColor = theme.palette.primary.yellowish;
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isTablet = useMediaQuery(theme.breakpoints.down('lg'));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, amount: 0.1 });
-  const controls = useAnimation();
-  
-  useEffect(() => {
-    if (isInView) {
-      controls.start('visible');
-    }
-  }, [controls, isInView]);
-  
-  // Animation variants
-  const sectionVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.1,
-      }
-    }
-  };
-  
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { 
-        type: 'spring', 
-        stiffness: 100,
-        damping: 15
-      }
-    }
-  };
-  
-  const cardVariants = {
-    hidden: { y: 30, opacity: 0 },
-    visible: (custom) => ({
-      y: 0,
-      opacity: 1,
-      transition: { 
-        type: 'spring',
-        stiffness: 70,
-        damping: 14,
-        delay: custom * 0.1 + 0.2
-      }
-    })
-  };
-  
-  // Features list
-  const features = [
+  // Benefits data
+  const benefits = [
     {
-      icon: <ShieldIcon sx={{ color: 'white', fontSize: 22 }} />,
+      icon: <ShieldIcon />,
       title: "Healthcare Compliance",
-      description: "Meeting all healthcare regulatory standards.",
-      bgColor: TURQUOISE
+      description: "Meeting all healthcare regulatory standards and guidelines for medical textiles."
     },
     {
-      icon: <SanitizerIcon sx={{ color: 'white', fontSize: 22 }} />,
+      icon: <SanitizerIcon />,
       title: "Medical-Grade Sanitization",
-      description: "Eliminating bacteria, viruses, and pathogens.",
-      bgColor: TURQUOISE
+      description: "Eliminating bacteria, viruses, and pathogens with specialized cleaning processes."
     },
     {
-      icon: <TechIcon sx={{ color: 'white', fontSize: 22 }} />,
+      icon: <TechIcon />,
       title: "Contamination Prevention",
-      description: "Strict sorting and processing procedures.",
-      bgColor: TURQUOISE
+      description: "Strict sorting and processing procedures to prevent cross-contamination."
     },
     {
-      icon: <CertifiedIcon sx={{ color: 'white', fontSize: 22 }} />,
+      icon: <CertifiedIcon />,
       title: "Certified Process",
-      description: "Staff trained in healthcare textile handling.",
-      bgColor: TURQUOISE
+      description: "Staff trained in healthcare textile handling and medical laundry regulations."
     }
   ];
   
+  // Features data
+  const features = [
+    {
+      icon: <HospitalIcon />,
+      title: "Hospital-Grade Quality",
+      description: "Meeting stringent healthcare facility sanitization requirements."
+    },
+    {
+      icon: <HealthcareIcon />,
+      title: "Specialized Equipment",
+      description: "Using advanced machinery designed for medical textile processing."
+    },
+    {
+      icon: <DeliveryIcon />,
+      title: "Healthcare Logistics",
+      description: "Reliable pickup and delivery scheduled around your facility's needs."
+    },
+    {
+      icon: <CheckCircleIcon />,
+      title: "Quality Assurance",
+      description: "Rigorous inspections to ensure compliance with healthcare standards."
+    }
+  ];
+
   // Healthcare facilities we serve
   const facilities = [
     "Medical Offices",
@@ -149,513 +108,514 @@ export default function HealthcareSection() {
 
   return (
     <Box 
-      ref={ref}
       sx={{ 
-        minHeight: { xs: 'auto', md: 'auto' },
         width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        bgcolor: '#f5f7fa', // Light background color for the section
+        bgcolor: whitishMint,
+        py: { xs: 3, sm: 4, md: 5 },
         position: 'relative',
-        py: { xs: 4, sm: 6, md: 8 }
+        overflow: 'hidden',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center'
       }}
     >
-      <Container 
-        maxWidth="lg" 
-        sx={{ 
-          position: 'relative', 
-          zIndex: 1,
-          px: { xs: 2, sm: 3, md: 4 } // Added horizontal padding
+      {/* Subtle background element */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          width: { xs: '150px', sm: '200px', md: '300px' },
+          height: { xs: '150px', sm: '200px', md: '300px' },
+          background: `linear-gradient(135deg, ${primaryColor}20, transparent)`,
+          borderRadius: '0 0 0 100%',
+          zIndex: 0
         }}
-      >
-        <MotionBox
-          variants={sectionVariants}
-          initial="hidden"
-          animate={controls}
-        >
-          {/* Section header card - Boxed */}
-          <MotionCard
-            elevation={1}
-            variants={itemVariants}
-            sx={{ 
-              borderRadius: 3,
-              mb: 3,
-              overflow: 'hidden',
-              boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+      />
+      
+      <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 }, position: 'relative', zIndex: 1 }}>
+        {/* Hero Section - Compact */}
+        <Box sx={{ mb: { xs: 3, sm: 4, md: 5 }, textAlign: 'center' }}>
+          <Typography
+            variant="h2"
+            sx={{
+              fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.5rem' },
+              fontWeight: 700,
+              color: darkBlueColor,
+              mb: { xs: 1, sm: 2 },
+              lineHeight: 1.2,
+              position: 'relative',
+              display: 'inline-block',
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                bottom: -6,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: 50,
+                height: 3,
+                bgcolor: yellowishColor,
+                borderRadius: 2
+              }
             }}
           >
-            <Box sx={{ 
-              p: { xs: 2, sm: 3 },
-              background: `linear-gradient(135deg, ${TURQUOISE}10, ${TURQUOISE}20)`,
-              position: 'relative'
-            }}>
-              <Box 
-                sx={{ 
-                  display: 'flex',
-                  alignItems: { xs: 'flex-start', sm: 'center' },
-                  flexDirection: { xs: 'column', sm: 'row' }
-                }}
-              >
-                <Box 
-                  sx={{ 
+            Healthcare Laundry Solutions
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
+              color: darkBlueColor,
+              mb: { xs: 2, sm: 3 },
+              maxWidth: '800px',
+              mx: 'auto',
+              lineHeight: 1.5
+            }}
+          >
+            Medical-grade laundry services that meet rigorous healthcare standards for cleanliness, sanitization, and compliance.
+          </Typography>
+          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: darkBlueColor,
+                color: whitishMint,
+                px: { xs: 2.5, sm: 3 },
+                py: { xs: 1, sm: 1.25 },
+                borderRadius: '50px',
+                fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                fontWeight: 600,
+                '&:hover': {
+                  bgcolor: primaryColor,
+                  transform: 'translateY(-2px)',
+                  transition: 'all 0.3s ease'
+                }
+              }}
+            >
+              Get Started
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{
+                borderColor: darkBlueColor,
+                color: darkBlueColor,
+                px: { xs: 2.5, sm: 3 },
+                py: { xs: 1, sm: 1.25 },
+                borderRadius: '50px',
+                fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                fontWeight: 600,
+                '&:hover': {
+                  borderColor: primaryColor,
+                  color: primaryColor,
+                  bgcolor: `${primaryColor}10`,
+                  transform: 'translateY(-2px)',
+                  transition: 'all 0.3s ease'
+                }
+              }}
+            >
+              Learn More
+            </Button>
+          </Box>
+        </Box>
+
+        {/* Combined Benefits and Features Section */}
+        <Grid container spacing={3}>
+          {/* Benefits Column */}
+          <Grid item xs={12} md={6}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: { xs: '1.3rem', sm: '1.5rem', md: '1.8rem' },
+                fontWeight: 700,
+                color: darkBlueColor,
+                mb: { xs: 3, sm: 4 },
+                position: 'relative',
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: -6,
+                  left: 0,
+                  width: 40,
+                  height: 3,
+                  bgcolor: yellowishColor,
+                  borderRadius: 2
+                }
+              }}
+            >
+              Medical Standards Compliance
+            </Typography>
+            
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              {benefits.map((benefit, index) => (
+                <Box
+                  key={index}
+                  sx={{
                     display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: { xs: 50, sm: 60 },
-                    height: { xs: 50, sm: 60 },
-                    borderRadius: '50%',
-                    bgcolor: 'rgba(40,221,205,0.2)',
-                    mr: { xs: 0, sm: 2 },
-                    mb: { xs: 1.5, sm: 0 }
+                    alignItems: 'flex-start',
+                    gap: 2,
+                    p: 2,
+                    borderRadius: 2,
+                    bgcolor: whitishMint,
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateX(8px)',
+                      '& .benefit-icon': {
+                        color: yellowishColor,
+                        transform: 'scale(1.1)'
+                      }
+                    }
                   }}
                 >
-                  <HealthcareIcon sx={{ color: TURQUOISE, fontSize: { xs: 25, sm: 30 } }} />
-                </Box>
-                
-                <Box>
-                  <MotionTypography
-                    variant="h3"
-                    component="h2"
-                    variants={itemVariants}
-                    sx={{ 
-                      fontWeight: 700,
-                      fontSize: { xs: '1.6rem', sm: '1.8rem', md: '2.2rem' },
-                      lineHeight: 1.2
+                  <Box
+                    className="benefit-icon"
+                    sx={{
+                      color: darkBlueColor,
+                      transition: 'all 0.3s ease',
+                      mt: 0.5
                     }}
                   >
-                    Healthcare Laundry Solutions
-                  </MotionTypography>
-                  
-                  <MotionTypography
-                    variant="h6"
-                    color="text.secondary"
-                    variants={itemVariants}
-                    sx={{ 
-                      fontWeight: 400,
-                      fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' }
-                    }}
-                  >
-                    Medical-grade laundry services that meet rigorous healthcare standards
-                  </MotionTypography>
+                    {benefit.icon}
+                  </Box>
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontWeight: 600,
+                        color: darkBlueColor,
+                        mb: 0.5,
+                        fontSize: { xs: '1rem', sm: '1.1rem' }
+                      }}
+                    >
+                      {benefit.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: 'rgba(0,60,67,0.8)',
+                        lineHeight: 1.5,
+                        fontSize: { xs: '0.85rem', sm: '0.9rem' }
+                      }}
+                    >
+                      {benefit.description}
+                    </Typography>
+                  </Box>
                 </Box>
-              </Box>
+              ))}
             </Box>
-          </MotionCard>
+          </Grid>
           
-          {/* Main content - Boxed cards layout */}
-          <Grid container spacing={3}>
-            {/* Left column - Main info */}
-            <Grid item xs={12} md={6} lg={5}>
-              <MotionCard
-                elevation={1}
-                variants={itemVariants}
-                sx={{ 
-                  borderRadius: 3,
-                  height: '100%',
-                  boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+          {/* Why Choose Us Column */}
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                bgcolor: darkBlueColor,
+                borderRadius: 3,
+                p: 3,
+                height: '100%'
+              }}
+            >
+              <Typography
+                variant="h3"
+                sx={{
+                  fontSize: { xs: '1.3rem', sm: '1.5rem', md: '1.8rem' },
+                  fontWeight: 700,
+                  color: whitishMint,
+                  mb: 3,
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    bottom: -6,
+                    left: 0,
+                    width: 40,
+                    height: 3,
+                    bgcolor: yellowishColor,
+                    borderRadius: 2
+                  }
                 }}
               >
-                <Box sx={{ p: { xs: 2, sm: 3 } }}>
-                  <MotionTypography
-                    variant="h5"
-                    component="h3"
-                    sx={{ 
-                      fontWeight: 600,
-                      mb: { xs: 1, sm: 2 },
-                      color: 'text.primary',
-                      fontSize: { xs: '1.1rem', sm: '1.2rem' }
+                Healthcare Service Features
+              </Typography>
+              
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {features.map((feature, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: 2,
+                      p: 2,
+                      borderRadius: 2,
+                      bgcolor: `${whitishMint}10`,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateX(8px)',
+                        bgcolor: `${whitishMint}15`,
+                        '& .feature-icon': {
+                          color: yellowishColor,
+                          transform: 'scale(1.1)'
+                        }
+                      }
                     }}
                   >
-                    Specialized Healthcare Textile Care
-                  </MotionTypography>
-                  
-                  <MotionTypography
-                    variant="body1"
-                    sx={{ 
-                      mb: { xs: 1.5, sm: 2 },
-                      color: 'text.secondary',
-                      lineHeight: 1.6,
-                      fontSize: { xs: '0.85rem', sm: '0.9rem' }
-                    }}
-                  >
-                    Healthcare facilities require the highest standards of cleanliness and sanitization for textiles. Our healthcare laundry service provides medical offices, clinics, and care facilities with reliable, compliant laundry solutions that prioritize patient and staff safety.
-                  </MotionTypography>
-                  
-                  <MotionTypography
-                    variant="h6"
-                    component="h4"
-                    sx={{ 
-                      fontWeight: 600,
-                      mb: { xs: 1, sm: 1.5 },
-                      fontSize: { xs: '0.95rem', sm: '1rem' }
-                    }}
-                  >
-                    Healthcare Facilities We Serve
-                  </MotionTypography>
-                  
-                  <Grid container spacing={1} sx={{ mb: { xs: 1.5, sm: 2 } }}>
-                    {facilities.map((facility, index) => (
-                      <Grid item xs={6} key={index}>
-                        <MotionBox
-                          variants={itemVariants}
-                          custom={index}
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            mb: 0.5
-                          }}
-                        >
-                          <CheckCircleIcon sx={{ 
-                            color: TURQUOISE, 
-                            mr: 1, 
-                            fontSize: { xs: 14, sm: 16 },
-                            flexShrink: 0
-                          }} />
-                          <Typography 
-                            variant="body2" 
-                            sx={{ 
-                              fontSize: { xs: '0.8rem', sm: '0.85rem' },
-                              lineHeight: 1.3
-                            }}
-                          >
-                            {facility}
-                          </Typography>
-                        </MotionBox>
-                      </Grid>
-                    ))}
-                  </Grid>
-                  
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    size={isSmallScreen ? "small" : "medium"}
-                    startIcon={<HealthcareIcon sx={{ fontSize: { xs: 16, sm: 18 } }} />}
-                    sx={{ 
-                      bgcolor: TURQUOISE,
-                      color: 'white',
-                      px: { xs: 1.5, sm: 2 },
-                      py: { xs: 0.75, sm: 1 },
-                      borderRadius: '8px',
-                      fontWeight: 600,
-                      fontSize: { xs: '0.8rem', sm: '0.85rem' },
-                      '&:hover': { bgcolor: '#20c5b7' }
-                    }}
-                  >
-                    Request Healthcare Pricing
-                  </Button>
-                  
-                  <Typography 
-                    variant="body2" 
-                    sx={{ 
-                      color: 'text.secondary', 
-                      fontSize: { xs: '0.75rem', sm: '0.8rem' }, 
-                      fontStyle: 'italic',
-                      textAlign: 'center',
-                      mt: 1
-                    }}
-                  >
-                    Compliant with all healthcare regulations
-                  </Typography>
-                </Box>
-              </MotionCard>
-            </Grid>
-            
-            {/* Right column - Features and Healthcare Items */}
-            <Grid item xs={12} md={6} lg={7}>
-              <Grid container spacing={3}>
-                {/* Features cards */}
-                <Grid item xs={12} lg={6}>
-                  <MotionCard
-                    elevation={1}
-                    variants={itemVariants}
-                    sx={{ 
-                      borderRadius: 3,
-                      boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
-                    }}
-                  >
-                    <Box sx={{ p: { xs: 2, sm: 3 } }}>
-                      <MotionTypography
+                    <Box
+                      className="feature-icon"
+                      sx={{
+                        color: whitishMint,
+                        transition: 'all 0.3s ease',
+                        mt: 0.5
+                      }}
+                    >
+                      {feature.icon}
+                    </Box>
+                    <Box>
+                      <Typography
                         variant="h6"
-                        component="h3"
-                        variants={itemVariants}
-                        sx={{ 
+                        sx={{
                           fontWeight: 600,
-                          mb: { xs: 1.5, sm: 2 },
+                          color: whitishMint,
+                          mb: 0.5,
                           fontSize: { xs: '1rem', sm: '1.1rem' }
                         }}
                       >
-                        Medical-Grade Standards
-                      </MotionTypography>
-                      
-                      <Grid container spacing={{ xs: 1.5, sm: 2 }}>
-                        {features.map((feature, index) => (
-                          <Grid item xs={12} key={index}>
-                            <MotionCard
-                              elevation={0}
-                              variants={cardVariants}
-                              custom={index}
-                              sx={{ 
-                                p: { xs: 1.5, sm: 2 },
-                                height: '100%',
-                                borderRadius: 3,
-                                bgcolor: feature.bgColor,
-                                display: 'flex',
-                                alignItems: 'center',
-                                transition: 'all 0.3s ease'
-                              }}
-                            >
-                              <Box sx={{ 
-                                bgcolor: 'rgba(255,255,255,0.2)',
-                                borderRadius: '50%',
-                                width: { xs: 32, sm: 36 },
-                                height: { xs: 32, sm: 36 },
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                mr: 2,
-                                flexShrink: 0
-                              }}>
-                                {React.cloneElement(feature.icon, { 
-                                  sx: { 
-                                    color: 'white', 
-                                    fontSize: { xs: 20, sm: 24 } 
-                                  } 
-                                })}
-                              </Box>
-                              <Box>
-                                <Typography
-                                  variant="body1"
-                                  component="h5"
-                                  fontWeight={600}
-                                  sx={{ 
-                                    fontSize: { xs: '0.85rem', sm: '0.9rem' },
-                                    color: 'white'
-                                  }}
-                                >
-                                  {feature.title}
-                                </Typography>
-                                <Typography
-                                  variant="body2"
-                                  sx={{ 
-                                    fontSize: { xs: '0.75rem', sm: '0.8rem' },
-                                    color: 'rgba(255,255,255,0.9)'
-                                  }}
-                                >
-                                  {feature.description}
-                                </Typography>
-                              </Box>
-                            </MotionCard>
-                          </Grid>
-                        ))}
-                      </Grid>
-                    </Box>
-                  </MotionCard>
-                </Grid>
-                
-                {/* Healthcare Items card */}
-                <Grid item xs={12} lg={6}>
-                  <MotionCard
-                    elevation={1}
-                    variants={itemVariants}
-                    sx={{ 
-                      borderRadius: 3,
-                      height: '100%',
-                      boxShadow: '0 6px 20px rgba(0,0,0,0.05)',
-                      background: `linear-gradient(135deg, ${TURQUOISE}05, ${TURQUOISE}15)`
-                    }}
-                  >
-                    <Box sx={{ p: { xs: 2, sm: 3 } }}>
-                      <Typography 
-                        variant="h6" 
-                        fontWeight={600} 
-                        sx={{ 
-                          mb: { xs: 1.5, sm: 2 }, 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          fontSize: { xs: '0.9rem', sm: '1rem' } 
+                        {feature.title}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: `${whitishMint}CC`,
+                          lineHeight: 1.5,
+                          fontSize: { xs: '0.85rem', sm: '0.9rem' }
                         }}
                       >
-                        <ShieldIcon sx={{ 
-                          color: TURQUOISE, 
-                          mr: 1, 
-                          fontSize: { xs: 18, sm: 20 },
-                          flexShrink: 0
-                        }} />
-                        Healthcare Items We Process
+                        {feature.description}
                       </Typography>
-                      
-                      <Grid container spacing={1}>
-                        {healthcareItems.map((item, index) => (
-                          <Grid item xs={6} key={index}>
-                            <Box sx={{ 
-                              display: 'flex', 
-                              alignItems: 'center', 
-                              mb: { xs: 0.75, sm: 1 } 
-                            }}>
-                              <Box
-                                sx={{
-                                  width: 5,
-                                  height: 5,
-                                  borderRadius: '50%',
-                                  bgcolor: TURQUOISE,
-                                  mr: 1,
-                                  flexShrink: 0
-                                }}
-                              />
-                              <Typography 
-                                variant="body2" 
-                                fontSize={{ xs: '0.75rem', sm: '0.8rem' }}
-                                sx={{ lineHeight: 1.3 }}
-                              >
-                                {item}
-                              </Typography>
-                            </Box>
-                          </Grid>
-                        ))}
-                      </Grid>
-                      
-                      <Divider sx={{ my: { xs: 1, sm: 1.5 } }} />
-                      
-                      <Box sx={{ textAlign: 'center' }}>
-                        <Typography 
-                          variant="body2" 
-                          sx={{ 
-                            mb: { xs: 1, sm: 1.5 }, 
-                            fontSize: { xs: '0.8rem', sm: '0.85rem' }, 
-                            fontWeight: 500 
-                          }}
-                        >
-                          All textiles sanitized to medical standards
-                        </Typography>
-                        <Button
-                          variant="outlined"
-                          fullWidth
-                          size="small"
-                          sx={{ 
-                            color: TURQUOISE,
-                            borderColor: TURQUOISE,
-                            fontSize: { xs: '0.75rem', sm: '0.8rem' },
-                            py: 0.5,
-                            '&:hover': { 
-                              borderColor: TURQUOISE,
-                              bgcolor: 'transparent'
-                            }
-                          }}
-                        >
-                          Learn About Our Process
-                        </Button>
-                      </Box>
                     </Box>
-                  </MotionCard>
-                </Grid>
-              </Grid>
-            </Grid>
-            
-            {/* Call to action card */}
-            <Grid item xs={12}>
-              <MotionCard
-                elevation={2}
-                variants={itemVariants}
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+          </Grid>
+          
+          {/* Facilities We Serve */}
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                mt: { xs: 1, md: 4 },
+                p: 3,
+                borderRadius: 3,
+                border: `1px solid ${primaryColor}30`,
+                bgcolor: `${whitishMint}`,
+                boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+              }}
+            >
+              <Typography
+                variant="h3"
                 sx={{
-                  mt: { xs: 1, sm: 2 },
-                  borderRadius: 3,
-                  overflow: 'hidden',
-                  boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+                  fontSize: { xs: '1.3rem', sm: '1.5rem', md: '1.8rem' },
+                  fontWeight: 700,
+                  color: darkBlueColor,
+                  mb: 3,
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    bottom: -6,
+                    left: 0,
+                    width: 40,
+                    height: 3,
+                    bgcolor: yellowishColor,
+                    borderRadius: 2
+                  }
                 }}
               >
-                <Box sx={{ p: { xs: 2, sm: 3 } }}>
-                  <Grid container spacing={{ xs: 1, sm: 2 }} alignItems="center">
-                    <Grid item xs={12} md={8}>
-                      <Typography 
-                        variant="h6" 
-                        fontWeight={600} 
-                        sx={{ 
-                          mb: 0.5, 
-                          fontSize: { xs: '0.9rem', sm: '1rem' } 
-                        }}
-                      >
-                        Our Healthcare Compliance Standards
-                      </Typography>
-                      
-                      <Typography 
-                        variant="body2" 
-                        color="text.secondary" 
-                        sx={{ 
-                          mb: { xs: 0.5, sm: 1 }, 
-                          fontSize: { xs: '0.8rem', sm: '0.85rem' } 
-                        }}
-                      >
-                        We maintain the highest standards in healthcare textile processing, following all industry guidelines and regulations.
-                      </Typography>
-                      
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-                        {[
-                          "Medical-grade sanitization",
-                          "OSHA-compliant protocols",
-                          "Healthcare certification",
-                          "Quality assurance testing"
-                        ].map((item, index) => (
-                          <Box 
-                            key={index}
-                            sx={{ 
-                              display: 'flex', 
-                              alignItems: 'center',
-                              width: { xs: '100%', sm: '50%' },
-                              mb: 0.5
-                            }}
-                          >
-                            <CheckCircleIcon sx={{ 
-                              color: TURQUOISE, 
-                              mr: 1, 
-                              fontSize: { xs: 12, sm: 14 },
-                              flexShrink: 0
-                            }} />
-                            <Typography 
-                              variant="body2" 
-                              fontSize={{ xs: '0.75rem', sm: '0.8rem' }}
-                            >
-                              {item}
-                            </Typography>
-                          </Box>
-                        ))}
-                      </Box>
-                    </Grid>
-                    
-                    <Grid 
-                      item 
-                      xs={12} 
-                      md={4} 
-                      sx={{ 
-                        display: 'flex', 
-                        justifyContent: { xs: 'center', md: 'center' },
-                        mt: { xs: 1, md: 0 }
+                Healthcare Facilities We Serve
+              </Typography>
+              
+              <Grid container spacing={2} sx={{ mt: 1 }}>
+                {facilities.map((facility, index) => (
+                  <Grid item xs={6} sm={4} key={index}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1.5,
+                        p: 1.5,
+                        borderRadius: 2,
+                        bgcolor: `${primaryColor}10`,
+                        height: '100%',
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          bgcolor: `${primaryColor}20`,
+                          transform: 'translateY(-4px)'
+                        }
                       }}
                     >
-                      <Button
-                        variant="contained"
-                        size={isSmallScreen ? "small" : "medium"}
-                        sx={{ 
-                          bgcolor: TURQUOISE,
-                          color: 'white',
-                          px: { xs: 2, sm: 3 },
-                          py: { xs: 0.75, sm: 1 },
-                          width: { xs: '100%', sm: '100%' },
-                          borderRadius: '8px',
-                          fontWeight: 600,
-                          fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                          '&:hover': { bgcolor: '#20c5b7' }
+                      <CheckCircleIcon
+                        sx={{
+                          color: darkBlueColor,
+                          fontSize: { xs: 16, sm: 18 },
+                          flexShrink: 0
+                        }}
+                      />
+                      <Typography
+                        sx={{
+                          fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                          fontWeight: 500,
+                          color: darkBlueColor
                         }}
                       >
-                        Schedule a Consultation
-                      </Button>
-                    </Grid>
+                        {facility}
+                      </Typography>
+                    </Box>
                   </Grid>
-                </Box>
-              </MotionCard>
-            </Grid>
+                ))}
+              </Grid>
+            </Box>
           </Grid>
-        </MotionBox>
+          
+          {/* Items We Process */}
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                mt: { xs: 1, md: 4 },
+                p: 3,
+                borderRadius: 3,
+                border: `1px solid ${primaryColor}30`,
+                bgcolor: `${whitishMint}`,
+                boxShadow: '0 6px 20px rgba(0,0,0,0.05)'
+              }}
+            >
+              <Typography
+                variant="h3"
+                sx={{
+                  fontSize: { xs: '1.3rem', sm: '1.5rem', md: '1.8rem' },
+                  fontWeight: 700,
+                  color: darkBlueColor,
+                  mb: 3,
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    bottom: -6,
+                    left: 0,
+                    width: 40,
+                    height: 3,
+                    bgcolor: yellowishColor,
+                    borderRadius: 2
+                  }
+                }}
+              >
+                Healthcare Items We Process
+              </Typography>
+              
+              <Grid container spacing={2} sx={{ mt: 1 }}>
+                {healthcareItems.map((item, index) => (
+                  <Grid item xs={6} sm={4} key={index}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1.5,
+                        p: 1.5,
+                        borderRadius: 2,
+                        bgcolor: `${primaryColor}10`,
+                        height: '100%',
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          bgcolor: `${primaryColor}20`,
+                          transform: 'translateY(-4px)'
+                        }
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          width: 8,
+                          height: 8,
+                          borderRadius: '50%',
+                          bgcolor: primaryColor,
+                          flexShrink: 0
+                        }}
+                      />
+                      <Typography
+                        sx={{
+                          fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                          fontWeight: 500,
+                          color: darkBlueColor
+                        }}
+                      >
+                        {item}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          </Grid>
+          
+          {/* Call to Action */}
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                mt: 4,
+                p: 3,
+                borderRadius: 3,
+                bgcolor: `${darkBlueColor}`,
+                boxShadow: '0 6px 20px rgba(0,0,0,0.1)'
+              }}
+            >
+              <Grid container spacing={3} alignItems="center">
+                <Grid item xs={12} md={8}>
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      fontSize: { xs: '1.2rem', sm: '1.4rem', md: '1.6rem' },
+                      fontWeight: 700,
+                      color: whitishMint,
+                      mb: 1
+                    }}
+                  >
+                    Ready to upgrade your healthcare laundry?
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' },
+                      color: `${whitishMint}DD`,
+                      mb: { xs: 2, md: 0 }
+                    }}
+                  >
+                    Our medical-grade laundry service ensures compliance with all healthcare regulations and standards.
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} md={4} sx={{ textAlign: { xs: 'center', md: 'right' } }}>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      bgcolor: whitishMint,
+                      color: darkBlueColor,
+                      px: { xs: 3, sm: 4 },
+                      py: { xs: 1, sm: 1.25 },
+                      borderRadius: '50px',
+                      fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                      fontWeight: 600,
+                      '&:hover': {
+                        bgcolor: yellowishColor,
+                        transform: 'translateY(-2px)',
+                        transition: 'all 0.3s ease'
+                      }
+                    }}
+                  >
+                    Schedule a Consultation
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          </Grid>
+        </Grid>
       </Container>
     </Box>
   );
-}
+};
+
+export default HealthcareSection;

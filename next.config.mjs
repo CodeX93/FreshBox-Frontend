@@ -2,7 +2,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['images.unsplash.com','images.pexels.com','videos.pexels.com'],
+    domains: ['localhost','images.unsplash.com','images.pexels.com','videos.pexels.com'],
   },
   devIndicators: {
     buildActivity: false,

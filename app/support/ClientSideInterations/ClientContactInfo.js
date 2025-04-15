@@ -12,11 +12,14 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { motion } from 'framer-motion';
-
+import {theme} from "../../../contexts/Theme"
 // Define constants
-const TURQUOISE = '#2E7B5C';
-const TURQUOISE_DARK = '#20c5b7';
-const TURQUOISE_LIGHT = '#e8f9f8';
+const TURQUOISE = theme.palette.primary.main;
+const TURQUOISE_DARK = theme.palette.primary.darkBlue;
+const TURQUOISE_LIGHT = theme.palette.primary.whitishMint;
+const yellowish = theme.palette.primary.yellowish;
+// Define constants
+
 
 // Styled components for enhanced UI
 const ContactCard = styled(Paper)(({ theme }) => ({
@@ -24,22 +27,20 @@ const ContactCard = styled(Paper)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius * 2,
   border: '1px solid',
   borderColor: theme.palette.grey[100],
+  backgroundColor:TURQUOISE_DARK,
+  color:TURQUOISE_LIGHT,
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
   boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
-  '&:hover': {
-    borderColor: TURQUOISE,
-    transform: 'translateY(-8px)',
-    boxShadow: '0 15px 35px rgba(40, 221, 205, 0.15)'
-  }
+  
 }));
 
 const IconContainer = styled(Box)(({ theme }) => ({
-  backgroundColor: TURQUOISE_LIGHT,
-  color: TURQUOISE,
+  backgroundColor: TURQUOISE_DARK,
+  color: yellowish,
   padding: theme.spacing(2.5),
   borderRadius: '16px',
   marginBottom: theme.spacing(3),
@@ -48,11 +49,7 @@ const IconContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   border: `1px solid ${TURQUOISE}30`,
   transition: 'all 0.3s ease',
-  '&:hover': {
-    backgroundColor: TURQUOISE,
-    color: 'white',
-    transform: 'scale(1.1)'
-  }
+  
 }));
 
 const ContactDetail = styled(Typography)(({ theme }) => ({
@@ -62,10 +59,7 @@ const ContactDetail = styled(Typography)(({ theme }) => ({
   fontWeight: 500,
   transition: 'all 0.3s ease',
   cursor: 'pointer',
-  '&:hover': {
-    color: TURQUOISE_DARK,
-    textDecoration: 'underline'
-  }
+  
 }));
 
 const ClientContactInfo = ({ loaded, contactOptions }) => {
@@ -123,7 +117,7 @@ const ClientContactInfo = ({ loaded, contactOptions }) => {
             transform: 'translateX(-50%)',
             width: { xs: 60, sm: 80 },
             height: 4,
-            bgcolor: TURQUOISE,
+            bgcolor: TURQUOISE_DARK,
             borderRadius: 2
           }} />
         </Typography>
@@ -140,13 +134,13 @@ const ClientContactInfo = ({ loaded, contactOptions }) => {
                   <ContactCard elevation={0}>
                     <IconContainer
                       component={motion.div}
-                      whileHover={{ scale: 1.1, backgroundColor: TURQUOISE, color: 'white' }}
+                      whileHover={{ scale: 1.1, backgroundColor: TURQUOISE_DARK, color: yellowish }}
                       transition={{ type: 'spring', stiffness: 300 }}
                     >
                       {contact.icon}
                     </IconContainer>
                     
-                    <Typography variant="h5" fontWeight={700} sx={{ mb: 1.5, color: '#2d3748' }}>
+                    <Typography variant="h5" fontWeight={700} sx={{ mb: 1.5, color: yellowish }}>
                       {contact.title}
                     </Typography>
                     
@@ -169,7 +163,7 @@ const ClientContactInfo = ({ loaded, contactOptions }) => {
                     
                     <Typography 
                       variant="body2" 
-                      color="text.secondary"
+                      color={TURQUOISE_LIGHT}
                       textAlign="center"
                     >
                       {contact.subDetail}
@@ -189,8 +183,9 @@ const ClientContactInfo = ({ loaded, contactOptions }) => {
                           color: TURQUOISE,
                           borderColor: TURQUOISE,
                           '&:hover': {
-                            borderColor: TURQUOISE_DARK,
-                            backgroundColor: `${TURQUOISE}10`
+                            borderColor: yellowish,
+                            backgroundColor: `${TURQUOISE}`,
+                            color: TURQUOISE_DARK,
                           },
                           borderRadius: 2,
                           textTransform: 'none',

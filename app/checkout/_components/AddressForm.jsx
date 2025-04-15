@@ -17,6 +17,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import BusinessIcon from '@mui/icons-material/Business';
 import CloseIcon from '@mui/icons-material/Close';
 
+import {theme} from "../../../contexts/Theme"
+
 function AddressForm({ addressData, handleAddressChange, addressError }) {
   return (
     <Box>
@@ -62,9 +64,9 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
                 value="home" 
                 control={ <Radio
                   sx={{
-                    color: '#2E7B5C', // default color
+                    color: theme.palette.primary.darkBlue, // default color
                     '&.Mui-checked': {
-                      color: '#2E7B5C', // color when checked
+                      color: theme.palette.primary.darkBlue, // color when checked
                     },
                   }}
                 />} 
@@ -79,9 +81,9 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
                 value="office" 
                 control={ <Radio
                   sx={{
-                    color: '#2E7B5C', // default color
+                    color: theme.palette.primary.darkBlue, // color when checked
                     '&.Mui-checked': {
-                      color: '#2E7B5C', // color when checked
+                      color: theme.palette.primary.darkBlue, // color when checked
                     },
                   }}
                 />} 
@@ -105,13 +107,13 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
             sx={{
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#2E7B5C', // default border
+                  borderColor: theme.palette.primary.darkBlue, // default border
                 },
                 '&:hover fieldset': {
-                  borderColor: '#2E7B5C', // on hover
+                  borderColor: theme.palette.primary.darkBlue,
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#2E7B5C', // when focused
+                  borderColor: theme.palette.primary.darkBlue,
                 },
               },
             }}
@@ -133,13 +135,13 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
   sx={{
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: '#2E7B5C', // default border
+        borderColor: theme.palette.primary.darkBlue,
       },
       '&:hover fieldset': {
-        borderColor: '#2E7B5C', // on hover
+        borderColor: theme.palette.primary.darkBlue,
       },
       '&.Mui-focused fieldset': {
-        borderColor: '#2E7B5C', // when focused
+        borderColor: theme.palette.primary.darkBlue,
       },
     },
   }}
@@ -157,13 +159,13 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
             sx={{
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#2E7B5C', // default border
+                  borderColor: theme.palette.primary.darkBlue,
                 },
                 '&:hover fieldset': {
-                  borderColor: '#2E7B5C', // on hover
+                  borderColor: theme.palette.primary.darkBlue,
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#2E7B5C', // when focused
+                  borderColor: theme.palette.primary.darkBlue,
                 },
               },
             }}
@@ -181,13 +183,13 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
             sx={{
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#2E7B5C', // default border
+                  borderColor: theme.palette.primary.darkBlue,
                 },
                 '&:hover fieldset': {
-                  borderColor: '#2E7B5C', // on hover
+                  borderColor: theme.palette.primary.darkBlue,
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#2E7B5C', // when focused
+                  borderColor: theme.palette.primary.darkBlue,
                 },
               },
             }}
@@ -207,13 +209,13 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
             sx={{
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#2E7B5C', // default border
+                  borderColor: theme.palette.primary.darkBlue,
                 },
                 '&:hover fieldset': {
-                  borderColor: '#2E7B5C', // on hover
+                  borderColor: theme.palette.primary.darkBlue,
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#2E7B5C', // when focused
+                  borderColor: theme.palette.primary.darkBlue,
                 },
               },
             }}

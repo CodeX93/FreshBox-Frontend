@@ -15,8 +15,9 @@ import {
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { generateDateOptions } from '../checkoutData';
+import {theme} from "../../../contexts/Theme"
 
-const highlightColor = '#2E7B5C';
+const highlightColor = theme.palette.primary.darkBlue;
 
 function ScheduleForm({ scheduleData, handleScheduleChange, timeSlots }) {
   const collectionDates = generateDateOptions(1); // Start from tomorrow
