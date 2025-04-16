@@ -14,110 +14,69 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../../../contexts/Theme'; // Update path as needed
 
-const HeroSection = ({ fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { 
-      duration: 0.6,
-      ease: "easeOut"
-    }
-  }
-} }) => {
+const HowItWorkHeroSection = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
-  const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
+  const colors = theme.palette.primary;
+  
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          position: 'relative',
           width: '100%',
-          height: { xs: '100vh', sm: 'auto', md: '100vh' },
-          minHeight: { xs: '100vh', sm: 600, md: 700 },
-          maxHeight: { xs: 'none', md: 900 },
+          height: '100vh',
+          minHeight: '100vh',
+          backgroundColor: colors.whitishMint,
+          position: 'relative',
+          overflow: 'hidden',
           display: 'flex',
           alignItems: 'center',
-          overflow: 'hidden',
-          backgroundColor: theme.palette.primary.whitishMint,
-          pt: { xs: 0, sm: 8, md: 0 },
-          pb: { xs: 4, sm: 10, md: 0 },
+          py: { xs: 5, md: 0 },
         }}
       >
         <Container 
           maxWidth="xl" 
-          sx={{ 
-            position: 'relative', 
-            zIndex: 2,
-            height: { xs: '100%', sm: 'auto' },
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: { xs: 'center', sm: 'flex-start' }
-          }}
+          sx={{ position: 'relative', zIndex: 2, px: { xs: 2, md: 4 } }}
         >
           <Stack 
-            direction={{ xs: 'column', md: 'row' }}
-            spacing={{ xs: 2, sm: 4, md: 6 }} 
+            direction={{ xs: 'column', md: 'row' }} 
+            spacing={{ xs: 4, md: 2 }}
             alignItems="center"
-            sx={{ 
-              height: { xs: '100%', sm: 'auto' },
-              my: { xs: 'auto', sm: 0 }
-            }}
+            justifyContent="space-between"
           >
-            {/* Left side content */}
+            {/* Left Section */}
             <Box 
+              component={motion.div}
+              initial="hidden"
+              animate="visible"
+              variants={fadeIn}
               sx={{ 
                 width: { xs: '100%', md: '50%' },
-                order: { xs: 2, md: 1 }
+                order: { xs: 2, md: 1 },
+                textAlign: { xs: 'center', md: 'left' },
+                px: { xs: 0, md: 3 }
               }}
             >
-              <Box
-                component={motion.div}
-                initial="hidden"
-                animate="visible"
-                variants={fadeInUp}
-                sx={{ 
-                  px: { xs: 2, sm: 2, md: 0 },
-                  mt: { xs: 0, md: 0 },
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center'
-                }}
-              >
-                <Box
-                  sx={{
-                    display: 'inline-block',
-                    bgcolor: theme.palette.primary.main,
-                    borderRadius: 50,
-                    py: 1,
-                    px: 2,
-                    mb: 3,
-                    mt: { xs: 3, sm: 0 }
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontSize: { xs: '0.7rem', sm: '0.8rem' },
-                      fontWeight: 600,
-                      color: theme.palette.primary.darkBlue,
-                    }}
-                  >
-                    20% Discount for 1 Month Subscription
-                  </Typography>
-                </Box>
-                
+              <Box sx={{ maxWidth: 600, mx: { xs: 'auto', md: 0 } }}>
                 <Typography
                   variant="h1"
                   component="h1"
                   sx={{
                     fontWeight: 800,
+                    color: colors.darkBlue,
                     fontSize: { xs: '2.2rem', sm: '2.5rem', md: '3rem' },
-                    color: theme.palette.primary.darkBlue,
-                    lineHeight: 1.2,
                     mb: 2,
+                    mt: { xs: 2, sm: 3, md: 5 },
+                    lineHeight: 1.2,
                   }}
                 >
                   Laundry Made Simple
@@ -125,19 +84,24 @@ const HeroSection = ({ fadeInUp = {
                 
                 <Typography
                   sx={{
-                    color: theme.palette.primary.darkBlue,
+                    fontSize: { xs: '0.95rem', sm: '1.1rem', md: '1.2rem' },
+                    color: colors.darkBlue,
                     mb: 4,
-                    maxWidth: 600,
-                    fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
-                    lineHeight: 1.5
+                    lineHeight: 1.5,
                   }}
                 >
-                  We pick up, clean, and deliver your laundry so you can focus on what matters most. Professional service with just a few clicks.
+                  We pick up, clean, and deliver your laundry so you can focus on what matters most. 
+                  {!isMobile && <br />}
+                  Professional service with just a few clicks.
                 </Typography>
 
-                <Box sx={{ mb: 5 }}>
+                <Box sx={{ 
+                  mb: 5,
+                  display: 'flex',
+                  justifyContent: { xs: 'center', md: 'flex-start' }
+                }}>
                   <Button
-                  disableElevation
+                    disableElevation
                     variant="contained"
                     endIcon={<ArrowForwardIcon />}
                     sx={{
@@ -145,8 +109,8 @@ const HeroSection = ({ fadeInUp = {
                       py: { xs: 1.2, md: 1.5 },
                       px: { xs: 2.5, md: 3 },
                       fontWeight: 600,
-                      backgroundColor: theme.palette.primary.main,
-                      color: theme.palette.primary.darkBlue,
+                      backgroundColor: colors.main,
+                      color: colors.darkBlue,
                       boxShadow: 'none',
                       textTransform: 'none',
                       fontSize: { xs: '0.9rem', md: '1rem' },
@@ -161,13 +125,17 @@ const HeroSection = ({ fadeInUp = {
                 </Box>
 
                 {/* Stats section */}
-                <Box sx={{ display: 'flex', gap: { xs: 3, sm: 5, md: 6 } }}>
+                <Box sx={{ 
+                  display: 'flex', 
+                  gap: { xs: 3, sm: 5, md: 6 },
+                  justifyContent: { xs: 'center', md: 'flex-start' }
+                }}>
                   <Box>
                     <Typography
                       sx={{
                         fontWeight: 800,
                         fontSize: { xs: '1.6rem', sm: '2rem', md: '2.2rem' },
-                        color: theme.palette.primary.darkBlue,
+                        color: colors.darkBlue,
                         lineHeight: 1.1,
                       }}
                     >
@@ -175,7 +143,7 @@ const HeroSection = ({ fadeInUp = {
                     </Typography>
                     <Typography
                       sx={{
-                        color: theme.palette.primary.darkBlue,
+                        color: colors.darkBlue,
                         fontSize: { xs: '0.75rem', sm: '0.9rem' },
                         lineHeight: 1.2,
                         fontWeight: 500,
@@ -190,7 +158,7 @@ const HeroSection = ({ fadeInUp = {
                       sx={{
                         fontWeight: 800,
                         fontSize: { xs: '1.6rem', sm: '2rem', md: '2.2rem' },
-                        color: theme.palette.primary.darkBlue,
+                        color: colors.darkBlue,
                         lineHeight: 1.1,
                       }}
                     >
@@ -198,7 +166,7 @@ const HeroSection = ({ fadeInUp = {
                     </Typography>
                     <Typography
                       sx={{
-                        color: theme.palette.primary.darkBlue,
+                        color: colors.darkBlue,
                         fontSize: { xs: '0.75rem', sm: '0.9rem' },
                         lineHeight: 1.2,
                         fontWeight: 500,
@@ -211,82 +179,80 @@ const HeroSection = ({ fadeInUp = {
               </Box>
             </Box>
 
-            {/* Right side - empty for absolute positioning */}
+            {/* Right Section - Hidden on Mobile */}
             <Box 
               sx={{ 
-                width: { xs: '100%', md: '50%' },
+                width: { xs: '90%', md: '50%' },
                 order: { xs: 1, md: 2 },
-                display: { xs: 'none', md: 'block' }
+                display: { xs: 'none', md: 'flex' },
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'relative',
+                py: { xs: 2, md: 0 }
               }}
-            />
+            >
+              <Box
+                component={motion.div}
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.7 }}
+                sx={{
+                  position: 'relative',
+                  zIndex: 2,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '100%',
+                }}
+              >
+                <Box
+                  component="img"
+                  src="https://s3-alpha-sig.figma.com/img/c6ca/a559/7a018b89222ec1abfd41a1f975af9a51?Expires=1745193600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=oVmBem5E1~rWmWFQ9kraQ6T0E~QXDPMbNF~y6CV5KjfzpHQa9dgSzc0P67x-HmgDM4j~n0f5fHsESBKjYuWS2Jmnuqu69oh1sKqscYp97FgA3r3wXRVlKI4YBlpuP4y9C-KDixhHMvFBUVtelS8e-Nj1siptD1UoxvbxN12ZvMQj4R8gfjpxQuazdgdHv5ldswlE0CUVHuWZlWh6BBGuz1LWsYfh8Rp3wHWmEx8gvN1bPbbl4HCRZ911l~rap4-NGW~PHhCY0rSyAH4htAbFyKYOywEFthW~JOQPu5RzDrBxLuszkONKUDpHHneNFHYaOuUY1XWf-g8RRT~ArHQERw__"
+                  alt="Washing Machine"
+                  sx={{
+                    width: '90%',
+                    maxWidth: { md: '90%', lg: '100%' },
+                    display: 'block',
+                  }}
+                />
+              </Box>
+            </Box>
           </Stack>
         </Container>
 
-        {/* Green circle background - hidden on mobile, visible on larger screens */}
+        {/* Green Circle - Hidden on Mobile */}
         <Box
           sx={{
             position: 'absolute',
-            top: '50%',
-            right: { 
-              sm: '-30%', 
-              md: '-25%', 
-              lg: '-20%' 
-            },
-            transform: 'translateY(-50%)',
-            width: { 
-              sm: '650px', 
-              md: '800px', 
-              lg: '900px' 
-            },
-            height: { 
-              sm: '650px', 
-              md: '800px', 
-              lg: '900px' 
-            },
-            borderRadius: '50%',
-            backgroundColor: theme.palette.primary.main,
+            width: { xs: '100%', md: 800, lg: 1000 },
+            height: { xs: '100%', md: 800, lg: 1000 },
+            borderRadius: { xs: 0, md: '50%' },
+            backgroundColor: colors.main,
+            top: { xs: 0, md: '50%' },
+            right: { xs: 0, md: '-200px', lg: '-250px', xl: '-300px' },
+            transform: { xs: 'none', md: 'translateY(-50%)' },
             zIndex: 1,
-            display: { xs: 'none', sm: 'block' }
+            display: { xs: 'none', md: 'block' }
           }}
         />
 
-        {/* Washing machine image - hidden on mobile, visible on larger screens */}
-        <Box
-          component="img"
-          src="https://s3-alpha-sig.figma.com/img/c6ca/a559/7a018b89222ec1abfd41a1f975af9a51?Expires=1745193600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=oVmBem5E1~rWmWFQ9kraQ6T0E~QXDPMbNF~y6CV5KjfzpHQa9dgSzc0P67x-HmgDM4j~n0f5fHsESBKjYuWS2Jmnuqu69oh1sKqscYp97FgA3r3wXRVlKI4YBlpuP4y9C-KDixhHMvFBUVtelS8e-Nj1siptD1UoxvbxN12ZvMQj4R8gfjpxQuazdgdHv5ldswlE0CUVHuWZlWh6BBGuz1LWsYfh8Rp3wHWmEx8gvN1bPbbl4HCRZ911l~rap4-NGW~PHhCY0rSyAH4htAbFyKYOywEFthW~JOQPu5RzDrBxLuszkONKUDpHHneNFHYaOuUY1XWf-g8RRT~ArHQERw__"
-          alt="Washing Machine"
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            right: { 
-              sm: '10%', 
-              md: '15%' 
-            },
-            transform: 'translateY(-50%)',
-            width: { 
-              sm: '280px', 
-              md: '320px', 
-              lg: '350px' 
-            },
-            height: 'auto',
-            zIndex: 2,
-            display: { xs: 'none', sm: 'block' }
-          }}
-        />
-
-        {/* Decorative circles - only shown on non-mobile devices */}
+        {/* Decorative Circles - Hidden on Mobile */}
         {[
-          { top: '15%', right: '15%', size: 20 },
-          { top: '10%', right: '25%', size: 15 },
-          { top: '20%', right: '35%', size: 10 },
-          { top: '35%', right: '8%', size: 18 },
-          { top: '45%', right: '30%', size: 12 },
-          { top: '60%', right: '20%', size: 25 },
-          { top: '75%', right: '25%', size: 15 },
-          { top: '80%', right: '10%', size: 18 },
-        ].map((circle, idx) => (
+          { top: '15%', right: '15%', size: 20, filled: false, opacity: 0.5 },
+          { top: '10%', right: '25%', size: 15, filled: false, opacity: 0.5 },
+          { top: '20%', right: '35%', size: 10, filled: false, opacity: 0.5 },
+          { top: '35%', right: '8%', size: 18, filled: false, opacity: 0.5 },
+          { top: '45%', right: '30%', size: 12, filled: false, opacity: 0.5 },
+          { top: '60%', right: '20%', size: 25, filled: false, opacity: 0.5 },
+          { top: '75%', right: '25%', size: 15, filled: false, opacity: 0.5 },
+          { top: '80%', right: '10%', size: 18, filled: false, opacity: 0.5 },
+          { top: '20%', right: '20%', size: 8, filled: true, opacity: 0.5 },
+          { top: '40%', right: '15%', size: 6, filled: true, opacity: 0.5 },
+          { top: '55%', right: '28%', size: 10, filled: true, opacity: 0.5 },
+          { top: '70%', right: '18%', size: 7, filled: true, opacity: 0.5 },
+        ].map((bubble, idx) => (
           <Box
-            key={`outline-${idx}`}
+            key={idx}
             component={motion.div}
             animate={{
               y: [0, -5, 0],
@@ -299,39 +265,16 @@ const HeroSection = ({ fadeInUp = {
             }}
             sx={{
               position: 'absolute',
-              width: circle.size,
-              height: circle.size,
-              top: circle.top,
-              right: circle.right,
               borderRadius: '50%',
-              border: `1.5px solid ${theme.palette.primary.darkBlue}`,
-              opacity: 0.5,
+              width: bubble.size,
+              height: bubble.size,
+              top: bubble.top,
+              right: bubble.right,
+              backgroundColor: bubble.filled ? colors.darkBlue : 'transparent',
+              border: bubble.filled ? 'none' : `1.5px solid ${colors.darkBlue}`,
+              opacity: bubble.opacity || 0.5,
               zIndex: 3,
-              display: { xs: 'none', sm: 'block' }
-            }}
-          />
-        ))}
-
-        {/* Filled circles */}
-        {[
-          { top: '20%', right: '20%', size: 8 },
-          { top: '40%', right: '15%', size: 6 },
-          { top: '55%', right: '28%', size: 10 },
-          { top: '70%', right: '18%', size: 7 },
-        ].map((circle, idx) => (
-          <Box
-            key={`filled-${idx}`}
-            sx={{
-              position: 'absolute',
-              width: circle.size,
-              height: circle.size,
-              top: circle.top,
-              right: circle.right,
-              borderRadius: '50%',
-              backgroundColor: theme.palette.primary.darkBlue,
-              opacity: 0.3,
-              zIndex: 3,
-              display: { xs: 'none', sm: 'block' }
+              display: { xs: 'none', md: 'block' }
             }}
           />
         ))}
@@ -340,4 +283,4 @@ const HeroSection = ({ fadeInUp = {
   );
 };
 
-export default HeroSection;
+export default HowItWorkHeroSection;

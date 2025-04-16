@@ -169,7 +169,7 @@ const MassageSpaSection = () => {
                 color: whitishMint,
                 px: { xs: 2.5, sm: 3 },
                 py: { xs: 1, sm: 1.25 },
-                borderRadius: '50px',
+                borderRadius: '8px',
                 fontSize: { xs: '0.85rem', sm: '0.9rem' },
                 fontWeight: 600,
                 '&:hover': {
@@ -189,7 +189,7 @@ const MassageSpaSection = () => {
                 color: darkBlueColor,
                 px: { xs: 2.5, sm: 3 },
                 py: { xs: 1, sm: 1.25 },
-                borderRadius: '50px',
+                borderRadius: '8px',
                 fontSize: { xs: '0.85rem', sm: '0.9rem' },
                 fontWeight: 600,
                 '&:hover': {
@@ -476,7 +476,7 @@ const MassageSpaSection = () => {
                     color: whitishMint,
                     px: { xs: 3, sm: 4 },
                     py: { xs: 1, sm: 1.25 },
-                    borderRadius: '50px',
+                    borderRadius: '8px',
                     fontSize: { xs: '0.85rem', sm: '0.9rem' },
                     fontWeight: 600,
                     '&:hover': {

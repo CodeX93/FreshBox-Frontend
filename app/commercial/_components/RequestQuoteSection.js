@@ -525,7 +525,7 @@ const RequestQuoteSection = () => {
                         color: whitishMint,
                         px: { xs: 3, sm: 4 },
                         py: { xs: 1, sm: 1.25 },
-                        borderRadius: '50px',
+                        borderRadius: '8px',
                         fontSize: '0.9rem',
                         fontWeight: 600,
                         '&:hover': {
@@ -758,7 +758,7 @@ const RequestQuoteSection = () => {
                     color: darkBlueColor,
                     px: { xs: 3, sm: 4 },
                     py: { xs: 1, sm: 1.25 },
-                    borderRadius: '50px',
+                    borderRadius: '8px',
                     fontSize: '0.9rem',
                     fontWeight: 600,
                     mt: 2,

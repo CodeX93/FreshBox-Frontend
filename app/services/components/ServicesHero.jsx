@@ -238,20 +238,25 @@ const ServicesHero = () => {
 
         {/* Washing Machine Image - hidden on mobile */}
         <Box
-          component="img"
-          src="https://s3-alpha-sig.figma.com/img/3ad0/56cd/5e31bd5f524395328cfa30f48d841ba7?Expires=1745193600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Q~Tv4CQ0ls-TC1N-nnHRFP7sHOIaHZn4t-I6GPwQyvJTjzaA4Mjtd~7JrI-24NlVQRBT~JowF-eiFz-lUsSaq3xVIQ3KTlqJ-vKTvT9ktT5raFDBgyKzKLWO7uy3NyYUdmqc0WrrxJN~xkcPvD0NNPs~7p1TLrKeI4kQwQmELHCEnP9aCmNj-vypCVqiUJKynOTLfslQ7S6q0REygMtJQ23l2qN16vvMIDioquYfPbeQfpFn1EMeC-qSV9jxUCpN2nugQPepynun7atqL8SJwEErbPz7D8v0cILwWQhxGLHODenDx~dRx6GXNWHiMyss7Gr0SfxHs0Dcn8QAKsvBhg__"
-          alt="Washing machine"
-          sx={{
-            position: 'absolute',
-            right: { sm: '10%', md: '10%' },
-            top: '50%',
-            transform: 'translateY(-50%)',
-            width: { sm: '250px', md: '300px', lg: '320px' },
-            height: 'auto',
-            zIndex: 2,
-            display: { xs: 'none', sm: 'block' } // Hidden on mobile
-          }}
-        />
+  component="img"
+  src="https://s3-alpha-sig.figma.com/img/3ad0/56cd/5e31bd5f524395328cfa30f48d841ba7?Expires=1745193600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Q~Tv4CQ0ls-TC1N-nnHRFP7sHOIaHZn4t-I6GPwQyvJTjzaA4Mjtd~7JrI-24NlVQRBT~JowF-eiFz-lUsSaq3xVIQ3KTlqJ-vKTvT9ktT5raFDBgyKzKLWO7uy3NyYUdmqc0WrrxJN~xkcPvD0NNPs~7p1TLrKeI4kQwQmELHCEnP9aCmNj-vypCVqiUJKynOTLfslQ7S6q0REygMtJQ23l2qN16vvMIDioquYfPbeQfpFn1EMeC-qSV9jxUCpN2nugQPepynun7atqL8SJwEErbPz7D8v0cILwWQhxGLHODenDx~dRx6GXNWHiMyss7Gr0SfxHs0Dcn8QAKsvBhg__"
+  alt="Washing machine"
+  sx={{
+    position: 'absolute',
+    right: { xs: 'auto', sm: '5%', md: '7%', lg: '10%' },
+    top: { xs: 'auto', sm: '50%' },
+    bottom: { xs: 0, sm: 'auto' },
+    transform: { xs: 'none', sm: 'translateY(-50%)' },
+    width: { xs: '200px', sm: '250px', md: '300px', lg: '340px' },
+    maxWidth: '90vw',
+    height: 'auto',
+    zIndex: 2,
+    display: { xs: 'block', sm: 'block' },
+    objectFit: 'contain',
+    filter: 'drop-shadow(0px 6px 12px rgba(0,0,0,0.1))'
+  }}
+/>
+
 
         {/* Decorative Circles - hidden on mobile */}
         {[
