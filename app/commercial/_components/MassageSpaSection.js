@@ -162,6 +162,7 @@ const MassageSpaSection = () => {
           </Typography>
           <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Button
+            disableElevation
               variant="contained"
               sx={{
                 bgcolor: darkBlueColor,
@@ -181,6 +182,7 @@ const MassageSpaSection = () => {
               Get Started
             </Button>
             <Button
+            disableElevation
               variant="outlined"
               sx={{
                 borderColor: darkBlueColor,
@@ -467,6 +469,7 @@ const MassageSpaSection = () => {
               
               <Box sx={{ mt: 4, textAlign: 'center' }}>
                 <Button
+                disableElevation
                   variant="contained"
                   sx={{
                     bgcolor: darkBlueColor,

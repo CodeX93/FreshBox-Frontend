@@ -339,6 +339,7 @@ const ServiceCard = ({ service, handleAddToCart }) => {
             </Box>
             
             <Button
+            disableElevation
               variant="contained"
               onClick={() => handleAddToCart(service, quantity)}
               sx={{ 

@@ -230,6 +230,7 @@ const ClientFAQSection = ({
                   transition={{ duration: 0.2 }}
                 >
                   <Button
+                  disableElevation
                     size="small"
                     onClick={() => setSearchQuery('')}
                     sx={{ 
@@ -324,6 +325,7 @@ const ClientFAQSection = ({
                 Try different keywords or browse all FAQs below
               </Typography>
               <Button 
+              disableElevation
                 variant="outlined"
                 component={motion.button}
                 whileHover={{ scale: 1.05 }}

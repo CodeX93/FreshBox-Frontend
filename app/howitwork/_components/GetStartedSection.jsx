@@ -189,10 +189,11 @@ const GetStartedSection = () => {
                   }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Button 
+                  <Button
+                  disableElevation 
                     variant="contained" 
                     size="large"
-                    disableElevation
+           
                     sx={{ 
                       py: 1.5, 
                       px: 4, 

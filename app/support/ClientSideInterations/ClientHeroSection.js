@@ -41,7 +41,7 @@ const ClientHeroSection = ({
   heroTitle,
   heroDescription
 }) => {
-  const theme = useTheme();
+  
   const [navbarHeight, setNavbarHeight] = useState(64); // Default height
   
   const handleSearchChange = (e) => {
@@ -245,17 +245,18 @@ const ClientHeroSection = ({
                   sx={{ flex: 1 }}
                 />
                 <Button 
+                disableElevation
                   variant="contained"
-                  disableElevation
+                  
                   sx={{ 
-                    bgcolor: DARK_TURQUOISE,
-                    color: 'white',
-                    borderRadius: '12px',
+                    bgcolor: theme.palette.primary.darkBlue, // <- force darkBlue as background
+                    color: theme.palette.primary.whitishMint,
+                    
                     px: { xs: 3, sm: 4 }, // Increased horizontal padding
                     py: 1.5, // Increased vertical padding from 1.2 to 1.5
                     fontWeight: 600,
                     ml: 1, // Added left margin
-                    '&:hover': { bgcolor: TURQUOISE }
+                    '&:hover': { color: yellowish }
                   }}
                 >
                   Search

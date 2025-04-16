@@ -267,6 +267,7 @@ const ClientQualityPromiseSection = () => {
           {/* Why Choose Us Button - Bottom */}
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button
+            disableElevation
               variant="outlined"
               sx={{
                 border: '2px solid #0F3034',

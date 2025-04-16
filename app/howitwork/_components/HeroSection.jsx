@@ -137,6 +137,7 @@ const HeroSection = ({ fadeInUp = {
 
                 <Box sx={{ mb: 5 }}>
                   <Button
+                  disableElevation
                     variant="contained"
                     endIcon={<ArrowForwardIcon />}
                     sx={{

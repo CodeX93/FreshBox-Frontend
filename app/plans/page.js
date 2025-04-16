@@ -106,6 +106,7 @@ const PlansPage = () => {
       <Fade in={true} timeout={600}>
         <Box>
           <Button
+          disableElevation
             startIcon={<ArrowBackIcon />}
             onClick={handleBackClick}
             sx={{ mb: 4, color: '#2E7B5C', borderColor: '#2E7B5C' }}
@@ -249,6 +250,7 @@ const PlansPage = () => {
                   </CardContent>
                   <CardActions sx={{ justifyContent: 'center', pb: 3 }}>
                     <Button 
+                    disableElevation
                       variant="outlined" 
                       size="large"
                       disabled={!getPrice('basic')}
@@ -361,6 +363,7 @@ const PlansPage = () => {
                   </CardContent>
                   <CardActions sx={{ justifyContent: 'center', pb: 3 }}>
                     <Button 
+                    disableElevation
                       variant="contained" 
                       size="large" 
                       disabled={!getPrice('premium')}
@@ -482,6 +485,7 @@ const PlansPage = () => {
                   </CardContent>
                   <CardActions sx={{ justifyContent: 'center', pb: 3 }}>
                     <Button 
+                    disableElevation
                       variant="outlined" 
                       size="large"
                       disabled={!getPrice('enterprise')}

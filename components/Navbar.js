@@ -74,6 +74,7 @@ const NavButton = ({ children, scrolled, light, ...props }) => {
   
   return (
     <Button
+    disableElevation
       color="inherit"
       {...otherProps}
       sx={{
@@ -340,6 +341,7 @@ export default function Navbar({ light = false }) {
                 {allLink && (
                   <Box sx={{ mt: 1 }}>
                     <Button
+                    disableElevation
                       component={Link}
                       href={allLink}
                       fullWidth
@@ -493,6 +495,7 @@ export default function Navbar({ light = false }) {
       <Divider />
       <Box sx={{ p: 2 }}>
         <Button
+        disableElevation
           fullWidth
           variant="contained"
           component={Link}
@@ -709,6 +712,7 @@ export default function Navbar({ light = false }) {
                 
                 <Box sx={{ display: 'flex', gap: 1 }}>
                   <Button
+                  disableElevation
                     variant="outlined"
                     size="small"
                     fullWidth
@@ -729,6 +733,7 @@ export default function Navbar({ light = false }) {
                     Profile
                   </Button>
                   <Button
+                  disableElevation
                     variant="outlined"
                     size="small"
                     fullWidth
@@ -756,6 +761,7 @@ export default function Navbar({ light = false }) {
                 mb: 2
               }}>
                 <Button
+                disableElevation
                   variant="contained"
                   component={Link}
                   href="/orders"
@@ -776,6 +782,7 @@ export default function Navbar({ light = false }) {
                   Orders
                 </Button>
                 <Button
+                disableElevation
                   variant="contained"
                   component={Link}
                   href="/chats"
@@ -897,6 +904,7 @@ export default function Navbar({ light = false }) {
                           </ListItem>
                         ))}
                         <Button
+                        disableElevation
                           component={Link}
                           href="/services"
                           onClick={toggleDrawer(false)}
@@ -961,6 +969,7 @@ export default function Navbar({ light = false }) {
                           </ListItem>
                         ))}
                         <Button
+                        disableElevation
                           component={Link}
                           href="/commercial"
                           onClick={toggleDrawer(false)}
@@ -1055,6 +1064,7 @@ export default function Navbar({ light = false }) {
   {!isAuthenticated && (
     <Box sx={{ display: 'flex', gap: 1 }}>
       <Button
+      disableElevation
         variant="contained"
         component={Link}
         href="/auth/login"
@@ -1075,6 +1085,7 @@ export default function Navbar({ light = false }) {
         Log In
       </Button>
       <Button
+      disableElevation
         variant="outlined"
         component={Link}
         href="/auth/register"
@@ -1110,6 +1121,7 @@ export default function Navbar({ light = false }) {
       {/* Plan dropdown button */}
       <Tooltip title={`${userPlan} Plan`}>
         <Button
+        disableElevation
           color="inherit"
           onClick={handlePlansMenuOpen}
           aria-controls={plansMenuId}
@@ -1152,6 +1164,7 @@ export default function Navbar({ light = false }) {
       {/* Orders Button with Badge */}
       <Tooltip title="My Orders">
         <Button
+        disableElevation
           color="inherit"
           component={Link}
           href="/orders"
@@ -1190,6 +1203,7 @@ export default function Navbar({ light = false }) {
       {/* Chats Button with Badge */}
       <Tooltip title="My Chats">
         <Button
+        disableElevation
           color="inherit"
           component={Link}
           href="/chat"
@@ -1227,6 +1241,7 @@ export default function Navbar({ light = false }) {
       
       {/* User Profile Button */}
       <Button
+      disableElevation
         color="inherit"
         aria-controls={userMenuId}
         aria-haspopup="true"
@@ -1406,6 +1421,7 @@ return (
             ) : (
               <>
                 <Button
+                disableElevation
                   variant="contained"
                   component={Link}
                   href="/auth/login"
@@ -1424,6 +1440,7 @@ return (
                   Log In
                 </Button>
                 <Button
+                disableElevation
                   variant="contained"
                   component={Link}
                   href="/auth/register"

@@ -203,6 +203,7 @@ export default function ContactSection() {
                       </Grid>
                       <Grid item xs={12}>
                         <Button
+                        disableElevation
                           type="submit"
                           variant="contained"
                           color="primary" // Using primary color from theme

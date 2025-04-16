@@ -154,6 +154,7 @@ const AvailabilitySection = () => {
               }}
             >
               <Button
+              disableElevation
                 variant={viewMode === 'grid' ? 'contained' : 'text'}
                 onClick={() => setViewMode('grid')}
                 sx={{
@@ -174,6 +175,7 @@ const AvailabilitySection = () => {
                 GRID VIEW
               </Button>
               <Button
+              disableElevation
                 variant={viewMode === 'list' ? 'contained' : 'text'}
                 onClick={() => setViewMode('list')}
                 sx={{

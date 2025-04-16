@@ -301,6 +301,7 @@ const FAQSection = () => {
     </Typography>
     
       <Button
+      disableElevation
         variant="contained"
         onClick={() => router.push('/support')}
         sx={{

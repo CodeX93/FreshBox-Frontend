@@ -230,6 +230,7 @@ const ContactFormSection = ({ formData, handleInputChange, handleSubmit, isSubmi
          
           <Grid item xs={12}>
             <Button
+            disableElevation
               type="submit"
               variant="contained"
               size="large"

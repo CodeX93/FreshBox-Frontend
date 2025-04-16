@@ -172,6 +172,7 @@ const ClientContactInfo = ({ loaded, contactOptions }) => {
                     {/* Action button */}
                     <Box sx={{ mt: 3, width: '100%' }}>
                       <Button
+                      disableElevation
                         variant="outlined"
                         fullWidth
                         component={motion.button}

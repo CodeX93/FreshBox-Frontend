@@ -46,6 +46,7 @@ export default function HeroSection() {
           </Typography>
           
           <Button 
+          disableElevation
             variant="contained" 
             color="secondary" 
             size="large"

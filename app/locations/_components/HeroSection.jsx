@@ -124,6 +124,7 @@ const HeroSection = () => {
                   }}
                 />
                 <Button
+                disableElevation
                   variant="contained"
                   sx={{
                     height: { xs: '60px', sm: '100%' },

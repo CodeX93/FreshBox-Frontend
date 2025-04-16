@@ -189,6 +189,7 @@ const ProcessStep = ({ process, isEven }) => {
               {process.description}
             </Typography>
             <Button 
+            disableElevation
               variant="contained" 
               endIcon={<ArrowForwardIcon />}
               sx={{ 

@@ -527,6 +527,7 @@ const LaundryOrderTracking = () => {
                       {formatDate(order.readyDate)}
                     </Typography>
                     <Button 
+                    disableElevation
                       variant="contained" 
                       color="primary"
                       size="small"
@@ -543,6 +544,7 @@ const LaundryOrderTracking = () => {
               {/* Action Buttons */}
               <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
                 <Button 
+                disableElevation
                   variant="outlined" 
                   color="primary"
                   startIcon={<Chat />}
@@ -553,6 +555,7 @@ const LaundryOrderTracking = () => {
                 
                 {order.status === 'delivered' && (
                   <Button 
+                  disableElevation
                     variant="outlined" 
                     color="secondary"
                     startIcon={<StarBorder />}
@@ -618,6 +621,7 @@ const LaundryOrderTracking = () => {
                 </Box>
                 
                 <Button
+                disableElevation
                   variant="outlined"
                   color="primary"
                   startIcon={<Description />}
@@ -632,11 +636,12 @@ const LaundryOrderTracking = () => {
         </DialogContent>
         
         <DialogActions sx={{ p: 2, justifyContent: 'space-between', backgroundColor: 'white' }}>
-          <Button onClick={closeOrderDetails} color="inherit">
+          <Button disableElevation onClick={closeOrderDetails} color="inherit">
             Close
           </Button>
           {(order.status === 'delivered' || order.status === 'ready') && (
             <Button 
+            disableElevation
               variant="contained" 
               color="primary"
               startIcon={<LocalLaundryService />}
@@ -847,6 +852,7 @@ const LaundryOrderTracking = () => {
                     </Grid>
                     <Grid item xs={6} md={3}>
                       <Button
+                      disableElevation
                         fullWidth
                         variant="outlined"
                         startIcon={<FilterList />}
@@ -951,6 +957,7 @@ const LaundryOrderTracking = () => {
                           : "You don't have any laundry orders in this category"}
                       </Typography>
                       <Button
+                      disableElevation
                         variant="contained"
                         color="primary"
                         startIcon={<LocalLaundryService />}
@@ -982,6 +989,7 @@ const LaundryOrderTracking = () => {
                   Need laundry service fast? Choose from your saved templates.
                 </Typography>
                 <Button 
+                disableElevation
                   variant="contained" 
                   color="primary" 
                   fullWidth
@@ -1004,6 +1012,7 @@ const LaundryOrderTracking = () => {
                   Plan ahead by scheduling a convenient pickup time.
                 </Typography>
                 <Button 
+                disableElevation
                   variant="outlined" 
                   color="warning" 
                   fullWidth
@@ -1026,6 +1035,7 @@ const LaundryOrderTracking = () => {
                   Need help with your orders? Our team is ready to assist you.
                 </Typography>
                 <Button 
+                disableElevation
                   variant="outlined" 
                   color="success" 
                   fullWidth
@@ -1124,8 +1134,8 @@ const LaundryOrderTracking = () => {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setFilterDialogOpen(false)}>Cancel</Button>
-            <Button variant="contained" color="primary" onClick={() => setFilterDialogOpen(false)}>Apply Filters</Button>
+            <Button disableElevation onClick={() => setFilterDialogOpen(false)}>Cancel</Button>
+            <Button  disableElevation variant="contained" color="primary" onClick={() => setFilterDialogOpen(false)}>Apply Filters</Button>
           </DialogActions>
         </Dialog>
         

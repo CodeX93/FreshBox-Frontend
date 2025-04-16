@@ -176,6 +176,7 @@ const HealthcareSection = () => {
           </Typography>
           <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Button
+            disableElevation
               variant="contained"
               sx={{
                 bgcolor: darkBlueColor,
@@ -195,6 +196,7 @@ const HealthcareSection = () => {
               Get Started
             </Button>
             <Button
+            disableElevation
               variant="outlined"
               sx={{
                 borderColor: darkBlueColor,
@@ -590,6 +592,7 @@ const HealthcareSection = () => {
                 </Grid>
                 <Grid item xs={12} md={4} sx={{ textAlign: { xs: 'center', md: 'right' } }}>
                   <Button
+                  disableElevation
                     variant="contained"
                     sx={{
                       bgcolor: whitishMint,

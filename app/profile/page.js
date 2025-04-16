@@ -123,7 +123,8 @@ const RecentOrderCard = ({ order }) => {
             <Star size={14} style={{ marginRight: 4 }} color="#FFD700" />
             <Typography variant="body2" sx={{ mr: 1 }}>Rate Order</Typography>
           </Box>
-          <Button 
+          <Button
+          disableElevation 
             size="small" 
             endIcon={<ChevronRight size={16} />}
             sx={{ 
@@ -360,6 +361,7 @@ const ProfileHeader = ({
           gap: 1
         }}>
           <Button 
+          disableElevation
             variant="outlined" 
             onClick={() => setIsEditing(!isEditing)}
             startIcon={isEditing ? <X size={16} /> : <Edit size={16} />}
@@ -380,6 +382,7 @@ const ProfileHeader = ({
           
           {isEditing && (
             <Button 
+            disableElevation
               variant="contained" 
               onClick={handleSubmit}
               startIcon={<Save size={16} />}
@@ -868,6 +871,7 @@ export default function Profile() {
                                 mt: 2 
                               }}>
                                 <Button 
+                                disableElevation
                                   type="submit" 
                                   variant="contained" 
                                   sx={{ 
@@ -1090,6 +1094,7 @@ export default function Profile() {
                             mt: 4 
                           }}>
                             <Button 
+                            disableElevation
                               type="submit" 
                               variant="contained" 
                               sx={{ 
@@ -1148,6 +1153,7 @@ export default function Profile() {
                         )}
                         
                         <Button
+                        disableElevation
                           variant="outlined"
                           startIcon={<CreditCard size={18} />}
                           onClick={handleAddPaymentMethod}

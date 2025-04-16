@@ -227,6 +227,7 @@ const FAQSection = () => {
                         whileTap={{ scale: 0.9 }}
                       >
                         <Button
+                        disableElevation
                           size="small"
                           onClick={() => setSearchQuery('')}
                           sx={{ 
@@ -289,6 +290,7 @@ const FAQSection = () => {
                         Try different keywords or browse all our FAQs
                       </Typography>
                       <Button
+                      disableElevation
                         variant="outlined"
                         onClick={() => setSearchQuery('')}
                         sx={{

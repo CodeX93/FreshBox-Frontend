@@ -100,6 +100,7 @@ function OrderConfirmation({ cartTotal, contactData, scheduleData }) {
             <Grid item xs={12}>
   <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 2 }}>
     <Button
+    disableElevation
       variant="contained"
       size="large"
       href="/"
@@ -118,6 +119,7 @@ function OrderConfirmation({ cartTotal, contactData, scheduleData }) {
     </Button>
 
     <Button
+    disableElevation
   variant="outlined"
   size="large"
   href="/"

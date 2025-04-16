@@ -276,6 +276,7 @@ const WhyChooseUs = () => {
             
             <Box sx={{ mt: 'auto' }}>
               <Button 
+              disableElevation
                 variant="contained" 
                 onClick={() => router.push('/support')}
                 sx={{ 

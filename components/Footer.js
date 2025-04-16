@@ -360,6 +360,7 @@ export default function Footer() {
                     </Typography>
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       <Button 
+                      disableElevation
                         variant="outlined" 
                         size="small"
                         sx={{ 
@@ -374,6 +375,7 @@ export default function Footer() {
                         App Store
                       </Button>
                       <Button 
+                      disableElevation
                         variant="outlined" 
                         size="small"
                         sx={{ 

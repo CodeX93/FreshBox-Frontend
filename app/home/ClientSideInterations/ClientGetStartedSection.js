@@ -187,9 +187,10 @@ const ClientGetStartedSection = ({ steps }) => {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Button 
+                  disableElevation
                     variant="contained" 
                     size={isMobile ? "medium" : "large"}
-                    disableElevation
+                    
                     endIcon={<ArrowForwardIcon />}
                     sx={{ 
                       py: { xs: 1.5, md: 2 }, 

@@ -268,6 +268,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                   }}
                 >
                   <Button
+                  disableElevation
                     variant="outlined"
                     color="primary"
                     size="large"

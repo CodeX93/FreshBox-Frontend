@@ -498,6 +498,7 @@ export default function SignupPage() {
             />
             
             <Button
+            disableElevation
               type="submit"
               fullWidth
               variant="contained"
@@ -525,6 +526,7 @@ export default function SignupPage() {
               <Typography variant="body2" color="text.secondary">
                 Didn't receive the code?{' '}
                 <Button
+                disableElevation
                   color="primary"
                   size="small"
                   onClick={handleSendEmailOtp}
@@ -992,6 +994,7 @@ export default function SignupPage() {
                     borderColor: 'rgba(0,0,0,0.06)'
                   }}>
                     <Button
+                    disableElevation
                       variant="outlined"
                       disabled={activeStep === 0}
                       onClick={handleBack}
@@ -1013,6 +1016,7 @@ export default function SignupPage() {
                     
                     {activeStep === steps.length - 1 ? (
                       <Button
+                      disableElevation
                         type="submit"
                         variant="contained"
                         color="primary"
@@ -1038,6 +1042,7 @@ export default function SignupPage() {
                       </Button>
                     ) : (
                       <Button
+                      disableElevation
                         variant="contained"
                         color="primary"
                         onClick={handleNext}
@@ -1084,6 +1089,7 @@ export default function SignupPage() {
                 
                 <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1.0 }}>
                   <Button
+                  disableElevation
                     fullWidth
                     variant="outlined"
                     color="primary"
@@ -1112,6 +1118,7 @@ export default function SignupPage() {
                     {isMobile ? 'Continue with Google' : 'Google'}
                   </Button>
                   <Button
+                  disableElevation
                     fullWidth
                     variant="outlined"
                     color="primary"
@@ -1140,6 +1147,7 @@ export default function SignupPage() {
                     {isMobile ? 'Continue with Facebook' : 'Facebook'}
                   </Button>
                   <Button
+                  disableElevation
                     fullWidth
                     variant="outlined"
                     color="primary"

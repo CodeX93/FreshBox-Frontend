@@ -280,6 +280,7 @@ const WhyChooseUsSection = () => {
             </Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
               <Button 
+              disableElevation
                 variant="text" 
                 endIcon={<KeyboardArrowRightIcon />}
                 onClick={() => router.push('/support')}
@@ -295,6 +296,7 @@ const WhyChooseUsSection = () => {
                 Contact Now
               </Button>
               <Button 
+              disableElevation
                 variant="text" 
                 endIcon={<KeyboardArrowRightIcon />}
                 sx={{ 

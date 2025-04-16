@@ -164,6 +164,7 @@ const ServicesSection = () => {
                   Your clothes are treated with the utmost care, receiving the attention they deserve.
                 </Typography>
                 <Button 
+                disableElevation
                   variant="contained" 
                   endIcon={<ArrowForwardIcon />}
                   sx={{ 
@@ -255,6 +256,7 @@ const ServicesSection = () => {
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                 <Button
+                disableElevation
                   variant="contained"
                   sx={{
                     bgcolor: '#1E3A37',
@@ -273,6 +275,7 @@ const ServicesSection = () => {
                   Schedule Your Cleaning Today
                 </Button>
                 <Button
+                disableElevation
                   variant="outlined"
                   sx={{
                     borderColor: '#1E3A37',

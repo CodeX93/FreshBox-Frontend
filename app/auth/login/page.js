@@ -357,6 +357,7 @@ export default function LoginPage() {
                 }}
               >
                 <Button
+                disableElevation
                   fullWidth
                   onClick={() => handleAuthMethodChange('email')}
                   sx={{
@@ -381,6 +382,7 @@ export default function LoginPage() {
                   Email
                 </Button>
                 <Button
+                disableElevation
                   fullWidth
                   onClick={() => handleAuthMethodChange('phone')}
                   sx={{
@@ -547,6 +549,7 @@ export default function LoginPage() {
                     </Box>
                     
                     <Button
+                    disableElevation
                       type="submit"
                       fullWidth
                       variant="contained"
@@ -640,6 +643,7 @@ export default function LoginPage() {
                         />
                         
                         <Button
+                        disableElevation
                           type="submit"
                           fullWidth
                           variant="contained"
@@ -720,6 +724,7 @@ export default function LoginPage() {
                         />
                         
                         <Button
+                        disableElevation
                           type="submit"
                           fullWidth
                           variant="contained"
@@ -751,6 +756,7 @@ export default function LoginPage() {
                         </Button>
                         
                         <Button
+                        disableElevation
                           fullWidth
                           startIcon={<ArrowBackIcon sx={{ color: BRAND_DARK_BLUE }} />}
                           onClick={() => setPhoneStep(1)}

@@ -162,6 +162,7 @@ const ZipCodeChecker = () => {
                   sx={{ flexGrow: 1 }}
                 />
                 <Button 
+                disableElevation
                   variant="contained"
                   color="primary"
                   size="large"

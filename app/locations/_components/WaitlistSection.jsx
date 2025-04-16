@@ -241,6 +241,7 @@ const WaitlistSection = () => {
                         </Typography>
                         
                         <Button
+                        disableElevation
                           variant="outlined"
                           sx={{ 
                             mt: 2,
@@ -384,6 +385,7 @@ const WaitlistSection = () => {
                         
                         <Grid item xs={12}>
                           <Button
+                          disableElevation
                             type="submit"
                             fullWidth
                             variant="contained"

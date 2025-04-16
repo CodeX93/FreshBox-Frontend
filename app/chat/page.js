@@ -790,6 +790,7 @@ export default function RiderChatScreen() {
               
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
                 <Button 
+                disableElevation
                   variant="outlined"
                   color="error"
                   startIcon={<DeleteIcon />}
@@ -798,6 +799,7 @@ export default function RiderChatScreen() {
                   Delete Chat
                 </Button>
                 <Button 
+                disableElevation
                   variant="contained"
                   sx={{ 
                     borderRadius: 2,

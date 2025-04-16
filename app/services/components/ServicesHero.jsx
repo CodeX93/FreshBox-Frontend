@@ -150,6 +150,7 @@ const ServicesHero = () => {
                 }}>
                   {/* Book Now Button */}
                   <Button
+                  disableElevation
                     variant="contained"
                     sx={{
                       bgcolor: theme.palette.primary.main, 
@@ -172,6 +173,7 @@ const ServicesHero = () => {
                   
                   {/* Learn More Button */}
                   <Button
+                  disableElevation
                     variant="contained"
                     sx={{
                       bgcolor: '#1D363F',

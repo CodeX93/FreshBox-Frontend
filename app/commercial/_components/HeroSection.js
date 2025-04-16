@@ -110,6 +110,7 @@ const HeroSection = () => {
                 }}
               >
                 <Button
+                disableElevation
                   variant="contained"
                   sx={{
                     bgcolor: primaryColor,
@@ -130,6 +131,7 @@ const HeroSection = () => {
                   Request A Quote
                 </Button>
                 <Button
+                disableElevation
                   variant="contained"
                   sx={{
                     bgcolor: darkBlueColor,

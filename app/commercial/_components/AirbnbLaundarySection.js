@@ -145,6 +145,7 @@ const AirbnbLaundrySection = () => {
           </Typography>
           <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Button
+            disableElevation
               variant="contained"
               sx={{
                 bgcolor: darkBlueColor,
@@ -164,6 +165,7 @@ const AirbnbLaundrySection = () => {
               Get Started
             </Button>
             <Button
+            disableElevation
               variant="outlined"
               sx={{
                 borderColor: darkBlueColor,

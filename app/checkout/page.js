@@ -403,6 +403,7 @@ export default function CheckoutProcess() {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
                       {activeStep !== 1 && (
                         <Button
+                        disableElevation
                           variant="contained"
                           disabled={activeStep === 0 || isLoading}
                           onClick={handleBack}
@@ -420,6 +421,7 @@ export default function CheckoutProcess() {
                       )}
                       {activeStep === 1 && <Box />} {/* Empty box to maintain layout when back button is hidden */}
                       <Button
+                      disableElevation
                         variant="contained"
                         onClick={handleNext}
                         endIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : <ArrowForwardIcon />}

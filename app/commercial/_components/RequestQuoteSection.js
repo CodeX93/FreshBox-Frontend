@@ -515,6 +515,7 @@ const RequestQuoteSection = () => {
                   
                   <Grid item xs={12}>
                     <Button
+                    disableElevation
                       type="submit"
                       variant="contained"
                       disabled={isSubmitting}
@@ -750,6 +751,7 @@ const RequestQuoteSection = () => {
                 </Box>
                 
                 <Button
+                disableElevation
                   variant="contained"
                   sx={{
                     bgcolor: whitishMint,

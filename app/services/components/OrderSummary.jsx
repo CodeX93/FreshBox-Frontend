@@ -297,6 +297,7 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                 whileTap={{ scale: 0.98 }}
               >
                 <Button 
+                disableElevation
                   variant="contained" 
                   fullWidth 
                   size="large"

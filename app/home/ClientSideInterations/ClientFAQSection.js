@@ -239,6 +239,7 @@ const ClientFAQSection = ({ faqs }) => {
                     whileTap={{ scale: 0.9 }}
                   >
                     <Button
+                    disableElevation
                       size="small"
                       onClick={() => setSearchQuery('')}
                       sx={{ 
@@ -309,6 +310,7 @@ const ClientFAQSection = ({ faqs }) => {
                     Try different keywords or browse all our FAQs
                   </Typography>
                   <Button
+                  disableElevation
                     variant="contained"
                     onClick={() => setSearchQuery('')}
                     sx={{
@@ -590,6 +592,7 @@ const ClientFAQSection = ({ faqs }) => {
               whileTap={{ scale: 0.95 }}
             >
               <Button
+              disableElevation
                 variant="contained"
                 size="large"
                 onClick={() => {router.push('/support')}}
