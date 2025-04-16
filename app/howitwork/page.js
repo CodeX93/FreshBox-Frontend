@@ -89,7 +89,7 @@ const HowItWorksPage = () => {
             fadeInUp={fadeInUp}
             scrollY={scrollY}
           />
-          <Box sx={{ position: 'relative', zIndex: 2 }}>
+          <Box sx={{ position: 'relative', zIndex: 2,background: theme.palette.primary.darkBlue, }}>
             <ProcessSection
               fadeInUp={fadeInUp}
               scrollY={scrollY}

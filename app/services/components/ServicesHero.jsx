@@ -5,7 +5,7 @@ import {
   Container,
   Typography,
   Button,
-  Grid,
+  Stack,
   useMediaQuery
 } from '@mui/material';
 import { motion } from 'framer-motion';
@@ -13,9 +13,9 @@ import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../../../contexts/Theme';
 
 const ServicesHero = () => {
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isTablet = useMediaQuery(theme.breakpoints.down('lg'));
-  const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
   
   // Animation variants
   const fadeIn = {
@@ -32,170 +32,286 @@ const ServicesHero = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ 
-        backgroundColor: theme.palette.primary.whitishMint, // Using theme's whitish mint
-        pt: { xs: 10, sm: 12, md: 10 },
-        pb: { xs: 6, sm: 8, md: 10 },
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-        minHeight: { xs: 'auto', sm: 'auto', md: '90vh' },
-        maxHeight: { xs: 'none', md: 900 },
-      }}>
-        <Container maxWidth="lg">
-          <Grid container spacing={{ xs: 3, sm: 4, md: 6 }} alignItems="center">
-            {/* Left side - Text content */}
-            <Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
-              <motion.div
+     <Box
+  sx={{
+    width: '100%',
+    height: '100vh',
+    minHeight: '100vh',
+    backgroundColor: theme.palette.primary.whitishMint,
+    position: 'relative',
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    py: { xs: 5, md: 0 },
+  }}
+>
+
+        {/* Content Container */}
+        <Container 
+          maxWidth="xl" 
+          sx={{ 
+            position: 'relative', 
+            zIndex: 2,
+            height: { xs: '100%', sm: 'auto' },
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: { xs: 'center', sm: 'flex-start' } // Center content vertically on mobile
+          }}
+        >
+          <Stack 
+            direction={{ xs: 'column', md: 'row' }}
+            spacing={{ xs: 2, sm: 4, md: 6 }} 
+            alignItems="center"
+            sx={{ 
+              height: { xs: '100%', sm: 'auto' },
+              my: { xs: 'auto', sm: 0 }
+            }}
+          >
+            {/* Left section - Text content */}
+            <Box 
+              sx={{ 
+                width: { xs: '100%', md: '50%' },
+                order: { xs: 2, md: 1 }
+              }}
+            >
+              <Box
+                component={motion.div}
                 initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.3 }}
+                animate="visible"
                 variants={fadeIn}
-                style={{ padding: isSmallMobile ? '0 8px' : '0' }}
+                sx={{ 
+                  px: { xs: 2, sm: 2, md: 0 },
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: { xs: 'center', md: 'flex-start' }, // Center content horizontally on mobile
+                  textAlign: { xs: 'center', md: 'left' }, // Center text on mobile
+                  maxWidth: 600
+                }}
               >
-                <Typography variant="h1" sx={{ 
-                  fontWeight: 700,
-                  fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
-                  mb: { xs: 1.5, sm: 2, md: 3 },
-                  color: theme.palette.primary.darkBlue, // Using theme's dark green
-                  lineHeight: 1.2
-                }}>
+                {/* Discount Badge */}
+                <Box
+                  sx={{
+                    display: 'inline-block',
+                    bgcolor: theme.palette.primary.main,
+                    borderRadius: 50,
+                    py: 1,
+                    px: 2,
+                    mb: 3,
+                    mt: { xs: 7, sm: 0 }, // Added top margin for mobile
+                    width: 'auto' // Ensure it doesn't expand too wide
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: { xs: '0.7rem', sm: '0.8rem' },
+                      fontWeight: 600,
+                      color: theme.palette.primary.darkBlue,
+                      
+                    }}
+                  >
+                    20% Discount for 1 Month Subscription
+                  </Typography>
+                </Box>
+
+                <Typography
+                  variant="h1"
+                  sx={{
+                    fontWeight: 800,
+                    color: theme.palette.primary.darkBlue,
+                    fontSize: { xs: '2.2rem', sm: '3rem', md: '3.5rem' },
+                    mb: 2,
+                    lineHeight: 1.2,
+                  }}
+                >
                   Premium Laundry Services
                 </Typography>
                 
-                <Typography variant="h5" sx={{ 
-                  fontWeight: 400, 
-                  color: theme.palette.primary.dark, // Using theme's dark green
-                  mb: { xs: 3, sm: 4, md: 5 },
-                  fontSize: { xs: '0.875rem', sm: '1rem', md: '1.1rem' },
-                  maxWidth: { xs: '100%', md: '90%' }
-                }}>
+                <Typography
+                  sx={{
+                    fontSize: { xs: '0.9rem', sm: '1.1rem', md: '1.2rem' },
+                    color: theme.palette.primary.darkBlue,
+                    mb: 4,
+                    lineHeight: 1.5,
+                  }}
+                >
                   Save time with our professional cleaning services
                 </Typography>
 
+                {/* Action Buttons */}
                 <Box sx={{ 
                   display: 'flex', 
-                  flexDirection: { xs: 'column', sm: 'row' },
-                  gap: { xs: 1.5, sm: 2 },
-                  mb: { xs: 3, sm: 4 }
+                  gap: 2, 
+                  mb: 5,
+                  flexDirection: { xs: 'column', sm: 'row' }, // Stack buttons on mobile
+                  width: { xs: '100%', sm: 'auto' },
+                  alignItems: { xs: 'center', md: 'flex-start' } // Center buttons on mobile
                 }}>
-                  <Button 
-                    variant="contained" 
-                    sx={{ 
-                      py: { xs: 1.25, sm: 1.5 }, 
-                      px: { xs: 3, sm: 4 },
+                  {/* Book Now Button */}
+                  <Button
+                    variant="contained"
+                    sx={{
+                      bgcolor: theme.palette.primary.main, 
+                      color: theme.palette.primary.darkBlue,
+                      px: 3,
+                      py: 1.5,
                       borderRadius: 1,
                       fontWeight: 600,
-                      backgroundColor: theme.palette.primary.main, // Using theme's primary color
-                      color: theme.palette.primary.black, // Using theme's black
+                      fontSize: { xs: '0.9rem', sm: '0.95rem' },
                       textTransform: 'none',
                       boxShadow: 'none',
+                      width: { xs: '100%', sm: 'auto' }, // Full width on mobile
                       '&:hover': {
-                        backgroundColor: theme.palette.primary.mainHover, // Using theme's hover color
-                        boxShadow: 'none'
-                      },
-                      minWidth: { xs: '100%', sm: 150 },
-                      fontSize: { xs: '0.875rem', sm: 'inherit' }
+                        bgcolor: '#a8e3ca',
+                      }
                     }}
                   >
                     Book Now
                   </Button>
                   
-                  <Button 
-                    variant="contained" 
-                    sx={{ 
-                      py: { xs: 1.25, sm: 1.5 }, 
-                      px: { xs: 3, sm: 4 },
+                  {/* Learn More Button */}
+                  <Button
+                    variant="contained"
+                    sx={{
+                      bgcolor: '#1D363F',
+                      color: 'white',
+                      px: 3,
+                      py: 1.5,
                       borderRadius: 1,
-                      textTransform: 'none',
                       fontWeight: 600,
-                      backgroundColor: theme.palette.primary.darkBlue, // Using theme's dark blue
-                      color: theme.palette.primary.white, // Using theme's white
+                      fontSize: { xs: '0.9rem', sm: '0.95rem' },
+                      textTransform: 'none',
                       boxShadow: 'none',
+                      width: { xs: '100%', sm: 'auto' }, // Full width on mobile
                       '&:hover': {
-                        backgroundColor: theme.palette.primary.dark, // Using theme's dark color for hover
-                        boxShadow: 'none'
-                      },
-                      minWidth: { xs: '100%', sm: 150 },
-                      fontSize: { xs: '0.875rem', sm: 'inherit' }
+                        bgcolor: '#15272e',
+                      }
                     }}
                   >
                     Learn More
                   </Button>
                 </Box>
-              </motion.div>
-            </Grid>
-
-            {/* Right side - Image with circles */}
-            <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }} sx={{ mb: { xs: 2, md: 0 } }}>
-              <Box sx={{ 
-                position: 'relative', 
-                height: { xs: '280px', sm: '320px', md: '100%' }, 
-                display: 'flex', 
-                justifyContent: 'center', 
-                alignItems: 'center' 
-              }}>
-                {/* Large circle background */}
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    width: { xs: '80%', sm: '85%', md: '90%' },
-                    height: 0,
-                    paddingBottom: { xs: '80%', sm: '85%', md: '90%' },
-                    borderRadius: '50%',
-                    backgroundColor: theme.palette.primary.main, // Using theme's primary color
-                    opacity: 0.5,
-                    zIndex: 0,
-                  }}
-                />
-                
-                {/* Decorative bubbles/circles */}
-                {[...Array(isSmallMobile ? 6 : 10)].map((_, index) => (
-                  <motion.div
-                    key={index}
-                    animate={{
-                      y: [0, -10, 0],
-                      transition: { 
-                        repeat: Infinity, 
-                        duration: 2 + Math.random() * 3, 
-                        ease: "easeInOut",
-                        delay: Math.random() * 2
-                      },
-                    }}
-                    style={{
-                      position: 'absolute',
-                      width: isSmallMobile ? (6 + Math.random() * 15) : (8 + Math.random() * 20),
-                      height: isSmallMobile ? (6 + Math.random() * 15) : (8 + Math.random() * 20),
-                      borderRadius: '50%',
-                      border: `1px solid ${theme.palette.primary.dark}`, // Using theme's dark color
-                      top: `${10 + Math.random() * 80}%`,
-                      left: `${10 + Math.random() * 80}%`,
-                      zIndex: 1,
-                      display: { xs: index < 6 ? 'block' : 'none', md: 'block' }
-                    }}
-                  />
-                ))}
-                
-                {/* Sweater Image */}
-                <Box
-                  component="img"
-                  src="https://s3-alpha-sig.figma.com/img/3ad0/56cd/5e31bd5f524395328cfa30f48d841ba7?Expires=1745193600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Q~Tv4CQ0ls-TC1N-nnHRFP7sHOIaHZn4t-I6GPwQyvJTjzaA4Mjtd~7JrI-24NlVQRBT~JowF-eiFz-lUsSaq3xVIQ3KTlqJ-vKTvT9ktT5raFDBgyKzKLWO7uy3NyYUdmqc0WrrxJN~xkcPvD0NNPs~7p1TLrKeI4kQwQmELHCEnP9aCmNj-vypCVqiUJKynOTLfslQ7S6q0REygMtJQ23l2qN16vvMIDioquYfPbeQfpFn1EMeC-qSV9jxUCpN2nugQPepynun7atqL8SJwEErbPz7D8v0cILwWQhxGLHODenDx~dRx6GXNWHiMyss7Gr0SfxHs0Dcn8QAKsvBhg__"
-                  alt="Folded sweater"
-                  sx={{
-                    position: 'relative',
-                    zIndex: 2,
-                    width: { xs: '50%', sm: '55%', md: '60%' },
-                    height: 'auto',
-                    objectFit: 'contain',
-                    ml: { xs: 0, sm: 2, md: 4 }
-                  }}
-                />
               </Box>
-            </Grid>
-          </Grid>
+            </Box>
+
+            {/* Right section - empty for absolute positioning */}
+            <Box 
+              sx={{ 
+                width: { xs: '100%', md: '50%' },
+                order: { xs: 1, md: 2 },
+                display: { xs: 'none', md: 'block' }
+              }}
+            />
+          </Stack>
         </Container>
+
+        {/* Green Circle Background - hidden on mobile */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            right: { 
+              sm: '-30%', 
+              md: '-25%', 
+              lg: '-20%' 
+            },
+            transform: 'translateY(-50%)',
+            width: { 
+              sm: '650px', 
+              md: '800px', 
+              lg: '900px' 
+            },
+            height: { 
+              sm: '650px', 
+              md: '800px', 
+              lg: '900px' 
+            },
+            borderRadius: '50%',
+            bgcolor: theme.palette.primary.main,
+            zIndex: 1,
+            display: { xs: 'none', sm: 'block' } // Hidden on mobile
+          }}
+        />
+
+        {/* Washing Machine Image - hidden on mobile */}
+        <Box
+          component="img"
+          src="https://s3-alpha-sig.figma.com/img/3ad0/56cd/5e31bd5f524395328cfa30f48d841ba7?Expires=1745193600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Q~Tv4CQ0ls-TC1N-nnHRFP7sHOIaHZn4t-I6GPwQyvJTjzaA4Mjtd~7JrI-24NlVQRBT~JowF-eiFz-lUsSaq3xVIQ3KTlqJ-vKTvT9ktT5raFDBgyKzKLWO7uy3NyYUdmqc0WrrxJN~xkcPvD0NNPs~7p1TLrKeI4kQwQmELHCEnP9aCmNj-vypCVqiUJKynOTLfslQ7S6q0REygMtJQ23l2qN16vvMIDioquYfPbeQfpFn1EMeC-qSV9jxUCpN2nugQPepynun7atqL8SJwEErbPz7D8v0cILwWQhxGLHODenDx~dRx6GXNWHiMyss7Gr0SfxHs0Dcn8QAKsvBhg__"
+          alt="Washing machine"
+          sx={{
+            position: 'absolute',
+            right: { sm: '10%', md: '10%' },
+            top: '50%',
+            transform: 'translateY(-50%)',
+            width: { sm: '250px', md: '300px', lg: '320px' },
+            height: 'auto',
+            zIndex: 2,
+            display: { xs: 'none', sm: 'block' } // Hidden on mobile
+          }}
+        />
+
+        {/* Decorative Circles - hidden on mobile */}
+        {[
+          { top: '15%', right: '15%', size: 20 },
+          { top: '12%', right: '25%', size: 15 },
+          { top: '8%', right: '10%', size: 10 },
+          { top: '30%', right: '5%', size: 18 },
+          { top: '45%', right: '20%', size: 12 },
+          { top: '60%', right: '15%', size: 25 },
+          { top: '70%', right: '25%', size: 15 },
+          { top: '80%', right: '10%', size: 18 },
+        ].map((circle, idx) => (
+          <Box
+            key={`outline-${idx}`}
+            component={motion.div}
+            animate={{
+              y: [0, -5, 0],
+              transition: { 
+                repeat: Infinity, 
+                duration: 2 + Math.random() * 2, 
+                ease: "easeInOut",
+                delay: Math.random() * 1
+              }
+            }}
+            sx={{
+              position: 'absolute',
+              width: circle.size,
+              height: circle.size,
+              top: circle.top,
+              right: circle.right,
+              borderRadius: '50%',
+              border: `1.5px solid ${theme.palette.primary.darkBlue}`,
+              opacity: 0.5,
+              zIndex: 3,
+              display: { xs: 'none', sm: 'block' } // Hidden on mobile
+            }}
+          />
+        ))}
+
+        {/* Filled Circles - hidden on mobile */}
+        {[
+          { top: '20%', right: '20%', size: 8 },
+          { top: '40%', right: '8%', size: 6 },
+          { top: '55%', right: '25%', size: 10 },
+          { top: '75%', right: '20%', size: 7 },
+        ].map((circle, idx) => (
+          <Box
+            key={`filled-${idx}`}
+            sx={{
+              position: 'absolute',
+              width: circle.size,
+              height: circle.size,
+              top: circle.top,
+              right: circle.right,
+              borderRadius: '50%',
+              backgroundColor: theme.palette.primary.darkBlue,
+              opacity: 0.3,
+              zIndex: 3,
+              display: { xs: 'none', sm: 'block' } // Hidden on mobile
+            }}
+          />
+        ))}
       </Box>
     </ThemeProvider>
   );

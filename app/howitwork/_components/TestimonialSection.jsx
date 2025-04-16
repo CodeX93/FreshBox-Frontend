@@ -1,4 +1,3 @@
-// PART 1: Updated TestimonialsSection component
 'use client';
 
 import React from 'react';
@@ -22,6 +21,8 @@ import { theme } from '../../../contexts/Theme'; // Update this path to match yo
 const TestimonialsSection = ({ fadeInUp, scrollY }) => {
   const muiTheme = useMuiTheme();
   const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'));
+  const isSmall = useMediaQuery(muiTheme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(muiTheme.breakpoints.between('sm', 'md'));
   
   const testimonials = [
     {
@@ -108,7 +109,8 @@ const TestimonialsSection = ({ fadeInUp, scrollY }) => {
         backgroundColor="transparent"
       >
         <Box sx={{ 
-          py: { xs: 2, md: 4 },
+          py: { xs: 6, sm: 8, md: 10, lg: 12 }, // Increased vertical padding for all screen sizes
+          px: { xs: 2, sm: 3, md: 4, lg: 5 },   // Added horizontal padding that increases with screen size
           position: 'relative',
           overflow: 'hidden'
         }}>
@@ -116,11 +118,14 @@ const TestimonialsSection = ({ fadeInUp, scrollY }) => {
             maxWidth="xl" 
             sx={{
               bgcolor: theme.palette.primary.darkBlue,
-              borderRadius: 4,
-              py: { xs: 3, md: 4 },
-              px: { xs: 2, sm: 3, md: 4 },
+              borderRadius: { xs: 2, sm: 3, md: 4 }, // Responsive border radius
+              py: { xs: 4, sm: 5, md: 6 },           // Increased vertical padding inside container
+              px: { xs: 2, sm: 3, md: 4, lg: 5 },    // Increased horizontal padding inside container
               position: 'relative',
-              boxShadow: '0 15px 30px rgba(0,0,0,0.1)'
+              boxShadow: { 
+                xs: '0 8px 20px rgba(0,0,0,0.08)', 
+                md: '0 15px 30px rgba(0,0,0,0.1)' 
+              }
             }}
           >
             <motion.div
@@ -134,10 +139,10 @@ const TestimonialsSection = ({ fadeInUp, scrollY }) => {
                 component="h2"
                 align="center"
                 sx={{ 
-                  mb: 1, 
+                  mb: { xs: 1, sm: 1.5, md: 2 }, 
                   fontWeight: 700,
                   color: '#FBFFCF',
-                  fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' }
+                  fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem', lg: '2.25rem' } // More granular font scaling
                 }}
               >
                 What Our Customers Say
@@ -147,20 +152,34 @@ const TestimonialsSection = ({ fadeInUp, scrollY }) => {
                 variant="h6"
                 align="center"
                 sx={{ 
-                  mb: { xs: 2, md: 3 },
+                  mb: { xs: 3, sm: 4, md: 5 }, // Increased bottom margin for better spacing
                   color: 'rgba(251, 255, 207, 0.8)',
-                  maxWidth: '700px',
+                  maxWidth: { xs: '95%', sm: '80%', md: '700px' }, // Responsive max width
                   mx: 'auto',
-                  fontSize: { xs: '0.9rem', md: '1rem' }
+                  fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem', lg: '1.1rem' } // More granular font scaling
                 }}
               >
                 Don't just take our word for it
               </Typography>
             </motion.div>
 
-            <Grid container spacing={{ xs: 2, md: 3 }}>
+            <Grid 
+              container 
+              spacing={{ xs: 3, sm: 4, md: 4, lg: 5 }} // Increased spacing between cards
+              sx={{ justifyContent: 'center' }} // Center cards on all screen sizes
+            >
               {testimonials.map((testimonial, index) => (
-                <Grid item xs={12} md={4} key={index}>
+                <Grid 
+                  item 
+                  xs={12} 
+                  sm={isTablet ? 6 : 12} 
+                  md={4} 
+                  key={index}
+                  sx={{ 
+                    display: 'flex',
+                    maxWidth: { xs: '100%', sm: isTablet ? '85%' : '100%', md: '100%' } // Control card width
+                  }}
+                >
                   <motion.div
                     custom={index}
                     initial="hidden"
@@ -168,6 +187,7 @@ const TestimonialsSection = ({ fadeInUp, scrollY }) => {
                     whileHover="hover"
                     viewport={{ once: false, amount: 0.3 }}
                     variants={cardVariants}
+                    style={{ width: '100%', height: '100%' }} // Ensure motion div takes full width
                   >
                     <Card 
                       sx={{ 
@@ -175,14 +195,19 @@ const TestimonialsSection = ({ fadeInUp, scrollY }) => {
                         display: 'flex',
                         flexDirection: 'column',
                         position: 'relative',
-                        pt: 3.5,
-                        pb: 2,
-                        px: { xs: 2, sm: 2.5 },
-                        borderRadius: 3,
-                        boxShadow: '0 8px 20px rgba(0,0,0,0.08)',
+                        pt: { xs: 3, sm: 3.5, md: 4 },
+                        pb: { xs: 2, sm: 2.5, md: 3 },
+                        px: { xs: 2, sm: 2.5, md: 3 },
+                        borderRadius: { xs: 2, sm: 2.5, md: 3 }, // Responsive border radius
+                        boxShadow: {
+                          xs: '0 4px 10px rgba(0,0,0,0.06)',
+                          sm: '0 6px 15px rgba(0,0,0,0.07)',
+                          md: '0 8px 20px rgba(0,0,0,0.08)'
+                        },
                         border: '1px solid rgba(226, 232, 240, 0.8)',
                         overflow: 'visible',
-                        backgroundColor: 'rgba(21, 33, 43, 0.7)'
+                        backgroundColor: 'rgba(21, 33, 43, 0.7)',
+                        transition: 'all 0.3s ease'
                       }}
                     >
                       <Box
@@ -191,9 +216,9 @@ const TestimonialsSection = ({ fadeInUp, scrollY }) => {
                           top: 0,
                           left: 0,
                           height: '5px',
-                          width: '40%',
+                          width: { xs: '30%', sm: '35%', md: '40%' }, // Responsive accent bar width
                           backgroundColor: theme.palette.primary.main,
-                          borderTopLeftRadius: 3
+                          borderTopLeftRadius: { xs: 2, sm: 2.5, md: 3 }
                         }}
                       />
                       
@@ -206,10 +231,10 @@ const TestimonialsSection = ({ fadeInUp, scrollY }) => {
                         <Box
                           sx={{ 
                             position: 'absolute',
-                            top: -18,
-                            left: 20,
-                            width: 36,
-                            height: 36,
+                            top: { xs: -15, sm: -16, md: -18 },
+                            left: { xs: 15, sm: 18, md: 20 },
+                            width: { xs: 30, sm: 33, md: 36 },
+                            height: { xs: 30, sm: 33, md: 36 },
                             borderRadius: '50%',
                             backgroundColor: theme.palette.primary.light,
                             display: 'flex',
@@ -220,7 +245,7 @@ const TestimonialsSection = ({ fadeInUp, scrollY }) => {
                         >
                           <FormatQuoteIcon 
                             sx={{ 
-                              fontSize: 20,
+                              fontSize: { xs: 16, sm: 18, md: 20 }, // Responsive icon size
                               color: theme.palette.primary.whitishMint,
                             }}
                           />
@@ -229,9 +254,9 @@ const TestimonialsSection = ({ fadeInUp, scrollY }) => {
                       
                       <CardContent sx={{ 
                         flexGrow: 1, 
-                        pt: 1.5,
-                        pb: 0.5,
-                        px: { xs: 0.5, sm: 1 },
+                        pt: { xs: 1, sm: 1.25, md: 1.5 },
+                        pb: { xs: 0.25, sm: 0.5, md: 0.5 },
+                        px: { xs: 0.5, sm: 0.75, md: 1 },
                         display: 'flex',
                         flexDirection: 'column'
                       }}>
@@ -241,20 +266,21 @@ const TestimonialsSection = ({ fadeInUp, scrollY }) => {
                           sx={{ 
                             fontStyle: 'italic',
                             color: theme.palette.primary.whitishMint,
-                            mb: 2,
-                            fontSize: { xs: '0.85rem', sm: '0.9rem', md: '0.95rem' },
-                            lineHeight: 1.5,
+                            mb: { xs: 1.5, sm: 1.75, md: 2 },
+                            fontSize: { xs: '0.8rem', sm: '0.85rem', md: '0.9rem', lg: '0.95rem' },
+                            lineHeight: { xs: 1.4, sm: 1.45, md: 1.5 },
                             flex: 1,
                             display: '-webkit-box',
-                            WebkitLineClamp: isMobile ? 3 : 4,
+                            WebkitLineClamp: isSmall ? 3 : (isMobile ? 4 : 5), // Responsive line clamping
                             WebkitBoxOrient: 'vertical',
-                            overflow: 'hidden'
+                            overflow: 'hidden',
+                            minHeight: { xs: '4.2em', sm: '5.8em', md: '7.5em' } // Set minimum height to prevent layout shifts
                           }}
                         >
                           "{testimonial.text}"
                         </Typography>
                         <Divider sx={{ 
-                          my: 1.5,
+                          my: { xs: 1, sm: 1.25, md: 1.5 },
                           borderColor: 'rgba(251, 255, 207, 0.2)'
                         }} />
                         <Typography 
@@ -262,16 +288,16 @@ const TestimonialsSection = ({ fadeInUp, scrollY }) => {
                           sx={{ 
                             fontWeight: 600, 
                             color: '#FBFFCF',
-                            fontSize: '0.9rem',
-                            mt: 0.5
+                            fontSize: { xs: '0.8rem', sm: '0.85rem', md: '0.9rem', lg: '0.95rem' },
+                            mt: { xs: 0.25, sm: 0.5, md: 0.5 }
                           }}
                         >
                           {testimonial.author}
                         </Typography>
                         <Box sx={{ 
                           display: 'flex', 
-                          mt: 1,
-                          mb: 0.5
+                          mt: { xs: 0.5, sm: 0.75, md: 1 },
+                          mb: { xs: 0.25, sm: 0.5, md: 0.5 }
                         }}>
                           {[...Array(5)].map((_, i) => (
                             <motion.div
@@ -286,8 +312,8 @@ const TestimonialsSection = ({ fadeInUp, scrollY }) => {
                                 component="span"
                                 sx={{
                                   color: i < testimonial.rating ? '#F5DE8C' : 'rgba(226, 232, 240, 0.3)',
-                                  mr: 0.5,
-                                  fontSize: '1rem'
+                                  mr: { xs: 0.25, sm: 0.35, md: 0.5 },
+                                  fontSize: { xs: '0.85rem', sm: '0.9rem', md: '1rem' } // Responsive star size
                                 }}
                               >
                                 ★
@@ -302,32 +328,34 @@ const TestimonialsSection = ({ fadeInUp, scrollY }) => {
               ))}
             </Grid>
             
-            {/* Background decorative elements */}
+            {/* Background decorative elements - made responsive */}
             <Box
               sx={{
                 position: 'absolute',
-                top: '10%',
+                top: { xs: '15%', sm: '12%', md: '10%' },
                 right: 0,
-                width: '25%',
-                height: '50%',
+                width: { xs: '15%', sm: '20%', md: '25%' },
+                height: { xs: '30%', sm: '40%', md: '50%' },
                 backgroundColor: 'rgba(40, 221, 205, 0.07)',
-                borderTopLeftRadius: 100,
-                borderBottomLeftRadius: 100,
-                zIndex: 0
+                borderTopLeftRadius: { xs: 50, sm: 75, md: 100 },
+                borderBottomLeftRadius: { xs: 50, sm: 75, md: 100 },
+                zIndex: 0,
+                display: { xs: 'none', sm: 'block' } // Hide on very small screens
               }}
             />
             
             <Box
               sx={{
                 position: 'absolute',
-                bottom: '15%',
+                bottom: { xs: '20%', sm: '17%', md: '15%' },
                 left: 0,
-                width: '20%',
-                height: '40%',
+                width: { xs: '12%', sm: '15%', md: '20%' },
+                height: { xs: '25%', sm: '30%', md: '40%' },
                 backgroundColor: 'rgba(40, 221, 205, 0.05)',
-                borderTopRightRadius: 100,
-                borderBottomRightRadius: 100,
-                zIndex: 0
+                borderTopRightRadius: { xs: 50, sm: 75, md: 100 },
+                borderBottomRightRadius: { xs: 50, sm: 75, md: 100 },
+                zIndex: 0,
+                display: { xs: 'none', sm: 'block' } // Hide on very small screens
               }}
             />
           </Container>

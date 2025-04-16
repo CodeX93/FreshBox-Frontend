@@ -299,7 +299,7 @@ const ClientHeroSection = ({
                       <CardContent sx={{ 
                         display: 'flex', 
                         flexDirection: 'column',
-                        alignItems: 'flex-start',
+                        alignItems: { xs: 'center', sm: 'flex-start' },
                         p: { xs: 3, sm: 4 } // Increased padding from p: { xs: 2.5, sm: 3 }
                       }}>
                         <Box sx={{ 

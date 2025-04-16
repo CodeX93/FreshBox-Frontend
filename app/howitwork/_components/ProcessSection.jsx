@@ -198,7 +198,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
         id="process" 
         ref={sectionRef}
         sx={{
-          background: '#ffffff',
+          background: theme.palette.primary.darkBlue,
           position: 'relative',
           overflow: 'hidden'
         }}
@@ -212,22 +212,22 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
             flexDirection: 'column',
             justifyContent: 'center',
             position: 'relative',
-            bgcolor: theme.palette.primary.light,
+            background: theme.palette.primary.darkBlue,
           }}
         >
           {/* Background accent */}
-          <Box sx={{
+          {/* <Box sx={{
             position: 'absolute',
             top: -100,
             right: -100,
             width: 300,
             height: 300,
             borderRadius: '50%',
-            background: `linear-gradient(135deg, ${theme.palette.primary.light}22, ${theme.palette.primary.main}22)`,
+            background: theme.palette.primary.darkBlue,
             zIndex: 0
-          }} />
+          }} /> */}
           
-          <Container maxWidth="lg">
+          <Container maxWidth="lg" sx={{background: theme.palette.primary.darkBlue,}}>
             <motion.div
               initial="hidden"
               animate={headerControls}
@@ -240,7 +240,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                 sx={{ 
                   mb: 2, 
                   fontWeight: 700,
-                  color: theme.palette.primary.dark
+                  color: theme.palette.primary.whitishMint,
                 }}
               >
                 How It Works
@@ -254,7 +254,7 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                   mb: 8,
                   mx: 'auto',
                   maxWidth: 600,
-                  color: theme.palette.primary.darkBlue,
+                  color: theme.palette.primary.whitishMint,
                 }}
               >
                 Just 4 simple steps to get your laundry done with professional care
@@ -274,15 +274,16 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                     endIcon={<ArrowDownwardIcon />}
                     href="#phase-1"
                     sx={{
-                      borderRadius: 30,
+                      
                       px: 3,
                       py: 1.5,
                       borderColor: theme.palette.primary.main,
-                      color: theme.palette.primary.main,
-                      bgcolor:theme.palette.primary.darkBlue,
+                      color: theme.palette.primary.darkBlue,
+                      bgcolor:theme.palette.primary.main,
                       '&:hover': {
-                        borderColor: theme.palette.primary.dark,
-                        backgroundColor: 'rgba(40, 221, 205, 0.08)'
+                        
+                        borderColor: theme.palette.primary.yellowish,
+                        backgroundColor: theme.palette.primary.main
                       }
                     }}
                   >
