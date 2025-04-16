@@ -146,68 +146,65 @@ const HeroSection = () => {
               </Box>
             </Box>
           </Box>
-
-          {/* Right Section - Hidden on Mobile */}
-          <Box 
-            sx={{ 
-              width: { xs: '90%', md: '50%' },
-              order: { xs: 1, md: 2 },
-              display: { xs: 'none', md: 'flex' },
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'relative',
-              py: { xs: 2, md: 0 }
-            }}
-          >
-            <Box
-              component={motion.div}
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.7 }}
-              sx={{
-                position: 'relative',
-                zIndex: 2,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-              }}
-            >
-              <Box
-                component="img"
-                src="https://s3-alpha-sig.figma.com/img/7910/f37b/d3870f67507c15197443b9a8cd7ae26f?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=NQ13Cu4-3Ft~-j-DDOUsdSQWUTNYL~R9w7MCJf6KEa~iagCEpmMgg7gwwWdwattXzay4~gIqyoMey4GxW1mIOsghpJGnA31LlYxCq1jdm1kwJME5SwFgtMeGQOz1mP3dzxY40HCpqqLlRp3rFEOwx8RlqzZ34FI-Ie5p83D3dw4BPM26Tgc-ZRiwmSdsDz0teCgu0zB5RrqCaVazk09mOU2haiKohb-~JLFWxFR8gB5TOFz2HiSdW4yQfTDqH~IPG79VNe7mXNPwxxIOp7XXOIavWYQJsBmHynFDNz1ZbF~1CwolCecxKshexTMJGF8TNfUYaZ1YgsTjX~gqE2s2Yw__"
-                alt="Location Illustration"
-                sx={{
-                  width: '100%',
-                  maxWidth: { md: '90%', lg: '100%' },
-                  display: 'block',
-                }}
-              />
-            </Box>
-          </Box>
+          
+           {/* Right section - Empty for desktop layout */}
+           <Box sx={{ 
+            width: { xs: '100%', md: '50%', lg: '60%' },
+            display: { xs: 'none', md: 'block' },
+            position: 'relative',
+            order: { xs: 1, md: 2 },
+            height: '100%'
+          }} />
         </Stack>
       </Container>
 
-      {/* Green Circle - Hidden on Mobile */}
+      {/* Green Circle Background - hidden on mobile */}
       <Box
         sx={{
           position: 'absolute',
-          width: { xs: '100%', md: 800, lg: 1000 },
-          height: { xs: '100%', md: 800, lg: 1000 },
-          borderRadius: { xs: 0, md: '50%' },
-          backgroundColor: colors.main,
-          top: { xs: 0, md: '50%' },
-          right: { xs: 0, md: '-200px', lg: '-250px', xl: '-300px' },
-          transform: { xs: 'none', md: 'translateY(-50%)' },
+          top: '50%',
+          right: { xs: '-60%', sm: '-40%', md: '-30%', lg: '-20%' },
+          transform: 'translateY(-50%)',
+          width: { xs: '600px', sm: '700px', md: '800px', lg: '900px' },
+          height: { xs: '600px', sm: '700px', md: '800px', lg: '900px' },
+          borderRadius: '50%',
+          bgcolor: colors.main,
           zIndex: 1,
-          display: { xs: 'none', md: 'block' }
+          display: { xs: 'none', md: 'block' } // Hidden on mobile
         }}
       />
 
-      {/* Decorative Circles - Already Hidden on Mobile */}
-      {[/* ... decorative circles config ... */].map((bubble, idx) => (
+      {/* Laundry Basket Image - hidden on mobile */}
+      <Box
+        component="img"
+        src="https://s3-alpha-sig.figma.com/img/7910/f37b/d3870f67507c15197443b9a8cd7ae26f?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=NQ13Cu4-3Ft~-j-DDOUsdSQWUTNYL~R9w7MCJf6KEa~iagCEpmMgg7gwwWdwattXzay4~gIqyoMey4GxW1mIOsghpJGnA31LlYxCq1jdm1kwJME5SwFgtMeGQOz1mP3dzxY40HCpqqLlRp3rFEOwx8RlqzZ34FI-Ie5p83D3dw4BPM26Tgc-ZRiwmSdsDz0teCgu0zB5RrqCaVazk09mOU2haiKohb-~JLFWxFR8gB5TOFz2HiSdW4yQfTDqH~IPG79VNe7mXNPwxxIOp7XXOIavWYQJsBmHynFDNz1ZbF~1CwolCecxKshexTMJGF8TNfUYaZ1YgsTjX~gqE2s2Yw__"
+        alt="Commercial laundry service illustration"
+        sx={{
+          position: 'absolute',
+          right: { md: '5%' },
+          top: '50%',
+          transform: 'translateY(-50%)',
+          width: { md: '350px', lg: '400px' },
+          height: 'auto',
+          zIndex: 2,
+          display: { xs: 'none', md: 'block' } // Hidden on mobile
+        }}
+      />
+
+      {/* Empty Circles - Outlined - hidden on mobile */}
+      {[
+        { top: '25%', right: '15%', size: 15 },
+        { top: '15%', right: '25%', size: 10 },
+        { top: '40%', right: '30%', size: 12 },
+        { top: '60%', right: '25%', size: 8 },
+        { top: '68%', right: '15%', size: 14 },
+        { top: '75%', right: '30%', size: 10 },
+        { top: '45%', right: '10%', size: 18 },
+        { top: '10%', right: '10%', size: 12 },
+        { top: '85%', right: '20%', size: 9 },
+      ].map((circle, idx) => (
         <Box
-          key={idx}
+          key={`outline-${idx}`}
           component={motion.div}
           animate={{
             y: [0, -5, 0],
@@ -220,18 +217,50 @@ const HeroSection = () => {
           }}
           sx={{
             position: 'absolute',
+            width: circle.size,
+            height: circle.size,
+            top: circle.top,
+            right: circle.right,
             borderRadius: '50%',
-            width: bubble.size,
-            height: bubble.size,
-            ...(bubble.top && { top: bubble.top }),
-            ...(bubble.bottom && { bottom: bubble.bottom }),
-            ...(bubble.right && { right: bubble.right }),
-            ...(bubble.left && { left: bubble.left }),
-            backgroundColor: bubble.filled ? colors.darkBlue : 'transparent',
-            border: bubble.filled ? 'none' : `2px solid ${colors.darkBlue}`,
-            opacity: bubble.opacity || 0.5,
-            zIndex: 3,
-            display: { xs: 'none', md: 'block' }
+            border: `1.5px solid ${colors.darkBlue}`,
+            opacity: 0.5,
+            zIndex: 2,
+            display: { xs: 'none', md: 'block' } // Hidden on mobile
+          }}
+        />
+      ))}
+
+      {/* Filled Circles - hidden on mobile */}
+      {[
+        { top: '20%', right: '20%', size: 6 },
+        { top: '35%', right: '20%', size: 8 },
+        { top: '50%', right: '15%', size: 5 },
+        { top: '65%', right: '20%', size: 7 },
+        { top: '80%', right: '28%', size: 6 },
+      ].map((circle, idx) => (
+        <Box
+          key={`filled-${idx}`}
+          component={motion.div}
+          animate={{
+            y: [0, -3, 0],
+            transition: { 
+              repeat: Infinity, 
+              duration: 1.5 + Math.random() * 1.5, 
+              ease: "easeInOut",
+              delay: Math.random() * 0.5
+            }
+          }}
+          sx={{
+            position: 'absolute',
+            width: circle.size,
+            height: circle.size,
+            top: circle.top,
+            right: circle.right,
+            borderRadius: '50%',
+            backgroundColor: colors.darkBlue,
+            opacity: 0.3,
+            zIndex: 2,
+            display: { xs: 'none', md: 'block' } // Hidden on mobile
           }}
         />
       ))}
