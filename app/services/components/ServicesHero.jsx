@@ -243,19 +243,18 @@ const ServicesHero = () => {
   alt="Washing machine"
   sx={{
     position: 'absolute',
-    right: { xs: 'auto', sm: '5%', md: '7%', lg: '10%' },
-    top: { xs: 'auto', sm: '50%' },
-    bottom: { xs: 0, sm: 'auto' },
-    transform: { xs: 'none', sm: 'translateY(-50%)' },
-    width: { xs: '200px', sm: '250px', md: '300px', lg: '340px' },
-    maxWidth: '90vw',
+    right: { sm: '5%', md: '7%', lg: '10%' },
+    top: '50%',
+    transform: 'translateY(-50%)',
+    width: { sm: '250px', md: '300px', lg: '340px' },
     height: 'auto',
     zIndex: 2,
-    display: { xs: 'block', sm: 'block' },
+    display: { xs: 'none', sm: 'block' }, // ✅ Hidden on mobile
     objectFit: 'contain',
     filter: 'drop-shadow(0px 6px 12px rgba(0,0,0,0.1))'
   }}
 />
+
 
 
         {/* Decorative Circles - hidden on mobile */}
