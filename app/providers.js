@@ -7,6 +7,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from 'react';
 import { AuthProvider } from '../contexts/AuthContext';
+import { ServicesProvider } from '@/contexts/ServicesContext';
 
 export function Providers({ children }) {
   useEffect(() => {
@@ -19,10 +20,12 @@ export function Providers({ children }) {
 
   return (
     <AuthProvider>
+    <ServicesProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {children}
       </ThemeProvider>
+      </ServicesProvider>
     </AuthProvider>
   );
 }

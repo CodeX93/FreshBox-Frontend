@@ -2,16 +2,18 @@
 
 import React, { useState, useEffect } from 'react';
 import './globals.css';
-import { Inter } from 'next/font/google';
 import { Providers } from './providers';
-import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ScrollToTop from '../components/ScrollTop';
 import { Box, Container, ThemeProvider, createTheme } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
+import { Inter } from 'next/font/google';
 
-// Initialize Inter font
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 // Create responsive theme
 const theme = createTheme({
@@ -168,7 +170,7 @@ export default function RootLayout({ children }) {
         <title>FreshBox - Professional Laundry Services</title>
         <meta name="description" content="Your one-stop solution for all laundry needs" />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.variable}`}>
         <Providers>
           <ThemeProvider theme={theme}>
             <CssBaseline />
