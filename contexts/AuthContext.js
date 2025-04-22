@@ -7,7 +7,7 @@ const AuthContext = createContext({});
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [usersOrders, setUsersOrders] = useState([]);
-  console.log(usersOrders)
+const[plans,setPlans] = useState([])
 
   const getUsersOrders = async()=>{
   
@@ -16,6 +16,18 @@ export function AuthProvider({ children }) {
       if(res.data.success){
         const orders = res.data.orders
         setUsersOrders(orders)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const getAllPlans= async()=>{
+  
+    try {
+      const res = await ApiServeces.getAllPlans()
+      if(res.data.success){
+        const plans = res.data.plans
+        setPlans(plans)
       }
     } catch (error) {
       console.log(error)
@@ -38,7 +50,10 @@ export function AuthProvider({ children }) {
   }, []);
 
   useEffect(()=>{
-    if(user) getUsersOrders()
+    if(user){
+       getUsersOrders()
+       getAllPlans()}
+
   },[user])
 
   
@@ -60,6 +75,7 @@ export function AuthProvider({ children }) {
     setUser,
     usersOrders,
     getUsersOrders,
+    plans,
     isAuthenticated: !!user,
   };
 
