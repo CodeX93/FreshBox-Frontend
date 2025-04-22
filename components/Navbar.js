@@ -107,6 +107,7 @@ export default function Navbar({ light = false }) {
   // State management - grouped by functionality
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const {usersOrders} = useAuth()
   
   // Menu states
   const [servicesAnchorEl, setServicesAnchorEl] = useState(null);
@@ -774,7 +775,7 @@ export default function Navbar({ light = false }) {
                     '&:hover': { bgcolor: DARK_TURQUOISE }
                   }}
                   startIcon={
-                    <Badge badgeContent={ongoingOrdersCount} color="warning">
+                    <Badge badgeContent={usersOrders?.length} color="warning">
                       <OrdersIcon />
                     </Badge>
                   }
@@ -1184,7 +1185,7 @@ export default function Navbar({ light = false }) {
           }}
         >
           <Badge 
-            badgeContent={ongoingOrdersCount} 
+            badgeContent={usersOrders?.length} 
             color="warning" 
             sx={{ padding: '1px' }}
           >

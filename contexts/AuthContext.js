@@ -1,10 +1,26 @@
 
 "use client";
+import ApiServeces from "@/lib/ApiServeces";
 import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext({});
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [usersOrders, setUsersOrders] = useState([]);
+  console.log(usersOrders)
+
+  const getUsersOrders = async()=>{
+  
+    try {
+      const res = await ApiServeces.getUserOrders(user._id)
+      if(res.data.success){
+        const orders = res.data.orders
+        setUsersOrders(orders)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -20,6 +36,10 @@ export function AuthProvider({ children }) {
       }
     }
   }, []);
+
+  useEffect(()=>{
+    if(user) getUsersOrders()
+  },[user])
 
   
 
@@ -38,6 +58,8 @@ export function AuthProvider({ children }) {
     user,
     logout,
     setUser,
+    usersOrders,
+    getUsersOrders,
     isAuthenticated: !!user,
   };
 

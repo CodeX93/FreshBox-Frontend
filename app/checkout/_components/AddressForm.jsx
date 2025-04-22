@@ -179,7 +179,6 @@ function AddressForm({ addressData, handleAddressChange, addressError }) {
             name="city"
             value={addressData.city}
             onChange={handleAddressChange}
-            disabled
             sx={{
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {

@@ -11,6 +11,7 @@ import {
 import { getTimeSlot, formatDate } from '../checkoutData';
 
 function OrderSummary({ cart, cartTotal, addressData, scheduleData, activeStep, timeSlots }) {
+  console.log(cart)
   return (
     <Paper elevation={3} sx={{ borderRadius: 2, overflow: 'hidden' }}>
       <Box sx={{ 
@@ -31,7 +32,8 @@ function OrderSummary({ cart, cartTotal, addressData, scheduleData, activeStep, 
             <ListItem key={item.id} sx={{ py: 1, px: 0 }}>
               <ListItemText
                 primary={item.name}
-                secondary={`${item.option} × ${item.quantity}`}
+                secondary={`
+£${item.price} ${item.priceType} × ${item.quantity}`}
                 primaryTypographyProps={{ variant: 'body2', fontWeight: 500 }}
                 secondaryTypographyProps={{ variant: 'body2' }}
               />
@@ -46,7 +48,7 @@ function OrderSummary({ cart, cartTotal, addressData, scheduleData, activeStep, 
           <ListItem sx={{ py: 1, px: 0 }}>
             <ListItemText primary="Subtotal" />
             <Typography variant="body2" sx={{ fontWeight: 500 }}>
-              £{cartTotal.toFixed(2)}
+              £{cartTotal?.toFixed(2)}
             </Typography>
           </ListItem>
           
@@ -65,7 +67,7 @@ function OrderSummary({ cart, cartTotal, addressData, scheduleData, activeStep, 
               primaryTypographyProps={{ fontWeight: 700 }}
             />
             <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-              £{cartTotal.toFixed(2)}
+              £{cartTotal?.toFixed(2)}
             </Typography>
           </ListItem>
         </List>

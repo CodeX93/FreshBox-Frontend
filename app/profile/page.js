@@ -686,7 +686,8 @@ export default function Profile() {
         type: newPaymentMethod.type,
         last4: newPaymentMethod.cardNumber.slice(-4),
         expiry: newPaymentMethod.expiry,
-        name: newPaymentMethod.nameOnCard,
+        nameOnCard: newPaymentMethod.nameOnCard,
+        cardNumber:newPaymentMethod.cardNumber,
         isDefault: newPaymentMethod.isDefault,
       };
 
@@ -694,6 +695,7 @@ export default function Profile() {
       if (result.data.success) {
         const user = result.data.user;
         localStorage?.setItem("user", JSON.stringify(user));
+        setUser(user)
         // Update local state with the updated payment methods
         setProfile({
           ...profile,
