@@ -1,4 +1,3 @@
-// app/plans/page.js
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -32,27 +31,27 @@ import { motion } from 'framer-motion';
 import { styled } from '@mui/material/styles';
 import Navbar from '../../components/Navbar';
 import { useAuth } from '@/contexts/AuthContext';
+import PaymentPage from './PaymentPage';
 
-// Custom styled components
-const PlanCard = styled(Card)(({ theme, planType }) => ({
+const PlanCard = styled(Card)(({ planType }) => ({
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
   transition: 'all 0.3s ease-in-out',
   position: 'relative',
   overflow: 'visible',
-  boxShadow: planType === 'premium' ? 
-    '0 8px 24px rgba(40, 221, 205, 0.25)' : 
-    '0 4px 12px rgba(0, 0, 0, 0.1)',
+  boxShadow: planType === 'premium'
+    ? '0 8px 24px rgba(40, 221, 205, 0.25)'
+    : '0 4px 12px rgba(0, 0, 0, 0.1)',
   '&:hover': {
     transform: 'translateY(-8px)',
-    boxShadow: planType === 'premium' ? 
-      '0 12px 28px rgba(40, 221, 205, 0.35)' : 
-      '0 8px 20px rgba(0, 0, 0, 0.15)',
+    boxShadow: planType === 'premium'
+      ? '0 12px 28px rgba(40, 221, 205, 0.35)'
+      : '0 8px 20px rgba(0, 0, 0, 0.15)',
   }
 }));
 
-const PopularTag = styled(Chip)(({ theme }) => ({
+const PopularTag = styled(Chip)(() => ({
   position: 'absolute',
   top: -12,
   right: 24,
@@ -64,7 +63,11 @@ const PopularTag = styled(Chip)(({ theme }) => ({
 const PlansPage = () => {
   const router = useRouter();
   const [selectedPlanType, setSelectedPlanType] = useState('monthly');
-  const {plans} = useAuth()
+  const { plans } = useAuth();
+  const [payAmount, setPayAmount] = useState(false);
+  const [planData, setPlanData] = useState(null);
+  const [planPrice, setPlanPrice] = useState(null);
+  const {user} = useAuth()
 
   const handlePlanTypeChange = (event) => {
     setSelectedPlanType(event.target.value);
@@ -74,14 +77,15 @@ const PlansPage = () => {
     router.push('/');
   };
 
+  const getPrice = (pricing) => pricing[selectedPlanType] || null;
 
-
-  // Helper function to get current price based on selected plan type
-  const getPrice = (pricing) => {
-    return pricing[selectedPlanType] || null;
+  const handlePlanClick = (plan) => {
+    const price = getPrice(plan.pricing);
+    setPlanData(plan);
+    setPlanPrice(price);
+    setPayAmount(true);
   };
 
-  // Add-ons data
   const addons = [
     {
       title: 'Extra Items',
@@ -103,7 +107,6 @@ const PlansPage = () => {
 
   return (
     <>
-      {/* <Navbar light={false}/> */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <Fade in={true} timeout={600}>
           <Box>
@@ -117,7 +120,7 @@ const PlansPage = () => {
               Back
             </Button>
 
-            <Typography variant="h3" component="h1" gutterBottom align="center" sx={{ mb: 6 }}>
+            <Typography variant="h3" align="center" gutterBottom sx={{ mb: 6 }}>
               Choose Your Plan
             </Typography>
 
@@ -129,148 +132,121 @@ const PlansPage = () => {
                   value={selectedPlanType}
                   onChange={handlePlanTypeChange}
                 >
-                  <FormControlLabel
-                    value="biweekly"
-                    control={<Radio sx={{ 
-                      color: '#2E7B5C',
-                      '&.Mui-checked': {
+                  {['biweekly', 'monthly', 'quarterly', 'annual'].map((type) => (
+                    <FormControlLabel
+                      key={type}
+                      value={type}
+                      control={<Radio sx={{
                         color: '#2E7B5C',
-                      },
-                    }} />}
-                    label="Biweekly"
-                  />
-                  <FormControlLabel
-                    value="monthly"
-                    control={<Radio sx={{ 
-                      color: '#2E7B5C',
-                      '&.Mui-checked': {
-                        color: '#2E7B5C',
-                      },
-                    }} />}
-                    label="Monthly"
-                  />
-                  <FormControlLabel
-                    value="quarterly"
-                    control={<Radio sx={{ 
-                      color: '#2E7B5C',
-                      '&.Mui-checked': {
-                        color: '#2E7B5C',
-                      },
-                    }} />}
-                    label="Quarterly"
-                  />
-                  <FormControlLabel
-                    value="annual"
-                    control={<Radio sx={{ 
-                      color: '#2E7B5C',
-                      '&.Mui-checked': {
-                        color: '#2E7B5C',
-                      },
-                    }} />}
-                    label="Annual"
-                  />
+                        '&.Mui-checked': { color: '#2E7B5C' },
+                      }} />}
+                      label={type.charAt(0).toUpperCase() + type.slice(1)}
+                    />
+                  ))}
                 </RadioGroup>
               </FormControl>
             </Box>
 
             <Grid container spacing={4}>
-              {plans.map((plan) => (
-                <Grid item xs={12} md={4} key={plan.id}>
-                  <Zoom in={true} timeout={800} style={{ transitionDelay: plan.delay }}>
-                    <PlanCard planType={plan.id}>
-                      {plan.popular && <PopularTag label="Most Popular" sx={{bgcolor:'#2E7B5C'}} />}
-                      <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography variant="h4" component="h2" gutterBottom align="center">
-                          {plan.name}
-                        </Typography>
+              {plans.map((plan) => {
+                const price = getPrice(plan.pricing);
+                return (
+                  <Grid item xs={12} md={4} key={plan.id}>
+                    <Zoom in={true} timeout={800}>
+                      <PlanCard planType={plan.id}>
+                        {plan.popular && <PopularTag label="Most Popular" sx={{ bgcolor: '#2E7B5C' }} />}
+                        <CardContent sx={{ flexGrow: 1 }}>
+                          <Typography variant="h4" align="center" gutterBottom>
+                            {plan.name}
+                          </Typography>
 
-                        <Box sx={{ textAlign: 'center', my: 3 }}>
-                          {getPrice(plan.pricing) ? (
-                            <>
-                              <Typography variant="h3" component="p" sx={{ color: '#2E7B5C' }}>
-                                ${getPrice(plan.pricing)}
-                              </Typography>
-                              <Typography variant="subtitle1" color="text.secondary">
-                                per {selectedPlanType === 'biweekly' ? '2 weeks' : selectedPlanType}
-                              </Typography>
-                              {(selectedPlanType === 'annual' || selectedPlanType === 'quarterly') && plan.id !== 'basic' && (
-                                <Chip 
-                                  label={`Save ${selectedPlanType === 'annual' ? '20%' : '13%'}`} 
-                                  sx={{ 
-                                    mt: 1, 
-                                    backgroundColor: '#2E7B5C',
-                                    color: 'white'
-                                  }}
-                                  size="small" 
-                                />
-                              )}
-                            </>
-                          ) : (
-                            <Typography variant="subtitle1" color="error">
-                              Not available for {selectedPlanType} billing
-                            </Typography>
-                          )}
-                        </Box>
-
-                        <Divider sx={{ my: 2 }} />
-
-                        <List>
-                          {plan.features.map((feature, index) => (
-                            <ListItem key={index}>
-                              <ListItemIcon>
-                                {feature.icon === 'star' ? (
-                                  <StarIcon sx={{ color: feature.included ? '#28ddcd' : 'disabled' }} />
-                                ) : (
-                                  <CheckIcon sx={{ color: feature.included ? '#28ddcd' : 'disabled' }} />
+                          <Box sx={{ textAlign: 'center', my: 3 }}>
+                            {price ? (
+                              <>
+                                <Typography variant="h3" sx={{ color: '#2E7B5C' }}>
+                                  ${price}
+                                </Typography>
+                                <Typography variant="subtitle1" color="text.secondary">
+                                  per {selectedPlanType === 'biweekly' ? '2 weeks' : selectedPlanType}
+                                </Typography>
+                                {(selectedPlanType === 'annual' || selectedPlanType === 'quarterly') && plan.id !== 'basic' && (
+                                  <Chip
+                                    label={`Save ${selectedPlanType === 'annual' ? '20%' : '13%'}`}
+                                    sx={{
+                                      mt: 1,
+                                      backgroundColor: '#2E7B5C',
+                                      color: 'white'
+                                    }}
+                                    size="small"
+                                  />
                                 )}
-                              </ListItemIcon>
-                              <ListItemText 
-                                primary={feature.text} 
-                                primaryTypographyProps={{ 
-                                  fontWeight: feature.icon === 'star' ? 'bold' : 'normal',
-                                  color: feature.included ? 'text.primary' : 'text.secondary'
-                                }}
-                              />
-                            </ListItem>
-                          ))}
-                        </List>
-                      </CardContent>
-                      <CardActions sx={{ justifyContent: 'center', pb: 3 }}>
-                        <Button 
-                          disableElevation
-                          variant={'outlined'} 
-                          size="large"
-                          disabled={!getPrice(plan.pricing)}
-                          sx={{ 
-                            borderColor: '#2E7B5C', 
-                            color:  '#2E7B5C',
-                            backgroundColor: 'transparent',
-                            '&:hover': {
+                              </>
+                            ) : (
+                              <Typography variant="subtitle1" color="error">
+                                Not available for {selectedPlanType} billing
+                              </Typography>
+                            )}
+                          </Box>
+
+                          <Divider sx={{ my: 2 }} />
+
+                          <List>
+                            {plan.features.map((feature, index) => (
+                              <ListItem key={index}>
+                                <ListItemIcon>
+                                  {feature.icon === 'star' ? (
+                                    <StarIcon sx={{ color: feature.included ? '#28ddcd' : 'disabled' }} />
+                                  ) : (
+                                    <CheckIcon sx={{ color: feature.included ? '#28ddcd' : 'disabled' }} />
+                                  )}
+                                </ListItemIcon>
+                                <ListItemText
+                                  primary={feature.text}
+                                  primaryTypographyProps={{
+                                    fontWeight: feature.icon === 'star' ? 'bold' : 'normal',
+                                    color: feature.included ? 'text.primary' : 'text.secondary'
+                                  }}
+                                />
+                              </ListItem>
+                            ))}
+                          </List>
+                        </CardContent>
+                        <CardActions sx={{ justifyContent: 'center', pb: 3 }}>
+                          <Button
+                            disableElevation
+                            variant="outlined"
+                            size="large"
+                            disabled={!price || user?.plan.planName === plan.name }
+                            onClick={() => handlePlanClick(plan)}
+                            sx={{
                               borderColor: '#2E7B5C',
-                            
-                            }
-                          }}
-                        >
-                          Select {plan.name}
-                        </Button>
-                      </CardActions>
-                    </PlanCard>
-                  </Zoom>
-                </Grid>
-              ))}
+                              color: '#2E7B5C',
+                              backgroundColor: 'transparent',
+                              '&:hover': { borderColor: '#2E7B5C' }
+                            }}
+                          >
+                       {user?.plan?.planName === plan.name ? "Current Plan" : `Select ${plan.name}`}
+                           
+                          </Button>
+                        </CardActions>
+                      </PlanCard>
+                    </Zoom>
+                  </Grid>
+                );
+              })}
             </Grid>
 
             <Fade in={true} timeout={1000} style={{ transitionDelay: '600ms' }}>
-              <Paper 
-                elevation={0} 
-                sx={{ 
-                  p: 3, 
-                  mt: 6, 
-                  bgcolor: 'rgba(40, 221, 205, 0.05)', 
-                  borderRadius: 2 
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 3,
+                  mt: 6,
+                  bgcolor: 'rgba(40, 221, 205, 0.05)',
+                  borderRadius: 2
                 }}
               >
-                <Typography variant="h5" component="h3" gutterBottom>
+                <Typography variant="h5" gutterBottom>
                   Available Add-ons
                 </Typography>
                 <Grid container spacing={2}>
@@ -292,6 +268,10 @@ const PlansPage = () => {
           </Box>
         </Fade>
       </Container>
+
+      {payAmount && (
+        <PaymentPage plan={planData} price={planPrice} />
+      )}
     </>
   );
 };

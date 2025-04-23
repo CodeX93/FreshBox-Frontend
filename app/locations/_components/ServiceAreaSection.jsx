@@ -47,7 +47,7 @@ const serviceAreas = [
 const ServiceAreaSection = () => {
   
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: "AIzaSyDnG4NCG4G_ZvCJLjz5KTlwmVORy0s31Ok",
     libraries,
   });
 

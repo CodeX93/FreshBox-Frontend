@@ -154,7 +154,7 @@ export default function Navbar({ light = false }) {
 
   useEffect(() => {
     // Replace with actual API calls in production
-    setUserPlan(user?.plan || 'Basic');
+    setUserPlan(user?.plan?.planName || '');
     setUnreadMessageCount(5);
     setOngoingOrdersCount(3);
   }, [user]);
