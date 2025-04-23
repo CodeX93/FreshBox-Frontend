@@ -50,8 +50,6 @@ export default function CheckoutProcess() {
   const [activeStep, setActiveStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [addressError, setAddressError] = useState(false);
-  const [orderComplete, setOrderComplete] = useState(false);
-  const [orderId, setOrderId] = useState(null);
 
   const { user } = useAuth();
 
@@ -175,7 +173,7 @@ export default function CheckoutProcess() {
 
   const calculateCartTotal = () => {
     if (!cart || cart.length === 0) return 0;
-    
+
     return cart.reduce((total, item) => {
       // Handle different cart item formats
       if (item.totalPrice) {
@@ -186,11 +184,11 @@ export default function CheckoutProcess() {
         const price = Number(item.price || item.basePrice || 0);
         const optionPrice = Number(item.optionPrice || 0);
         const quantity = Number(item.quantity || 1);
-        return total + ((price + optionPrice) * quantity);
+        return total + (price + optionPrice) * quantity;
       }
     }, 0);
   };
-  
+
   const cartTotal = calculateCartTotal();
   // Get cart item count
   const cartItemCount = cart.reduce((count, item) => {
@@ -350,16 +348,37 @@ export default function CheckoutProcess() {
       // For the demo, we'll always consider payment successful
       if (isValid) {
         try {
-          console.log(orderData)
-          const res = await ApiServeces.createOrder(orderData);
-          if (res.data.success) {
-            const orderId = res.data.order._id;
-            setOrderId(orderId);
-
-            localStorage.removeItem("laundryServiceCart");
-            setOrderComplete(true);
-            setIsLoading(false);
-          }
+          if (paymentData.paymentMethod === "card") {
+            const response = await ApiServeces.payForOrderStripe(orderData);
+            if (response.data.success || response.data.checkoutUrl) {
+              localStorage.setItem(
+                "orderData",
+                JSON.stringify({
+                  orderData,
+                  cartTotal,
+                  contactData,
+                  scheduleData,
+                  timestamp: new Date().toISOString(),
+                })
+              );
+              router.push(response.data.checkoutUrl);
+            
+            }
+          } else {
+            const response = await ApiServeces.payForOrderStripe(orderData);
+            if (response.data.success || response.data.checkoutUrl) {
+              localStorage.setItem(
+                "orderData",
+                JSON.stringify({
+                  orderData,
+                  cartTotal,
+                  contactData,
+                  scheduleData,
+                  timestamp: new Date().toISOString(),
+                })
+              );
+              router.push(response.data.checkoutUrl);
+          }}
         } catch (error) {
           console.log;
         }
@@ -423,7 +442,7 @@ export default function CheckoutProcess() {
   return (
     <>
       {/* <Navbar /> */}
-   
+
       <Box
         sx={{
           bgcolor: "#E3FEF7",
@@ -434,14 +453,7 @@ export default function CheckoutProcess() {
         }}
       >
         <Container maxWidth="lg">
-          {orderComplete ? (
-            <OrderConfirmation
-              orderId={orderId}
-              cartTotal={cartTotal}
-              contactData={contactData}
-              scheduleData={scheduleData}
-            />
-          ) : (
+       
             <Grid container spacing={4}>
               <Grid item xs={12} md={8}>
                 <Paper
@@ -574,7 +586,7 @@ export default function CheckoutProcess() {
                 </Box>
               </Grid>
             </Grid>
-          )}
+       
         </Container>
       </Box>
       <Footer />

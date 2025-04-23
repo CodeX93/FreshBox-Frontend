@@ -19,7 +19,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useRouter } from 'next/navigation';
-import {theme} from "../../../contexts/Theme"
+import { theme } from "../../../contexts/Theme"
 import { useAuth } from '@/contexts/AuthContext';
 
 // Define constants
@@ -29,7 +29,7 @@ const DARK_BLUE = theme.palette.primary.darkBlue;
 const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, updateQuantity }) => {
   const theme = useTheme();
   const router = useRouter();
-  const {user} = useAuth()
+  const { user } = useAuth()
 
   // Animation variants
   const containerVariants = {
@@ -72,7 +72,7 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
   const formatPriceWithType = (item) => {
     const price = Number(item.price || 0);
     const priceType = item.priceType || 'per item';
-    
+
     return `
 £${price.toFixed(2)} ${priceType}`;
   };
@@ -80,7 +80,7 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
   // Calculate the cart subtotal
   const calculateSubtotal = () => {
     if (!cart || cart.length === 0) return 0;
-    
+
     return cart.reduce((total, item) => {
       const price = Number(item.price || 0);
       const quantity = Number(item.quantity || 1);
@@ -104,8 +104,8 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
       animate="visible"
       variants={containerVariants}
     >
-      <Paper elevation={3} sx={{ 
-        borderRadius: 2, 
+      <Paper elevation={3} sx={{
+        borderRadius: 2,
         overflow: 'hidden',
         border: '1px solid rgba(226, 232, 240, 0.8)',
         backgroundColor: 'white', // Ensure solid background color
@@ -113,8 +113,8 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
           backgroundColor: 'white', // Explicitly set for mobile
         }
       }}>
-        <Box sx={{ 
-          bgcolor: TURQUOISE, 
+        <Box sx={{
+          bgcolor: TURQUOISE,
           color: DARK_BLUE,
           p: 2,
           display: 'flex',
@@ -124,17 +124,17 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
           <Typography variant="h6" sx={{ fontWeight: 600 }}>
             Your Order
           </Typography>
-          <Badge 
-            badgeContent={cart.length} 
-            color="error" 
+          <Badge
+            badgeContent={cart.length}
+            color="error"
             sx={{ ml: 'auto' }}
           >
             <ShoppingCartIcon />
           </Badge>
         </Box>
-        
-        <Box sx={{ 
-          p: 3, 
+
+        <Box sx={{
+          p: 3,
           backgroundColor: 'white', // Ensure solid background color
           '@media (max-width: 600px)': {
             backgroundColor: 'white', // Explicitly set for mobile
@@ -148,12 +148,12 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5 }}
               >
-                <ShoppingCartIcon 
-                  sx={{ 
-                    fontSize: 50, 
-                    color: DARK_BLUE, 
-                    mb: 2 
-                  }} 
+                <ShoppingCartIcon
+                  sx={{
+                    fontSize: 50,
+                    color: DARK_BLUE,
+                    mb: 2
+                  }}
                 />
               </motion.div>
               <Typography variant="body1" color={DARK_BLUE} sx={{ mb: 2 }}>
@@ -165,7 +165,7 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
             </Box>
           ) : (
             <>
-              <List sx={{ 
+              <List sx={{
                 mb: 2,
                 backgroundColor: 'white', // Ensure solid background for list
               }}>
@@ -179,25 +179,25 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                       variants={listItemVariants}
                       style={{ backgroundColor: 'white' }} // Ensure solid background
                     >
-                      <ListItem 
+                      <ListItem
                         secondaryAction={
-                          <IconButton 
-                            edge="end" 
+                          <IconButton
+                            edge="end"
                             onClick={() => handleRemoveFromCart(getItemId(item))}
                             size="small"
                           >
                             <DeleteOutlineIcon fontSize="small" />
                           </IconButton>
                         }
-                        sx={{ 
-                          px: 0, 
+                        sx={{
+                          px: 0,
                           py: 1,
                           backgroundColor: 'white', // Ensure solid background
                         }}
                       >
                         <ListItemText
                           primary={
-                            <Typography variant="subtitle2" sx={{ 
+                            <Typography variant="subtitle2" sx={{
                               fontWeight: 600,
                               color: DARK_BLUE
                             }}>
@@ -206,15 +206,15 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                           }
                           secondary={
                             <Typography variant="body2" color={DARK_BLUE}>
-                              {formatPriceWithType(item)} 
+                              {formatPriceWithType(item)}
                               {` x ${item.quantity}`}
                             </Typography>
                           }
                         />
                         <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
                           <motion.div whileTap={{ scale: 0.9 }}>
-                            <IconButton 
-                              size="small" 
+                            <IconButton
+                              size="small"
                               onClick={() => updateQuantity(getItemId(item), Math.max(1, Number(item.quantity || 1) - 1))}
                               sx={{ color: DARK_BLUE }}
                               disabled={Number(item.quantity || 1) <= 1}
@@ -222,9 +222,9 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                               <RemoveIcon fontSize="small" />
                             </IconButton>
                           </motion.div>
-                          <Typography sx={{ 
-                            mx: 1, 
-                            minWidth: 20, 
+                          <Typography sx={{
+                            mx: 1,
+                            minWidth: 20,
                             textAlign: 'center',
                             fontWeight: 600,
                             color: DARK_BLUE,
@@ -232,8 +232,8 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                             {item.quantity || 1}
                           </Typography>
                           <motion.div whileTap={{ scale: 0.9 }}>
-                            <IconButton 
-                              size="small" 
+                            <IconButton
+                              size="small"
                               onClick={() => updateQuantity(getItemId(item), Number(item.quantity || 1) + 1)}
                               sx={{ color: DARK_BLUE }}
                             >
@@ -243,15 +243,15 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                         </Box>
                       </ListItem>
                       {/* Show item total */}
-                      <Box sx={{ 
-                        display: 'flex', 
-                        justifyContent: 'flex-end', 
+                      <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
                         pr: 5,
                         pb: 1,
                         backgroundColor: 'white', // Ensure solid background
                       }}>
-                        <Typography variant="caption" sx={{color: DARK_BLUE}}>
-                          Subtotal: 
+                        <Typography variant="caption" sx={{ color: DARK_BLUE }}>
+                          Subtotal:
                           £{calculateItemTotal(item)}
                         </Typography>
                       </Box>
@@ -259,61 +259,65 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                   ))}
                 </AnimatePresence>
               </List>
-              
+
               <Divider sx={{ my: 2 }} />
-              
-              <Box sx={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
+
+              <Box sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
                 mb: 1,
                 backgroundColor: 'white', // Ensure solid background
               }}>
-                <Typography variant="body2" sx={{color: DARK_BLUE}}>Subtotal</Typography>
-                <Typography variant="body2" sx={{color: DARK_BLUE}}>
-                £{calculateSubtotal()}</Typography>
+                <Typography variant="body2" sx={{ color: DARK_BLUE }}>Subtotal</Typography>
+                <Typography variant="body2" sx={{ color: DARK_BLUE }}>
+                  £{calculateSubtotal()}</Typography>
               </Box>
-              
-              <Box sx={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
+
+              <Box sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
                 mb: 1,
                 backgroundColor: 'white', // Ensure solid background
               }}>
-                <Typography variant="body2" sx={{color: DARK_BLUE}}>Collection & Delivery</Typography>
-                <Typography variant="body2" sx={{color: DARK_BLUE}}>Free</Typography>
+                <Typography variant="body2" sx={{ color: DARK_BLUE }}>Collection & Delivery</Typography>
+                <Typography variant="body2" sx={{ color: DARK_BLUE }}>Free</Typography>
               </Box>
-              
+
               <Divider sx={{ my: 2 }} />
-              
-              <Box sx={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
+
+              <Box sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
                 mb: 3,
                 backgroundColor: 'white', // Ensure solid background
               }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 700, color: DARK_BLUE}}>Total</Typography>
+                <Typography variant="subtitle1" sx={{ fontWeight: 700, color: DARK_BLUE }}>Total</Typography>
                 <Typography variant="subtitle1" sx={{ fontWeight: 700, color: DARK_BLUE }}>
-                  
-£{calculateSubtotal()}
+
+                  £{calculateSubtotal()}
                 </Typography>
               </Box>
-              
+
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Button 
-                disableElevation
-                  variant="contained" 
-                  fullWidth 
+                <Button
+                  disableElevation
+                  variant="contained"
+                  fullWidth
                   size="large"
-                  onClick={() =>{ 
-                    if(!user){
+                  onClick={() => {
+                    if (!user ) {
                       router.push('/auth/login')
-                    }else{
-                    router.push('/checkout?from=services')}}}
+                    }else if(!user?.plan){
+                      router.push('/plans')
+                    } else {
+                      router.push('/checkout?from=services')
+                    }
+                  }}
                   disabled={cart.length === 0}
-                  sx={{ 
+                  sx={{
                     py: 1.5,
                     borderRadius: 2,
                     fontWeight: 600,

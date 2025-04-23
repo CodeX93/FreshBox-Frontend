@@ -64,97 +64,7 @@ import {
 } from "@mui/icons-material";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 
-import Footer from "../../components/Footer";
 
-// Sample data for laundry orders (reusing your existing data)
-const sampleLaundryOrders = [
-  {
-    id: "LD-2023-001",
-    date: "2023-03-19T14:30:00",
-    status: "delivered",
-    items: [
-      { name: "Wash & Fold", price: 24.99, quantity: 5, unit: "kg" },
-      {
-        name: "Dry Cleaning (Shirts)",
-        price: 6.99,
-        quantity: 3,
-        unit: "pieces",
-      },
-    ],
-    address: "123 Main St, Anytown, London",
-    deliveredDate: "2023-03-22T10:15:00",
-    totalWeight: 5,
-    total: 45.96,
-  },
-  {
-    id: "LD-2023-002",
-    date: "2023-03-18T09:45:00",
-    status: "processing",
-    items: [
-      { name: "Wash & Fold", price: 24.99, quantity: 8, unit: "kg" },
-      { name: "Bedding (King Size)", price: 29.99, quantity: 1, unit: "set" },
-    ],
-    address: "456 Oak Dr, Somewhere, London",
-    currentStep: 2,
-    steps: [
-      { label: "Order Placed", completed: true, date: "2023-03-18T09:45:00" },
-      { label: "Picked Up", completed: true, date: "2023-03-18T14:30:00" },
-      { label: "Cleaning", completed: true, date: "2023-03-19T08:00:00" },
-      { label: "Quality Check", completed: false },
-      { label: "Out for Delivery", completed: false },
-      { label: "Delivered", completed: false },
-    ],
-    total: 229.91,
-    totalWeight: 8,
-    estimatedDelivery: "2023-03-23",
-  },
-  {
-    id: "LD-2023-003",
-    date: "2023-03-17T16:20:00",
-    status: "scheduled",
-    items: [
-      { name: "Wash & Fold", price: 24.99, quantity: 3, unit: "kg" },
-      { name: "Ironing", price: 3.99, quantity: 10, unit: "pieces" },
-    ],
-    address: "789 Pine Ln, Nowhere, London",
-    scheduledDate: "2023-03-25T13:00:00",
-    scheduledTime: "13:00 - 15:00",
-    total: 114.87,
-    totalWeight: 3,
-  },
-  {
-    id: "LD-2023-004",
-    date: "2023-03-15T11:10:00",
-    status: "delivered",
-    items: [
-      { name: "Dry Cleaning (Suit)", price: 29.99, quantity: 1, unit: "piece" },
-      {
-        name: "Dry Cleaning (Dress)",
-        price: 19.99,
-        quantity: 2,
-        unit: "pieces",
-      },
-    ],
-    address: "321 Elm St, Anytown, London",
-    deliveredDate: "2023-03-18T09:30:00",
-    total: 69.97,
-    totalWeight: 1.5,
-  },
-  {
-    id: "LD-2023-005",
-    date: "2023-03-14T08:55:00",
-    status: "ready",
-    items: [
-      { name: "Wash & Fold", price: 24.99, quantity: 4, unit: "kg" },
-      { name: "Stain Removal", price: 9.99, quantity: 2, unit: "items" },
-    ],
-    address: "654 Maple Ave, Somewhere, London",
-    readyDate: "2023-03-17T15:45:00",
-    waitingCollection: true,
-    total: 119.94,
-    totalWeight: 4,
-  },
-];
 
 // Custom theme with Fresh Box colors
 const theme = createTheme({
@@ -449,7 +359,7 @@ const LaundryOrderTracking = () => {
                         Current Status
                       </Typography>
                       <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                        {order.steps[order.currentStep].label}
+                        {order?.steps[order?.currentStep]?.label}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         Estimated Delivery:{" "}
@@ -470,8 +380,8 @@ const LaundryOrderTracking = () => {
                     {order.steps.map((step, index) => (
                       <Step key={index} completed={step.completed}>
                         <StepLabel>
-                          {step.label}
-                          {step.date && (
+                          {step?.label}
+                          {step?.date && (
                             <Typography
                               variant="caption"
                               display="block"
@@ -954,7 +864,7 @@ const LaundryOrderTracking = () => {
                     }}
                   >
                     <Typography variant="caption" color="text.secondary">
-                      {order.steps[order.currentStep].label}
+                      {/* {order.steps[order.currentStep].label} */}
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
                       Est. Delivery:{" "}

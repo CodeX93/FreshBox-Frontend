@@ -44,13 +44,13 @@ function OrderConfirmation({ cartTotal, contactData, scheduleData, orderId }) {
               </Box>
 
               <Typography variant="body1" sx={{ mb: 2 }}>
-                Hi {contactData.firstName},
+                Hi {contactData?.firstName},
               </Typography>
 
               <Typography variant="body1" sx={{ mb: 3 }}>
                 Thank you for your order. We've received your request and will
                 process it right away. You will receive a confirmation email at{" "}
-                {contactData.email} with your order details.
+                {contactData?.email} with your order details.
               </Typography>
             </Grid>
 
@@ -69,9 +69,9 @@ function OrderConfirmation({ cartTotal, contactData, scheduleData, orderId }) {
                     Collection
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {formatDate(scheduleData.collectionDate)}
+                    {formatDate(scheduleData?.collectionDate)}
                     <br />
-                    {getTimeSlot(scheduleData.collectionTimeSlot)}
+                    {getTimeSlot(scheduleData?.collectionTimeSlot)}
                   </Typography>
                 </Grid>
 
@@ -83,9 +83,9 @@ function OrderConfirmation({ cartTotal, contactData, scheduleData, orderId }) {
                     Delivery
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {formatDate(scheduleData.deliveryDate)}
+                    {formatDate(scheduleData?.deliveryDate)}
                     <br />
-                    {getTimeSlot(scheduleData.deliveryTimeSlot)}
+                    {getTimeSlot(scheduleData?.deliveryTimeSlot)}
                   </Typography>
                 </Grid>
               </Grid>
