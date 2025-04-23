@@ -216,7 +216,7 @@ const PlansPage = () => {
                             disableElevation
                             variant="outlined"
                             size="large"
-                            disabled={!price || user?.plan.planName === plan.name }
+                            disabled={!price || user?.plan?.planName === plan.name }
                             onClick={() => handlePlanClick(plan)}
                             sx={{
                               borderColor: '#2E7B5C',
@@ -225,7 +225,7 @@ const PlansPage = () => {
                               '&:hover': { borderColor: '#2E7B5C' }
                             }}
                           >
-                       {user?.plan?.planName === plan.name ? "Current Plan" : `Select ${plan.name}`}
+                       {user?.plan?.planName === plan?.name ? "Current Plan" : `Select ${plan?.name}`}
                            
                           </Button>
                         </CardActions>

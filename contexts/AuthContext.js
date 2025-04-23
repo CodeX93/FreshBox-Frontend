@@ -8,8 +8,6 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [usersOrders, setUsersOrders] = useState([]);
 const[plans,setPlans] = useState([])
-console.log(user)
-
   const getUsersOrders = async()=>{
   
     try {

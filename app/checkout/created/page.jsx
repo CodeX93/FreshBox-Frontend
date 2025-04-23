@@ -7,7 +7,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import ApiServeces from "@/lib/ApiServeces";
 
 function Page() {
-    const { user } = useAuth();
     const params = useSearchParams();
     const [loading, setLoading] = useState(false);
     const [orderData, setOrderData] = useState(null);
@@ -18,7 +17,7 @@ function Page() {
     const sessionId = params.get("session_id");
     const router = useRouter()
 
-    const handleSubscriptionStorage = useCallback(async (sessionId) => {
+    const handleSubscriptionStorage = async (sessionId) => {
         setLoading(true);
         try {
             const order = localStorage.getItem("orderData");
@@ -28,27 +27,28 @@ function Page() {
             setContactData(currentOrder.contactData);
             setScheduleData(currentOrder.scheduleData);
 
-            if (sessionId && user) {
+            if (sessionId) {
                 const res = await ApiServeces.createOrder(currentOrder.orderData);
                 if (res.data.success) {
                     setOrderId(res.data.order._id);
                     localStorage.removeItem("laundryServiceCart");
-                 
+                    localStorage.removeItem("orderData");
                 }
                 router.replace("/checkout/created");
             }
+          
         } catch (err) {
             console.error("Error in handleSubscriptionStorage:", err);
         } finally {
             setLoading(false);
         }
-    }, [user]);
+    }
 
     useEffect(() => {
-        if (sessionId && user) {
+        if (sessionId) {
             handleSubscriptionStorage(sessionId);
         }
-    }, [sessionId, user, handleSubscriptionStorage]);
+    }, [sessionId,handleSubscriptionStorage]);
 
     return (
         <>

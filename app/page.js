@@ -17,7 +17,7 @@ export default function Page() {
       try {
         const plan = localStorage.getItem("pendingSubscription")
         const currentPlan = JSON.parse(plan)
-        const planId = currentPlan.planId;
+        const planId = currentPlan?.planId;
         const userId = user?._id;
         const res = await ApiServeces.craeteSubscription(sessionId, userId,planId);
 
@@ -26,11 +26,13 @@ export default function Page() {
         }
 
         const response = await ApiServeces.getCurrentUser(userId);
+        console.log(response)
         if (response.data.success) {
           const user = response.data.user;
-          localStorage.setItem("user",user)
+          localStorage.removeItem("user")
           setUser(user)
           localStorage.removeItem("pendingSubscription");
+          localStorage.setItem("user",JSON.stringify(user))
           router.replace("/");
         }
       } catch (err) {
