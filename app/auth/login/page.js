@@ -549,7 +549,7 @@ export default function LoginPage() {
                     </Box>
                     
                     <Button
-                    disableElevation
+                      disableElevation
                       type="submit"
                       fullWidth
                       variant="contained"
@@ -578,6 +578,105 @@ export default function LoginPage() {
                         'Log in'
                       )}
                     </Button>
+                    
+                    {/* Social Login Section */}
+                    <Box sx={{ my: 3 }}>
+                      <Divider sx={{ 
+                        '&::before, &::after': {
+                          borderColor: 'rgba(0, 60, 67, 0.15)',
+                        }
+                      }}>
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            color: 'rgba(0, 60, 67, 0.6)',
+                            px: 1,
+                            fontSize: '0.85rem'
+                          }}
+                        >
+                          Or continue with
+                        </Typography>
+                      </Divider>
+                      
+                      <Box sx={{ 
+                        display: 'flex', 
+                        flexDirection: { xs: 'column', sm: 'row' },
+                        gap: { xs: 1, sm: 2 },
+                        mt: 2
+                      }}>
+                        <Button
+                          disableElevation
+                          fullWidth
+                          variant="outlined"
+                          onClick={handleGoogleLogin}
+                          disabled={loading}
+                          startIcon={<GoogleIcon />}
+                          sx={{
+                            py: 1.25,
+                            borderRadius: 2,
+                            fontWeight: 500,
+                            fontSize: '0.9rem',
+                            textTransform: 'none',
+                            borderColor: 'rgba(0, 60, 67, 0.15)',
+                            color: BRAND_DARK_BLUE,
+                            '&:hover': {
+                              borderColor: BRAND_DARK_BLUE,
+                              bgcolor: 'rgba(148, 255, 212, 0.05)',
+                            },
+                          }}
+                        >
+                          Google
+                        </Button>
+                        
+                        <Button
+                          disableElevation
+                          fullWidth
+                          variant="outlined"
+                          onClick={handleFacebookLogin}
+                          disabled={loading}
+                          startIcon={<FacebookIcon />}
+                          sx={{
+                            py: 1.25,
+                            borderRadius: 2,
+                            fontWeight: 500,
+                            fontSize: '0.9rem',
+                            textTransform: 'none',
+                            borderColor: 'rgba(0, 60, 67, 0.15)',
+                            color: BRAND_DARK_BLUE,
+                            '&:hover': {
+                              borderColor: BRAND_DARK_BLUE,
+                              bgcolor: 'rgba(148, 255, 212, 0.05)',
+                            },
+                          }}
+                        >
+                          Facebook
+                        </Button>
+                        
+                        <Button
+                          disableElevation
+                          fullWidth
+                          variant="outlined"
+                          onClick={handleAppleLogin}
+                          disabled={loading}
+                          startIcon={<AppleIcon />}
+                          sx={{
+                            py: 1.25,
+                            borderRadius: 2,
+                            fontWeight: 500,
+                            fontSize: '0.9rem',
+                            textTransform: 'none',
+                            borderColor: 'rgba(0, 60, 67, 0.15)',
+                            color: BRAND_DARK_BLUE,
+                            '&:hover': {
+                              borderColor: BRAND_DARK_BLUE,
+                              bgcolor: 'rgba(148, 255, 212, 0.05)',
+                            },
+                          }}
+                        >
+                          Apple
+                        </Button>
+                      </Box>
+                    </Box>
                     
                     <Box sx={{ textAlign: 'center', mt: 2 }}>
                       <Typography variant="body2" sx={{ color: 'rgba(0, 60, 67, 0.7)' }}>
@@ -811,6 +910,37 @@ export default function LoginPage() {
                             }
                           }}
                         />
+                        
+                        <Button
+                          disableElevation
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          disabled={loading || !userName.trim()}
+                          sx={{
+                            py: 1.5,
+                            borderRadius: 2,
+                            fontWeight: 600,
+                            fontSize: '1rem',
+                            mb: 2,
+                            bgcolor: BRAND_PRIMARY,
+                            color: BRAND_DARK_BLUE,
+                            '&:hover': {
+                              bgcolor: BRAND_DARK_BLUE,
+                              color: BRAND_WHITISH_MINT,
+                            },
+                            '&:disabled': {
+                              bgcolor: 'rgba(148, 255, 212, 0.5)',
+                              color: 'rgba(0, 60, 67, 0.5)',
+                            }
+                          }}
+                        >
+                          {loading ? (
+                            <CircularProgress size={24} sx={{ color: BRAND_DARK_BLUE }} />
+                          ) : (
+                            'Complete Registration'
+                          )}
+                        </Button>
                       </Box>
                     )}
                   </Box>
