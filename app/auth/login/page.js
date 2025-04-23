@@ -50,7 +50,13 @@ export default function LoginPage() {
   const isTablet = useMediaQuery(muiTheme.breakpoints.down('md'));
   
   const { 
-   setUser
+    login, 
+    googleSignIn, 
+    facebookSignIn, 
+    appleSignIn, 
+    phoneSignIn, 
+    verifyOtpOnly,
+    completePhoneRegistration 
   } = useAuth();
   
   // State for authentication method tabs
@@ -64,9 +70,10 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   
   // Phone authentication state
-  const [phoneStep, setPhoneStep] = useState(1); 
+  const [phoneStep, setPhoneStep] = useState(1); // 1 for phone input, 2 for OTP, 3 for name
   const [phoneNumber, setPhoneNumber] = useState('');
   const [otp, setOtp] = useState('');
+  const [verificationId, setVerificationId] = useState('');
   const [userName, setUserName] = useState('');
   
   // General state
@@ -109,24 +116,112 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await ApiServeces.signin(emailLoginData)
-
-     
-      if(res.data.success){
-        const userData = res.data.user;
-        localStorage?.setItem("user",JSON.stringify(userData))
-        setUser(userData)
-        router.push('/');
-    
-    }
+      await login(emailLoginData.email, emailLoginData.password);
+      setSuccess('Login successful!');
+      
+      // Redirect after successful login
+      setTimeout(() => {
+        router.push('/home');
+      }, 1000);
     } catch (error) {
-      setError('Login failed. Please check your credentials.');
+      setError(error.message || 'Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }
   };
 
+  // Social Login Handlers
+  const handleGoogleLogin = async () => {
+    try {
+      setLoading(true);
+      await googleSignIn();
+      // Redirect happens automatically via the auth provider
+    } catch (error) {
+      setError('Google login failed. Please try again.');
+      setLoading(false);
+    }
+  };
 
+  const handleFacebookLogin = async () => {
+    try {
+      setLoading(true);
+      await facebookSignIn();
+      // Redirect happens automatically via the auth provider
+    } catch (error) {
+      setError('Facebook login failed. Please try again.');
+      setLoading(false);
+    }
+  };
+
+  const handleAppleLogin = async () => {
+    try {
+      setLoading(true);
+      await appleSignIn();
+      // Redirect happens automatically via the auth provider
+    } catch (error) {
+      setError('Apple login failed. Please try again.');
+      setLoading(false);
+    }
+  };
+
+  // Phone Authentication Handlers
+  const handleRequestOtp = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    setLoading(true);
+
+    try {
+      const result = await phoneSignIn(phoneNumber);
+      setVerificationId(result.verificationId);
+      setPhoneStep(2);
+      setSuccess('Verification code sent successfully!');
+    } catch (error) {
+      setError(error.message || 'Failed to send verification code.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    setLoading(true);
+
+    try {
+      // Only verify the OTP without logging in
+      await verifyOtpOnly(phoneNumber, otp, verificationId);
+      setPhoneStep(3); // Move to name input step
+      setSuccess('Phone number verified! Please enter your name to continue.');
+    } catch (error) {
+      setError(error.message || 'Invalid verification code.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmitUserInfo = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    setLoading(true);
+
+    try {
+      // Complete the registration with name and log in
+      await completePhoneRegistration(phoneNumber, otp, verificationId, userName);
+      setSuccess('Registration successful!');
+      
+      // Redirect after successful registration
+      setTimeout(() => {
+        router.push('/home');
+      }, 1000);
+    } catch (error) {
+      setError(error.message || 'Failed to complete registration.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Box
@@ -455,7 +550,7 @@ export default function LoginPage() {
                     </Box>
                     
                     <Button
-                    disableElevation
+                      disableElevation
                       type="submit"
                       fullWidth
                       variant="contained"
@@ -484,6 +579,105 @@ export default function LoginPage() {
                         'Log in'
                       )}
                     </Button>
+                    
+                    {/* Social Login Section */}
+                    <Box sx={{ my: 3 }}>
+                      <Divider sx={{ 
+                        '&::before, &::after': {
+                          borderColor: 'rgba(0, 60, 67, 0.15)',
+                        }
+                      }}>
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            color: 'rgba(0, 60, 67, 0.6)',
+                            px: 1,
+                            fontSize: '0.85rem'
+                          }}
+                        >
+                          Or continue with
+                        </Typography>
+                      </Divider>
+                      
+                      <Box sx={{ 
+                        display: 'flex', 
+                        flexDirection: { xs: 'column', sm: 'row' },
+                        gap: { xs: 1, sm: 2 },
+                        mt: 2
+                      }}>
+                        <Button
+                          disableElevation
+                          fullWidth
+                          variant="outlined"
+                          onClick={handleGoogleLogin}
+                          disabled={loading}
+                          startIcon={<GoogleIcon />}
+                          sx={{
+                            py: 1.25,
+                            borderRadius: 2,
+                            fontWeight: 500,
+                            fontSize: '0.9rem',
+                            textTransform: 'none',
+                            borderColor: 'rgba(0, 60, 67, 0.15)',
+                            color: BRAND_DARK_BLUE,
+                            '&:hover': {
+                              borderColor: BRAND_DARK_BLUE,
+                              bgcolor: 'rgba(148, 255, 212, 0.05)',
+                            },
+                          }}
+                        >
+                          Google
+                        </Button>
+                        
+                        <Button
+                          disableElevation
+                          fullWidth
+                          variant="outlined"
+                          onClick={handleFacebookLogin}
+                          disabled={loading}
+                          startIcon={<FacebookIcon />}
+                          sx={{
+                            py: 1.25,
+                            borderRadius: 2,
+                            fontWeight: 500,
+                            fontSize: '0.9rem',
+                            textTransform: 'none',
+                            borderColor: 'rgba(0, 60, 67, 0.15)',
+                            color: BRAND_DARK_BLUE,
+                            '&:hover': {
+                              borderColor: BRAND_DARK_BLUE,
+                              bgcolor: 'rgba(148, 255, 212, 0.05)',
+                            },
+                          }}
+                        >
+                          Facebook
+                        </Button>
+                        
+                        <Button
+                          disableElevation
+                          fullWidth
+                          variant="outlined"
+                          onClick={handleAppleLogin}
+                          disabled={loading}
+                          startIcon={<AppleIcon />}
+                          sx={{
+                            py: 1.25,
+                            borderRadius: 2,
+                            fontWeight: 500,
+                            fontSize: '0.9rem',
+                            textTransform: 'none',
+                            borderColor: 'rgba(0, 60, 67, 0.15)',
+                            color: BRAND_DARK_BLUE,
+                            '&:hover': {
+                              borderColor: BRAND_DARK_BLUE,
+                              bgcolor: 'rgba(148, 255, 212, 0.05)',
+                            },
+                          }}
+                        >
+                          Apple
+                        </Button>
+                      </Box>
+                    </Box>
                     
                     <Box sx={{ textAlign: 'center', mt: 2 }}>
                       <Typography variant="body2" sx={{ color: 'rgba(0, 60, 67, 0.7)' }}>
@@ -514,7 +708,7 @@ export default function LoginPage() {
                 <Fade in={authMethod === 'phone'} timeout={500}>
                   <Box>
                     {phoneStep === 1 && (
-                      <Box component="form" noValidate>
+                      <Box component="form" onSubmit={handleRequestOtp} noValidate>
                         <TextField
                           margin="normal"
                           required
@@ -583,7 +777,7 @@ export default function LoginPage() {
                     )}
                     
                     {phoneStep === 2 && (
-                      <Box component="form"  noValidate>
+                      <Box component="form" onSubmit={handleVerifyOtp} noValidate>
                         <Box sx={{ mb: 2 }}>
                           <Typography
                             variant="body1"
@@ -683,7 +877,7 @@ export default function LoginPage() {
                     )}
                     
                     {phoneStep === 3 && (
-                      <Box component="form" noValidate>
+                      <Box component="form" onSubmit={handleSubmitUserInfo} noValidate>
                         <Box sx={{ mb: 2 }}>
                           <Typography
                             variant="body1"
@@ -717,6 +911,37 @@ export default function LoginPage() {
                             }
                           }}
                         />
+                        
+                        <Button
+                          disableElevation
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          disabled={loading || !userName.trim()}
+                          sx={{
+                            py: 1.5,
+                            borderRadius: 2,
+                            fontWeight: 600,
+                            fontSize: '1rem',
+                            mb: 2,
+                            bgcolor: BRAND_PRIMARY,
+                            color: BRAND_DARK_BLUE,
+                            '&:hover': {
+                              bgcolor: BRAND_DARK_BLUE,
+                              color: BRAND_WHITISH_MINT,
+                            },
+                            '&:disabled': {
+                              bgcolor: 'rgba(148, 255, 212, 0.5)',
+                              color: 'rgba(0, 60, 67, 0.5)',
+                            }
+                          }}
+                        >
+                          {loading ? (
+                            <CircularProgress size={24} sx={{ color: BRAND_DARK_BLUE }} />
+                          ) : (
+                            'Complete Registration'
+                          )}
+                        </Button>
                       </Box>
                     )}
                   </Box>
