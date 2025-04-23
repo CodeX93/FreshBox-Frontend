@@ -87,7 +87,7 @@ function ContactForm({ contactData, handleContactChange }) {
           />
         </Grid>
 
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <FormControlLabel
             control={
               <Checkbox
@@ -104,7 +104,7 @@ function ContactForm({ contactData, handleContactChange }) {
             }
             label="Create an account for faster checkout next time"
           />
-        </Grid>
+        </Grid> */}
 
         {contactData.createAccount && (
           <Grid item xs={12} sm={6}>

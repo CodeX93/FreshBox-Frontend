@@ -18,30 +18,13 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { theme } from '../../../contexts/Theme'; // Import your theme context
+import { useServices } from '@/contexts/ServicesContext';
 
-// Mock ZIP code data with neighborhoods - using just Chelsea for this example as shown in screenshot
-const ZIP_CODE_DATA = [
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' },
-  { zip: '10001', neighborhood: 'Chelsea', status: 'available' }
-];
 
 const AvailabilitySection = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const [viewMode, setViewMode] = useState('grid'); 
+  const {servicesAreas} = useServices()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isMedium = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -49,10 +32,11 @@ const AvailabilitySection = () => {
     setSearchTerm(event.target.value);
   };
 
+  console.log({servicesAreas})
   // Filter data based on search term
-  const filteredData = ZIP_CODE_DATA.filter(item => 
-    item.zip.includes(searchTerm) || 
-    item.neighborhood.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = servicesAreas.filter(item => 
+    item.zipCode.includes(searchTerm) || 
+    item.city.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -233,7 +217,7 @@ const AvailabilitySection = () => {
                           fontSize: { xs: '1.5rem', md: '1.8rem' }
                         }}
                       >
-                        {item.zip}
+                        {item.zipCode}
                       </Typography>
                       
                       <Typography 
@@ -244,7 +228,7 @@ const AvailabilitySection = () => {
                           fontSize: '1rem'
                         }}
                       >
-                        {item.neighborhood}
+                        {item.city}
                       </Typography>
                       
                       <Box 
@@ -260,7 +244,7 @@ const AvailabilitySection = () => {
                           textTransform: 'capitalize'
                         }}
                       >
-                        Available
+                        {item.isActive && "Avaliable"}
                       </Box>
                     </Paper>
                   </Grid>
@@ -346,7 +330,7 @@ const AvailabilitySection = () => {
                             borderBottom: '1px solid #f0f0f0'
                           }}
                         >
-                          {item.zip}
+                          {item.zipCode}
                         </TableCell>
                         <TableCell 
                           sx={{ 
@@ -355,7 +339,7 @@ const AvailabilitySection = () => {
                             borderBottom: '1px solid #f0f0f0'
                           }}
                         >
-                          {item.neighborhood}
+                          {item.city}
                         </TableCell>
                         <TableCell 
                           align="center"
@@ -377,7 +361,7 @@ const AvailabilitySection = () => {
                               textTransform: 'capitalize'
                             }}
                           >
-                            Available
+                            {item.isActive && "Available"}
                           </Box>
                         </TableCell>
                       </TableRow>

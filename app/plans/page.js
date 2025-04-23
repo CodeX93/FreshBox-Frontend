@@ -31,6 +31,7 @@ import StarIcon from '@mui/icons-material/Star';
 import { motion } from 'framer-motion';
 import { styled } from '@mui/material/styles';
 import Navbar from '../../components/Navbar';
+import { useAuth } from '@/contexts/AuthContext';
 
 // Custom styled components
 const PlanCard = styled(Card)(({ theme, planType }) => ({
@@ -63,6 +64,7 @@ const PopularTag = styled(Chip)(({ theme }) => ({
 const PlansPage = () => {
   const router = useRouter();
   const [selectedPlanType, setSelectedPlanType] = useState('monthly');
+  const {plans} = useAuth()
 
   const handlePlanTypeChange = (event) => {
     setSelectedPlanType(event.target.value);
@@ -72,500 +74,224 @@ const PlansPage = () => {
     router.push('/');
   };
 
-  // Plan pricing configurations
-  const planPricing = {
-    basic: {
-      biweekly: 20,
-      monthly: 30,
-      quarterly: null,
-      annual: null,
-    },
-    premium: {
-      biweekly: 35,
-      monthly: 50,
-      quarterly: 130,
-      annual: 480,
-    },
-    enterprise: {
-      biweekly: null,
-      monthly: 100,
-      quarterly: 275,
-      annual: 1000,
-    },
-  };
+
 
   // Helper function to get current price based on selected plan type
-  const getPrice = (planType) => {
-    return planPricing[planType][selectedPlanType] || null;
+  const getPrice = (pricing) => {
+    return pricing[selectedPlanType] || null;
   };
+
+  // Add-ons data
+  const addons = [
+    {
+      title: 'Extra Items',
+      description: '$1/item (lower rates for Premium and Enterprise)'
+    },
+    {
+      title: 'Same-day Service',
+      description: '$5 surcharge for non-Enterprise members'
+    },
+    {
+      title: 'Specialty Cleaning',
+      description: '$2 per item (delicates, down items)'
+    },
+    {
+      title: 'Stain Treatment',
+      description: '$3 per item'
+    }
+  ];
 
   return (
     <>
       {/* <Navbar light={false}/> */}
-    <Container maxWidth="lg" sx={{ py: 8 }}>
-      <Fade in={true} timeout={600}>
-        <Box>
-          <Button
-          disableElevation
-            startIcon={<ArrowBackIcon />}
-            onClick={handleBackClick}
-            sx={{ mb: 4, color: '#2E7B5C', borderColor: '#2E7B5C' }}
-            variant="outlined"
-          >
-            Back
-          </Button>
-
-          <Typography variant="h3" component="h1" gutterBottom align="center" sx={{ mb: 6 }}>
-            Choose Your Plan
-          </Typography>
-
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
-            <FormControl component="fieldset">
-              <RadioGroup
-                row
-                name="planType"
-                value={selectedPlanType}
-                onChange={handlePlanTypeChange}
-              >
-                <FormControlLabel
-                  value="biweekly"
-                  control={<Radio sx={{ 
-                    color: '#2E7B5C',
-                    '&.Mui-checked': {
-                      color: '#2E7B5C',
-                    },
-                  }} />}
-                  label="Biweekly"
-                />
-                <FormControlLabel
-                  value="monthly"
-                  control={<Radio sx={{ 
-                    color: '#2E7B5C',
-                    '&.Mui-checked': {
-                      color: '#2E7B5C',
-                    },
-                  }} />}
-                  label="Monthly"
-                />
-                <FormControlLabel
-                  value="quarterly"
-                  control={<Radio sx={{ 
-                    color: '#2E7B5C',
-                    '&.Mui-checked': {
-                      color: '#2E7B5C',
-                    },
-                  }} />}
-                  label="Quarterly"
-                />
-                <FormControlLabel
-                  value="annual"
-                  control={<Radio sx={{ 
-                    color: '#2E7B5C',
-                    '&.Mui-checked': {
-                      color: '#2E7B5C',
-                    },
-                  }} />}
-                  label="Annual"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box>
-
-          <Grid container spacing={4}>
-            {/* Basic Plan */}
-            <Grid item xs={12} md={4}>
-              <Zoom in={true} timeout={800} style={{ transitionDelay: '100ms' }}>
-                <PlanCard planType="basic">
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography variant="h4" component="h2" gutterBottom align="center">
-                      Basic
-                    </Typography>
-
-                    <Box sx={{ textAlign: 'center', my: 3 }}>
-                      {getPrice('basic') ? (
-                        <>
-                          <Typography variant="h3" component="p" sx={{ color: '#2E7B5C' }}>
-                            ${getPrice('basic')}
-                          </Typography>
-                          <Typography variant="subtitle1" color="text.secondary">
-                            per {selectedPlanType === 'biweekly' ? '2 weeks' : selectedPlanType}
-                          </Typography>
-                        </>
-                      ) : (
-                        <Typography variant="subtitle1" color="error">
-                          Not available for {selectedPlanType} billing
-                        </Typography>
-                      )}
-                    </Box>
-
-                    <Divider sx={{ my: 2 }} />
-
-                    <List>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#2E7B5C' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Standard laundry service (wash and fold)" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#2E7B5C' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Limited number of items per month (up to 40 items/month)" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#2E7B5C' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Basic customer support (email or chat)" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon color="disabled" />
-                        </ListItemIcon>
-                        <ListItemText 
-                          primary="No priority service or discounts" 
-                          sx={{ color: 'text.secondary' }}
-                        />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon color="disabled" />
-                        </ListItemIcon>
-                        <ListItemText 
-                          primary="No reward points accumulation" 
-                          sx={{ color: 'text.secondary' }}
-                        />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon color="disabled" />
-                        </ListItemIcon>
-                        <ListItemText 
-                          primary="No free trial" 
-                          sx={{ color: 'text.secondary' }}
-                        />
-                      </ListItem>
-                    </List>
-                  </CardContent>
-                  <CardActions sx={{ justifyContent: 'center', pb: 3 }}>
-                    <Button 
-                    disableElevation
-                      variant="outlined" 
-                      size="large"
-                      disabled={!getPrice('basic')}
-                      sx={{ 
-                        borderColor: '#2E7B5C', 
-                        color: '#2E7B5C',
-                        '&:hover': {
-                          borderColor: '#2E7B5C',
-                          backgroundColor: 'rgba(40, 221, 205, 0.04)'
-                        }
-                      }}
-                    >
-                      Select Basic
-                    </Button>
-                  </CardActions>
-                </PlanCard>
-              </Zoom>
-            </Grid>
-
-            {/* Premium Plan */}
-            <Grid item xs={12} md={4}>
-              <Zoom in={true} timeout={800} style={{ transitionDelay: '200ms' }}>
-                <PlanCard planType="premium">
-                  <PopularTag label="Most Popular"  sx={{bgcolor:'#2E7B5C'}}/>
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography variant="h4" component="h2" gutterBottom align="center">
-                      Premium
-                    </Typography>
-
-                    <Box sx={{ textAlign: 'center', my: 3 }}>
-                      {getPrice('premium') ? (
-                        <>
-                          <Typography variant="h3" component="p" sx={{ color: '#2E7B5C' }}>
-                            ${getPrice('premium')}
-                          </Typography>
-                          <Typography variant="subtitle1" color="text.secondary">
-                            per {selectedPlanType === 'biweekly' ? '2 weeks' : selectedPlanType}
-                          </Typography>
-                          {selectedPlanType === 'annual' && (
-                            <Chip 
-                              label="Save 20%" 
-                              sx={{ 
-                                mt: 1, 
-                                backgroundColor: '#2db799',
-                                color: 'white'
-                              }}
-                              size="small" 
-                            />
-                          )}
-                        </>
-                      ) : (
-                        <Typography variant="subtitle1" color="error">
-                          Not available for {selectedPlanType} billing
-                        </Typography>
-                      )}
-                    </Box>
-
-                    <Divider sx={{ my: 2 }} />
-
-                    <List>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Standard and express laundry options" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Up to 75 items/month" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Discounted rates for additional items ($1/item)" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Priority service (next-day delivery)" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Reward points system (1 point per $1)" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="10% discount on additional services" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Access to exclusive promotions" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="7-day free trial for new users" />
-                      </ListItem>
-                    </List>
-                  </CardContent>
-                  <CardActions sx={{ justifyContent: 'center', pb: 3 }}>
-                    <Button 
-                    disableElevation
-                      variant="contained" 
-                      size="large" 
-                      disabled={!getPrice('premium')}
-                      sx={{ 
-                        backgroundColor: '#2E7B5C',
-                        '&:hover': {
-                          backgroundColor: '#2E7B5C'
-                        }
-                      }}
-                    >
-                      Select Premium
-                    </Button>
-                  </CardActions>
-                </PlanCard>
-              </Zoom>
-            </Grid>
-
-            {/* Enterprise Plan */}
-            <Grid item xs={12} md={4}>
-              <Zoom in={true} timeout={800} style={{ transitionDelay: '300ms' }}>
-                <PlanCard planType="enterprise">
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography variant="h4" component="h2" gutterBottom align="center">
-                      Enterprise
-                    </Typography>
-
-                    <Box sx={{ textAlign: 'center', my: 3 }}>
-                      {getPrice('enterprise') ? (
-                        <>
-                          <Typography variant="h3" component="p" sx={{ color: '#2E7B5C' }}>
-                            ${getPrice('enterprise')}
-                          </Typography>
-                          <Typography variant="subtitle1" color="text.secondary">
-                            per {selectedPlanType === 'biweekly' ? '2 weeks' : selectedPlanType}
-                          </Typography>
-                          {selectedPlanType === 'annual' && (
-                            <Chip 
-                              label="Save 20%" 
-                              sx={{ 
-                                mt: 1, 
-                                backgroundColor: '#2E7B5C',
-                                color: 'white'
-                              }}
-                              size="small" 
-                            />
-                          )}
-                        </>
-                      ) : (
-                        <Typography variant="subtitle1" color="error">
-                          Not available for {selectedPlanType} billing
-                        </Typography>
-                      )}
-                    </Box>
-
-                    <Divider sx={{ my: 2 }} />
-
-                    <List>
-                      <ListItem>
-                        <ListItemIcon>
-                          <StarIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Unlimited laundry services" primaryTypographyProps={{ fontWeight: 'bold' }} />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Customizable service limits" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Premium customer support (dedicated manager)" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Priority service (same-day guarantee)" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Discounted rates for bulk laundry" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Advanced reward points (2 points per $1)" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="14-day free trial for new users" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Free delivery and pickup" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="15% discount on additional services" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon>
-                          <CheckIcon sx={{ color: '#28ddcd' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Access to exclusive promotions and events" />
-                      </ListItem>
-                    </List>
-                  </CardContent>
-                  <CardActions sx={{ justifyContent: 'center', pb: 3 }}>
-                    <Button 
-                    disableElevation
-                      variant="outlined" 
-                      size="large"
-                      disabled={!getPrice('enterprise')}
-                      sx={{ 
-                        borderColor: '#2E7B5C', 
-                        color: '#2E7B5C',
-                        '&:hover': {
-                          borderColor: '#2E7B5C',
-                          backgroundColor: 'rgba(40, 221, 205, 0.04)'
-                        }
-                      }}
-                    >
-                      Select Enterprise
-                    </Button>
-                  </CardActions>
-                </PlanCard>
-              </Zoom>
-            </Grid>
-          </Grid>
-
-          <Fade in={true} timeout={1000} style={{ transitionDelay: '600ms' }}>
-            <Paper 
-              elevation={0} 
-              sx={{ 
-                p: 3, 
-                mt: 6, 
-                bgcolor: 'rgba(40, 221, 205, 0.05)', 
-                borderRadius: 2 
-              }}
+      <Container maxWidth="lg" sx={{ py: 8 }}>
+        <Fade in={true} timeout={600}>
+          <Box>
+            <Button
+              disableElevation
+              startIcon={<ArrowBackIcon />}
+              onClick={handleBackClick}
+              sx={{ mb: 4, color: '#2E7B5C', borderColor: '#2E7B5C' }}
+              variant="outlined"
             >
-              <Typography variant="h5" component="h3" gutterBottom>
-                Available Add-ons
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={3}>
-                  <Box sx={{ p: 2 }}>
-                    <Typography variant="subtitle1" fontWeight="bold">
-                      Extra Items
-                    </Typography>
-                    <Typography variant="body2">
-                      $1/item (lower rates for Premium and Enterprise)
-                    </Typography>
-                  </Box>
+              Back
+            </Button>
+
+            <Typography variant="h3" component="h1" gutterBottom align="center" sx={{ mb: 6 }}>
+              Choose Your Plan
+            </Typography>
+
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
+              <FormControl component="fieldset">
+                <RadioGroup
+                  row
+                  name="planType"
+                  value={selectedPlanType}
+                  onChange={handlePlanTypeChange}
+                >
+                  <FormControlLabel
+                    value="biweekly"
+                    control={<Radio sx={{ 
+                      color: '#2E7B5C',
+                      '&.Mui-checked': {
+                        color: '#2E7B5C',
+                      },
+                    }} />}
+                    label="Biweekly"
+                  />
+                  <FormControlLabel
+                    value="monthly"
+                    control={<Radio sx={{ 
+                      color: '#2E7B5C',
+                      '&.Mui-checked': {
+                        color: '#2E7B5C',
+                      },
+                    }} />}
+                    label="Monthly"
+                  />
+                  <FormControlLabel
+                    value="quarterly"
+                    control={<Radio sx={{ 
+                      color: '#2E7B5C',
+                      '&.Mui-checked': {
+                        color: '#2E7B5C',
+                      },
+                    }} />}
+                    label="Quarterly"
+                  />
+                  <FormControlLabel
+                    value="annual"
+                    control={<Radio sx={{ 
+                      color: '#2E7B5C',
+                      '&.Mui-checked': {
+                        color: '#2E7B5C',
+                      },
+                    }} />}
+                    label="Annual"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Box>
+
+            <Grid container spacing={4}>
+              {plans.map((plan) => (
+                <Grid item xs={12} md={4} key={plan.id}>
+                  <Zoom in={true} timeout={800} style={{ transitionDelay: plan.delay }}>
+                    <PlanCard planType={plan.id}>
+                      {plan.popular && <PopularTag label="Most Popular" sx={{bgcolor:'#2E7B5C'}} />}
+                      <CardContent sx={{ flexGrow: 1 }}>
+                        <Typography variant="h4" component="h2" gutterBottom align="center">
+                          {plan.name}
+                        </Typography>
+
+                        <Box sx={{ textAlign: 'center', my: 3 }}>
+                          {getPrice(plan.pricing) ? (
+                            <>
+                              <Typography variant="h3" component="p" sx={{ color: '#2E7B5C' }}>
+                                ${getPrice(plan.pricing)}
+                              </Typography>
+                              <Typography variant="subtitle1" color="text.secondary">
+                                per {selectedPlanType === 'biweekly' ? '2 weeks' : selectedPlanType}
+                              </Typography>
+                              {(selectedPlanType === 'annual' || selectedPlanType === 'quarterly') && plan.id !== 'basic' && (
+                                <Chip 
+                                  label={`Save ${selectedPlanType === 'annual' ? '20%' : '13%'}`} 
+                                  sx={{ 
+                                    mt: 1, 
+                                    backgroundColor: '#2E7B5C',
+                                    color: 'white'
+                                  }}
+                                  size="small" 
+                                />
+                              )}
+                            </>
+                          ) : (
+                            <Typography variant="subtitle1" color="error">
+                              Not available for {selectedPlanType} billing
+                            </Typography>
+                          )}
+                        </Box>
+
+                        <Divider sx={{ my: 2 }} />
+
+                        <List>
+                          {plan.features.map((feature, index) => (
+                            <ListItem key={index}>
+                              <ListItemIcon>
+                                {feature.icon === 'star' ? (
+                                  <StarIcon sx={{ color: feature.included ? '#28ddcd' : 'disabled' }} />
+                                ) : (
+                                  <CheckIcon sx={{ color: feature.included ? '#28ddcd' : 'disabled' }} />
+                                )}
+                              </ListItemIcon>
+                              <ListItemText 
+                                primary={feature.text} 
+                                primaryTypographyProps={{ 
+                                  fontWeight: feature.icon === 'star' ? 'bold' : 'normal',
+                                  color: feature.included ? 'text.primary' : 'text.secondary'
+                                }}
+                              />
+                            </ListItem>
+                          ))}
+                        </List>
+                      </CardContent>
+                      <CardActions sx={{ justifyContent: 'center', pb: 3 }}>
+                        <Button 
+                          disableElevation
+                          variant={'outlined'} 
+                          size="large"
+                          disabled={!getPrice(plan.pricing)}
+                          sx={{ 
+                            borderColor: '#2E7B5C', 
+                            color:  '#2E7B5C',
+                            backgroundColor: 'transparent',
+                            '&:hover': {
+                              borderColor: '#2E7B5C',
+                            
+                            }
+                          }}
+                        >
+                          Select {plan.name}
+                        </Button>
+                      </CardActions>
+                    </PlanCard>
+                  </Zoom>
                 </Grid>
-                <Grid item xs={12} md={3}>
-                  <Box sx={{ p: 2 }}>
-                    <Typography variant="subtitle1" fontWeight="bold">
-                      Same-day Service
-                    </Typography>
-                    <Typography variant="body2">
-                      $5 surcharge for non-Enterprise members
-                    </Typography>
-                  </Box>
+              ))}
+            </Grid>
+
+            <Fade in={true} timeout={1000} style={{ transitionDelay: '600ms' }}>
+              <Paper 
+                elevation={0} 
+                sx={{ 
+                  p: 3, 
+                  mt: 6, 
+                  bgcolor: 'rgba(40, 221, 205, 0.05)', 
+                  borderRadius: 2 
+                }}
+              >
+                <Typography variant="h5" component="h3" gutterBottom>
+                  Available Add-ons
+                </Typography>
+                <Grid container spacing={2}>
+                  {addons.map((addon, index) => (
+                    <Grid item xs={12} md={3} key={index}>
+                      <Box sx={{ p: 2 }}>
+                        <Typography variant="subtitle1" fontWeight="bold">
+                          {addon.title}
+                        </Typography>
+                        <Typography variant="body2">
+                          {addon.description}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  ))}
                 </Grid>
-                <Grid item xs={12} md={3}>
-                  <Box sx={{ p: 2 }}>
-                    <Typography variant="subtitle1" fontWeight="bold">
-                      Specialty Cleaning
-                    </Typography>
-                    <Typography variant="body2">
-                      $2 per item (delicates, down items)
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} md={3}>
-                  <Box sx={{ p: 2 }}>
-                    <Typography variant="subtitle1" fontWeight="bold">
-                      Stain Treatment
-                    </Typography>
-                    <Typography variant="body2">
-                      $3 per item
-                    </Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Fade>
-        </Box>
-      </Fade>
-    </Container>
+              </Paper>
+            </Fade>
+          </Box>
+        </Fade>
+      </Container>
     </>
   );
 };

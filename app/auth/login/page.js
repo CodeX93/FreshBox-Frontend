@@ -36,6 +36,7 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../../../contexts/AuthContext';
 import { theme } from "../../../contexts/Theme";
+import ApiServeces from '@/lib/ApiServeces';
 
 // Define brand colors
 const BRAND_PRIMARY = theme.palette.primary.main; // Medium green primary color
@@ -49,13 +50,7 @@ export default function LoginPage() {
   const isTablet = useMediaQuery(muiTheme.breakpoints.down('md'));
   
   const { 
-    login, 
-    googleSignIn, 
-    facebookSignIn, 
-    appleSignIn, 
-    phoneSignIn, 
-    verifyOtpOnly,
-    completePhoneRegistration 
+   setUser
   } = useAuth();
   
   // State for authentication method tabs
@@ -69,10 +64,9 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   
   // Phone authentication state
-  const [phoneStep, setPhoneStep] = useState(1); // 1 for phone input, 2 for OTP, 3 for name
+  const [phoneStep, setPhoneStep] = useState(1); 
   const [phoneNumber, setPhoneNumber] = useState('');
   const [otp, setOtp] = useState('');
-  const [verificationId, setVerificationId] = useState('');
   const [userName, setUserName] = useState('');
   
   // General state
@@ -115,112 +109,24 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      await login(emailLoginData.email, emailLoginData.password);
-      setSuccess('Login successful!');
-      
-      // Redirect after successful login
-      setTimeout(() => {
-        router.push('/home');
-      }, 1000);
+      const res = await ApiServeces.signin(emailLoginData)
+
+     
+      if(res.data.success){
+        const userData = res.data.user;
+        localStorage?.setItem("user",JSON.stringify(userData))
+        setUser(userData)
+        router.push('/');
+    
+    }
     } catch (error) {
-      setError(error.message || 'Login failed. Please check your credentials.');
+      setError('Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }
   };
 
-  // Social Login Handlers
-  const handleGoogleLogin = async () => {
-    try {
-      setLoading(true);
-      await googleSignIn();
-      // Redirect happens automatically via the auth provider
-    } catch (error) {
-      setError('Google login failed. Please try again.');
-      setLoading(false);
-    }
-  };
 
-  const handleFacebookLogin = async () => {
-    try {
-      setLoading(true);
-      await facebookSignIn();
-      // Redirect happens automatically via the auth provider
-    } catch (error) {
-      setError('Facebook login failed. Please try again.');
-      setLoading(false);
-    }
-  };
-
-  const handleAppleLogin = async () => {
-    try {
-      setLoading(true);
-      await appleSignIn();
-      // Redirect happens automatically via the auth provider
-    } catch (error) {
-      setError('Apple login failed. Please try again.');
-      setLoading(false);
-    }
-  };
-
-  // Phone Authentication Handlers
-  const handleRequestOtp = async (e) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
-    setLoading(true);
-
-    try {
-      const result = await phoneSignIn(phoneNumber);
-      setVerificationId(result.verificationId);
-      setPhoneStep(2);
-      setSuccess('Verification code sent successfully!');
-    } catch (error) {
-      setError(error.message || 'Failed to send verification code.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyOtp = async (e) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
-    setLoading(true);
-
-    try {
-      // Only verify the OTP without logging in
-      await verifyOtpOnly(phoneNumber, otp, verificationId);
-      setPhoneStep(3); // Move to name input step
-      setSuccess('Phone number verified! Please enter your name to continue.');
-    } catch (error) {
-      setError(error.message || 'Invalid verification code.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSubmitUserInfo = async (e) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
-    setLoading(true);
-
-    try {
-      // Complete the registration with name and log in
-      await completePhoneRegistration(phoneNumber, otp, verificationId, userName);
-      setSuccess('Registration successful!');
-      
-      // Redirect after successful registration
-      setTimeout(() => {
-        router.push('/home');
-      }, 1000);
-    } catch (error) {
-      setError(error.message || 'Failed to complete registration.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <Box
@@ -707,7 +613,7 @@ export default function LoginPage() {
                 <Fade in={authMethod === 'phone'} timeout={500}>
                   <Box>
                     {phoneStep === 1 && (
-                      <Box component="form" onSubmit={handleRequestOtp} noValidate>
+                      <Box component="form" noValidate>
                         <TextField
                           margin="normal"
                           required
@@ -776,7 +682,7 @@ export default function LoginPage() {
                     )}
                     
                     {phoneStep === 2 && (
-                      <Box component="form" onSubmit={handleVerifyOtp} noValidate>
+                      <Box component="form"  noValidate>
                         <Box sx={{ mb: 2 }}>
                           <Typography
                             variant="body1"
@@ -876,7 +782,7 @@ export default function LoginPage() {
                     )}
                     
                     {phoneStep === 3 && (
-                      <Box component="form" onSubmit={handleSubmitUserInfo} noValidate>
+                      <Box component="form" noValidate>
                         <Box sx={{ mb: 2 }}>
                           <Typography
                             variant="body1"

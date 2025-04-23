@@ -24,9 +24,8 @@ import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import ServiceCard from './ServiceCard';
 
 import {theme} from "../../../contexts/Theme"
-// API service to fetch data
 
-import { serviceApi } from '../../../api/service'; // Update this path if needed
+import { useServices } from '@/contexts/ServicesContext';
 
 // Define constants
 const TURQUOISE = theme.palette.primary.main;
@@ -59,46 +58,23 @@ const ServicesList = ({ handleAddToCart }) => {
   
   // State variables
   const [activeTab, setActiveTab] = useState(0);
-  const [services, setServices] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+  const {services} = useServices()
+  useEffect(() => {
+    if (services && services.length > 0) {
+      const uniqueCategories = [...new Set(services.map(service => service.category))];
+      setCategories(['All Services', ...uniqueCategories]);
+      setLoading(false);
+    }
+  }, [services]);
   // Handle tab change
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
+
   
-  // Fetch services from API
-  useEffect(() => {
-    const fetchServices = async () => {
-      setLoading(true);
-      try {
-        const response = await serviceApi.getAllServices();
-        if (response.success) {
-          const servicesData = response.data;
-          
-          // Extract unique categories from services
-          const uniqueCategories = [...new Set(servicesData.map(service => service.category))];
-          
-          // Add "All Services" as the first category
-          const allCategories = ['All Services', ...uniqueCategories];
-          
-          setServices(servicesData);
-          setCategories(allCategories);
-        } else {
-          setError('Failed to load services');
-        }
-      } catch (error) {
-        console.error('Error fetching services:', error);
-        setError('Error loading services. Please try again later.');
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchServices();
-  }, []);
   
   // Animation variants
   const containerVariants = {

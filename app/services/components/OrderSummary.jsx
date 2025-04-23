@@ -20,6 +20,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useRouter } from 'next/navigation';
 import {theme} from "../../../contexts/Theme"
+import { useAuth } from '@/contexts/AuthContext';
 
 // Define constants
 const TURQUOISE = theme.palette.primary.main;
@@ -28,6 +29,7 @@ const DARK_BLUE = theme.palette.primary.darkBlue;
 const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, updateQuantity }) => {
   const theme = useTheme();
   const router = useRouter();
+  const {user} = useAuth()
 
   // Animation variants
   const containerVariants = {
@@ -71,7 +73,8 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
     const price = Number(item.price || 0);
     const priceType = item.priceType || 'per item';
     
-    return `$${price.toFixed(2)} ${priceType}`;
+    return `
+£${price.toFixed(2)} ${priceType}`;
   };
 
   // Calculate the cart subtotal
@@ -122,7 +125,7 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
             Your Order
           </Typography>
           <Badge 
-            badgeContent={cartItemCount} 
+            badgeContent={cart.length} 
             color="error" 
             sx={{ ml: 'auto' }}
           >
@@ -204,7 +207,7 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                           secondary={
                             <Typography variant="body2" color={DARK_BLUE}>
                               {formatPriceWithType(item)} 
-                              {Number(item.quantity || 1) > 1 ? ` x ${item.quantity}` : ''}
+                              {` x ${item.quantity}`}
                             </Typography>
                           }
                         />
@@ -248,7 +251,8 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                         backgroundColor: 'white', // Ensure solid background
                       }}>
                         <Typography variant="caption" sx={{color: DARK_BLUE}}>
-                          Subtotal: ${calculateItemTotal(item)}
+                          Subtotal: 
+                          £{calculateItemTotal(item)}
                         </Typography>
                       </Box>
                     </motion.div>
@@ -265,7 +269,8 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                 backgroundColor: 'white', // Ensure solid background
               }}>
                 <Typography variant="body2" sx={{color: DARK_BLUE}}>Subtotal</Typography>
-                <Typography variant="body2" sx={{color: DARK_BLUE}}>${calculateSubtotal()}</Typography>
+                <Typography variant="body2" sx={{color: DARK_BLUE}}>
+                £{calculateSubtotal()}</Typography>
               </Box>
               
               <Box sx={{ 
@@ -288,7 +293,8 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
               }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 700, color: DARK_BLUE}}>Total</Typography>
                 <Typography variant="subtitle1" sx={{ fontWeight: 700, color: DARK_BLUE }}>
-                  ${calculateSubtotal()}
+                  
+£{calculateSubtotal()}
                 </Typography>
               </Box>
               
@@ -301,7 +307,11 @@ const OrderSummary = ({ cart, cartTotal, cartItemCount, handleRemoveFromCart, up
                   variant="contained" 
                   fullWidth 
                   size="large"
-                  onClick={() => router.push('/checkout?from=services')}
+                  onClick={() =>{ 
+                    if(!user){
+                      router.push('/auth/login')
+                    }else{
+                    router.push('/checkout?from=services')}}}
                   disabled={cart.length === 0}
                   sx={{ 
                     py: 1.5,
