@@ -16,8 +16,7 @@ function Page() {
     const [orderId, setOrderId] = useState(null);
     const sessionId = params.get("session_id");
     const router = useRouter()
-
-    const handleSubscriptionStorage = async (sessionId) => {
+    const handleSubscriptionStorage = useCallback(async (sessionId) => {
         setLoading(true);
         try {
             const order = localStorage.getItem("orderData");
@@ -26,7 +25,7 @@ function Page() {
             setCartTotal(currentOrder.cartTotal);
             setContactData(currentOrder.contactData);
             setScheduleData(currentOrder.scheduleData);
-
+    
             if (sessionId) {
                 const res = await ApiServeces.createOrder(currentOrder.orderData);
                 if (res.data.success) {
@@ -36,19 +35,20 @@ function Page() {
                 }
                 router.replace("/checkout/created");
             }
-          
         } catch (err) {
             console.error("Error in handleSubscriptionStorage:", err);
         } finally {
             setLoading(false);
         }
-    }
-
+    }, [router]);
+    
     useEffect(() => {
         if (sessionId) {
             handleSubscriptionStorage(sessionId);
         }
-    }, [sessionId,handleSubscriptionStorage]);
+    }, [sessionId, handleSubscriptionStorage]);
+    
+    
 
     return (
         <>
