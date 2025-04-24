@@ -6,19 +6,47 @@ import {
   Stack,
   useMediaQuery,
   InputBase,
-  Container
+  Container,
+  Snackbar,
+  Alert
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import { theme } from '../../../contexts/Theme';
+import { useServices } from '@/contexts/ServicesContext';
 
 const HeroSection = () => {
   const [zipCode, setZipCode] = useState('');
+  const { servicesAreas } = useServices();
+  const [availabilityStatus, setAvailabilityStatus] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const colors = theme.palette.primary;
 
   const handleZipCodeChange = (e) => {
     const value = e.target.value.replace(/[^\d]/g, '').slice(0, 6);
     setZipCode(value);
+    // Reset status when user types
+    setAvailabilityStatus(null);
+  };
+
+  const checkAvailability = () => {
+    if (!zipCode || zipCode.length < 3) {
+      setAvailabilityStatus('invalid');
+      setOpenSnackbar(true);
+      return;
+    }
+
+    // Check if zip code exists in servicesAreas
+    const isAvailable = servicesAreas.some(area => 
+      area.zipCode.toString().startsWith(zipCode)
+    );
+
+    setAvailabilityStatus(isAvailable ? 'available' : 'unavailable');
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   const fadeIn = {
@@ -32,19 +60,18 @@ const HeroSection = () => {
 
   return (
     <Box
-  sx={{
-    width: '100%',
-    height: '100vh',
-    minHeight: '100vh',
-    backgroundColor: colors.whitishMint,
-    position: 'relative',
-    overflow: 'hidden',
-    display: 'flex',
-    alignItems: 'center',
-    py: { xs: 5, md: 0 },
-  }}
->
-
+      sx={{
+        width: '100%',
+        height: '100vh',
+        minHeight: '100vh',
+        backgroundColor: colors.whitishMint,
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        py: { xs: 5, md: 0 },
+      }}
+    >
       <Container 
         maxWidth="xl" 
         sx={{ position: 'relative', zIndex: 2, px: { xs: 2, md: 4 } }}
@@ -76,7 +103,7 @@ const HeroSection = () => {
                   color: colors.darkBlue,
                   fontSize: { xs: '2.2rem', sm: '2.5rem', md: '3.2rem' },
                   mb: 2,
-                  mt: { xs: 2, sm: 3, md: 5 }, // added margin top
+                  mt: { xs: 2, sm: 3, md: 5 },
                   lineHeight: 1.2,
                 }}
               >
@@ -111,7 +138,7 @@ const HeroSection = () => {
                 <InputBase
                   value={zipCode}
                   onChange={handleZipCodeChange}
-                  placeholder="123456"
+                  placeholder="Enter your zip code"
                   fullWidth
                   sx={{
                     px: 3,
@@ -124,8 +151,9 @@ const HeroSection = () => {
                   }}
                 />
                 <Button
-                disableElevation
+                  disableElevation
                   variant="contained"
+                  onClick={checkAvailability}
                   sx={{
                     height: { xs: '60px', sm: '100%' },
                     borderRadius: 0,
@@ -144,11 +172,37 @@ const HeroSection = () => {
                   Check Availability
                 </Button>
               </Box>
+
+              {availabilityStatus === 'available' && (
+                <Typography
+                  sx={{
+                    mt: 2,
+                    color: colors.success,
+                    fontWeight: 600,
+                    fontSize: '1.1rem'
+                  }}
+                >
+                  🎉 Yes! We service your area!
+                </Typography>
+              )}
+
+              {availabilityStatus === 'unavailable' && (
+                <Typography
+                  sx={{
+                    mt: 2,
+                    color: colors.error,
+                    fontWeight: 600,
+                    fontSize: '1.1rem'
+                  }}
+                >
+                  😔 Not available in your area yet
+                </Typography>
+              )}
             </Box>
           </Box>
           
-           {/* Right section - Empty for desktop layout */}
-           <Box sx={{ 
+          {/* Right section - Empty for desktop layout */}
+          <Box sx={{ 
             width: { xs: '100%', md: '50%', lg: '60%' },
             display: { xs: 'none', md: 'block' },
             position: 'relative',
@@ -158,7 +212,28 @@ const HeroSection = () => {
         </Stack>
       </Container>
 
-      {/* Green Circle Background - hidden on mobile */}
+      {/* Snackbar for showing messages */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={
+            availabilityStatus === 'available' ? 'success' : 
+            availabilityStatus === 'unavailable' ? 'error' : 'warning'
+          }
+          sx={{ width: '100%' }}
+        >
+          {availabilityStatus === 'available' && 'Great news! We service your area.'}
+          {availabilityStatus === 'unavailable' && "We don't currently service this area, but we're expanding!"}
+          {availabilityStatus === 'invalid' && 'Please enter a valid zip code'}
+        </Alert>
+      </Snackbar>
+
+      {/* Rest of your existing background elements... */}
       <Box
         sx={{
           position: 'absolute',
@@ -170,7 +245,7 @@ const HeroSection = () => {
           borderRadius: '50%',
           bgcolor: colors.main,
           zIndex: 1,
-          display: { xs: 'none', md: 'block' } // Hidden on mobile
+          display: { xs: 'none', md: 'block' }
         }}
       />
 
@@ -187,7 +262,7 @@ const HeroSection = () => {
           width: { md: '350px', lg: '400px' },
           height: 'auto',
           zIndex: 2,
-          display: { xs: 'none', md: 'block' } // Hidden on mobile
+          display: { xs: 'none', md: 'block' }
         }}
       />
 
@@ -225,7 +300,7 @@ const HeroSection = () => {
             border: `1.5px solid ${colors.darkBlue}`,
             opacity: 0.5,
             zIndex: 2,
-            display: { xs: 'none', md: 'block' } // Hidden on mobile
+            display: { xs: 'none', md: 'block' }
           }}
         />
       ))}
@@ -260,7 +335,7 @@ const HeroSection = () => {
             backgroundColor: colors.darkBlue,
             opacity: 0.3,
             zIndex: 2,
-            display: { xs: 'none', md: 'block' } // Hidden on mobile
+            display: { xs: 'none', md: 'block' }
           }}
         />
       ))}

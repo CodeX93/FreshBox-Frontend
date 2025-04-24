@@ -11,6 +11,11 @@ import {
   Grid,
   CircularProgress,
   Container,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -19,6 +24,8 @@ import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PersonIcon from "@mui/icons-material/Person";
 import PaymentIcon from "@mui/icons-material/Payment";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import PayPalIcon from "@mui/icons-material/Payment";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import Navbar from "../../components/Navbar";
@@ -29,9 +36,7 @@ import AddressForm from "./_components/AddressForm";
 import ServicesSummary from "./_components/ServicesSummary";
 import ScheduleForm from "./_components/ScheduleForm";
 import ContactForm from "./_components/ContactForm";
-import PaymentForm from "./_components/PaymentForm";
 import OrderSummary from "./_components/OrderSummary";
-import OrderConfirmation from "./_components/OrderConfirmation";
 import { theme } from "../../contexts/Theme";
 
 // Data and utilities
@@ -42,6 +47,52 @@ import ApiServeces from "@/lib/ApiServeces";
 // Define constants
 const TURQUOISE = theme.palette.primary.main;
 const DARK_BLUE = theme.palette.primary.darkBlue;
+
+// Updated steps with payment method selection
+const checkoutSteps = [
+  { label: "Address", icon: <LocationOnIcon /> },
+  { label: "Services", icon: <LocalLaundryServiceIcon /> },
+  { label: "Schedule", icon: <AccessTimeIcon /> },
+  { label: "Contact", icon: <PersonIcon /> },
+  { label: "Payment", icon: <PaymentIcon /> },
+];
+
+const PaymentMethodSelection = ({ paymentData, handlePaymentChange }) => {
+  return (
+    <FormControl component="fieldset" sx={{ width: "100%", mt: 2 }}>
+      <FormLabel component="legend" sx={{ mb: 2, fontWeight: 600 }}>
+        Select Payment Method
+      </FormLabel>
+      <RadioGroup
+        name="paymentMethod"
+        value={paymentData.paymentMethod || "card"}
+        onChange={handlePaymentChange}
+      >
+        <FormControlLabel
+          value="card"
+          control={<Radio />}
+          label={
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <CreditCardIcon />
+              <span>Credit/Debit Card</span>
+            </Box>
+          }
+          sx={{ mb: 1 }}
+        />
+        <FormControlLabel
+          value="paypal"
+          control={<Radio />}
+          label={
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <PayPalIcon />
+              <span>PayPal</span>
+            </Box>
+          }
+        />
+      </RadioGroup>
+    </FormControl>
+  );
+};
 
 export default function CheckoutProcess() {
   const router = useRouter();
@@ -73,22 +124,6 @@ export default function CheckoutProcess() {
     };
   };
 
-  // Get default payment method details
-  const getDefaultPayment = (paymentMethods) => {
-    if (!paymentMethods) return {};
-    const defaultMethod = paymentMethods.find((method) => method.isDefault);
-    if (!defaultMethod) return {};
-
-    return {
-      expiryDate: defaultMethod.expiry || "",
-      nameOnCard: defaultMethod?.nameOnCard || "",
-      cvv: defaultMethod.last4,
-      cardNumber: defaultMethod.cardNumber,
-      cardType: defaultMethod.type,
-      paymentMethod: "card",
-    };
-  };
-  console.log(user);
   // Form states initialized with user data
   const [addressData, setAddressData] = useState({
     addressType: "home",
@@ -119,31 +154,8 @@ export default function CheckoutProcess() {
   });
 
   const [paymentData, setPaymentData] = useState({
-    ...getDefaultPayment(user?.paymentMethods),
+    paymentMethod: "card", // Default to card
   });
-
-  // Only needed if user data might change after initial load
-  useEffect(() => {
-    if (user) {
-      setAddressData((prev) => ({
-        ...prev,
-        ...splitAddress(user.address),
-      }));
-
-      setContactData((prev) => ({
-        ...prev,
-        ...splitName(user?.name),
-        email: user?.email,
-        phone: user?.phoneNumber,
-        marketingConsent: user?.preferences?.emailUpdates || false,
-      }));
-
-      setPaymentData((prev) => ({
-        ...prev,
-        ...getDefaultPayment(user?.paymentMethods),
-      }));
-    }
-  }, [user]);
 
   // Cart state - initialize empty and will be populated from localStorage
   const [cart, setCart] = useState([]);
@@ -170,7 +182,6 @@ export default function CheckoutProcess() {
   }, [router, searchParams]);
 
   // Calculate cart totals based on API service format
-
   const calculateCartTotal = () => {
     if (!cart || cart.length === 0) return 0;
 
@@ -190,6 +201,7 @@ export default function CheckoutProcess() {
   };
 
   const cartTotal = calculateCartTotal();
+  
   // Get cart item count
   const cartItemCount = cart.reduce((count, item) => {
     return count + Number(item.quantity || 1);
@@ -238,10 +250,10 @@ export default function CheckoutProcess() {
   };
 
   const handlePaymentChange = (e) => {
-    const { name, value, checked, type } = e.target;
+    const { name, value } = e.target;
     setPaymentData({
       ...paymentData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     });
   };
 
@@ -291,6 +303,8 @@ export default function CheckoutProcess() {
     deliveryAddress: addressData,
     user: user?._id,
     paymentType: paymentData.paymentMethod,
+    contactInfo: contactData,
+    schedule: scheduleData,
   };
 
   const handleNext = async () => {
@@ -336,61 +350,42 @@ export default function CheckoutProcess() {
         isValid = false;
       }
     } else if (activeStep === 4) {
-      // Payment validation
-      if (paymentData.paymentMethod === "card") {
-        isValid =
-          paymentData.cardNumber &&
-          paymentData.expiryDate &&
-          paymentData.cvv &&
-          paymentData.nameOnCard;
-      }
-
-      // For the demo, we'll always consider payment successful
+      // Payment method validation
+      isValid = !!paymentData.paymentMethod;
+      
       if (isValid) {
         try {
-          if (paymentData.paymentMethod === "card") {
-            const response = await ApiServeces.payForOrderStripe(orderData);
-            if (response.data.success || response.data.checkoutUrl) {
-              localStorage.setItem(
-                "orderData",
-                JSON.stringify({
-                  orderData,
-                  cartTotal,
-                  contactData,
-                  scheduleData,
-                  timestamp: new Date().toISOString(),
-                })
-              );
-              router.push(response.data.checkoutUrl);
+          // Process payment based on selected method
+          const response = await ApiServeces.payForOrderStripe(orderData);
+          
+          if (response.data.success || response.data.checkoutUrl) {
+            localStorage.setItem(
+              "orderData",
+              JSON.stringify({
+                orderData,
+                cartTotal,
+                contactData,
+                scheduleData,
+                timestamp: new Date().toISOString(),
+              })
+            );
             
-            }
-          } else {
-            const response = await ApiServeces.payForOrderStripe(orderData);
-            if (response.data.success || response.data.checkoutUrl) {
-              localStorage.setItem(
-                "orderData",
-                JSON.stringify({
-                  orderData,
-                  cartTotal,
-                  contactData,
-                  scheduleData,
-                  timestamp: new Date().toISOString(),
-                })
-              );
-              router.push(response.data.checkoutUrl);
-          }}
+            // Redirect to payment gateway
+            router.push(response.data.checkoutUrl);
+            return;
+          }
         } catch (error) {
-          console.log;
+          console.error("Error processing payment:", error);
+          setIsLoading(false);
+          return;
         }
-
-        return;
       }
     }
 
-    // Simulate network request
+    // Simulate network request for non-payment steps
     setTimeout(() => {
       setIsLoading(false);
-      if (isValid) {
+      if (isValid && activeStep !== 4) { // Don't proceed to next step if it's the payment step
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
     }, 800);
@@ -428,10 +423,9 @@ export default function CheckoutProcess() {
         );
       case 4:
         return (
-          <PaymentForm
+          <PaymentMethodSelection
             paymentData={paymentData}
             handlePaymentChange={handlePaymentChange}
-            total={cartTotal}
           />
         );
       default:
@@ -441,7 +435,7 @@ export default function CheckoutProcess() {
 
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
 
       <Box
         sx={{
@@ -453,106 +447,80 @@ export default function CheckoutProcess() {
         }}
       >
         <Container maxWidth="lg">
-       
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={8}>
-                <Paper
-                  elevation={3}
-                  sx={{ borderRadius: 2, overflow: "hidden", mb: 4 }}
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={8}>
+              <Paper
+                elevation={3}
+                sx={{ borderRadius: 2, overflow: "hidden", mb: 4 }}
+              >
+                <Box
+                  sx={{
+                    bgcolor: DARK_BLUE,
+                    color: theme.palette.primary.whitishMint,
+                    p: 2,
+                  }}
                 >
+                  <Typography variant="h5" sx={{ fontWeight: 600 }}>
+                    Checkout
+                  </Typography>
+                </Box>
+
+                <Stepper
+                  activeStep={activeStep}
+                  alternativeLabel
+                  sx={{
+                    pt: 4,
+                    pb: 3,
+                    px: { xs: 1, sm: 4 },
+                  }}
+                >
+                  {checkoutSteps.map((step, index) => (
+                    <Step key={step.label}>
+                      <StepLabel
+                        StepIconComponent={({ active, completed }) => (
+                          <Box
+                            sx={{
+                              borderRadius: "50%",
+                              bgcolor:
+                                active || completed ? DARK_BLUE : TURQUOISE,
+                              color:
+                                active || completed
+                                  ? theme.palette.primary.whitishMint
+                                  : DARK_BLUE,
+                              width: 40,
+                              height: 40,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            {step.icon}
+                          </Box>
+                        )}
+                      >
+                        {step.label}
+                      </StepLabel>
+                    </Step>
+                  ))}
+                </Stepper>
+
+                <Box sx={{ p: 4 }}>
+                  {getStepContent(activeStep)}
+
                   <Box
                     sx={{
-                      bgcolor: DARK_BLUE,
-                      color: theme.palette.primary.whitishMint,
-                      p: 2,
+                      display: "flex",
+                      justifyContent: "space-between",
+                      mt: 4,
                     }}
                   >
-                    <Typography variant="h5" sx={{ fontWeight: 600 }}>
-                      Checkout
-                    </Typography>
-                  </Box>
-
-                  <Stepper
-                    activeStep={activeStep}
-                    alternativeLabel
-                    sx={{
-                      pt: 4,
-                      pb: 3,
-                      px: { xs: 1, sm: 4 },
-                    }}
-                  >
-                    {steps.map((step, index) => (
-                      <Step key={step.label}>
-                        <StepLabel
-                          StepIconComponent={({ active, completed }) => (
-                            <Box
-                              sx={{
-                                borderRadius: "50%",
-                                bgcolor:
-                                  active || completed ? DARK_BLUE : TURQUOISE,
-                                color:
-                                  active || completed
-                                    ? theme.palette.primary.whitishMint
-                                    : DARK_BLUE,
-                                width: 40,
-                                height: 40,
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                              }}
-                            >
-                              {step.icon}
-                            </Box>
-                          )}
-                        >
-                          {step.label}
-                        </StepLabel>
-                      </Step>
-                    ))}
-                  </Stepper>
-
-                  <Box sx={{ p: 4 }}>
-                    {getStepContent(activeStep)}
-
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        mt: 4,
-                      }}
-                    >
-                      {activeStep !== 1 && (
-                        <Button
-                          disableElevation
-                          variant="contained"
-                          disabled={activeStep === 0 || isLoading}
-                          onClick={handleBack}
-                          startIcon={<ArrowBackIcon />}
-                          sx={{
-                            borderRadius: 2,
-                            bgcolor: theme.palette.primary.darkBlue,
-                            color: theme.palette.primary.whitishMint,
-                            px: 3,
-                            py: 1,
-                          }}
-                        >
-                          Back
-                        </Button>
-                      )}
-                      {activeStep === 1 && <Box />}{" "}
-                      {/* Empty box to maintain layout when back button is hidden */}
+                    {activeStep !== 1 && (
                       <Button
                         disableElevation
                         variant="contained"
-                        onClick={handleNext}
-                        endIcon={
-                          isLoading ? (
-                            <CircularProgress size={20} color="inherit" />
-                          ) : (
-                            <ArrowForwardIcon />
-                          )
-                        }
-                        disabled={isLoading}
+                        disabled={activeStep === 0 || isLoading}
+                        onClick={handleBack}
+                        startIcon={<ArrowBackIcon />}
                         sx={{
                           borderRadius: 2,
                           bgcolor: theme.palette.primary.darkBlue,
@@ -561,32 +529,55 @@ export default function CheckoutProcess() {
                           py: 1,
                         }}
                       >
-                        {activeStep === steps.length - 1
-                          ? "Complete Order"
-                          : "Continue"}
+                        Back
                       </Button>
-                    </Box>
+                    )}
+                    {activeStep === 1 && <Box />}
+                    <Button
+                      disableElevation
+                      variant="contained"
+                      onClick={handleNext}
+                      endIcon={
+                        isLoading ? (
+                          <CircularProgress size={20} color="inherit" />
+                        ) : (
+                          <ArrowForwardIcon />
+                        )
+                      }
+                      disabled={isLoading}
+                      sx={{
+                        borderRadius: 2,
+                        bgcolor: theme.palette.primary.darkBlue,
+                        color: theme.palette.primary.whitishMint,
+                        px: 3,
+                        py: 1,
+                      }}
+                    >
+                      {activeStep === checkoutSteps.length - 1
+                        ? "Complete Order"
+                        : "Continue"}
+                    </Button>
                   </Box>
-                </Paper>
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <Box sx={{ position: { md: "sticky" }, top: 20 }}>
-                  <OrderSummary
-                    cart={cart}
-                    cartTotal={cartTotal}
-                    cartItemCount={cartItemCount}
-                    addressData={addressData}
-                    scheduleData={scheduleData}
-                    activeStep={activeStep}
-                    timeSlots={timeSlots}
-                    getServiceName={getServiceName}
-                    getServicePriceDisplay={getServicePriceDisplay}
-                  />
                 </Box>
-              </Grid>
+              </Paper>
             </Grid>
-       
+
+            <Grid item xs={12} md={4}>
+              <Box sx={{ position: { md: "sticky" }, top: 20 }}>
+                <OrderSummary
+                  cart={cart}
+                  cartTotal={cartTotal}
+                  cartItemCount={cartItemCount}
+                  addressData={addressData}
+                  scheduleData={scheduleData}
+                  activeStep={activeStep}
+                  timeSlots={timeSlots}
+                  getServiceName={getServiceName}
+                  getServicePriceDisplay={getServicePriceDisplay}
+                />
+              </Box>
+            </Grid>
+          </Grid>
         </Container>
       </Box>
       <Footer />

@@ -49,7 +49,6 @@ export default function ServicesPage() {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [highlightCart, setHighlightCart] = useState(false);
 
-  // Use a ref for the scroll handler to prevent it from being recreated on every render
   const handleScrollRef = useRef(null);
 
   // Handle scroll position for sticky elements
@@ -65,8 +64,7 @@ export default function ServicesPage() {
     
     // Add event listener with the referenced handler
     window.addEventListener('scroll', handleScrollRef.current);
-    
-    // Clean up event listener on component unmount
+
     return () => {
       if (handleScrollRef.current) {
         window.removeEventListener('scroll', handleScrollRef.current);
@@ -158,8 +156,8 @@ export default function ServicesPage() {
   // Update quantity of an item in the cart
   const updateQuantity = (itemId, newQuantity) => {
     if (newQuantity < 1) return;
-    
-    setCart(cart.map(item => {
+
+    const newCart =cart.map(item => {
       if (item.id === itemId) {
         const price = Number(item.price || 0);
         return {
@@ -168,8 +166,12 @@ export default function ServicesPage() {
           totalPrice: price * newQuantity
         };
       }
+     
       return item;
-    }));
+    })
+    
+    setCart(newCart);
+    localStorage.setItem('laundryServiceCart', JSON.stringify(newCart));
   };
   
   // Calculate cart totals

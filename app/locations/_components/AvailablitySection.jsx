@@ -24,15 +24,14 @@ import { useServices } from '@/contexts/ServicesContext';
 const AvailabilitySection = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState('grid'); 
-  const {servicesAreas} = useServices()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isMedium = useMediaQuery(theme.breakpoints.down('md'));
+  const {servicesAreas} = useServices()
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  console.log({servicesAreas})
   // Filter data based on search term
   const filteredData = servicesAreas.filter(item => 
     item.zipCode.includes(searchTerm) || 

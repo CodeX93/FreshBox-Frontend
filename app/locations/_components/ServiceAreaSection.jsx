@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
@@ -14,70 +14,106 @@ import {
   Fade,
 } from '@mui/material';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
-import { motion } from 'framer-motion';
 import {
   CheckCircle as CheckCircleIcon,
   Cancel as CancelIcon,
   Schedule as ScheduleIcon,
-  
 } from '@mui/icons-material';
-
-
-import { GoogleMap, useLoadScript, OverlayView } from '@react-google-maps/api';
-import {theme } from "../../../contexts/Theme"
+import { motion } from 'framer-motion';
+import { GoogleMap, Marker, InfoWindow, useLoadScript } from '@react-google-maps/api';
+import { theme } from '../../../contexts/Theme';
 
 const libraries = ['places'];
+
 const mapContainerStyle = {
   width: '100%',
   height: '100%',
 };
-const center = {
-  lat: 40.7128,
-  lng: -74.006,
-};
-const zoom = 11;
 
-const serviceAreas = [
-  { color: 'success.main', bounds: { top: 20, left: 10, width: 25, height: 35 }, delay: 0.2 },
-  { color: 'info.main', bounds: { top: 15, left: 40, width: 30, height: 25 }, delay: 0.4 },
-  { color: 'warning.main', bounds: { top: 50, left: 30, width: 40, height: 30 }, delay: 0.6 },
-  { color: 'error.main', bounds: { top: 65, left: 10, width: 20, height: 20 }, delay: 0.8 },
+const fallbackCenter = { lat: 52.3555, lng: -1.1743 }; // England
+
+const zoom = 6;
+
+const dummyServiceAreas = [
+  {
+    name: 'Central London',
+    zipCode: '12345',
+    city: 'London',
+    state: 'England',
+    serviceDays: ['Monday', 'Wednesday', 'Friday'],
+    deliveryFee: 4.99,
+    minOrderValue: 20,
+    estimatedDeliveryTime: '24 hours',
+    activeServices: 15,
+    coverage: 'Zone 1-3',
+    lat: 51.5074,
+    lng: -0.1278,
+  },
+  {
+    name: 'Manchester West',
+    zipCode: '23456',
+    city: 'Manchester',
+    state: 'England',
+    serviceDays: ['Tuesday', 'Thursday'],
+    deliveryFee: 3.99,
+    minOrderValue: 15,
+    estimatedDeliveryTime: '48 hours',
+    activeServices: 10,
+    coverage: 'West Side',
+    lat: 53.4808,
+    lng: -2.2426,
+  },
+  {
+    name: 'Birmingham Central',
+    zipCode: '34567',
+    city: 'Birmingham',
+    state: 'England',
+    serviceDays: ['Monday', 'Saturday'],
+    deliveryFee: 2.5,
+    minOrderValue: 10,
+    estimatedDeliveryTime: '24-48 hours',
+    activeServices: 20,
+    coverage: 'Downtown',
+    lat: 52.4862,
+    lng: -1.8904,
+  },
+  {
+    name: 'Liverpool City',
+    zipCode: '45678',
+    city: 'Liverpool',
+    state: 'England',
+    serviceDays: ['Wednesday', 'Friday'],
+    deliveryFee: 5,
+    minOrderValue: 25,
+    estimatedDeliveryTime: '36 hours',
+    activeServices: 8,
+    coverage: 'City Center',
+    lat: 53.4084,
+    lng: -2.9916,
+  },
 ];
 
 const ServiceAreaSection = () => {
-  
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyDnG4NCG4G_ZvCJLjz5KTlwmVORy0s31Ok",
+    googleMapsApiKey: 'AIzaSyDnG4NCG4G_ZvCJLjz5KTlwmVORy0s31Ok',
     libraries,
   });
 
-  const renderOverlay = ({ color, bounds, delay, key }) => (
-    <Box
-    key={key}
-      component={motion.div}
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 0.7, scale: 1 }}
-      transition={{
-        duration: 0.7,
-        delay,
-        type: 'spring',
-        stiffness: 100,
-      }}
-      viewport={{ once: true }}
-      sx={{
-        position: 'absolute',
-        top: `${bounds.top}%`,
-        left: `${bounds.left}%`,
-        width: `${bounds.width}%`,
-        height: `${bounds.height}%`,
-        backgroundColor: theme.palette[color],
-        borderRadius: 2,
-        border: '2px solid white',
-        boxShadow: 2,
-        zIndex: 2,
-      }}
-    />
-  );
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [userCenter, setUserCenter] = useState(fallbackCenter);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) =>
+          setUserCenter({
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+          }),
+        () => setUserCenter(fallbackCenter)
+      );
+    }
+  }, []);
 
   return (
     <Box sx={{ py: 8, backgroundColor: theme.palette.primary.whitishMint }}>
@@ -95,16 +131,7 @@ const ServiceAreaSection = () => {
         </Fade>
 
         <Grid container spacing={4}>
-          <Grid
-            item
-            xs={12}
-            md={8}
-            component={motion.div}
-            initial={{ x: -50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
+          <Grid item xs={12} md={8}>
             <Paper
               elevation={3}
               sx={{
@@ -115,43 +142,56 @@ const ServiceAreaSection = () => {
               }}
             >
               {isLoaded ? (
-                <Box sx={{ width: '100%', height: '100%' }}>
-                  <GoogleMap
-                    mapContainerStyle={mapContainerStyle}
-                    center={center}
-                    zoom={zoom}
-                    options={{ disableDefaultUI: true, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }] }}
-                  >
-                    {/* Optional: Add markers or service polygons here */}
-                  </GoogleMap>
-                </Box>
-              ) : (
-                <Box
-                  sx={{
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'grey.300',
+                <GoogleMap
+                  mapContainerStyle={mapContainerStyle}
+                  center={userCenter}
+                  zoom={zoom}
+                  options={{
+                    zoomControl: true,
+                    streetViewControl: false,
+                    mapTypeControl: false,
+                    fullscreenControl: false,
                   }}
-                />
+                >
+                  {dummyServiceAreas.map((area, idx) => (
+                    <Marker
+                      key={idx}
+                      position={{ lat: area.lat, lng: area.lng }}
+                      onClick={() => setSelectedArea(area)}
+                      label={{
+                        text: area.city,
+                        fontWeight: 'bold',
+                        color: 'black',
+                        fontSize: '14px',
+                      }}
+                    />
+                  ))}
+                  {selectedArea && (
+                    <InfoWindow
+                      position={{ lat: selectedArea.lat, lng: selectedArea.lng }}
+                      onCloseClick={() => setSelectedArea(null)}
+                    >
+                      <Box>
+                        <Typography variant="subtitle1" fontWeight={600}>
+                          {selectedArea.name}
+                        </Typography>
+                        <Typography variant="body2">Zip: {selectedArea.zipCode}</Typography>
+                        <Typography variant="body2">City: {selectedArea.city}</Typography>
+                        <Typography variant="body2">State: {selectedArea.state}</Typography>
+                        <Typography variant="body2">Min Order: £{selectedArea.minOrderValue}</Typography>
+                        <Typography variant="body2">Delivery Fee: £{selectedArea.deliveryFee}</Typography>
+                        <Typography variant="body2">ETA: {selectedArea.estimatedDeliveryTime}</Typography>
+                      </Box>
+                    </InfoWindow>
+                  )}
+                </GoogleMap>
+              ) : (
+                <Box sx={{ width: '100%', height: '100%', backgroundColor: 'grey.300' }} />
               )}
-              {/* Overlay placeholders to visualize service zones */}
-              {serviceAreas.map((area, idx) =>
-  renderOverlay({ color: area.color, bounds: area.bounds, delay: area.delay, key: `overlay-${idx}` })
-)}
-
             </Paper>
           </Grid>
 
-          <Grid
-            item
-            xs={12}
-            md={4}
-            component={motion.div}
-            initial={{ x: 50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
+          <Grid item xs={12} md={4}>
             <Paper
               elevation={3}
               sx={{
@@ -160,54 +200,47 @@ const ServiceAreaSection = () => {
                 borderRadius: 2,
                 display: 'flex',
                 flexDirection: 'column',
-                bgcolor:theme.palette.primary.darkBlue
+                bgcolor: theme.palette.primary.darkBlue,
               }}
             >
-    <Box display="flex" alignItems="center" gap={1} mb={2}>
-  <RoomOutlinedIcon sx={{ color: theme.palette.primary.yellowish, fontSize: 30 }} />
-</Box>
-
-
-
-              <Typography variant="h5" component="h3" gutterBottom fontWeight={600} sx={{color: theme.palette.primary.yellowish}}>
+              <Box display="flex" alignItems="center" gap={1} mb={2}>
+                <RoomOutlinedIcon sx={{ color: theme.palette.primary.yellowish, fontSize: 30 }} />
+              </Box>
+              <Typography
+                variant="h5"
+                component="h3"
+                gutterBottom
+                fontWeight={600}
+                sx={{ color: theme.palette.primary.yellowish }}
+              >
                 Service Area Legend
               </Typography>
-
               <List sx={{ mt: 2 }}>
                 <LegendItem
                   icon={<CheckCircleIcon sx={{ color: theme.palette.success.yellowish }} />}
                   title="Active Service Areas"
-                  subtitle="Same-day service available with flexible scheduling"
+                  subtitle="Same-day service available"
                   delay={0.2}
-                  Textcolor={theme.palette.primary.yellowish}
-                />
-                <LegendItem
-                  icon={<CheckCircleIcon sx={{ color: theme.palette.info.yellowish }} />}
-                  title="Premium Express Zones"
-                  subtitle="3-hour turnaround available"
-                  delay={0.4}
                   Textcolor={theme.palette.primary.yellowish}
                 />
                 <LegendItem
                   icon={<ScheduleIcon sx={{ color: theme.palette.warning.yellowish }} />}
                   title="Coming Soon Areas"
-                  subtitle="Service launching within 30 days"
-                  delay={0.6}
+                  subtitle="Launching soon"
+                  delay={0.4}
                   Textcolor={theme.palette.primary.yellowish}
                 />
                 <LegendItem
                   icon={<CancelIcon sx={{ color: theme.palette.error.yellowish }} />}
-                  title="Not Yet Available"
-                  subtitle="Join our waitlist for service updates"
-                  delay={0.8}
+                  title="Not Available"
+                  subtitle="Join our waitlist"
+                  delay={0.6}
                   Textcolor={theme.palette.primary.yellowish}
                 />
               </List>
-
               <Box sx={{ mt: 'auto', pt: 2 }}>
                 <Typography variant="body2" color={theme.palette.primary.yellowish}>
-                  Our service areas are constantly expanding. Check back regularly or join our
-                  waitlist to be notified when we reach your neighborhood.
+                  More areas coming soon. Stay tuned!
                 </Typography>
               </Box>
             </Paper>
@@ -218,7 +251,7 @@ const ServiceAreaSection = () => {
   );
 };
 
-const LegendItem = ({ icon, title, subtitle, delay,Textcolor }) => (
+const LegendItem = ({ icon, title, subtitle, delay, Textcolor }) => (
   <ListItem
     component={motion.li}
     initial={{ opacity: 0, y: 10 }}
@@ -226,14 +259,13 @@ const LegendItem = ({ icon, title, subtitle, delay,Textcolor }) => (
     transition={{ delay }}
     viewport={{ once: true }}
   >
-    <ListItemIcon sx={{color:Textcolor}}>{icon}</ListItemIcon>
+    <ListItemIcon sx={{ color: Textcolor }}>{icon}</ListItemIcon>
     <ListItemText
-  primary={title}
-  secondary={subtitle}
-  primaryTypographyProps={{ sx: { color: Textcolor } }}
-  secondaryTypographyProps={{ sx: { color: Textcolor } }}
-/>
-
+      primary={title}
+      secondary={subtitle}
+      primaryTypographyProps={{ sx: { color: Textcolor } }}
+      secondaryTypographyProps={{ sx: { color: Textcolor } }}
+    />
   </ListItem>
 );
 
