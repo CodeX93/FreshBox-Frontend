@@ -1,5 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+
+// Add dynamic = "force-dynamic" to make the page fully dynamic
+export const dynamic = "force-dynamic";
+
+import { useState, useEffect, Suspense } from "react";
 import {
   Box,
   Typography,
@@ -94,7 +98,8 @@ const PaymentMethodSelection = ({ paymentData, handlePaymentChange }) => {
   );
 };
 
-export default function CheckoutProcess() {
+// Create a component for checkout content
+function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -434,9 +439,147 @@ export default function CheckoutProcess() {
   };
 
   return (
+    <Container maxWidth="lg">
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={8}>
+          <Paper
+            elevation={3}
+            sx={{ borderRadius: 2, overflow: "hidden", mb: 4 }}
+          >
+            <Box
+              sx={{
+                bgcolor: DARK_BLUE,
+                color: theme.palette.primary.whitishMint,
+                p: 2,
+              }}
+            >
+              <Typography variant="h5" sx={{ fontWeight: 600 }}>
+                Checkout
+              </Typography>
+            </Box>
+
+            <Stepper
+              activeStep={activeStep}
+              alternativeLabel
+              sx={{
+                pt: 4,
+                pb: 3,
+                px: { xs: 1, sm: 4 },
+              }}
+            >
+              {checkoutSteps.map((step, index) => (
+                <Step key={step.label}>
+                  <StepLabel
+                    StepIconComponent={({ active, completed }) => (
+                      <Box
+                        sx={{
+                          borderRadius: "50%",
+                          bgcolor:
+                            active || completed ? DARK_BLUE : TURQUOISE,
+                          color:
+                            active || completed
+                              ? theme.palette.primary.whitishMint
+                              : DARK_BLUE,
+                          width: 40,
+                          height: 40,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        {step.icon}
+                      </Box>
+                    )}
+                  >
+                    {step.label}
+                  </StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+
+            <Box sx={{ p: 4 }}>
+              {getStepContent(activeStep)}
+
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  mt: 4,
+                }}
+              >
+                {activeStep !== 1 && (
+                  <Button
+                    disableElevation
+                    variant="contained"
+                    disabled={activeStep === 0 || isLoading}
+                    onClick={handleBack}
+                    startIcon={<ArrowBackIcon />}
+                    sx={{
+                      borderRadius: 2,
+                      bgcolor: theme.palette.primary.darkBlue,
+                      color: theme.palette.primary.whitishMint,
+                      px: 3,
+                      py: 1,
+                    }}
+                  >
+                    Back
+                  </Button>
+                )}
+                {activeStep === 1 && <Box />}
+                <Button
+                  disableElevation
+                  variant="contained"
+                  onClick={handleNext}
+                  endIcon={
+                    isLoading ? (
+                      <CircularProgress size={20} color="inherit" />
+                    ) : (
+                      <ArrowForwardIcon />
+                    )
+                  }
+                  disabled={isLoading}
+                  sx={{
+                    borderRadius: 2,
+                    bgcolor: theme.palette.primary.darkBlue,
+                    color: theme.palette.primary.whitishMint,
+                    px: 3,
+                    py: 1,
+                  }}
+                >
+                  {activeStep === checkoutSteps.length - 1
+                    ? "Complete Order"
+                    : "Continue"}
+                </Button>
+              </Box>
+            </Box>
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12} md={4}>
+          <Box sx={{ position: { md: "sticky" }, top: 20 }}>
+            <OrderSummary
+              cart={cart}
+              cartTotal={cartTotal}
+              cartItemCount={cartItemCount}
+              addressData={addressData}
+              scheduleData={scheduleData}
+              activeStep={activeStep}
+              timeSlots={timeSlots}
+              getServiceName={getServiceName}
+              getServicePriceDisplay={getServicePriceDisplay}
+            />
+          </Box>
+        </Grid>
+      </Grid>
+    </Container>
+  );
+}
+
+// Main component with Suspense boundary
+export default function CheckoutProcess() {
+  return (
     <>
       <Navbar />
-
       <Box
         sx={{
           bgcolor: "#E3FEF7",
@@ -446,139 +589,15 @@ export default function CheckoutProcess() {
           marginTop: "100px",
         }}
       >
-        <Container maxWidth="lg">
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={8}>
-              <Paper
-                elevation={3}
-                sx={{ borderRadius: 2, overflow: "hidden", mb: 4 }}
-              >
-                <Box
-                  sx={{
-                    bgcolor: DARK_BLUE,
-                    color: theme.palette.primary.whitishMint,
-                    p: 2,
-                  }}
-                >
-                  <Typography variant="h5" sx={{ fontWeight: 600 }}>
-                    Checkout
-                  </Typography>
-                </Box>
-
-                <Stepper
-                  activeStep={activeStep}
-                  alternativeLabel
-                  sx={{
-                    pt: 4,
-                    pb: 3,
-                    px: { xs: 1, sm: 4 },
-                  }}
-                >
-                  {checkoutSteps.map((step, index) => (
-                    <Step key={step.label}>
-                      <StepLabel
-                        StepIconComponent={({ active, completed }) => (
-                          <Box
-                            sx={{
-                              borderRadius: "50%",
-                              bgcolor:
-                                active || completed ? DARK_BLUE : TURQUOISE,
-                              color:
-                                active || completed
-                                  ? theme.palette.primary.whitishMint
-                                  : DARK_BLUE,
-                              width: 40,
-                              height: 40,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}
-                          >
-                            {step.icon}
-                          </Box>
-                        )}
-                      >
-                        {step.label}
-                      </StepLabel>
-                    </Step>
-                  ))}
-                </Stepper>
-
-                <Box sx={{ p: 4 }}>
-                  {getStepContent(activeStep)}
-
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      mt: 4,
-                    }}
-                  >
-                    {activeStep !== 1 && (
-                      <Button
-                        disableElevation
-                        variant="contained"
-                        disabled={activeStep === 0 || isLoading}
-                        onClick={handleBack}
-                        startIcon={<ArrowBackIcon />}
-                        sx={{
-                          borderRadius: 2,
-                          bgcolor: theme.palette.primary.darkBlue,
-                          color: theme.palette.primary.whitishMint,
-                          px: 3,
-                          py: 1,
-                        }}
-                      >
-                        Back
-                      </Button>
-                    )}
-                    {activeStep === 1 && <Box />}
-                    <Button
-                      disableElevation
-                      variant="contained"
-                      onClick={handleNext}
-                      endIcon={
-                        isLoading ? (
-                          <CircularProgress size={20} color="inherit" />
-                        ) : (
-                          <ArrowForwardIcon />
-                        )
-                      }
-                      disabled={isLoading}
-                      sx={{
-                        borderRadius: 2,
-                        bgcolor: theme.palette.primary.darkBlue,
-                        color: theme.palette.primary.whitishMint,
-                        px: 3,
-                        py: 1,
-                      }}
-                    >
-                      {activeStep === checkoutSteps.length - 1
-                        ? "Complete Order"
-                        : "Continue"}
-                    </Button>
-                  </Box>
-                </Box>
-              </Paper>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Box sx={{ position: { md: "sticky" }, top: 20 }}>
-                <OrderSummary
-                  cart={cart}
-                  cartTotal={cartTotal}
-                  cartItemCount={cartItemCount}
-                  addressData={addressData}
-                  scheduleData={scheduleData}
-                  activeStep={activeStep}
-                  timeSlots={timeSlots}
-                  getServiceName={getServiceName}
-                  getServicePriceDisplay={getServicePriceDisplay}
-                />
-              </Box>
-            </Grid>
-          </Grid>
-        </Container>
+        <Suspense fallback={
+          <Container maxWidth="lg">
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+              <CircularProgress />
+            </Box>
+          </Container>
+        }>
+          <CheckoutContent />
+        </Suspense>
       </Box>
       <Footer />
     </>
