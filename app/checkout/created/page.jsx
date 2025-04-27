@@ -1,11 +1,9 @@
 "use client";
-import React, { useState, useCallback, useEffect, Suspense } from "react";
+import React, { useState, useCallback, useEffect, Suspense, useRef } from "react";
 import OrderConfirmation from "../_components/OrderConfirmation";
-import { useAuth } from "@/contexts/AuthContext";
 import { useRouter, useSearchParams } from "next/navigation";
 import ApiServeces from "@/lib/ApiServeces";
 
-// Create a separate component that uses useSearchParams
 function CheckoutContent() {
   const params = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -14,25 +12,30 @@ function CheckoutContent() {
   const [contactData, setContactData] = useState(null);
   const [scheduleData, setScheduleData] = useState(null);
   const [orderId, setOrderId] = useState(null);
+  
   const sessionId = params.get("session_id");
   const router = useRouter();
-  const [orderCreationAttempted, setOrderCreationAttempted] = useState(false);
-  
+
+  const orderCreationAttemptedRef = useRef(false); 
+
   const handleSubscriptionStorage = useCallback(async (sessionId) => {
-    if (orderCreationAttempted) return;
+    if (orderCreationAttemptedRef.current) return; 
+    orderCreationAttemptedRef.current = true; 
+
     setLoading(true);
     try {
       const order = localStorage.getItem("orderData");
       if (!order) {
         throw new Error("No order data found");
       }
+
       const currentOrder = JSON.parse(order);
       setOrderData(currentOrder.orderData);
       setCartTotal(currentOrder.cartTotal);
       setContactData(currentOrder.contactData);
       setScheduleData(currentOrder.scheduleData);
+
       if (sessionId) {
-        setOrderCreationAttempted(true);
         const res = await ApiServeces.createOrder(currentOrder.orderData);
         if (res.data.success) {
           setOrderId(res.data.order._id);
@@ -46,14 +49,14 @@ function CheckoutContent() {
     } finally {
       setLoading(false);
     }
-  }, [router, orderCreationAttempted]);
-  
+  }, [router]);
+
   useEffect(() => {
-    if (sessionId && !orderCreationAttempted) {
+    if (sessionId) {
       handleSubscriptionStorage(sessionId);
     }
-  }, [sessionId, handleSubscriptionStorage, orderCreationAttempted]);
-  
+  }, [sessionId, handleSubscriptionStorage]);
+
   return (
     <>
       {!loading && orderId && (
@@ -68,7 +71,6 @@ function CheckoutContent() {
   );
 }
 
-// Main component with Suspense boundary
 function Page() {
   return (
     <Suspense fallback={<div>Loading...</div>}>

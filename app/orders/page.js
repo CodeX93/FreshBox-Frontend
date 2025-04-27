@@ -155,6 +155,14 @@ const theme = createTheme({
     },
   },
 });
+const statusToStep = {
+  processing: 0,
+  assign: 1,
+  scheduled: 2,
+  ready: 3,
+  delivered: 5,
+  cancelled: -1,
+};
 
 // Utility function to format dates
 const formatDate = (dateString) => {
@@ -172,6 +180,7 @@ const formatDate = (dateString) => {
 const statusColors = {
   delivered: "success",
   processing: "info",
+  assign:"info",
   scheduled: "warning",
   ready: "primary",
 };
@@ -179,6 +188,7 @@ const statusColors = {
 // Status icon mapping
 const statusIcons = {
   delivered: <CheckCircle />,
+  assign:<CheckCircle />,
   processing: <LocalLaundryService />,
   scheduled: <Schedule />,
   ready: <Inventory2 />,
@@ -227,6 +237,7 @@ const LaundryOrderTracking = () => {
 
   // Handle tab change
   const handleTabChange = (event, newValue) => {
+    console.log(newValue)
     setTabValue(newValue);
   };
 
@@ -238,10 +249,12 @@ const LaundryOrderTracking = () => {
     if (tabValue === 1) {
       filtered = filtered.filter((order) => order.status === "processing");
     } else if (tabValue === 2) {
+      filtered = filtered.filter((order) => order.status === "assign");
+    }  else if (tabValue === 3) {
       filtered = filtered.filter((order) => order.status === "ready");
-    } else if (tabValue === 3) {
+    } else if (tabValue === 5) {
       filtered = filtered.filter((order) => order.status === "scheduled");
-    } else if (tabValue === 4) {
+    } else if (tabValue === 5) {
       filtered = filtered.filter((order) => order.status === "delivered");
     }
 
@@ -359,7 +372,7 @@ const LaundryOrderTracking = () => {
                         Current Status
                       </Typography>
                       <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                        {order?.steps[order?.currentStep]?.label}
+                        {order?.steps[statusToStep[order.status]]?.status}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         Estimated Delivery:{" "}
@@ -380,14 +393,14 @@ const LaundryOrderTracking = () => {
                     {order.steps.map((step, index) => (
                       <Step key={index} completed={step.completed}>
                         <StepLabel>
-                          {step?.label}
-                          {step?.date && (
+                          {step?.status}
+                          {step?.timestamp && (
                             <Typography
                               variant="caption"
                               display="block"
                               color="text.secondary"
                             >
-                              {formatDate(step.date)}
+                              {formatDate(step.timestamp)}
                             </Typography>
                           )}
                         </StepLabel>
@@ -395,7 +408,7 @@ const LaundryOrderTracking = () => {
                     ))}
                   </Stepper>
 
-                  {order.currentStep === 2 && (
+                  {order.currentStep === 4 && (
                     <Box
                       sx={{
                         textAlign: "center",
@@ -444,7 +457,7 @@ const LaundryOrderTracking = () => {
                   }}
                 >
                   <Typography variant="subtitle2" color="text.secondary">
-                    Total Weight
+                    Total Services
                   </Typography>
                   <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
                     {order.items.length} Services
@@ -864,7 +877,7 @@ const LaundryOrderTracking = () => {
                     }}
                   >
                     <Typography variant="caption" color="text.secondary">
-                      {/* {order.steps[order.currentStep].label} */}
+                      {order.steps[order.currentStep].status}
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
                       Est. Delivery:{" "}
@@ -929,6 +942,7 @@ const LaundryOrderTracking = () => {
 
   const orderStatusCounts = {
     processing: orders.filter((order) => order.status === "processing").length,
+    assign: orders.filter((order) => order.status === "assign").length,
     ready: orders.filter((order) => order.status === "ready").length,
     scheduled: orders.filter((order) => order.status === "scheduled").length,
     delivered: orders.filter((order) => order.status === "delivered").length,
@@ -1054,6 +1068,20 @@ const LaundryOrderTracking = () => {
                             <Box />
                           </Badge>
                           In Progress
+                        </Box>
+                      }
+                    />
+                     <Tab
+                      label={
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <Badge
+                            badgeContent={orderStatusCounts.assign}
+                            color="info"
+                            sx={{ mr: 1 }}
+                          >
+                            <Box />
+                          </Badge>
+                          Assigned
                         </Box>
                       }
                     />

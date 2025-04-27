@@ -32,6 +32,8 @@ const PaymentPage = ({ plan, price }) => {
                     userEmail: user.email,
                 };
 
+                console.log({plan})
+
                 const res = await ApiServeces.upgradePlan(data);
                 const resData = res.data;
 

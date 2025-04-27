@@ -17,6 +17,8 @@ import FAQSection from '../_components/FAQSection.jsx';
 import ContactInfoSection from '../_components/ContactInfoSection';
 import SuccessErrorAlerts from '../_components/SuccessErrorAlerts';
 import {theme} from "../../../contexts/Theme"
+import ApiServeces from '@/lib/ApiServeces';
+import { useAuth } from '@/contexts/AuthContext';
 // Define constants for SEO content
 
 export default function ClientSupportPage() {
@@ -27,6 +29,7 @@ export default function ClientSupportPage() {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isTablet = useMediaQuery(theme.breakpoints.down('lg'));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const {user}=useAuth()
   
   // Form state
   const [formData, setFormData] = useState({
@@ -35,7 +38,8 @@ export default function ClientSupportPage() {
     phone: '',
     category: 'general',
     orderNumber: '',
-    message: ''
+    message: '',
+    from:user._id
   });
   
   // Search state
@@ -64,27 +68,33 @@ export default function ClientSupportPage() {
   };
   
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      if (Math.random() > 0.1) { // Simulate 90% success rate
-        setSuccessMessage(true);
+    try {
+      const res = await ApiServeces.createSupport(formData);
+      if(res.data.success){
         setFormData({
           name: '',
           email: '',
           phone: '',
           category: 'general',
           orderNumber: '',
-          message: ''
-        });
-      } else {
-        setErrorMessage(true);
+          message: '',
+          from:user._id
+        })
+        setSuccessMessage(true)
       }
+      
+    } catch (error) {
+      console.log(error)
+    }finally{
+      setErrorMessage(false);
       setIsSubmitting(false);
-    }, 1500);
+    }
+     
+ 
   };
   
   // Close snackbar alerts
