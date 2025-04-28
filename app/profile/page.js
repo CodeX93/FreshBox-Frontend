@@ -271,7 +271,7 @@ const ProfileHeader = ({
     // For server-side paths like "/uploads/profile-pictures/..."
     // Use the API server URL instead of the frontend URL
     const apiBaseUrl =
-      process.env.NEXT_PUBLIC_API_URL || "http://localhost:5023";
+      process.env.NEXT_PUBLIC_API_URL || "https://freshbox-backend.onrender.com/api";
     return `${apiBaseUrl}${url}`;
   };
 
