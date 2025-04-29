@@ -44,9 +44,10 @@ import OrderSummary from "./_components/OrderSummary";
 import { theme } from "../../contexts/Theme";
 
 // Data and utilities
-import { steps, coveredPostcodes, timeSlots } from "./checkoutData";
+import { steps, timeSlots } from "./checkoutData";
 import { useAuth } from "@/contexts/AuthContext";
 import ApiServeces from "@/lib/ApiServeces";
+import { useServices } from "@/contexts/ServicesContext";
 
 // Define constants
 const TURQUOISE = theme.palette.primary.main;
@@ -100,14 +101,27 @@ const PaymentMethodSelection = ({ paymentData, handlePaymentChange }) => {
 
 // Create a component for checkout content
 function CheckoutContent() {
+  const [coveredPostcodes, setCoveredPostcodes] = useState([]);
+
   const router = useRouter();
   const searchParams = useSearchParams();
-
+  
   const [activeStep, setActiveStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [addressError, setAddressError] = useState(false);
-
+  
   const { user } = useAuth();
+  const { servicesAreas ,services} = useServices();
+  
+  useEffect(() => {
+    if (Array.isArray(servicesAreas) && servicesAreas.length > 0) {
+      const zipCodes = servicesAreas
+        .filter(area => area.zipCode) 
+        .map(area => area.zipCode);
+      setCoveredPostcodes(zipCodes);
+    }
+  }, [servicesAreas]);
+  
 
   // Helper function to split name into first and last names
   const splitName = (fullName) => {
@@ -203,7 +217,12 @@ function CheckoutContent() {
         return total + (price + optionPrice) * quantity;
       }
     }, 0);
+  
   };
+    // Get service name from item
+    const getServiceName = (item) => {
+      return item.name;
+    };
 
   const cartTotal = calculateCartTotal();
   
@@ -212,20 +231,72 @@ function CheckoutContent() {
     return count + Number(item.quantity || 1);
   }, 0);
 
-  // Check if address is in coverage area
-  const checkCoverage = (postcode) => {
-    // Extract the first part of the postcode (e.g., "SW1" from "SW1A 1AA")
-    const postcodeInput = postcode.trim().toUpperCase();
-
-    // Remove spaces from input and check formats like N1, N16, etc.
-    const postcodeNoSpace = postcodeInput.replace(/\s+/g, "");
-
-    return coveredPostcodes.some((code) => {
-      // Handle cases where the input might be N16XE (without space)
-      // or where it might be something like SW1A1AA (without space)
-      return postcodeNoSpace.startsWith(code) || postcodeInput.startsWith(code);
-    });
-  };
+    // Function to adapt cart items for ServicesSummary component
+    const adaptCartForSummary = () => {
+      return cart.map((item) => ({
+        name: getServiceName(item),
+        priceType: item.priceType,
+        pricePerItem: item.price,
+        totalPrice: item.totalPrice,
+        quantity: item.quantity,
+        category: item.category,
+        specifications: item.specifications || [],
+      }));
+    };
+    
+    const cartItems = adaptCartForSummary();
+    
+    // Check if address is in coverage area
+    const checkCoverage = (postcode) => {
+      const postcodeInput = postcode.trim().toUpperCase();
+      const postcodeNoSpace = postcodeInput.replace(/\s+/g, "");
+    
+      // Step 1: check if it's in the general coverage area
+      const isInCoveredPostcodes = coveredPostcodes.some((code) => {
+        return postcodeNoSpace.startsWith(code) || postcodeInput.startsWith(code);
+      });
+    
+      if (!isInCoveredPostcodes) {
+        setAddressError("This postcode is not in our service area.");
+        return false;
+      }
+    
+      // Step 2: check if all cart items are available for this postcode
+      const cartItems = adaptCartForSummary();
+    
+      for (const item of cartItems) {
+        const matchedService = services.find(
+          (service) => getServiceName(item) === service.name
+        );
+    
+        if (
+          matchedService &&
+          Array.isArray(matchedService.availableInZipCodes)
+        ) {
+          const isAvailable = matchedService.availableInZipCodes.some((code) =>
+            postcodeNoSpace.startsWith(code)
+          );
+    
+          if (!isAvailable) {
+            setAddressError(
+              `The service "${item.name}" is not available in your area.`
+            );
+            return false;
+          }
+        } else {
+          setAddressError(
+            `Service details for "${item.name}" are missing or invalid.`
+          );
+          return false;
+        }
+      }
+    
+      // All checks passed
+      setAddressError(false);
+      return true;
+    };
+    
+    
 
   // Handle back button click
   const handleBack = () => {
@@ -269,10 +340,7 @@ function CheckoutContent() {
     });
   };
 
-  // Get service name from item
-  const getServiceName = (item) => {
-    return item.name;
-  };
+
 
   // Get service price display
   const getServicePriceDisplay = (item) => {
@@ -287,20 +355,7 @@ function CheckoutContent() {
     return "$0.00";
   };
 
-  // Function to adapt cart items for ServicesSummary component
-  const adaptCartForSummary = () => {
-    return cart.map((item) => ({
-      name: getServiceName(item),
-      priceType: item.priceType,
-      pricePerItem: item.price,
-      totalPrice: item.totalPrice,
-      quantity: item.quantity,
-      category: item.category,
-      specifications: item.specifications || [],
-    }));
-  };
 
-  const cartItems = adaptCartForSummary();
 
   const orderData = {
     items: cartItems,

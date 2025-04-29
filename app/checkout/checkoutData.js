@@ -29,17 +29,6 @@ export const steps = [
   }
 ];
 
-// Postcode coverage areas (London zones 1-3)
-export const coveredPostcodes = [
-  'E1', 'E2', 'E3', 'E8', 'E9', 'E14', 'E15',
-  'EC1', 'EC2', 'EC3', 'EC4',
-  'N1', 'N4', 'N5', 'N7', 'N8', 'N16', 'N19',
-  'NW1', 'NW3', 'NW5', 'NW6', 'NW8',
-  'SE1', 'SE5', 'SE8', 'SE11', 'SE14', 'SE15', 'SE16', 'SE17',
-  'SW1', 'SW3', 'SW4', 'SW5', 'SW6', 'SW7', 'SW8', 'SW9', 'SW10', 'SW11',
-  'W1', 'W2', 'W6', 'W8', 'W9', 'W10', 'W11', 'W12', 'W14',
-  'WC1', 'WC2'
-];
 
 // Available time slots
 export const timeSlots = [
