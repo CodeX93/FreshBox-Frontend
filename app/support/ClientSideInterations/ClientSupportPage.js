@@ -39,7 +39,7 @@ export default function ClientSupportPage() {
     category: 'general',
     orderNumber: '',
     message: '',
-    from:user._id
+    from: user?._id || ''
   });
   
   // Search state
