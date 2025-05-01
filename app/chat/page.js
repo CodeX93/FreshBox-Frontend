@@ -60,7 +60,7 @@ const formatTime = (time) => {
 export default function RiderChatScreen() {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-
+  const messagesContainerRef = useRef(null);
   const [conversations, setConversations] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -92,7 +92,20 @@ export default function RiderChatScreen() {
 
   // Scroll to bottom of messages
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const messagesContainer = messagesContainerRef.current;
+    if (messagesContainer) {
+      // Only scroll if we're near the bottom (within 200px)
+      const isNearBottom = 
+        messagesContainer.scrollHeight - messagesContainer.scrollTop <= 
+        messagesContainer.clientHeight + 200;
+      
+      if (isNearBottom) {
+        messagesContainer.scrollTo({
+          top: messagesContainer.scrollHeight,
+          behavior: "smooth"
+        });
+      }
+    }
   };
 
   // Load messages when a conversation is selected
@@ -392,6 +405,7 @@ export default function RiderChatScreen() {
                   display: "flex",
                   flexDirection: "column",
                 }}
+                ref={messagesContainerRef}
               >
                 {loading ? (
                   <Box
@@ -489,6 +503,7 @@ export default function RiderChatScreen() {
                             </Typography>
                           )}
                         </Box>
+                        
                       </Box>
                     </Box>
                   ))
@@ -507,6 +522,7 @@ export default function RiderChatScreen() {
                   </Box>
                 )}
                 <div ref={messagesEndRef} />
+              
               </Box>
 
               {/* Message Input */}
