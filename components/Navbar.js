@@ -24,6 +24,7 @@ import {
 import Logo from '../Assets/logo2.png';
 import { useAuth } from '../contexts/AuthContext';
 import {theme} from "../contexts/Theme"
+import { useChat } from '@/contexts/ChatContext';
 
 // Constants
 const TURQUOISE = theme.palette.primary.main;
@@ -100,6 +101,7 @@ const NavButton = ({ children, scrolled, light, ...props }) => {
 
 export default function Navbar({ light = false }) {
   const { user, logout, isAuthenticated } = useAuth();
+  const {chats} = useChat()
   
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
@@ -120,10 +122,6 @@ export default function Navbar({ light = false }) {
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [mobileCommercialOpen, setMobileCommercialOpen] = useState(false);
   const [mobileGettingStartedOpen, setMobileGettingStartedOpen] = useState(false);
-  
-  // User data
-  const [unreadMessageCount, setUnreadMessageCount] = useState(0);
-  const [ongoingOrdersCount, setOngoingOrdersCount] = useState(0);
   const [userPlan, setUserPlan] = useState('Basic');
 
   // Derived states
@@ -153,10 +151,10 @@ export default function Navbar({ light = false }) {
   }, []);
 
   useEffect(() => {
-    // Replace with actual API calls in production
+  
     setUserPlan(user?.plan?.planName || '');
-    setUnreadMessageCount(5);
-    setOngoingOrdersCount(3);
+
+
   }, [user]);
 
   // Event handlers - grouped by functionality
@@ -796,7 +794,7 @@ export default function Navbar({ light = false }) {
                     '&:hover': { bgcolor: DARK_TURQUOISE }
                   }}
                   startIcon={
-                    <Badge badgeContent={unreadMessageCount} color="error">
+                    <Badge badgeContent={chats?.length} color="error">
                       <ChatIcon />
                     </Badge>
                   }
@@ -1224,7 +1222,7 @@ export default function Navbar({ light = false }) {
           }}
         >
           <Badge 
-            badgeContent={unreadMessageCount} 
+            badgeContent={chats?.length} 
             color="error" 
             sx={{ padding: '1px' }}
           >
@@ -1409,7 +1407,7 @@ return (
                       }}
                     >
                       <Badge 
-                        badgeContent={unreadMessageCount + ongoingOrdersCount} 
+                        badgeContent={chats?.length} 
                         color="error"
                         sx={{ '& .MuiBadge-badge': { fontSize: '0.6rem' } }}
                       >
