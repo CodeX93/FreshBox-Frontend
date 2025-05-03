@@ -22,6 +22,7 @@ import {
 import { motion } from 'framer-motion';
 import { GoogleMap, Marker, InfoWindow, useLoadScript } from '@react-google-maps/api';
 import { theme } from '../../../contexts/Theme';
+import { useServices } from '../../../contexts/ServicesContext';
 
 const libraries = ['places'];
 
@@ -101,6 +102,7 @@ const ServiceAreaSection = () => {
 
   const [selectedArea, setSelectedArea] = useState(null);
   const [userCenter, setUserCenter] = useState(fallbackCenter);
+  const { servicesAreas } = useServices()
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -153,10 +155,13 @@ const ServiceAreaSection = () => {
                     fullscreenControl: false,
                   }}
                 >
-                  {dummyServiceAreas.map((area, idx) => (
+                  {servicesAreas?.map((area, idx) => (
                     <Marker
                       key={idx}
-                      position={{ lat: area.lat, lng: area.lng }}
+                      position={{
+                        lat: area.location.coordinates[1], // Latitude
+                        lng: area.location.coordinates[0]  // Longitude
+                      }}
                       onClick={() => setSelectedArea(area)}
                       label={{
                         text: area.city,
@@ -166,9 +171,10 @@ const ServiceAreaSection = () => {
                       }}
                     />
                   ))}
+
                   {selectedArea && (
                     <InfoWindow
-                      position={{ lat: selectedArea.lat, lng: selectedArea.lng }}
+                      position={{ lat:selectedArea.location.coordinates[1], lng: selectedArea.location.coordinates[0]}}
                       onCloseClick={() => setSelectedArea(null)}
                     >
                       <Box>
