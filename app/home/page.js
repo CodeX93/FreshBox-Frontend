@@ -9,6 +9,7 @@ import FAQSection from './_components/FAQSection';
 import ProcessSection from './_components/ProcessSection';
 import ClientSideInteractions from './ClientSideInterations/ClientHeroSection';
 import { Box } from '@mui/material'; // Changed from lucide-react to @mui/material
+import HomePlansSection from './_components/PlanSection';
 
 export default function Home() {
   return (
@@ -24,7 +25,7 @@ export default function Home() {
       <ServicesSection />
       <QualityPromiseSection />
       <WhyChooseUsSection />
-      {/* <GetStartedSection /> */}
+      <HomePlansSection/>
       <ProcessSection/>
       <FAQSection />
     </Box>
