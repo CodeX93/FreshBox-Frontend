@@ -353,8 +353,8 @@ const OrderSearchModal = ({ open, onClose, onOrderSelect }) => {
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <LocalLaundryService sx={{ mr: 1.5 }} />
-          <Typography variant="h6" sx={{ fontWeight: 600 }}>
+          <LocalLaundryService sx={{ mr: 1.5, color:'#003C43' }} />
+          <Typography variant="h6" sx={{ fontWeight: 600, color:'#003C43' }}>
             Search Order by ID
           </Typography>
         </Box>
@@ -405,6 +405,7 @@ const OrderSearchModal = ({ open, onClose, onOrderSelect }) => {
               disabled={!searchTerm.trim() || isSearching}
               sx={{ 
                 backgroundColor: "#94FFD4",
+                color:"#003C43",
                 borderRadius: 2, 
                 px: 3,
                 transition: "transform 0.2s",
