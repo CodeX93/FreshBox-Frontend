@@ -39,24 +39,27 @@ import { useRouter } from 'next/navigation';
 
 import PaymentPage from '../../plans/PaymentPage';
 
-const PlanCard = styled(Card)(({ planType, theme }) => ({
-  backgroundColor: planType === 'premium' ? theme.palette.primary.main : theme.palette.primary.main ,
+const PlanCard = styled(Card, {
+  shouldForwardProp: (prop) => prop !== 'planType',
+})(({ planType, theme }) => ({
+  backgroundColor: planType === 'premium' ? '#94FFD4' : '#94FFD4',
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
   transition: 'all 0.3s ease-in-out',
   position: 'relative',
   overflow: 'visible',
-  boxShadow: planType === 'premium'
-    ? '0 8px 24px rgba(148, 255, 212, 0.35)'
-    : '0 4px 12px rgba(0, 60, 67, 0.1)',
-  '&:hover': {
-    transform: 'translateY(-8px)',
-    boxShadow: planType === 'premium'
-      ? '0 12px 28px rgba(148, 255, 212, 0.5)'
-      : '0 8px 20px rgba(0, 60, 67, 0.2)',
-  }
+  // boxShadow: planType === 'premium'
+  //   ? '0 8px 24px rgba(148, 255, 212, 0.35)'
+  //   : '0 4px 12px rgba(0, 60, 67, 0.1)',
+  // '&:hover': {
+  //   transform: 'translateY(-8px)',
+  //   boxShadow: planType === 'premium'
+  //     ? '0 12px 28px rgba(148, 255, 212, 0.5)'
+  //     : '0 8px 20px rgba(0, 60, 67, 0.2)',
+  // }
 }));
+
 
 const PopularTag = styled(Chip)(() => ({
   position: 'absolute',
@@ -159,6 +162,7 @@ const HomePlansSection = () => {
       <Box 
         sx={{ 
           minHeight: '100vh',
+          width: '100%',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -223,7 +227,7 @@ const HomePlansSection = () => {
                   return (
                     <Grid item xs={12} md={4} key={plan.id}>
                       <Zoom in={true} timeout={800}>
-                        <PlanCard planType={plan.id} theme={theme}>
+                        <PlanCard planType={plan.id} >
                           {plan.popular && <PopularTag label="Most Popular" sx={{ bgcolor: '#94FFD4' }} />}
                           <CardContent sx={{ flexGrow: 1 }}>
                             <Typography variant="h4" align="center" gutterBottom>

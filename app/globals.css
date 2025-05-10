@@ -16,3 +16,9 @@ html, body {
     margin-top: 0 !important;
     padding-top: 0 !important;
   }
+  
+#__next-build-watcher,
+#__next-route-announcer,
+.nextjs-portal {
+  display: none !important;
+}
