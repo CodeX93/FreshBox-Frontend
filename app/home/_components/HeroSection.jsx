@@ -8,20 +8,30 @@ import {
   InputBase,
   IconButton,
   Paper,
-  Stack
+  TextField,InputAdornment
 } from '@mui/material';
-import {
+import {Search,
   ArrowForward as ArrowForwardIcon
 } from '@mui/icons-material';
 import { theme } from '../../../contexts/Theme'; // Import your theme context
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import OrderSearchModal from './OrderSearchModal'; // Adjust the import path as necessary
 import Image from 'next/image';
 
 export default function HeroSection() {
   const router = useRouter();
   const videoRef = useRef(null);
   const [address, setAddress] = useState('');
+  const [searchValue, setSearchValue] = useState('');
+const [modalOpen, setModalOpen] = useState(false);
+
+const handleOpenModal = () => {
+  if (searchValue.trim()) setModalOpen(true);
+};
+
+const handleCloseModal = () => setModalOpen(false);
+
 
   const handleGetStarted = () => {
     if (address.trim()) {
@@ -406,7 +416,7 @@ export default function HeroSection() {
             </Box>
           </Box>
             
-          {/* Company logos at bottom - Enhanced design */}
+          {/* Search Order ID Pill Field - Enhanced design */}
           <Box
             sx={{
               position: 'absolute',
@@ -426,57 +436,83 @@ export default function HeroSection() {
               }
             }}
           >
-            <Stack
-              direction="row"
-              spacing={{ xs: 2, md: 4 }}
-              sx={{
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(5px)',
-                borderRadius: 2,
-                py: 2,
-                px: { xs: 2, md: 4 },
-                maxWidth: '100%',
-                overflowX: 'auto',
-                '&::-webkit-scrollbar': {
-                  display: 'none'
-                },
-                scrollbarWidth: 'none',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.2)'
-              }}
-            >
-              {['BBC', 'Business Insider', 'Forbes', 'Inc', 'NPR', 'TechCrunch', 'USA Today', 'CNN', 'WSJ'].map((logo, index) => (
-                <Box
-                  key={index}
-                  sx={{
-                    opacity: 0.8,
-                    filter: 'brightness(0) invert(1)',
-                    width: { xs: 40, sm: 60, md: 80 },
-                    height: { xs: 20, sm: 25, md: 30 },
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'opacity 0.2s ease',
-                    '&:hover': {
-                      opacity: 1
-                    }
-                  }}
-                >
-                  <Box 
-                    component="img" 
-                    src={`/logos/${logo.toLowerCase().replace(' ', '-')}.svg`} 
-                    alt={`${logo} logo`}
-                    sx={{
-                      height: '100%',
-                      width: 'auto',
-                      objectFit: 'contain'
-                    }}
-                  />
-                </Box>
-              ))}
-            </Stack>
+           {/* Order ID Search - Pill Shape */}
+<Paper
+  elevation={8}
+  sx={{
+    display: 'flex',
+    alignItems: 'center', // <-- this centers children vertically
+    borderRadius: 24,
+    overflow: 'hidden',
+    width: '100%',
+    maxWidth: { xs: '90%', sm: '420px' },
+    mx: 'auto',
+    border: '1px solid rgba(0, 0, 0, 0.1)',
+    borderColor: theme.palette.primary.main,
+    mb: 3,
+    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.25)',
+    transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+    '&:hover': {
+      transform: 'translateY(-3px)',
+      boxShadow: '0 12px 25px rgba(0, 0, 0, 0.3)',
+    },
+    height: { xs: '52px', sm: '56px' },
+    bgcolor: 'rgba(255, 255, 255, 0.15)',
+  }}
+>
+
+  <InputBase
+    placeholder="Search Order ID"
+    value={searchValue}
+    onChange={(e) => setSearchValue(e.target.value)}
+    sx={{
+      px: 2.5,
+      flex: 1,
+      color: theme.palette.primary.main,
+      fontSize: { xs: '0.85rem', sm: '0.95rem' },
+      borderColor:theme.palette.primary.main,
+      height: '100%',
+      '& input::placeholder': {
+        color: 'text.secondary',
+        borderColor:theme.palette.primary.main,
+        opacity: 0.7,
+      },
+    }}
+  />
+  <IconButton
+    sx={{
+      bgcolor: theme.palette.primary.main,
+      color: theme.palette.primary.DarkBlue,
+      borderRadius: '50%',
+      borderColor:theme.palette.primary.main,
+      '&:hover': {
+        bgcolor: 'transparent',
+        transform: 'scale(1.05)',
+        borderColor:theme.palette.primary.main,
+      },
+      width: { xs: 38, sm: 42 },
+      height: { xs: 38, sm: 42 },
+      mr: 0.5,
+      transition: 'all 0.2s ease',
+    }}
+    onClick={handleOpenModal}
+  >
+    <Search sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' } }} />
+  </IconButton>
+</Paper>
+
+
           </Box>
         </Container>
+    <OrderSearchModal
+  open={modalOpen}
+  onClose={handleCloseModal}
+  onOrderSelect={() => setModalOpen(false)}
+  defaultSearch={searchValue}
+/>
+
       </Box>
     </ThemeProvider>
+    
   );
 }

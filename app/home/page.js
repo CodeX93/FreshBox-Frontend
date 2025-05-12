@@ -11,26 +11,30 @@ import FAQSection from './_components/FAQSection';
 import ProcessSection from './_components/ProcessSection';
 import ClientSideInteractions from './ClientSideInterations/ClientHeroSection';
 
-
+import Box from '@mui/material/Box';
 import TrackOrderButton from './ClientSideInterations/TrackOrderButton';
   
 
 export default function Home() {
   return (
     <>
-      <Navbar />
-      <main>
-        <HeroSection />
-        <ServicesSection />
-        <QualityPromiseSection />
-        <WhyChooseUsSection />
-        <ProcessSection />
-        <ClientSideInteractions />
-        <GetStartedSection />
-        <FAQSection />
-      </main>
-      <Footer />
-      <TrackOrderButton />
+     <Navbar />
+<Box sx={{
+width: '100%',
+bgcolor: '#E3FEF7', // whitishMint background color
+minHeight: '100vh',
+m: 0,
+p: 0
+ }}>
+<HeroSection />
+<ServicesSection />
+<QualityPromiseSection />
+<WhyChooseUsSection />
+<ProcessSection />
+
+<FAQSection />
+</Box>
+      {/* <TrackOrderButton /> */}
     </>
   );
 }

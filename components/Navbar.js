@@ -1126,7 +1126,7 @@ export default function Navbar({ light = false }) {
           aria-controls={plansMenuId}
           aria-haspopup="true"
           endIcon={<ExpandMoreIcon sx={{ 
-            color: scrolled ? '#0a1929' : 'white',
+            color: scrolled ? '#0a1929' : '#0a1929',
             display: { sm: 'none', md: 'inline-flex' },
             fontSize: { sm: '0.8rem', md: '1rem' }
           }} />}
@@ -1138,14 +1138,14 @@ export default function Navbar({ light = false }) {
             px: { sm: 0.25, md: 0.5, lg: 1 },
             py: 0.5,
             minWidth: { sm: 'auto' },
-            color: scrolled ? '#0a1929' : 'white',
+            color: scrolled ? '#0a1929' : '#0a1929',
             fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
             whiteSpace: 'nowrap',
       
             border: scrolled ? '1px solid #0a1929' : '1px solid rgba(255, 255, 255, 0.5)',
             '&:hover': { 
               bgcolor: scrolled ? 'rgba(10, 25, 41, 0.04)' : 'rgba(255, 255, 255, 0.1)',
-              borderColor: scrolled ? '#0a1929' : 'white'
+              borderColor: scrolled ? '#0a1929' : '#0a1929'
             },
             transition: 'all 0.3s ease'
           }}
@@ -1173,7 +1173,7 @@ export default function Navbar({ light = false }) {
             px: { sm: 0.25, md: 0.5, lg: 1 },
             py: 0.5,
             minWidth: { sm: 'auto' },
-            color: scrolled ? '#0a1929' : 'white',
+            color: scrolled ? '#0a1929' : '#0a1929',
             fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
             whiteSpace: 'nowrap',
             '&:hover': {
@@ -1190,7 +1190,7 @@ export default function Navbar({ light = false }) {
             <OrdersIcon sx={{ 
               fontSize: { sm: '0.9rem', md: '1rem', lg: '1.1rem' },
               mr: { sm: 0, md: 0.25, lg: 0.5 },
-              color: scrolled ? '#0a1929' : 'white'
+              color: scrolled ? '#0a1929' : '#0a1929'
             }} />
           </Badge>
           <Box sx={{ display: { sm: 'none', md: 'block' } }}>
@@ -1212,7 +1212,7 @@ export default function Navbar({ light = false }) {
             px: { sm: 0.25, md: 0.5, lg: 1 },
             py: 0.5,
             minWidth: { sm: 'auto' },
-            color: scrolled ? '#0a1929' : 'white',
+            color: scrolled ? '#0a1929' : '#0a1929',
             fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
             whiteSpace: 'nowrap',
             '&:hover': {
@@ -1229,7 +1229,7 @@ export default function Navbar({ light = false }) {
             <ChatIcon sx={{ 
               fontSize: { sm: '0.9rem', md: '1rem', lg: '1.1rem' },
               mr: { sm: 0, md: 0.25, lg: 0.5 },
-              color: scrolled ? '#0a1929' : 'white'
+              color: scrolled ? '#0a1929' : '#0a1929'
             }} />
           </Badge>
           <Box sx={{ display: { sm: 'none', md: 'block' } }}>
@@ -1250,7 +1250,7 @@ export default function Navbar({ light = false }) {
           borderRadius: '6px',
           px: { sm: 0.25, md: 0.5, lg: 1 },
           py: 0.5,
-          color: scrolled ? theme.palette.primary.darkBlue : 'white',
+          color: scrolled ? theme.palette.primary.darkBlue : '#0a1929',
           fontSize: { sm: '0.6rem', md: '0.7rem', lg: '0.8rem' },
           whiteSpace: 'nowrap',
           textTransform: 'none',
@@ -1307,7 +1307,7 @@ return (
           ? (scrolled ? TURQUOISE : "transparent") 
           : (scrolled ? theme.palette.primary.main : theme.palette.primary.main),
         color: light 
-          ? (scrolled ? theme.palette.primary.darkBlue : 'white') 
+          ? (scrolled ? theme.palette.primary.darkBlue : '#0a1929') 
           : theme.palette.primary.darkBlue,
         boxShadow: scrolled ? "0px 2px 8px rgba(0, 0, 0, 0.15)" : "none",
         transition: "all 0.3s ease",

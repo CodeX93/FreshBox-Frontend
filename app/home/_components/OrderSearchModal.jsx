@@ -75,12 +75,20 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("en-US", options);
 };
 
-const OrderSearchModal = ({ open, onClose, onOrderSelect }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+const OrderSearchModal = ({ open, onClose, onOrderSelect, defaultSearch = "" }) => {
+  
   const [foundOrder, setFoundOrder] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
   const [noResults, setNoResults] = useState(false);
   const { usersOrders } = useAuth();
+const [searchTerm, setSearchTerm] = useState(defaultSearch);
+
+useEffect(() => {
+  setSearchTerm(defaultSearch);
+  if (defaultSearch && open) {
+    handleSearch();
+  }
+}, [defaultSearch, open]);
 
   const handleSearch = () => {
     if (!searchTerm.trim()) {
@@ -339,6 +347,7 @@ const OrderSearchModal = ({ open, onClose, onOrderSelect }) => {
         sx: {
           borderRadius: 3,
           overflow: "hidden",
+           bgcolor: "white",
         },
       }}
     >
@@ -369,6 +378,7 @@ const OrderSearchModal = ({ open, onClose, onOrderSelect }) => {
             fullWidth
             placeholder="Enter order ID (e.g., LD-2023-001)"
             value={searchTerm}
+            // disabled={defaultSearch && open}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyPress={handleKeyPress}
             InputProps={{
