@@ -13,6 +13,7 @@ import ClientSideInteractions from './ClientSideInterations/ClientHeroSection';
 
 import Box from '@mui/material/Box';
 import TrackOrderButton from './ClientSideInterations/TrackOrderButton';
+import HomePlansSection from './_components/PlanSection';
   
 
 export default function Home() {
@@ -31,7 +32,7 @@ p: 0
 <QualityPromiseSection />
 <WhyChooseUsSection />
 <ProcessSection />
-
+<HomePlansSection/>
 <FAQSection />
 </Box>
       {/* <TrackOrderButton /> */}
