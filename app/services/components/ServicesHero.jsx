@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../../../contexts/Theme';
 
-const ServicesHero = () => {
+const ServicesHero = ({handleClick}) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
@@ -150,6 +150,7 @@ const ServicesHero = () => {
                 }}>
                   {/* Book Now Button */}
                   <Button
+                  onClick={handleClick}
                   disableElevation
                     variant="contained"
                     sx={{
@@ -174,6 +175,8 @@ const ServicesHero = () => {
                   {/* Learn More Button */}
                   <Button
                   disableElevation
+                  onClick={handleClick}
+
                     variant="contained"
                     sx={{
                       bgcolor: '#1D363F',
@@ -239,7 +242,7 @@ const ServicesHero = () => {
         {/* Washing Machine Image - hidden on mobile */}
         <Box
   component="img"
-  src="https://s3-alpha-sig.figma.com/img/3ad0/56cd/5e31bd5f524395328cfa30f48d841ba7?Expires=1745193600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Q~Tv4CQ0ls-TC1N-nnHRFP7sHOIaHZn4t-I6GPwQyvJTjzaA4Mjtd~7JrI-24NlVQRBT~JowF-eiFz-lUsSaq3xVIQ3KTlqJ-vKTvT9ktT5raFDBgyKzKLWO7uy3NyYUdmqc0WrrxJN~xkcPvD0NNPs~7p1TLrKeI4kQwQmELHCEnP9aCmNj-vypCVqiUJKynOTLfslQ7S6q0REygMtJQ23l2qN16vvMIDioquYfPbeQfpFn1EMeC-qSV9jxUCpN2nugQPepynun7atqL8SJwEErbPz7D8v0cILwWQhxGLHODenDx~dRx6GXNWHiMyss7Gr0SfxHs0Dcn8QAKsvBhg__"
+  src="/hello.png"
   alt="Washing machine"
   sx={{
     position: 'absolute',

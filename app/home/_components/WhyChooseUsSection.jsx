@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import {theme}from "../../../contexts/Theme"
+import Link from 'next/link';
 const WhyChooseUs = () => {
   const router = useRouter();
   
@@ -293,7 +294,9 @@ const WhyChooseUs = () => {
                   fontSize: '0.85rem'
                 }}
               >
+                <Link href="/services" style={{ textDecoration: 'none', color: '#0E2A2F' }}>
                 Get Started →
+                </Link>
               </Button>
             </Box>
           </Box>

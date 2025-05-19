@@ -363,6 +363,7 @@ const HomePlansSection = () => {
                   Need a custom solution for your business?
                 </Typography>
                 <Button
+                disabled
                   variant="outlined"
                   size="large"
                   sx={{

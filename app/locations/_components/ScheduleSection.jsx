@@ -18,6 +18,7 @@ import {
   Stack
 } from '@mui/material';
 import { theme } from '../../../contexts/Theme';
+import { useServices } from '@/contexts/ServicesContext';
 
 // Mock schedule data
 const SCHEDULE_DATA = [
@@ -171,7 +172,7 @@ const MobileScheduleCard = ({ data, index }) => (
               mb: 0.5
             }}
           >
-            Pickup Times
+            Zipcode
           </Typography>
           <Typography 
             component="div" 
@@ -202,6 +203,8 @@ const MobileScheduleCard = ({ data, index }) => (
 
 const ScheduleSection = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const { servicesAreas } = useServices()
+  
   
   return (
     <Box
@@ -273,7 +276,7 @@ const ScheduleSection = () => {
                       textTransform: 'uppercase'
                     }}
                   >
-                    Pickup Times
+                    Zipcode
                   </TableCell>
                   <TableCell 
                     align="right"
@@ -291,7 +294,7 @@ const ScheduleSection = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {SCHEDULE_DATA.map((row, index) => (
+                {servicesAreas.map((row, index) => (
                   <TableRow
                     key={index}
                     sx={{
@@ -311,7 +314,7 @@ const ScheduleSection = () => {
                         borderBottom: '1px solid #f0f0f0'
                       }}
                     >
-                      {row.area}
+                      {row.city}
                     </TableCell>
                     <TableCell 
                       sx={{ 
@@ -320,7 +323,7 @@ const ScheduleSection = () => {
                         borderBottom: '1px solid #f0f0f0'
                       }}
                     >
-                      {row.pickupDays.join(', ')}
+                      {row.serviceDays.join(', ')}
                     </TableCell>
                     <TableCell 
                       sx={{ 
@@ -329,7 +332,7 @@ const ScheduleSection = () => {
                         borderBottom: '1px solid #f0f0f0'
                       }}
                     >
-                      {row.deliveryDays.join(', ')}
+                      {row.serviceDays.join(', ')}
                     </TableCell>
                     <TableCell 
                       sx={{ 
@@ -338,7 +341,7 @@ const ScheduleSection = () => {
                         borderBottom: '1px solid #f0f0f0'
                       }}
                     >
-                      {row.pickupTimes}
+                      {row.zipCode}
                     </TableCell>
                     <TableCell 
                       align="right"
@@ -347,7 +350,7 @@ const ScheduleSection = () => {
                         borderBottom: '1px solid #f0f0f0'
                       }}
                     >
-                      {row.sameDayAvailable && (
+                      {row.city && (
                         <Chip
                           label="Same-Day Available"
                           sx={{

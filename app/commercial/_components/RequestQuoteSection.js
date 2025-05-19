@@ -29,6 +29,7 @@ import {
   Email as EmailIcon,
   Event as CalendarIcon
 } from '@mui/icons-material';
+import Link from 'next/link';
 
 const RequestQuoteSection = () => {
   const darkBlueColor = theme.palette.primary.darkBlue;
@@ -769,7 +770,9 @@ const RequestQuoteSection = () => {
                     }
                   }}
                 >
+                   <Link href="/support" style={{ textDecoration: 'none', color: darkBlueColor }}>
                   Schedule Now
+                  </Link>
                 </Button>
               </Box>
             </Box>

@@ -25,7 +25,7 @@ import {
   ArrowForward as ArrowForwardIcon
 } from '@mui/icons-material';
 
-const CommercialLaundrySection = () => {
+const CommercialLaundrySection = ({handleClick}) => {
   const darkBlueColor = theme.palette.primary.darkBlue;
   const primaryColor = theme.palette.primary.main;
   const whitishMint = theme.palette.primary.whitishMint;
@@ -167,10 +167,12 @@ const CommercialLaundrySection = () => {
                   transition: 'all 0.3s ease'
                 }
               }}
+              onClick={handleClick}
             >
               Get Started
             </Button>
             <Button
+            disabled
             disableElevation
               variant="outlined"
               sx={{

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { Box, Container, useTheme, useMediaQuery } from '@mui/material';
 import Navbar from "../../components/Navbar"
 // Import section components
@@ -30,12 +30,28 @@ export default function CommercialPage() {
   // Track active section for navigation
   const [activeSection, setActiveSection] = useState('hero');
   
+  // Scroll to RequestQuoteSection
+  const handleClick = useCallback(() => {
+    
+    if (quoteRef.current) {
+      quoteRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
+
+  // Scroll to CommercialLaundrySection
+  const handleClickLearn = useCallback(() => {
+
+    if (commercialRef.current) {
+      commercialRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
+
   // Handle intersection observer to detect active section
   useEffect(() => {
     const options = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.3, // Reduced threshold for better mobile detection
+      threshold: 0.3,
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -66,66 +82,59 @@ export default function CommercialPage() {
     };
   }, []);
 
-  // Scroll to section function
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  // Section styling - modified to eliminate extra space
+  // Section styling
   const sectionStyle = {
     width: '100%',
     position: 'relative',
     overflowX: 'hidden',
-    // Display flex to properly contain child content
     display: 'flex',
     flexDirection: 'column'
   };
 
   return (
     <>
-    <Navbar light={false}/>
-    
-    <Box sx={{ 
-      width: '100%', 
-      overflowX: 'hidden',
-      position: 'relative',
-      bgcolor: theme.palette.primary.whitishMint,
-      // Remove any padding that might create white space
-      p: 0,
-      m: 0
-    }}>
-      {/* Sections with modified styling */}
-      <Box id="hero" ref={heroRef} sx={sectionStyle}>
-        <HeroSection />
-      </Box>
+      <Navbar light={false}/>
+      
+      <Box sx={{ 
+        width: '100%', 
+        overflowX: 'hidden',
+        position: 'relative',
+        bgcolor: theme.palette.primary.whitishMint,
+        p: 0,
+        m: 0
+      }}>
+        {/* Sections with modified styling */}
+        <Box id="hero" ref={heroRef} sx={sectionStyle}>
+          <HeroSection 
+            handleClick={handleClick} 
+            handleClickLearn={handleClickLearn}
+          />
+        </Box>
 
-      <Box id="commercial" ref={commercialRef} sx={sectionStyle}>
-        <CommercialLaundrySection />
-      </Box>
+        <Box id="commercial" ref={commercialRef} sx={sectionStyle}>
+          <CommercialLaundrySection       handleClick={handleClick}  />
+        </Box>
 
-      <Box id="airbnb" ref={airbnbRef} sx={sectionStyle}>
-        <AirbnbLaundrySection />
-      </Box>
+        <Box id="airbnb" ref={airbnbRef} sx={sectionStyle}>
+          <AirbnbLaundrySection       handleClick={handleClick} />
+        </Box>
 
-      <Box id="spa" ref={spaRef} sx={sectionStyle}>
-        <MassageSpaSection />
-      </Box>
+        <Box id="spa" ref={spaRef} sx={sectionStyle}>
+          <MassageSpaSection       handleClick={handleClick} />
+        </Box>
 
-      <Box id="healthcare" ref={healthcareRef} sx={sectionStyle}>
-        <HealthcareSection />
-      </Box>
+        <Box id="healthcare" ref={healthcareRef} sx={sectionStyle}>
+          <HealthcareSection      handleClick={handleClick} />
+        </Box>
 
-      <Box id="gym" ref={gymRef} sx={sectionStyle}>
-        <GymTowelSection />
-      </Box>
+        <Box id="gym" ref={gymRef} sx={sectionStyle}>
+          <GymTowelSection       handleClick={handleClick} />
+        </Box>
 
-      <Box id="quote" ref={quoteRef} sx={{...sectionStyle, mb: 0, pb: 0}}>
-        <RequestQuoteSection />
+        <Box id="quote" ref={quoteRef} sx={{...sectionStyle, mb: 0, pb: 0}}>
+          <RequestQuoteSection />
+        </Box>
       </Box>
-    </Box>
     </>
   );
 }

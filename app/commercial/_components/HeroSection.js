@@ -12,7 +12,7 @@ import {
 import { motion } from 'framer-motion';
 import { theme } from "../../../contexts/Theme";
 
-const HeroSection = () => {
+const HeroSection = ({handleClick,handleClickLearn}) => {
   const primaryColor = theme.palette.primary.main;
   const darkBlueColor = theme.palette.primary.darkBlue;
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -127,6 +127,7 @@ const HeroSection = () => {
                     width: { xs: '100%', sm: '200px' },
                     boxShadow: 'none',
                   }}
+                  onClick={handleClick}
                 >
                   Request A Quote
                 </Button>
@@ -148,6 +149,7 @@ const HeroSection = () => {
                     width: { xs: '100%', sm: '200px' },
                     boxShadow: 'none',
                   }}
+                  onClick={handleClickLearn}
                 >
                   Learn More
                 </Button>

@@ -50,6 +50,12 @@ export default function ServicesPage() {
   const [highlightCart, setHighlightCart] = useState(false);
 
   const handleScrollRef = useRef(null);
+  const handleClick = useCallback(() => {
+  const servicesList = document.getElementById('services-list-section');
+  if (servicesList) {
+    servicesList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}, []);
 
   // Handle scroll position for sticky elements
   useEffect(() => {
@@ -269,7 +275,7 @@ export default function ServicesPage() {
         />
 
         {/* Hero Section */}
-        <ServicesHero />
+        <ServicesHero handleClick={handleClick}/>
         
         {/* Main Content */}
         <Container 

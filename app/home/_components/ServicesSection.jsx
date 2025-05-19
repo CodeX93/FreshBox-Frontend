@@ -1,18 +1,19 @@
 "use client"
 import React from 'react';
-import { 
-  Box, 
-  Typography, 
-  Container, 
-  Grid, 
-  Card, 
-  CardContent, 
+import {
+  Box,
+  Typography,
+  Container,
+  Grid,
+  Card,
+  CardContent,
   Button,
   useMediaQuery,
   useTheme
 } from '@mui/material';
-import {theme} from "../../../contexts/Theme"
+import { theme } from "../../../contexts/Theme"
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import Link from 'next/link';
 
 // Service data exactly matching screenshot
 const services = [
@@ -45,19 +46,19 @@ const services = [
 // Service Card Component
 const ServiceCard = ({ service }) => {
   return (
-    <Card 
-      elevation={0} 
-      sx={{ 
-        borderRadius: 3, 
-        mb: 2, 
+    <Card
+      elevation={0}
+      sx={{
+        borderRadius: 3,
+        mb: 2,
         bgcolor: theme.palette.primary.main,
         overflow: 'hidden'
       }}
     >
       <CardContent sx={{ p: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-          <Box 
-            sx={{ 
+          <Box
+            sx={{
               mr: 2,
               bgcolor: theme.palette.primary.darkBlue,
               width: 56,
@@ -71,13 +72,13 @@ const ServiceCard = ({ service }) => {
           >
             {/* Shirt/clothing icon SVG */}
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21 7L17.5 3.5H10.5L7 7L3.5 10.5V24.5H24.5V10.5L21 7Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M21 7L17.5 3.5H10.5L7 7L3.5 10.5V24.5H24.5V10.5L21 7Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Box>
           <Box>
-            <Typography 
-              variant="h6" 
-              sx={{ 
+            <Typography
+              variant="h6"
+              sx={{
                 color: theme.palette.primary.darkBlue,
                 fontWeight: 600,
                 fontSize: '1.25rem',
@@ -86,10 +87,10 @@ const ServiceCard = ({ service }) => {
             >
               {service.name}
             </Typography>
-            <Typography 
-              variant="caption" 
-              sx={{ 
-                display: 'block', 
+            <Typography
+              variant="caption"
+              sx={{
+                display: 'block',
                 color: theme.palette.primary.darkBlue,
                 mb: 1,
                 fontSize: '0.75rem'
@@ -97,9 +98,9 @@ const ServiceCard = ({ service }) => {
             >
               {service.serviceLabel}
             </Typography>
-            <Typography 
-              variant="body2" 
-              sx={{ 
+            <Typography
+              variant="body2"
+              sx={{
                 color: theme.palette.primary.darkBlue,
                 lineHeight: 1.5,
                 fontSize: '0.875rem',
@@ -127,12 +128,12 @@ const ServicesSection = () => {
         <Grid container spacing={3}>
           {/* Left Card */}
           <Grid item xs={12} md={5} lg={5}>
-            <Card 
-              elevation={0} 
-              sx={{ 
-                borderRadius: 3, 
+            <Card
+              elevation={0}
+              sx={{
+                borderRadius: 3,
                 bgcolor: theme.palette.primary.main,
-                p: 4, 
+                p: 4,
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
@@ -140,22 +141,22 @@ const ServicesSection = () => {
               }}
             >
               <Box>
-                <Typography 
-                  variant="h4" 
-                  component="h1" 
-                  sx={{ 
+                <Typography
+                  variant="h4"
+                  component="h1"
+                  sx={{
                     color: theme.palette.primary.darkBlue,
-                    fontWeight: 700, 
+                    fontWeight: 700,
                     mb: 2,
                     fontSize: { xs: '1.75rem', md: '2rem' }
                   }}
                 >
                   FreshBox Care
                 </Typography>
-                <Typography 
-                  variant="body1" 
-                  sx={{ 
-                    color: '#1E3A37', 
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: '#1E3A37',
                     mb: 4,
                     lineHeight: 1.6,
                     fontSize: '1rem'
@@ -163,13 +164,13 @@ const ServicesSection = () => {
                 >
                   Your clothes are treated with the utmost care, receiving the attention they deserve.
                 </Typography>
-                <Button 
-                disableElevation
-                  variant="contained" 
+                <Button
+                  disableElevation
+                  variant="contained"
                   endIcon={<ArrowForwardIcon />}
-                  sx={{ 
-                    bgcolor: '#1E3A37', 
-                    color: '#E3FEF7', 
+                  sx={{
+                    bgcolor: '#1E3A37',
+                    color: '#E3FEF7',
                     textTransform: 'none',
                     px: 2,
                     py: 1,
@@ -181,13 +182,16 @@ const ServicesSection = () => {
                     }
                   }}
                 >
-                  Explore Pricing
+                  <Link href="/services" style={{textDecoration:"none" ,color:"#E3FEF7"}} >
+                    Explore Pricing
+                  </Link>
+
                 </Button>
               </Box>
-              <Typography 
-                variant="body2" 
-                sx={{ 
-                  color: '#1E3A37', 
+              <Typography
+                variant="body2"
+                sx={{
+                  color: '#1E3A37',
                   mt: 6,
                   fontSize: '0.875rem',
                   opacity: 0.85
@@ -197,7 +201,7 @@ const ServicesSection = () => {
               </Typography>
             </Card>
           </Grid>
-          
+
           {/* Right Services */}
           <Grid item xs={12} md={7} lg={7}>
             <Box>
@@ -208,7 +212,7 @@ const ServicesSection = () => {
           </Grid>
         </Grid>
       </Container>
-        
+
       {/* Bottom Call-to-Action Section */}
       <Container maxWidth="lg">
         <Card
@@ -223,7 +227,7 @@ const ServicesSection = () => {
           }}
         >
           <Grid container>
-            <Grid item xs={12} md={7} sx={{ 
+            <Grid item xs={12} md={7} sx={{
               p: { xs: 4, md: 5 },
               display: 'flex',
               flexDirection: 'column',
@@ -239,7 +243,7 @@ const ServicesSection = () => {
                   lineHeight: 1.2
                 }}
               >
-                Ready to experience our<br/>premium cleaning services?
+                Ready to experience our<br />premium cleaning services?
               </Typography>
               <Typography
                 variant="body1"
@@ -256,7 +260,7 @@ const ServicesSection = () => {
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                 <Button
-                disableElevation
+                  disableElevation
                   variant="contained"
                   sx={{
                     bgcolor: '#1E3A37',
@@ -272,10 +276,13 @@ const ServicesSection = () => {
                     }
                   }}
                 >
-                  Schedule Your Cleaning Today
+                  <Link href="/services" style={{textDecoration:"none" ,color:"white"}} >
+                    Schedule Your Cleaning Today
+                  </Link>
                 </Button>
                 <Button
-                disableElevation
+
+                  disableElevation
                   variant="outlined"
                   sx={{
                     borderColor: '#1E3A37',
@@ -292,11 +299,13 @@ const ServicesSection = () => {
                     }
                   }}
                 >
-                  Learn more
+                  <Link href="/services" style={{textDecoration:"none" ,color:"#1E3A37"}} >
+                    Learn more
+                  </Link>
                 </Button>
               </Box>
             </Grid>
-            <Grid item md={5} sx={{ 
+            <Grid item md={5} sx={{
               display: { xs: 'none', md: 'block' },
               position: 'relative'
             }}>
