@@ -8,7 +8,8 @@ import {
   InputBase,
   IconButton,
   Paper,
-  TextField,InputAdornment
+  TextField,InputAdornment,
+  Button
 } from '@mui/material';
 import {Search,
   ArrowForward as ArrowForwardIcon
@@ -154,32 +155,33 @@ const handleCloseModal = () => setModalOpen(false);
             }}
           >
             <Typography 
-              variant="h1" 
-              component="h1" 
+              variant="h3" 
+              component="h2" 
               sx={{ 
                 fontWeight: 800, 
                 mb: 2,
-                fontSize: { xs: '2.5rem', sm: '3.2rem', md: '4.2rem' },
-                lineHeight: 1.1,
+                fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.6rem' },
+                lineHeight: 1.2,
                 textShadow: '2px 2px 8px rgba(0, 0, 0, 0.4)',
                 letterSpacing: '-0.5px'
               }}
             >
-              The Smartest Way to Do Laundry
+              Smart, Contactless & Hassle-Free Laundry and Cleaning Services — Fresh, Secure, and Convenient
             </Typography>
             <Typography 
               variant="h5" 
-              sx={{ 
-                opacity: 0.95, 
+              sx={{
+                opacity: 0.95,
                 mb: 4,
-                fontSize: { xs: '1.25rem', md: '1.5rem' },
+                fontSize: { xs: '1rem', md: '1.1rem' },
                 fontWeight: 400,
                 textShadow: '1px 1px 4px rgba(0, 0, 0, 0.3)',
-                maxWidth: '80%',
-                mx: 'auto'
+                maxWidth: '85%',
+                mx: 'auto',
+                display: { xs: 'none', md: 'block' }, // Hide on mobile
               }}
             >
-              We pick up, clean, and deliver your laundry and dry cleaning.
+              Cleaning, laundry, and dry cleaning made effortless. We pick up, clean, and deliver—fast, secure, and contactless. All it takes is a few clicks.
             </Typography>
             
             {/* Pill-shaped widget - With white background */}
@@ -188,7 +190,7 @@ const handleCloseModal = () => setModalOpen(false);
               sx={{
                 display: 'flex',
                 borderRadius: 24,
-                overflow: 'hidden', 
+                overflow: 'hidden',
                 width: '100%',
                 maxWidth: { xs: '90%', sm: '420px' },
                 mb: 6,
@@ -201,6 +203,7 @@ const handleCloseModal = () => setModalOpen(false);
                 },
                 height: { xs: '52px', sm: '56px' }, // Explicit height for better control
                 bgcolor: '#94FFD4', // White background for the entire pill
+                display: { xs: 'none', md: 'flex' }, // Hide on mobile
               }}
             >
               <Box
@@ -297,126 +300,10 @@ const handleCloseModal = () => setModalOpen(false);
               </Box>
             </Paper>
 
-            {/* App badges and ratings - Enhanced design */}
-            <Box 
-              sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                gap: 2,
-                flexWrap: 'wrap',
-                mb: 4
-              }}
-            >
-              <Box 
-                sx={{ 
-                  display: 'flex', 
-                  alignItems: 'center',
-                  bgcolor: 'rgba(255, 255, 255, 0.1)',
-                  p: 1,
-                  borderRadius: 2,
-                  backdropFilter: 'blur(4px)',
-                  transition: 'all 0.2s ease',
-                  '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.15)' }
-                }}
-              >
-                <Box 
-                  component="span" 
-                  sx={{ 
-                    display: 'inline-flex', 
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: '50%',
-                    width: 30,
-                    height: 30,
-                    bgcolor: 'white',
-                    mr: 1
-                  }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path>
-                  </svg>
-                </Box>
-              </Box>
-              
-              <Box 
-                sx={{ 
-                  display: 'flex', 
-                  alignItems: 'center',
-                  bgcolor: 'rgba(255, 255, 255, 0.1)',
-                  p: 1,
-                  borderRadius: 2,
-                  backdropFilter: 'blur(4px)',
-                  transition: 'all 0.2s ease',
-                  '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.15)' }
-                }}
-              >
-                <Box 
-                  component="span" 
-                  sx={{ 
-                    display: 'inline-flex', 
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: '50%',
-                    width: 30,
-                    height: 30,
-                    bgcolor: 'white',
-                    mr: 1
-                  }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                    <path d="M2 17l10 5 10-5"></path>
-                    <path d="M2 12l10 5 10-5"></path>
-                  </svg>
-                </Box>
-              </Box>
-              
-              <Box 
-                sx={{ 
-                  display: 'flex', 
-                  alignItems: 'center',
-                  bgcolor: 'rgba(255, 255, 255, 0.1)',
-                  p: 1,
-                  borderRadius: 2,
-                  backdropFilter: 'blur(4px)',
-                  transition: 'all 0.2s ease',
-                  '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.15)' }
-                }}
-              >
-                <Box 
-                  component="span" 
-                  sx={{ 
-                    display: 'inline-flex', 
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: '50%',
-                    width: 30,
-                    height: 30,
-                    bgcolor: 'white',
-                    mr: 1
-                  }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>
-                </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {[...Array(4)].map((_, i) => (
-                      <Box key={i} component="span" sx={{ color: '#FFD700', fontSize: '0.9rem' }}>★</Box>
-                    ))}
-                    <Box component="span" sx={{ color: '#FFD700', fontSize: '0.9rem' }}>½</Box>
-                  </Box>
-                  <Typography variant="caption" sx={{ color: 'white', opacity: 0.9 }}>
-                    5,000+ reviews
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
+
           </Box>
             
-          {/* Search Order ID Pill Field - Enhanced design */}
+          {/* Tracking ID Search Section - Enhanced design */}
           <Box
             sx={{
               position: 'absolute',
@@ -424,6 +311,7 @@ const handleCloseModal = () => setModalOpen(false);
               left: 0,
               right: 0,
               display: 'flex',
+              flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
               px: 3,
@@ -436,71 +324,256 @@ const handleCloseModal = () => setModalOpen(false);
               }
             }}
           >
-           {/* Order ID Search - Pill Shape */}
-<Paper
-  elevation={8}
+           {/* Tracking ID Search - Enhanced Layout */}
+<Box
   sx={{
     display: 'flex',
-    alignItems: 'center', // <-- this centers children vertically
-    borderRadius: 24,
-    overflow: 'hidden',
+    alignItems: 'center',
+    gap: 2,
     width: '100%',
-    maxWidth: { xs: '90%', sm: '420px' },
+    maxWidth: { xs: '90%', sm: '520px' },
     mx: 'auto',
-    border: '1px solid rgba(0, 0, 0, 0.1)',
-    borderColor: theme.palette.primary.main,
-    mb: 3,
-    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.25)',
-    transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
-    '&:hover': {
-      transform: 'translateY(-3px)',
-      boxShadow: '0 12px 25px rgba(0, 0, 0, 0.3)',
-    },
-    height: { xs: '52px', sm: '56px' },
-    bgcolor: 'rgba(255, 255, 255, 0.15)',
+    mb: 2,
   }}
 >
-
-  <InputBase
-    placeholder="Search Order ID"
-    value={searchValue}
-    onChange={(e) => setSearchValue(e.target.value)}
+  <Paper
+    elevation={8}
     sx={{
-      px: 2.5,
+      display: 'flex',
+      alignItems: 'center',
+      borderRadius: 24,
+      overflow: 'hidden',
       flex: 1,
-      color: theme.palette.primary.main,
-      fontSize: { xs: '0.85rem', sm: '0.95rem' },
-      borderColor:theme.palette.primary.main,
-      height: '100%',
-      '& input::placeholder': {
-        color: 'text.secondary',
-        borderColor:theme.palette.primary.main,
-        opacity: 0.7,
+      border: '1px solid rgba(0, 0, 0, 0.1)',
+      borderColor: theme.palette.primary.main,
+      boxShadow: '0 8px 20px rgba(0, 0, 0, 0.25)',
+      transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+      '&:hover': {
+        transform: 'translateY(-3px)',
+        boxShadow: '0 12px 25px rgba(0, 0, 0, 0.3)',
       },
+      height: { xs: '52px', sm: '56px' },
+      bgcolor: 'rgba(255, 255, 255, 0.15)',
     }}
-  />
-  <IconButton
+  >
+    <InputBase
+      placeholder="Tracking ID"
+      value={searchValue}
+      onChange={(e) => setSearchValue(e.target.value)}
+      sx={{
+        px: 2.5,
+        flex: 1,
+        color: theme.palette.primary.main,
+        fontSize: { xs: '0.85rem', sm: '0.95rem' },
+        borderColor: theme.palette.primary.main,
+        height: '100%',
+        '& input::placeholder': {
+          color: theme.palette.primary.whitishMint,
+          borderColor: theme.palette.primary.main,
+          opacity: 0.7,
+        },
+      }}
+    />
+    <IconButton
+      sx={{
+        bgcolor: theme.palette.primary.main,
+        color: theme.palette.primary.DarkBlue,
+        borderRadius: '50%',
+        borderColor: theme.palette.primary.main,
+        '&:hover': {
+          bgcolor: 'transparent',
+          transform: 'scale(1.05)',
+          borderColor: theme.palette.primary.main,
+        },
+        width: { xs: 38, sm: 42 },
+        height: { xs: 38, sm: 42 },
+        mr: 0.5,
+        transition: 'all 0.2s ease',
+      }}
+      onClick={handleOpenModal}
+    >
+      <Search sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' } }} />
+    </IconButton>
+  </Paper>
+
+  {/* TRACKING ID Button */}
+  <Button
+    variant="contained"
     sx={{
       bgcolor: theme.palette.primary.main,
       color: theme.palette.primary.DarkBlue,
-      borderRadius: '50%',
-      borderColor:theme.palette.primary.main,
+      borderRadius: 24,
+      px: 3,
+      py: 1.5,
+      fontSize: { xs: '0.8rem', sm: '0.9rem' },
+      fontWeight: 600,
+      textTransform: 'none',
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
       '&:hover': {
-        bgcolor: 'transparent',
-        transform: 'scale(1.05)',
-        borderColor:theme.palette.primary.main,
+        bgcolor: theme.palette.primary.mainHover,
+        transform: 'translateY(-2px)',
+        boxShadow: '0 6px 16px rgba(0, 0, 0, 0.3)',
       },
-      width: { xs: 38, sm: 42 },
-      height: { xs: 38, sm: 42 },
-      mr: 0.5,
       transition: 'all 0.2s ease',
+      minWidth: 'auto',
+      whiteSpace: 'nowrap',
     }}
     onClick={handleOpenModal}
   >
-    <Search sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' } }} />
-  </IconButton>
-</Paper>
+    TRACKING ID
+  </Button>
+</Box>
 
+{/* Descriptive Text */}
+<Typography
+  variant="body2"
+  sx={{
+    color: 'white',
+    opacity: 0.9,
+    textAlign: 'center',
+    fontSize: { xs: '0.8rem', sm: '0.9rem' },
+    maxWidth: { xs: '90%', sm: '500px' },
+    mx: 'auto',
+    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
+    fontWeight: 400,
+    lineHeight: 1.4,
+    mb: 3,
+    display: { xs: 'none', md: 'block' }, // Hide on mobile
+  }}
+>
+  Seamless, real-time tracking ensures you're always in the know—every pickup, clean, and delivery.
+</Typography>
+
+{/* Trust Badges and Reviews */}
+<Box 
+  sx={{ 
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: { xs: 1.5, sm: 2 },
+    flexWrap: 'wrap',
+    display: { xs: 'none', md: 'flex' }, // Hide on mobile
+  }}
+>
+  {/* Trustpilot Badge */}
+  <Box 
+    sx={{ 
+      display: 'flex', 
+      flexDirection: 'column',
+      alignItems: 'center',
+      p: { xs: 1.5, sm: 2 },
+      
+      backdropFilter: 'blur(4px)',
+      transition: 'all 0.2s ease',
+      '&:hover': {
+        transform: 'translateY(-2px)'
+      },
+      minWidth: { xs: '120px', sm: '140px' }
+    }}
+  >
+    <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
+      {[...Array(5)].map((_, i) => (
+        <Box key={i} component="span" sx={{ color: '#00B67A', fontSize: '1rem' }}>★</Box>
+      ))}
+    </Box>
+    <Typography 
+      variant="caption" 
+      sx={{ 
+        color: theme.palette.primary.whitishMint, 
+        fontWeight: 600,
+        fontSize: { xs: '0.7rem', sm: '0.8rem' }
+      }}
+    >
+      Trustpilot 4.5
+    </Typography>
+    <Typography 
+      variant="caption" 
+      sx={{ 
+        color: theme.palette.primary.whitishMint,
+        fontSize: { xs: '0.65rem', sm: '0.7rem' }
+      }}
+    >
+      8,324 reviews
+    </Typography>
+  </Box>
+  
+  {/* 38 States Badge */}
+  <Box 
+    sx={{ 
+      display: 'flex', 
+      flexDirection: 'column',
+      alignItems: 'center',
+      p: { xs: 1.5, sm: 2 },
+
+      backdropFilter: 'blur(4px)',
+      transition: 'all 0.2s ease',
+      '&:hover': {
+        transform: 'translateY(-2px)'
+      },
+      minWidth: { xs: '120px', sm: '140px' }
+    }}
+  >
+    <Typography 
+      variant="h6" 
+      sx={{ 
+        color: theme.palette.primary.whitishMint, 
+        fontWeight: 700,
+        fontSize: { xs: '1.1rem', sm: '1.3rem' },
+        mb: 0.5
+      }}
+    >
+      38 States
+    </Typography>
+    <Typography 
+      variant="caption" 
+      sx={{ 
+        color: theme.palette.primary.whitishMint,
+        fontSize: { xs: '0.65rem', sm: '0.7rem' }
+      }}
+    >
+      and more on the way
+    </Typography>
+  </Box>
+  
+  {/* Next-Day Delivery Badge */}
+  <Box 
+    sx={{ 
+      display: 'flex', 
+      flexDirection: 'column',
+      alignItems: 'center',
+      p: { xs: 1.5, sm: 2 },
+      
+      backdropFilter: 'blur(4px)',
+      transition: 'all 0.2s ease',
+      '&:hover': {
+        transform: 'translateY(-2px)'
+      },
+      minWidth: { xs: '120px', sm: '140px' }
+    }}
+  >
+    <Typography 
+      variant="body2" 
+      sx={{ 
+        color: theme.palette.primary.whitishMint, 
+        fontWeight: 600,
+        fontSize: { xs: '0.8rem', sm: '0.9rem' },
+        mb: 0.5,
+        textAlign: 'center'
+      }}
+    >
+      Next-Day Delivery
+    </Typography>
+    <Typography 
+      variant="caption" 
+      sx={{ 
+        color: theme.palette.primary.whitishMint,
+        fontSize: { xs: '0.65rem', sm: '0.7rem' }
+      }}
+    >
+      for all orders
+    </Typography>
+  </Box>
+</Box>
 
           </Box>
         </Container>
