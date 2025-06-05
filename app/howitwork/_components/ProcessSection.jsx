@@ -17,12 +17,21 @@ import { motion, useInView, useAnimation } from 'framer-motion';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../../../contexts/Theme'; // Update this path to match your project structure
 
+
+import HowItWorkImage1 from "../../../Assets/HowItWork1.png"
+import HowItWorkImage2 from "../../../Assets/HowItWork2.png"
+import HowItWorkImage3 from "../../../Assets/HowItWork3.png"
+import HowItWorkImage4 from "../../../Assets/HowItWork4.png"
+import HowItWorkImage5 from "../../../Assets/HowItWork5.png"
+import HowItWorkImage6 from "../../../Assets/HowItWork6.png"
+
 // Icons
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import Image from 'next/image';
 
 const ProcessSection = ({ fadeInUp, scrollY }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -70,11 +79,11 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
   const processes = [
     {
       icon: <ScheduleIcon sx={{ fontSize: 60, color: theme.palette.primary.main }} />,
-      title: "Book Online",
+      title: "Sign Up",
       description: "Schedule your pickup and delivery times that work for your busy schedule. Same-day service available.",
       step: 1,
-      imagePath: "https://plus.unsplash.com/premium_photo-1661768289109-c814be8d7c3d?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Ym9va2luZ3xlbnwwfHwwfHx8MA%3D%3D", // Booking / scheduling
-      detailedDescription: "Our intuitive booking system allows you to schedule laundry services in just a few clicks. Select your preferred pickup time, delivery window, and any special instructions for your items. We offer flexible scheduling options including same-day service, next-day delivery, and recurring weekly or monthly pickups to fit your lifestyle. No more waiting in laundromats or planning your day around laundry cycles - we work around your schedule.",
+      imagePath: HowItWorkImage1,
+      detailedDescription: "Create your account online or through our iOS/Android app in just a few steps. No fees, no commitments—your card is only charged once we pick up your laundry.",
       features: [
         "24/7 online booking system",
         "Flexible time slots for pickup and delivery",
@@ -85,11 +94,11 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
     },
     {
       icon: <LocalLaundryServiceIcon sx={{ fontSize: 60, color: theme.palette.primary.main }} />,
-      title: "We Clean",
+      title: "Order Your Way",
       description: "Our expert team handles your clothes with care using eco-friendly products and professional techniques.",
       step: 2,
-      imagePath: "https://plus.unsplash.com/premium_photo-1677234147281-3b505c036d36?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2xlYW58ZW58MHx8MHx8fDA%3D", // Laundry machine / cleaning
-      detailedDescription: "Once we collect your items, they're brought to our state-of-the-art cleaning facility where our trained professionals sort, pre-treat, and process each garment according to its specific care requirements. We use premium, eco-friendly detergents and cleaning agents that are tough on stains but gentle on fabrics and the environment. Our industrial-grade machines provide superior cleaning while maintaining the integrity and color of your clothes.",
+      imagePath: HowItWorkImage2,
+      detailedDescription: "Pick your service, choose a Cleaning or pickup day, and personalize your order with options like folding, ironing, and more—tailored exactly to your needs.<br/>You can update your preferences anytime for maximum flexibility—it's all about what works best for you.",
       features: [
         "Professional stain treatment",
         "Eco-friendly cleaning products",
@@ -100,11 +109,11 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
     },
     {
       icon: <DeliveryDiningIcon sx={{ fontSize: 60, color: theme.palette.primary.main }} />,
-      title: "We Deliver",
+      title: "Pickup Made Simple",
       description: "Receive your freshly cleaned clothes back at your door, exactly when you need them.",
       step: 3,
-      imagePath: "https://images.unsplash.com/photo-1695654390723-479197a8c4a3?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZGVsaXZlcnl8ZW58MHx8MHx8fDA%3D", // Delivery person or package
-      detailedDescription: "After cleaning, your items are carefully folded or hung, packaged, and delivered right to your doorstep. Our professional delivery team ensures your laundry arrives at the scheduled time, fresh and ready to wear. We understand the importance of reliability - you'll receive notifications before delivery and can track your order in real-time through our app. If you're not home, we'll follow your delivery preferences to ensure your clean clothes are safely stored until you return.",
+      imagePath: HowItWorkImage3,
+      detailedDescription: "<b>After Order</b>, You'll receive your personalized FreshBox Pro bags to sort laundry and dry cleaning with ease. <br/>On Cleaning or pickup day, simply place your items in the bags and leave them in a secure location or your designated FreshBox locker—ready for our driver to collect and<br/>We'll take care of the rest! We'll remind you the day before to have your laundry ready for pickup or to expect Cleaners.<br/>And for good measure, we'll let you know when our Cleaners or driver is on the way.",
       features: [
         "Contactless delivery options",
         "Real-time delivery tracking",
@@ -115,17 +124,47 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
     },
     {
       icon: <DoneAllIcon sx={{ fontSize: 60, color: theme.palette.primary.main }} />,
-      title: "Satisfaction Guaranteed",
-      description: "If you're not completely satisfied, we'll make it right. Your happiness is our priority.",
+      title: "Real-Time Tracking & Notifications",
+      description: "Track your order in real time and stay updated at every step of the process.",
       step: 4,
-      imagePath: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=1200&q=80", // Happy customer / satisfaction
-      detailedDescription: "Your satisfaction is our top priority. If you're not completely happy with our service, we'll make it right - whether that means re-cleaning an item at no additional cost or providing a full refund. Our customer service team is available 24/7 to address any concerns and ensure you have the best experience possible. We stand behind every garment we process and value the trust you place in us with your favorite items.",
+      imagePath: HowItWorkImage4,
+      detailedDescription: "Track your order in real time using your tracking ID and get notified at every stage. From placing your service request to pickup, cleaning, and delivery—we'll keep you updated every step of the way.<br/>Prefer not to leave your laundry unattended or grant home/office access? No problem. Our app notifies you when your driver or cleaner is en route and when you're next in line for pickup or delivery.",
       features: [
-        "100% satisfaction guarantee",
-        "Free re-cleaning for any issues",
-        "24/7 customer support",
-        "Comprehensive insurance coverage",
-        "Easy feedback system"
+        "Real-time order tracking",
+        "Push notifications",
+        "SMS updates",
+        "Email notifications",
+        "Live status updates"
+      ]
+    },
+    {
+      icon: <DeliveryDiningIcon sx={{ fontSize: 60, color: theme.palette.primary.main }} />,
+      title: "Delivery Day",
+      description: "Your freshly cleaned clothes delivered right to your door at your preferred time.",
+      step: 5,
+      imagePath: HowItWorkImage5,
+      detailedDescription: "When your clothes are professionally cleaned, crisp, and ready, one of our drivers will deliver them to your preferred drop-off spot—be it your home, office, or secure FreshBox Pro locker. Fresh, right where you need it.",
+      features: [
+        "Flexible delivery options",
+        "Contactless delivery available",
+        "Secure locker delivery",
+        "Real-time delivery tracking",
+        "Professional packaging"
+      ]
+    },
+    {
+      icon: <DoneAllIcon sx={{ fontSize: 60, color: theme.palette.primary.main }} />,
+      title: "Post Cleaning",
+      description: "Quality check and customer satisfaction follow-up after service completion.",
+      step: 6,
+      imagePath: HowItWorkImage6,
+      detailedDescription: "After your clothes are delivered, we ensure everything meets our high standards. Our quality control team performs final checks, and we follow up to ensure your complete satisfaction. If you have any concerns, our customer support team is ready to assist you.",
+      features: [
+        "Quality assurance check",
+        "Customer satisfaction survey",
+        "Feedback collection",
+        "Issue resolution support",
+        "Service improvement tracking"
       ]
     }
   ];
@@ -343,18 +382,16 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                         1
                       </Typography>
                     </Box>
-
                     <Typography 
-                      variant="h3" 
-                      component="h2"
-                      sx={{ 
-                        fontWeight: 700,
-                        mb: 3,
-                        color: theme.palette.primary.dark
-                      }}
-                    >
-                      {processes[0].title}
-                    </Typography>
+  variant="h3" 
+  component="h2"
+  sx={{ 
+    fontWeight: 700,
+    mb: 3,
+    color: theme.palette.primary.dark
+  }}
+  dangerouslySetInnerHTML={{ __html: processes[0].title }}
+/>
                   </Box>
 
                   <Typography 
@@ -410,45 +447,29 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                   animate={phaseOneControls}
                   variants={imageFrameVariants}
                 >
-                  <Paper
-                    elevation={6}
-                    sx={{
-                      p: 2,
-                      
-                      background: theme.palette.primary.whitishMint,
-                      borderRadius: 3,
-                      overflow: 'hidden',
-                      transform: 'rotate(2deg)',
-                      position: 'relative',
-                      '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        
-                        zIndex: 1,
-                        
-                        pointerEvents: 'none'
-                      }
-                    }}
-                  >
-                    <Box
-                      component="img"
-                      src={processes[0].imagePath}
-                      alt={processes[0].title}
-                      sx={{
-                        width: '100%',
-                        
-                        height: 'auto',
-                        display: 'block',
-                        
-                        transition: 'transform 0.6s ease-in-out',
-                        
-                      }}
-                    />
-                  </Paper>
+     <Box
+  sx={{
+    position: 'relative',
+    overflow: 'hidden',
+    borderRadius: 2,
+    transition: 'transform 0.6s ease-in-out',
+    width:'100%',
+    aspectRatio: '1/1',  // 16:9 aspect ratio (9/16 = 0.5625)
+  }}
+>
+  <Image
+    src={processes[0].imagePath}
+    alt={processes[0].title.replace(/<[^>]+>/g, '')}
+    fill
+    style={{
+      objectFit: 'cover',
+    }}
+    sizes="(max-width: 768px) 100vw, 50vw"
+  />
+</Box>
+
+
+                  
                 </motion.div>
               </Grid>
             </Grid>
@@ -476,46 +497,28 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                   animate={phaseTwoControls}
                   variants={imageFrameVariants}
                 >
-                  <Paper
-                    elevation={6}
-                    sx={{
-                      p: 2,
-                      background: theme.palette.primary.whitishMint,
-                      
-                      overflow: 'hidden',
-                      transform: 'rotate(2deg)',
-                      position: 'relative',
-                      '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        
-                        zIndex: 1,
-                        borderRadius: '12px',
-                        pointerEvents: 'none'
-                        
-                      }
-                    }}
-                  >
-                    <Box
-                      component="img"
-                      src={processes[2].imagePath}
-                      alt={processes[2].title}
-                      sx={{
-                        width: '100%',
-                        height: 'auto',
-                        display: 'block',
-                        
-                        transition: 'transform 0.6s ease-in-out',
-                        '&:hover': {
-                          transform: 'scale(1.03)'
-                        }
-                      }}
-                    />
-                  </Paper>
+                 
+                 <Box
+  sx={{
+    position: 'relative',
+    overflow: 'hidden',
+    borderRadius: 2,
+    transition: 'transform 0.6s ease-in-out',
+    width:'100%',
+    aspectRatio: '1/1',  // 16:9 aspect ratio (9/16 = 0.5625)
+  }}
+>
+  <Image
+    src={processes[1].imagePath}
+    alt={processes[1].title.replace(/<[^>]+>/g, '')}
+    fill
+    style={{
+      objectFit: 'cover',
+    }}
+    sizes="(max-width: 768px) 100vw, 50vw"
+  />
+</Box>
+                  
                 </motion.div>
               </Grid>
               
@@ -572,9 +575,11 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                       lineHeight: 1.7,
                       color: '#4a5568'
                     }}
-                  >
-                    {processes[1].detailedDescription}
-                  </Typography>
+                      dangerouslySetInnerHTML={{ __html: processes[1].detailedDescription }}
+                    
+                  
+                    
+                  />
 
                   <Box sx={{ mb: 4 }}>
                     <Typography 
@@ -681,9 +686,8 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                       lineHeight: 1.7,
                       color: '#4a5568'
                     }}
-                  >
-                    {processes[2].detailedDescription}
-                  </Typography>
+                      dangerouslySetInnerHTML={{ __html: processes[2].detailedDescription }}
+                      />
 
                   <Box sx={{ mb: 4 }}>
                     <Typography 
@@ -725,45 +729,28 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                   animate={phaseThreeControls}
                   variants={imageFrameVariants}
                 >
-                  <Paper
-                    elevation={6}
-                    sx={{
-                      p: 2,
-                      background: theme.palette.primary.whitishMint,
-                      borderRadius: 3,
-                      overflow: 'hidden',
-                      transform: 'rotate(2deg)',
-                      position: 'relative',
-                      '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        
-                        zIndex: 1,
-                        borderRadius: '12px',
-                        pointerEvents: 'none'
-                      }
-                    }}
-                  >
-                    <Box
-                      component="img"
-                      src={processes[0].imagePath}
-                      alt={processes[0].title}
-                      sx={{
-                        width: '100%',
-                        height: 'auto',
-                        display: 'block',
-                        borderRadius: 1,
-                        transition: 'transform 0.6s ease-in-out',
-                        '&:hover': {
-                          transform: 'scale(1.03)'
-                        }
-                      }}
-                    />
-                  </Paper>
+                 
+                 <Box
+  sx={{
+    position: 'relative',
+    overflow: 'hidden',
+    borderRadius: 2,
+    transition: 'transform 0.6s ease-in-out',
+    width:'100%',
+    aspectRatio: '1/1',  // 16:9 aspect ratio (9/16 = 0.5625)
+  }}
+>
+  <Image
+    src={processes[2].imagePath}
+    alt={processes[2].title.replace(/<[^>]+>/g, '')}
+    fill
+    style={{
+      objectFit: 'cover',
+    }}
+    sizes="(max-width: 768px) 100vw, 50vw"
+  />
+</Box>
+                  
                 </motion.div>
               </Grid>
             </Grid>
@@ -791,45 +778,28 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                   animate={phaseFourControls}
                   variants={imageFrameVariants}
                 >
-                  <Paper
-                    elevation={6}
-                    sx={{
-                      p: 2,
-                      background: theme.palette.primary.whitishMint,
-                      borderRadius: 3,
-                      overflow: 'hidden',
-                      transform: 'rotate(2deg)',
-                      position: 'relative',
-                      '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        
-                        zIndex: 1,
-                        borderRadius: '12px',
-                        pointerEvents: 'none'
-                      }
-                    }}
-                  >
-                    <Box
-                      component="img"
-                      src={processes[3].imagePath}
-                      alt={processes[3].title}
-                      sx={{
-                        width: '100%',
-                        height: 'auto',
-                        display: 'block',
-                        borderRadius: 1,
-                        transition: 'transform 0.6s ease-in-out',
-                        '&:hover': {
-                          transform: 'scale(1.03)'
-                        }
-                      }}
-                    />
-                  </Paper>
+                
+                      <Box
+  sx={{
+    position: 'relative',
+    overflow: 'hidden',
+    borderRadius: 2,
+    transition: 'transform 0.6s ease-in-out',
+    width:'100%',
+    aspectRatio: '1/1', // 16:9 aspect ratio (9/16 = 0.5625)
+  }}
+>
+  <Image
+    src={processes[3].imagePath}
+    alt={processes[3].title.replace(/<[^>]+>/g, '')}
+    fill
+    style={{
+      objectFit: 'cover',
+    }}
+    sizes="(max-width: 768px) 100vw, 50vw"
+  />
+</Box>
+      
                 </motion.div>
               </Grid>
               
@@ -886,9 +856,8 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                       lineHeight: 1.7,
                       color: '#4a5568'
                     }}
-                  >
-                    {processes[3].detailedDescription}
-                  </Typography>
+                      dangerouslySetInnerHTML={{ __html: processes[3].detailedDescription }}
+                      />
 
                   <Box sx={{ mb: 4 }}>
                     <Typography 
@@ -918,6 +887,292 @@ const ProcessSection = ({ fadeInUp, scrollY }) => {
                             {feature}
                           </Typography>
                         </Box>
+
+                        
+                      ))}
+                    </Box>
+                  </Box>
+                </motion.div>
+              </Grid>
+            </Grid>
+          </Container>
+        </Box>
+        {/* Phase 5 */}
+
+
+        <Box
+          id="phase-5"
+          ref={phaseThreeRef}
+          sx={{
+            minHeight: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            py: { xs: 8, md: 12 },
+            position: 'relative',
+            backgroundColor: theme.palette.primary.whitishMint,
+          }}
+        >
+          <Container maxWidth="lg">
+            <Grid container spacing={6} alignItems="center">
+              <Grid item xs={12} md={6}>
+                <motion.div
+                  initial="hidden"
+                  animate={phaseThreeControls}
+                  variants={fadeInLeftVariants}
+                >
+                  <Box sx={{ position: 'relative', mb: 3 }}>
+                    <Box
+                      sx={{
+                        width: 70,
+                        height: 70,
+                        borderRadius: '50%',
+                        backgroundColor: theme.palette.primary.light,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        
+                        mb: 2
+                      }}
+                    >
+                      <Typography
+                        variant="h4"
+                        component="span"
+                        sx={{
+                          fontWeight: 'bold',
+                          color: '#003C43'
+                        }}
+                      >
+                        5
+                      </Typography>
+                    </Box>
+
+                    <Typography 
+                      variant="h3" 
+                      component="h2"
+                      sx={{ 
+                        fontWeight: 700,
+                        mb: 3,
+                        color: theme.palette.primary.dark
+                      }}
+                    >
+                      {processes[4].title}
+                    </Typography>
+                  </Box>
+
+                  <Typography 
+                    variant="body1"
+                    sx={{ 
+                      mb: 4,
+                      fontSize: '1.1rem',
+                      lineHeight: 1.7,
+                      color: '#4a5568'
+                    }}
+                      dangerouslySetInnerHTML={{ __html: processes[4].detailedDescription }}
+                      />
+
+                  <Box sx={{ mb: 4 }}>
+                    <Typography 
+                      variant="h6" 
+                      component="h4"
+                      sx={{ 
+                        fontWeight: 600,
+                        mb: 3,
+                        color: theme.palette.primary.dark
+                      }}
+                    >
+                      Key Features:
+                    </Typography>
+
+                    <Box component="ul" sx={{ pl: 2 }}>
+                      {processes[4].features.map((feature, index) => (
+                        <Box 
+                          component={motion.li}
+                          custom={index}
+                          initial="hidden"
+                          animate={phaseThreeControls}
+                          variants={featureItemVariants}
+                          key={index}
+                          sx={{ mb: 1 }}
+                        >
+                          <Typography variant="body1" sx={{ color: '#4a5568' }}>
+                            {feature}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </Box>
+                  </Box>
+                </motion.div>
+              </Grid>
+              
+              <Grid item xs={12} md={6}>
+                <motion.div
+                  initial="hidden"
+                  animate={phaseThreeControls}
+                  variants={imageFrameVariants}
+                >
+                 
+                 <Box
+  sx={{
+    position: 'relative',
+    overflow: 'hidden',
+    borderRadius: 2,
+    transition: 'transform 0.6s ease-in-out',
+    width:'100%',
+    aspectRatio: '1/1',  // 16:9 aspect ratio (9/16 = 0.5625)
+  }}
+>
+  <Image
+    src={processes[4].imagePath}
+    alt={processes[4].title.replace(/<[^>]+>/g, '')}
+    fill
+    style={{
+      objectFit: 'cover',
+    }}
+    sizes="(max-width: 768px) 100vw, 50vw"
+  />
+</Box>
+                  
+                </motion.div>
+              </Grid>
+            </Grid>
+          </Container>
+        </Box>
+
+
+        {/* Phase 6 */}
+
+
+        <Box
+          id="phase-6"
+          ref={phaseFourRef}
+          sx={{
+            minHeight: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            py: { xs: 8, md: 12 },
+            position: 'relative',
+            backgroundColor: theme.palette.primary.whitishMint,
+          }}
+        >
+          <Container maxWidth="lg">
+            <Grid container spacing={6} alignItems="center" direction={{ xs: 'column-reverse', md: 'row' }}>
+              <Grid item xs={12} md={6}>
+                <motion.div
+                  initial="hidden"
+                  animate={phaseFourControls}
+                  variants={imageFrameVariants}
+                >
+                
+                      <Box
+  sx={{
+    position: 'relative',
+    overflow: 'hidden',
+    borderRadius: 2,
+    transition: 'transform 0.6s ease-in-out',
+    width:'100%',
+    aspectRatio: '1/1', // 16:9 aspect ratio (9/16 = 0.5625)
+  }}
+>
+  <Image
+    src={processes[5].imagePath}
+    alt={processes[5].title.replace(/<[^>]+>/g, '')}
+    fill
+    style={{
+      objectFit: 'cover',
+    }}
+    sizes="(max-width: 768px) 100vw, 50vw"
+  />
+</Box>
+      
+                </motion.div>
+              </Grid>
+              
+              <Grid item xs={12} md={6}>
+                <motion.div
+                  initial="hidden"
+                  animate={phaseFourControls}
+                  variants={fadeInRightVariants}
+                >
+                  <Box sx={{ position: 'relative', mb: 3 }}>
+                    <Box
+                      sx={{
+                        width: 70,
+                        height: 70,
+                        borderRadius: '50%',
+                        backgroundColor: theme.palette.primary.light,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        
+                        mb: 2
+                      }}
+                    >
+                      <Typography
+                        variant="h4"
+                        component="span"
+                        sx={{
+                          fontWeight: 'bold',
+                          color: '#003C43'
+                        }}
+                      >
+                        6
+                      </Typography>
+                    </Box>
+
+                    <Typography 
+                      variant="h3" 
+                      component="h2"
+                      sx={{ 
+                        fontWeight: 700,
+                        mb: 3,
+                        color: theme.palette.primary.dark
+                      }}
+                    >
+                      {processes[5].title}
+                    </Typography>
+                  </Box>
+
+                  <Typography 
+                    variant="body1"
+                    sx={{ 
+                      mb: 4,
+                      fontSize: '1.1rem',
+                      lineHeight: 1.7,
+                      color: '#4a5568'
+                    }}
+                      dangerouslySetInnerHTML={{ __html: processes[5].detailedDescription }}
+                      />
+
+                  <Box sx={{ mb: 4 }}>
+                    <Typography 
+                      variant="h6" 
+                      component="h4"
+                      sx={{ 
+                        fontWeight: 600,
+                        mb: 3,
+                        color: theme.palette.primary.dark
+                      }}
+                    >
+                      Key Features:
+                    </Typography>
+
+                    <Box component="ul" sx={{ pl: 2 }}>
+                      {processes[5].features.map((feature, index) => (
+                        <Box 
+                          component={motion.li}
+                          custom={index}
+                          initial="hidden"
+                          animate={phaseFourControls}
+                          variants={featureItemVariants}
+                          key={index}
+                          sx={{ mb: 1 }}
+                        >
+                          <Typography variant="body1" sx={{ color: '#4a5568' }}>
+                            {feature}
+                          </Typography>
+                        </Box>
+
+                        
                       ))}
                     </Box>
                   </Box>

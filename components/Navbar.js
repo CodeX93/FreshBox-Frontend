@@ -1385,13 +1385,14 @@ export default function Navbar({ light = false }) {
           px: { xs: 1.5, sm: 2 },
           fontWeight:'bolder',
           fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-          color: DARK_TURQUOISE,
-          bgColor: TURQUOISE,
+          color: scrolled ? '#0a1929' : '#E3FEF7',
+                    
+          bgcolor:scrolled ? '#ffaa00cc':'#ffaa00cc',
           
           flexGrow: 1
         }}
       >
-        SignUp
+        Schedule a Service
       </Button>
     </Box>
   )}
@@ -1743,14 +1744,14 @@ return (
                     py: 0.75,
                     px: { xs: 1.5, sm: 2 },
                     fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-                    color: scrolled ? '#94FFD4' : '#E3FEF7',
+                    color: scrolled ? '#0a1929' : '#E3FEF7',
                     
-                    bgcolor:scrolled ? '#0a1929':'#135D66',
+                    bgcolor:scrolled ? '#ffaa00cc':'#ffaa00cc',
                     
                     
                   }}
                 >
-                  SignUp
+                  Schedule a Service
                 </Button>
               </>
             )}

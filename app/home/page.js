@@ -64,12 +64,13 @@ export default function Home() {
         }}
       >
         <HeroSection />
+        <ProcessSection />
         <ServicesSection />
         <QualityPromiseSection />
-        <WhyChooseUsSection />
-        <ProcessSection />
+        {/* <WhyChooseUsSection /> */}
+        
         <HomePlansSection />
-        <FAQSection />
+        {/* <FAQSection /> */}
       </Box>
 
       {/* Bottom-left Welcome Modal */}

@@ -14,7 +14,8 @@ import {
 import { theme } from "../../../contexts/Theme"
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Link from 'next/link';
-
+import ServiceSectionImage from "../../../Assets/HomeServiceSection.png"
+import Image from 'next/image';
 // Service data exactly matching screenshot
 const services = [
   {
@@ -243,7 +244,7 @@ const ServicesSection = () => {
                   lineHeight: 1.2
                 }}
               >
-                Ready to experience our<br />premium cleaning services?
+                Discover the Smart Way to Clean
               </Typography>
               <Typography
                 variant="body1"
@@ -256,15 +257,15 @@ const ServicesSection = () => {
                   opacity: 0.85
                 }}
               >
-                We take pride in delivering top-tier cleaning services that leave your home or office spotless. Experience the difference of professional cleaning tailored to your needs.
+                Enjoy premium cleaning services for your home, office, and beyond. Fresh, spotless results—delivered with precision, care, and convenience.
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                 <Button
                   disableElevation
                   variant="contained"
                   sx={{
-                    bgcolor: '#1E3A37',
-                    color: 'white',
+                    bgcolor: '#ffaa00cc',
+                    color: '#1E3A37',
                     textTransform: 'none',
                     fontSize: '0.875rem',
                     fontWeight: 500,
@@ -300,7 +301,7 @@ const ServicesSection = () => {
                   }}
                 >
                   <Link href="/services" style={{textDecoration:"none" ,color:"#1E3A37"}} >
-                    Learn more
+                    Learn More About Cleaning
                   </Link>
                 </Button>
               </Box>
@@ -310,21 +311,35 @@ const ServicesSection = () => {
               position: 'relative'
             }}>
               {/* Using the image URL provided */}
-              <Box
-                component="img"
-                src="https://s3-alpha-sig.figma.com/img/ace5/cac0/472bcef1b8e75f1b868b72d9fd21fddc?Expires=1745193600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=s2yNED0O5TXaZlBWVDDEobbSHZX56vczB2hrOa6h2BztL6QuWHXKqCPZL0uIsTz8PbzQ1h~cLS7DfIeOfGdw17FOscJQP8pglHlm78sMpKdq5zrLg2vXOf5lBBF93QiJyeJW~XnDiSF7GoZzPpw-QkoRVde7BvJUjrzl7f3pJZP8-Hrqyd8~lTfJbJ0iP1dLIkLLt3xVZ2tvuNXGrTTyTobyNhEdnQTvXdaPBMtwhfTzcO7E6HiGN8d7LHzY23KA47CNSLfWuUaBcZjtBwxZXruxbqMn6P2L4KN2SCbZn-8HrlvrIKvc4C8BRpCZ8GputPpHxNfEGkZ7~8vGNloHkw__"
-                alt="Folded colorful laundry"
-                sx={{
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderTopRightRadius: 12,
-                  borderBottomRightRadius: 12
-                }}
-              />
+              
+<Grid item xs={12} sx={{ 
+  display: { xs: 'none', md: 'block' }, 
+  position: 'relative',
+  height: 'auto' // Let the container size naturally
+}}>
+  <Box
+    sx={{
+      position: 'relative',
+      width: '100%', // Take full width of the grid item (now 100% of container)
+      height: '400px', // Set a fixed height to maintain aspect ratio
+      borderTopRightRadius: 12,
+      borderBottomRightRadius: 12,
+      overflow: 'hidden', // Re-enable overflow hidden for clean edges
+    }}
+  >
+    <Image
+      src={ServiceSectionImage}
+      alt="Folded colorful laundry"
+      fill
+      style={{
+        objectFit: 'cover',
+      }}
+      sizes="100vw" // Updated to reflect full width usage
+      priority
+    />
+  </Box>
+</Grid>
+
             </Grid>
           </Grid>
         </Card>

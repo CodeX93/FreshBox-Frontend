@@ -13,6 +13,7 @@ import HeroSection from './_components/HeroSection';
 // Adding animations
 import { motion } from 'framer-motion';
 import {theme} from "../../contexts/Theme"
+import WhyChooseUs from './_components/WhyChooseUsSection';
 
 const HowItWorksPage = () => {
   
@@ -89,12 +90,20 @@ const HowItWorksPage = () => {
             fadeInUp={fadeInUp}
             scrollY={scrollY}
           />
+
           <Box sx={{ position: 'relative', zIndex: 2,background: theme.palette.primary.darkBlue, }}>
             <ProcessSection
               fadeInUp={fadeInUp}
               scrollY={scrollY}
             />
           </Box>
+       
+          <Box sx={{ position: 'relative', zIndex: 2, }}>
+            <WhyChooseUsSection
+              fadeInUp={fadeInUp}
+              scrollY={scrollY}
+            />
+          </Box> 
           <Box sx={{
             position: 'relative',
             background: theme.palette.primary.whitishMint,
