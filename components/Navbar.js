@@ -534,6 +534,8 @@ export default function Navbar({ light = false }) {
     allLink: null,
     allLinkText: null
   });
+  //drawer fixed too for location dropdown menu
+  
 
   // Replace renderLocationsSubmenu with a custom two-column grid
   const renderLocationsSubmenu = () => {
