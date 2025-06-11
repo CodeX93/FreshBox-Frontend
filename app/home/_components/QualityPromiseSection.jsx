@@ -195,7 +195,7 @@ const QualityPromiseSection = () => {
                 mb: 2
               }}
             >
-              Our Quality Promise
+              What our Customers have to say
             </Typography>
             
             <Typography 

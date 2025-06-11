@@ -19,9 +19,9 @@ import {
   Dashboard as BasicPlanIcon, Star as PremiumPlanIcon, Business as EnterprisePlanIcon,
   SpaSharp as MassageSpa, LocalHospital as HealthcareIcon, Factory as CommercialIcon,
   FitnessCenter as GymIcon, RequestQuote as RequestQuoteIcon, Storefront as AirbnbIcon,
-  Close as CloseIcon,PersonAddAlt1Outlined as SignUpIcon
+  Close as CloseIcon,PersonAddAlt1Outlined as SignUpIcon, LocationOn as LocationOnIcon
 } from '@mui/icons-material';
-import Logo from '../Assets/logo2.png';
+import Logo from '../Assets/logo2.jpg';
 import { useAuth } from '../contexts/AuthContext';
 import {theme} from "../contexts/Theme"
 import { useChat } from '@/contexts/ChatContext';
@@ -35,7 +35,7 @@ const LIGHT_TURQUOISE = '#5de6d8';
 const navItems = [
   { name: 'Getting Started', path: '/howitwork', hasSubmenu: true },
   { name: 'FreshBox Care and Pricing', path: '/services', hasSubmenu: true },
-  { name: 'Locations', path: '/locations' },
+  { name: 'Locations', path: '/locations', hasSubmenu: true },
   { name: 'Commercial', path: '/commercial', hasSubmenu: true },
   { name: 'Support', path: '/support' },
 ];
@@ -58,6 +58,12 @@ const CommercialSubMenu = [
   { name: 'Healthcare Laundry', path: '/commercial', icon: <HealthcareIcon />, description: 'Sanitized solutions for medical facilities' },
   { name: 'Gym Towel Laundry Service', path: '/commercial', icon: <GymIcon />, description: 'Fresh towels for fitness centers' },
   { name: 'Request a Commercial Quote', path: '/commercial', icon: <RequestQuoteIcon />, description: 'Get a customized business quote' },
+];
+
+// Replace locationsSubmenu with a flat array of states/areas
+const locationsList = [
+  'Alabama', 'Arizona', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Illinois', 'Iowa', 'Kansas', 'Kentucky', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Missouri',
+  'Nebraska', 'Nevada', 'New Jersey', 'New York', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'Texas', 'Tennessee', 'Utah', 'Virginia', 'Washington D.C.', 'Washington', 'Coming Soon'
 ];
 
 // Reusable styled components
@@ -99,6 +105,114 @@ const NavButton = ({ children, scrolled, light, ...props }) => {
   );
 };
 
+// Helper to split array into N columns
+const splitIntoColumns = (arr, numCols) => {
+  const cols = Array.from({ length: numCols }, () => []);
+  arr.forEach((item, idx) => {
+    cols[idx % numCols].push(item);
+  });
+  return cols;
+};
+
+// Mobile-friendly locations list for drawer
+const renderMobileLocationsList = (onClose) => {
+  // Separate 'Coming Soon' from the rest
+  const comingSoon = locationsList.filter(state => state === 'Coming Soon');
+  const states = locationsList.filter(state => state !== 'Coming Soon');
+  return (
+    <Box sx={{ width: '100%', pb: 2 }}>
+      {/* Header */}
+      <Box sx={{
+        px: 2,
+        pt: 2,
+        pb: 1,
+        borderBottom: '1px solid',
+        borderColor: 'rgba(29, 85, 95, 0.08)',
+        background: theme.palette.primary.whitishMint,
+      }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <LocationOnIcon sx={{ color: '#34D399', fontSize: 22 }} />
+          <Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#1D555F' }}>
+            Our Locations
+          </Typography>
+        </Box>
+        <Typography sx={{ fontSize: '0.95rem', color: '#1976d2', mt: 0.5 }}>
+          Select your state to get started
+        </Typography>
+      </Box>
+      {/* States list - single column for mobile */}
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 0.5,
+        px: 2,
+        py: 2,
+        background: theme.palette.primary.whitishMint,
+        maxHeight: 320,
+        overflowY: 'auto',
+      }}>
+        {states.map((state) => (
+          <Button
+            key={state}
+            component={Link}
+            href={`/locations`}
+            sx={{
+              color: '#1976d2',
+              fontWeight: 500,
+              fontSize: '1.08rem',
+              textTransform: 'none',
+              justifyContent: 'flex-start',
+              minWidth: 0,
+              px: 0.5,
+              py: 1.2,
+              borderRadius: '8px',
+              transition: 'all 0.18s',
+              mb: 0.1,
+              '&:hover': {
+                textDecoration: 'underline',
+                background: 'linear-gradient(90deg, #e6f9f7 0%, #fafdff 100%)',
+                color: '#1251a3',
+                boxShadow: '0 2px 8px rgba(40,221,205,0.07)'
+              }
+            }}
+            fullWidth
+            onClick={onClose}
+          >
+            {state}
+          </Button>
+        ))}
+      </Box>
+      {/* Coming Soon section */}
+      {comingSoon.length > 0 && (
+        <Box sx={{ px: 2, pt: 1 }}>
+          <Divider sx={{ my: 1, borderColor: theme.palette.primary.whitishMint }} />
+          <Button
+            component={Link}
+            href={`/locations`}
+            sx={{
+              color: '#bdbdbd',
+              fontWeight: 500,
+              fontSize: '1.08rem',
+              textTransform: 'none',
+              justifyContent: 'flex-start',
+              minWidth: 0,
+              px: 0.5,
+              py: 1.2,
+              borderRadius: '8px',
+              background: 'rgba(29, 85, 95, 0.04)',
+              cursor: 'not-allowed',
+            }}
+            fullWidth
+            disabled
+          >
+            {comingSoon[0]}
+          </Button>
+        </Box>
+      )}
+    </Box>
+  );
+};
+
 export default function Navbar({ light = false }) {
   const { user, logout, isAuthenticated } = useAuth();
   const {chats} = useChat()
@@ -124,12 +238,17 @@ export default function Navbar({ light = false }) {
   const [mobileGettingStartedOpen, setMobileGettingStartedOpen] = useState(false);
   const [userPlan, setUserPlan] = useState('Basic');
 
+  // Add locations menu state
+  const [locationsAnchorEl, setLocationsAnchorEl] = useState(null);
+  const [mobileLocationsOpen, setMobileLocationsOpen] = useState(false);
+
   // Derived states
   const servicesOpen = Boolean(servicesAnchorEl);
   const userMenuOpen = Boolean(userMenuAnchorEl);
   const commercialOpen = Boolean(commercialAnchorEl);
   const gettingStartedOpen = Boolean(gettingStartedAnchorEl);
   const plansMenuOpen = Boolean(plansMenuAnchorEl);
+  const locationsOpen = Boolean(locationsAnchorEl);
   
   // Menu IDs
   const servicesPopupId = servicesOpen ? 'services-popup-menu' : undefined;
@@ -137,6 +256,7 @@ export default function Navbar({ light = false }) {
   const commercialPopupId = commercialOpen ? 'commercial-popup-menu' : undefined;
   const gettingStartedPopupId = gettingStartedOpen ? 'getting-started-popup-menu' : undefined;
   const plansMenuId = plansMenuOpen ? 'plans-menu' : undefined;
+  const locationsPopupId = locationsOpen ? 'locations-popup-menu' : undefined;
 
   const trigger = useScrollTrigger({
     disableHysteresis: true,
@@ -197,6 +317,17 @@ export default function Navbar({ light = false }) {
     }
   };
 
+  // Add locations menu handlers
+  const handleLocationsMenuOpen = (event) => {
+    if (locationsAnchorEl) {
+      setLocationsAnchorEl(null); // Toggle off if already open
+    } else {
+      setLocationsAnchorEl(event.currentTarget); // Open
+    }
+  };
+  const handleLocationsMenuClose = () => setLocationsAnchorEl(null);
+  const toggleMobileLocationsMenu = () => setMobileLocationsOpen(!mobileLocationsOpen);
+
   // Helper functions
   const getInitial = (name) => name ? name.charAt(0).toUpperCase() : 'U';
 
@@ -232,32 +363,31 @@ export default function Navbar({ light = false }) {
     >
       <Box sx={{
         position: 'relative',
-        width: { xs: 70, sm: 90, md: 100, lg: 100 },
-        height: { xs: 70, sm: 90, md: 100, lg: 100 },
+        width: { xs: 100, sm: 120, md: 140, lg: 160 },
+        height: { xs: 50, sm: 60, md: 70, lg: 80 },
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: '10%',
         overflow: 'hidden',
         transition: 'all 0.3s ease',
-        mr: { xs: 0.5, sm: 0.5 } // Reduced margin to bring it closer to text
+        mr: { xs: 0.5, sm: 0.5 }
       }}>
         <Image
           src={Logo}
           alt="FreshBox Logo"
           priority
           fill
-          sizes="(max-width: 600px) 70px, (max-width: 900px) 90px, (max-width: 1200px) 100px, 100px"
+          sizes="(max-width: 600px) 100px, (max-width: 900px) 120px, (max-width: 1200px) 140px, 160px"
           style={{
             objectFit: 'contain',
             padding: '0px',
-            maxWidth: '100px',
-            maxHeight: '100px'
+            maxWidth: '160px',
+            maxHeight: '80px'
           }}
         />
       </Box>
     </Box>
-
   );
 
   // Submenu popper - now accepts full config object to reduce repetition
@@ -404,6 +534,154 @@ export default function Navbar({ light = false }) {
     allLink: null,
     allLinkText: null
   });
+  //drawer fixed too for location dropdown menu
+  
+
+  // Replace renderLocationsSubmenu with a custom two-column grid
+  const renderLocationsSubmenu = () => {
+    // Separate 'Coming Soon' from the rest
+    const comingSoon = locationsList.filter(state => state === 'Coming Soon');
+    const states = locationsList.filter(state => state !== 'Coming Soon');
+    const columns = splitIntoColumns(states, 2);
+    return (
+      <Popper
+        id={locationsPopupId}
+        open={locationsOpen}
+        anchorEl={locationsAnchorEl}
+        transition
+        placement="bottom-start"
+        sx={{ zIndex: 1300 }}
+      >
+        {({ TransitionProps }) => (
+          <Fade {...TransitionProps} timeout={350}>
+            <Paper
+              elevation={6}
+              sx={{
+                mt: 1.5,
+                minWidth: 380,
+                maxWidth: 480,
+                px: 0,
+                py: 0,
+                borderRadius: '18px',
+                border: '1px solid',
+                borderColor: 'rgba(29, 85, 95, 0.12)',
+                boxShadow: '0 8px 32px rgba(40,221,205,0.10)',
+                background: 'linear-gradient(135deg, #fafdff 80%, #e6f9f7 100%)',
+                overflow: 'hidden',
+              }}
+            >
+              <ClickAwayListener onClickAway={handleLocationsMenuClose}>
+                <Box>
+                  {/* Header */}
+                  <Box sx={{
+                    px: 3,
+                    py: 2,
+                    borderBottom: '1px solid',
+                    borderColor: 'rgba(29, 85, 95, 0.08)',
+                    background: 'linear-gradient(90deg, #e6f9f7 0%, #fafdff 100%)',
+                  }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <LocationOnIcon sx={{ color: '#34D399', fontSize: 22 }} />
+                      <Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#1D555F' }}>
+                        Our Locations
+                      </Typography>
+                    </Box>
+                    <Typography sx={{ fontSize: '0.92rem', color: '#1976d2', mt: 0.5 }}>
+                      Select your state to get started
+                    </Typography>
+                  </Box>
+                  {/* States grid */}
+                  <Box sx={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    gap: 0,
+                    px: 2.5,
+                    py: 2,
+                    background: theme.palette.primary.whitishMint,
+                    maxHeight: 340,
+                    overflowY: 'auto',
+                    '&::-webkit-scrollbar': {
+                      width: '6px',
+                      borderRadius: '8px',
+                      background: '#e6f9f7',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      background: '#b2dfdb',
+                      borderRadius: '8px',
+                    },
+                  }}>
+                    {columns.map((col, colIdx) => (
+                      <Box key={colIdx}>
+                        {col.map((state) => (
+                          <Button
+                            key={state}
+                            component={Link}
+                            href={`/locations`}
+                            sx={{
+                              color: '#1976d2',
+                              fontWeight: 500,
+                              fontSize: '1rem',
+                              textTransform: 'none',
+                              justifyContent: 'flex-start',
+                              minWidth: 0,
+                              px: 0,
+                              py: 1.1,
+                              borderRadius: '8px',
+                              transition: 'all 0.18s',
+                              mb: 0.2,
+                              '&:hover': {
+                                textDecoration: 'underline',
+                                background: 'linear-gradient(90deg, #e6f9f7 0%, #fafdff 100%)',
+                                color: '#1251a3',
+                                boxShadow: '0 2px 8px rgba(40,221,205,0.07)'
+                              }
+                            }}
+                            fullWidth
+                            onClick={handleLocationsMenuClose}
+                          >
+                            {state}
+                          </Button>
+                        ))}
+                      </Box>
+                    ))}
+                  </Box>
+                  {/* Divider and Coming Soon */}
+                  {/* {comingSoon.length > 0 && (
+                    <>
+                      <Divider sx={{ mx: 2.5, my: 0.5, borderColor: theme.palette.primary.whitishMint, }} />
+                      <Box sx={{ px: 2.5, pb: 2, pt: 1 , background: theme.palette.primary.whitishMint,}}>
+                        <Button
+                          component={Link}
+                          href={`/locations`}
+                          sx={{
+                            color: '#bdbdbd',
+                            fontWeight: 500,
+                            fontSize: '1rem',
+                            textTransform: 'none',
+                            justifyContent: 'flex-start',
+                            minWidth: 0,
+                            px: 0,
+                            py: 1.1,
+                            borderRadius: '8px',
+                            
+                            cursor: 'not-allowed',
+                          }}
+                          fullWidth
+                          disabled
+                        >
+                          {comingSoon[0]}
+                        </Button>
+                      </Box>
+                    </>
+                  )} */}
+                </Box>
+              </ClickAwayListener>
+            </Paper>
+          </Fade>
+        )}
+      </Popper>
+    );
+  };
 
   // Menu components
   const renderPlansMenu = () => (
@@ -829,14 +1107,16 @@ export default function Navbar({ light = false }) {
                     onClick={
                       item.name === 'FreshBox Care and Pricing' ? toggleMobileServicesMenu :
                       item.name === 'Commercial' ? toggleMobileCommercialMenu :
-                      item.name === 'Getting Started' ? toggleMobileGettingStartedMenu : null
+                      item.name === 'Getting Started' ? toggleMobileGettingStartedMenu :
+                      item.name === 'Locations' ? toggleMobileLocationsMenu : null
                     }
                     sx={{ 
                       py: 1.5,
                       bgcolor: (
                         (item.name === 'FreshBox Care and Pricing' && mobileServicesOpen) ||
                         (item.name === 'Commercial' && mobileCommercialOpen) ||
-                        (item.name === 'Getting Started' && mobileGettingStartedOpen)
+                        (item.name === 'Getting Started' && mobileGettingStartedOpen) ||
+                        (item.name === 'Locations' && mobileLocationsOpen)
                       ) ? 'rgba(40, 221, 205, 0.1)' : 'transparent',
                     }}
                   >
@@ -848,14 +1128,16 @@ export default function Navbar({ light = false }) {
                         color: (
                           (item.name === 'FreshBox Care and Pricing' && mobileServicesOpen) ||
                           (item.name === 'Commercial' && mobileCommercialOpen) ||
-                          (item.name === 'Getting Started' && mobileGettingStartedOpen)
+                          (item.name === 'Getting Started' && mobileGettingStartedOpen) ||
+                          (item.name === 'Locations' && mobileLocationsOpen)
                         ) ? TURQUOISE : 'inherit'
                       }}
                     />
                     {(
                       (item.name === 'FreshBox Care and Pricing' && mobileServicesOpen) ||
                       (item.name === 'Commercial' && mobileCommercialOpen) ||
-                      (item.name === 'Getting Started' && mobileGettingStartedOpen)
+                      (item.name === 'Getting Started' && mobileGettingStartedOpen) ||
+                      (item.name === 'Locations' && mobileLocationsOpen)
                     ) ? 
                       <ExpandLessIcon sx={{ color: TURQUOISE }} /> : 
                       <ExpandMoreIcon />
@@ -1033,6 +1315,14 @@ export default function Navbar({ light = false }) {
                       </List>
                     </Collapse>
                   )}
+                  
+                  {item.name === 'Locations' && (
+                    <Collapse in={mobileLocationsOpen} timeout="auto" unmountOnExit>
+                      <List component="div" disablePadding>
+                        {renderMobileLocationsList(toggleDrawer(false))}
+                      </List>
+                    </Collapse>
+                  )}
                 </Box>
               ) : (
                 <ListItem 
@@ -1095,13 +1385,14 @@ export default function Navbar({ light = false }) {
           px: { xs: 1.5, sm: 2 },
           fontWeight:'bolder',
           fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-          color: DARK_TURQUOISE,
-          bgColor: TURQUOISE,
+          color: scrolled ? '#0a1929' : '#E3FEF7',
+                    
+          bgcolor:scrolled ? '#ffaa00cc':'#ffaa00cc',
           
           flexGrow: 1
         }}
       >
-        SignUp
+        Schedule a Service
       </Button>
     </Box>
   )}
@@ -1293,6 +1584,7 @@ return (
     {/* Render various menus */}
     {renderPlansMenu()}
     {renderUserMenu()}
+    {renderLocationsSubmenu()}
     {renderMobileDrawer()}
     
     <AppBar
@@ -1348,12 +1640,14 @@ return (
   onClick={
     item.name === 'FreshBox Care and Pricing' ? handleServicesMenuOpen :
     item.name === 'Commercial' ? handleCommercialMenuOpen :
-    item.name === 'Getting Started' ? handleGettingStartedMenuOpen : null
+    item.name === 'Getting Started' ? handleGettingStartedMenuOpen :
+    item.name === 'Locations' ? handleLocationsMenuOpen : null
   }
   aria-describedby={
     item.name === 'FreshBox Care and Pricing' ? servicesPopupId :
     item.name === 'Commercial' ? commercialPopupId :
-    item.name === 'Getting Started' ? gettingStartedPopupId : undefined
+    item.name === 'Getting Started' ? gettingStartedPopupId :
+    item.name === 'Locations' ? locationsPopupId : undefined
   }
 >
   {item.name}
@@ -1361,6 +1655,7 @@ return (
                   {item.name === 'FreshBox Care and Pricing' && renderServicesSubmenu()}
                   {item.name === 'Commercial' && renderCommercialSubmenu()}
                   {item.name === 'Getting Started' && renderGettingStartedSubmenu()}
+                  {item.name === 'Locations' && renderLocationsSubmenu()}
                 </Box>
               ) : (
                 <NavButton 
@@ -1449,14 +1744,14 @@ return (
                     py: 0.75,
                     px: { xs: 1.5, sm: 2 },
                     fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
-                    color: scrolled ? '#94FFD4' : '#E3FEF7',
+                    color: scrolled ? '#0a1929' : '#E3FEF7',
                     
-                    bgcolor:scrolled ? '#0a1929':'#135D66',
+                    bgcolor:scrolled ? '#ffaa00cc':'#ffaa00cc',
                     
                     
                   }}
                 >
-                  SignUp
+                  Schedule a Service
                 </Button>
               </>
             )}
