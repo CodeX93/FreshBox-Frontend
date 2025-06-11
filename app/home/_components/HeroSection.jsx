@@ -47,7 +47,7 @@ const handleCloseModal = () => setModalOpen(false);
       if (videoRef.current) {
         const video = videoRef.current;
         video.style.width = '100vw';
-        video.style.height = '100vh';
+        video.style.height = '120vh';
         video.style.objectFit = 'cover';
       }
     };
@@ -66,7 +66,7 @@ const handleCloseModal = () => setModalOpen(false);
         sx={{
           position: 'relative',
           width: '100vw', // Use viewport width
-          height: '100vh', // Use viewport height
+          height: '120vh', // Use viewport height
           overflow: 'hidden',
           color: 'white',
           margin: 0,
@@ -158,7 +158,8 @@ const handleCloseModal = () => setModalOpen(false);
               component="h1" 
               sx={{ 
                 fontWeight: 800, 
-                mb: 2,
+                mb: 1,
+                mt:2,
                 fontSize: { xs: '2.5rem', sm: '3.2rem', md: '4.2rem' },
                 lineHeight: 1.1,
                 textShadow: '2px 2px 8px rgba(0, 0, 0, 0.4)',
@@ -171,7 +172,7 @@ const handleCloseModal = () => setModalOpen(false);
               variant="h5" 
               sx={{ 
                 opacity: 0.95, 
-                mb: 4,
+                mb: 2,
                 fontSize: { xs: '1.25rem', md: '1.5rem' },
                 fontWeight: 400,
                 textShadow: '1px 1px 4px rgba(0, 0, 0, 0.3)',
@@ -191,7 +192,7 @@ const handleCloseModal = () => setModalOpen(false);
                 overflow: 'hidden', 
                 width: '100%',
                 maxWidth: { xs: '90%', sm: '420px' },
-                mb: 6,
+                mb: 2,
                 mx: 'auto', // Center horizontally
                 boxShadow: '0 8px 20px rgba(0, 0, 0, 0.25)',
                 transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
@@ -305,7 +306,7 @@ const handleCloseModal = () => setModalOpen(false);
                 justifyContent: 'center',
                 gap: 2,
                 flexWrap: 'wrap',
-                mb: 4
+                mb: 3
               }}
             >
               <Box 
@@ -414,20 +415,14 @@ const handleCloseModal = () => setModalOpen(false);
                 </Box>
               </Box>
             </Box>
-          </Box>
-            
-          {/* Search Order ID Pill Field - Enhanced design */}
-          <Box
+                <Box
             sx={{
-              position: 'absolute',
-              bottom: { xs: 20, md: 40 },
-              left: 0,
-              right: 0,
+            
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               px: 3,
-              mt: 'auto',
+              mt: 1,
               width: '100%',
               animation: 'fadeUp 1.2s ease-out',
               '@keyframes fadeUp': {
@@ -503,6 +498,9 @@ const handleCloseModal = () => setModalOpen(false);
 
 
           </Box>
+          </Box>
+            
+      
         </Container>
     <OrderSearchModal
   open={modalOpen}
