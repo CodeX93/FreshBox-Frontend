@@ -159,7 +159,8 @@ export default function HeroSection() {
               variant="h3"
               component="h2"
               sx={{
-                fontWeight: 800,
+                fontWeight: 'bolder',
+                fontFamily:'Anton',
                 mb: 1,
                 mt: 10,
                 fontSize: { xs: '2.2rem', sm: '2.6rem', md: '3rem' },
@@ -169,7 +170,7 @@ export default function HeroSection() {
                  maxWidth: '100%',
               }}
             >
-              Smart, Contactless & Hassle-Free Laundry and Cleaning Services — Fresh, Secure, and Convenient
+              On-Demand Cleaning, Smart Laundry & Dry Cleaning <br/>— Just a Tap Away
             </Typography>
             <Typography
               variant="h5"
@@ -177,14 +178,15 @@ export default function HeroSection() {
                 opacity: 0.95,
                 mb: 2,
                 fontSize: { xs: '1rem', md: '1.3rem' },
-                fontWeight: 400,
+                fontWeight: 800,
+                fontFamily:'Courier New',
                 textShadow: '1px 1px 4px rgba(0, 0, 0, 0.3)',
                 maxWidth: '100%',
                 mx: 'auto',
                 display: { xs: 'none', md: 'block' }, // Hide on mobile
               }}
             >
-              Cleaning, laundry, and dry cleaning made effortless. We pick up, clean, and deliver—fast, secure, and contactless. All it takes is a few clicks.
+              “Contactless Pick up & delivery at Your Doorstep — Fresh. Fast. Secure. Convenient.”
             </Typography>
 
             {/* Pill-shaped widget - With white background */}
@@ -449,6 +451,32 @@ export default function HeroSection() {
                   mb: 2,
                 }}
               >
+                  {/* TRACKING ID Button */}
+                  <Button
+                  variant="contained"
+                  sx={{
+                    bgcolor: theme.palette.primary.main,
+                    color: theme.palette.primary.DarkBlue,
+                    borderRadius: 24,
+                    px: 3,
+                    py: 1.5,
+                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                    fontWeight: 600,
+                    textTransform: 'none',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+                    '&:hover': {
+                      bgcolor: theme.palette.primary.mainHover,
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 16px rgba(0, 0, 0, 0.3)',
+                    },
+                    transition: 'all 0.2s ease',
+                    minWidth: 'auto',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onClick={handleOpenModal}
+                >
+                  TRACKING ID
+                </Button>
                 <Paper
                   elevation={8}
                   sx={{
@@ -509,32 +537,7 @@ export default function HeroSection() {
                   </IconButton>
                 </Paper>
 
-                {/* TRACKING ID Button */}
-                <Button
-                  variant="contained"
-                  sx={{
-                    bgcolor: theme.palette.primary.main,
-                    color: theme.palette.primary.DarkBlue,
-                    borderRadius: 24,
-                    px: 3,
-                    py: 1.5,
-                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                    fontWeight: 600,
-                    textTransform: 'none',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
-                    '&:hover': {
-                      bgcolor: theme.palette.primary.mainHover,
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 6px 16px rgba(0, 0, 0, 0.3)',
-                    },
-                    transition: 'all 0.2s ease',
-                    minWidth: 'auto',
-                    whiteSpace: 'nowrap',
-                  }}
-                  onClick={handleOpenModal}
-                >
-                  TRACKING ID
-                </Button>
+              
               </Box>
 
               {/* Descriptive Text */}

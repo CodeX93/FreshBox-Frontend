@@ -32,12 +32,48 @@ const DARK_TURQUOISE = theme.palette.primary.darkBlue;
 const LIGHT_TURQUOISE = '#5de6d8';
 
 // Navigation data - moved outside component
+const membershipSubmenu = [
+  { name: 'Become a FreshBox Pro Member', path: '/plans' },
+  { name: 'Loyalty', path: '/membership/loyalty' },
+  { name: 'Gift Cards', path: '/membership/gift-cards' },
+];
+
 const navItems = [
-  { name: 'Getting Started', path: '/howitwork', hasSubmenu: true },
-  { name: 'FreshBox Care and Pricing', path: '/services', hasSubmenu: true },
-  { name: 'Locations', path: '/locations', hasSubmenu: true },
-  { name: 'Commercial', path: '/commercial', hasSubmenu: true },
-  { name: 'Support', path: '/support' },
+  {
+    name: 'Care & Pricing',
+    hasSubmenu: true,
+    submenu: [
+      { name: 'How It Works', path: '/howitwork' },
+      {
+        name: 'Cleaning',
+        children: [
+          { name: 'Home', path: '/services' },
+          { name: 'Office', path: '/services' },
+          { name: 'Commercial', path: '/services' },
+          { name: 'Request Quote', path: '/services' },
+        ]
+      },
+      {
+        name: 'Laundry',
+        children: [
+          { name: 'Wash & Fold', path: '/services' },
+          { name: 'Household Items', path: '/services' },
+        ]
+      },
+      { name: 'Dry Cleaning', path: '/services' },
+      { name: 'Pricing', path: '/pricing' },
+      { name: 'Refer Friends and Family', path: '/refer' },
+    ]
+  },
+  { name: 'Locations', path: '/locations', hasSubmenu: false },
+  { name: 'Commercial', path: '/commercial', hasSubmenu: false },
+  { name: 'Blog', path: '/blog', hasSubmenu: false },
+  {
+    name: 'Membership',
+    path: '/plans',
+    hasSubmenu: true,
+    submenu: membershipSubmenu
+  },
 ];
 
 const serviceSubmenu = [
@@ -48,7 +84,7 @@ const serviceSubmenu = [
 ];
 
 const GettingStartedSubMenu = [
-  { name: 'How It Works', path: '/howitwork', icon: <WashIcon />, description: 'Learn how our service works' },
+  { name: 'How It Works', path: 'howitwork', icon: <WashIcon />, description: 'Learn how our service works' },
 ];
 
 const CommercialSubMenu = [
@@ -242,6 +278,10 @@ export default function Navbar({ light = false }) {
   const [locationsAnchorEl, setLocationsAnchorEl] = useState(null);
   const [mobileLocationsOpen, setMobileLocationsOpen] = useState(false);
 
+  // Membership submenu states
+  const [membershipAnchorEl, setMembershipAnchorEl] = useState(null);
+  const [membershipOpen, setMembershipOpen] = useState(false);
+
   // Derived states
   const servicesOpen = Boolean(servicesAnchorEl);
   const userMenuOpen = Boolean(userMenuAnchorEl);
@@ -328,6 +368,17 @@ export default function Navbar({ light = false }) {
   const handleLocationsMenuClose = () => setLocationsAnchorEl(null);
   const toggleMobileLocationsMenu = () => setMobileLocationsOpen(!mobileLocationsOpen);
 
+  // Membership submenu handlers
+  const handleMembershipMenuOpen = (event) => {
+    setMembershipAnchorEl(event.currentTarget);
+    setMembershipOpen(true);
+  };
+  const handleMembershipMenuClose = () => {
+    setMembershipAnchorEl(null);
+    setMembershipOpen(false);
+  };
+  const toggleMobileMembershipMenu = () => setMembershipOpen((open) => !open);
+
   // Helper functions
   const getInitial = (name) => name ? name.charAt(0).toUpperCase() : 'U';
 
@@ -388,6 +439,110 @@ export default function Navbar({ light = false }) {
         />
       </Box>
     </Box>
+  );
+
+  // Add a helper to render multi-level submenus for Care & Pricing
+  const renderCarePricingSubmenu = ({ id, open, anchorEl, handleClose }) => (
+    <Popper
+      id={id}
+      open={open}
+      anchorEl={anchorEl}
+      transition
+      placement="bottom-start"
+      sx={{ zIndex: 1300 }}
+    >
+      {({ TransitionProps }) => (
+        <Fade {...TransitionProps} timeout={350}>
+          <Paper
+            elevation={6}
+            sx={{
+              mt: 1.5,
+              width: { sm: 340, md: 370, lg: 400 },
+              overflow: 'hidden',
+              borderRadius: '18px',
+              border: '1.5px solid',
+              borderColor: 'rgba(29, 85, 95, 0.13)',
+              boxShadow: '0 12px 32px rgba(40,221,205,0.13)',
+              background: theme.palette.primary.main,
+              p: 0
+            }}
+          >
+            <ClickAwayListener onClickAway={handleClose}>
+              <Box sx={{ p: 2.5 }}>
+                {navItems[0].submenu.map((item, idx) => (
+                  <>
+                    {idx > 0 && !item.children && (
+                      <Box sx={{ my: 1, borderBottom: '1px solid', borderColor: 'rgba(29, 85, 95, 0.08)' }} />
+                    )}
+                    {item.children ? (
+                      <Box key={item.name} sx={{ mb: 1.5 }}>
+                        <Typography sx={{ fontWeight: 700, color: '#1D555F', fontSize: '1.13rem', mb: 0.5, pl: 0.5, letterSpacing: 0.2 }}>
+                          {item.name}
+                        </Typography>
+                        <Box sx={{ pl: 2 }}>
+                          {item.children.map((child) => (
+                            <Box
+                              key={child.name}
+                              component={Link}
+                              href={child.path}
+                              onClick={handleClose}
+                              sx={{
+                                display: 'block',
+                                color: 'text.primary',
+                                py: 0.85,
+                                px: 1.2,
+                                textDecoration: 'none',
+                                fontSize: '1.04rem',
+                                borderRadius: 2,
+                                transition: 'all 0.18s',
+                                mb: 0.2,
+                                '&:hover': {
+                                  bgcolor: 'rgba(29, 85, 95, 0.09)',
+                                  color: '#0099A8',
+                                  pl: 2
+                                }
+                              }}
+                            >
+                              {child.name}
+                            </Box>
+                          ))}
+                        </Box>
+                      </Box>
+                    ) : (
+                      <Box
+                        key={item.name}
+                        component={Link}
+                        href={item.path}
+                        onClick={handleClose}
+                        sx={{
+                          display: 'block',
+                          color: 'text.primary',
+                          py: 1.1,
+                          px: 1.2,
+                          textDecoration: 'none',
+                          fontWeight: 500,
+                          fontSize: '1.09rem',
+                          borderRadius: 2,
+                          transition: 'all 0.18s',
+                          mb: 0.2,
+                          '&:hover': {
+                            bgcolor: 'rgba(29, 85, 95, 0.09)',
+                            color: '#0099A8',
+                            pl: 2
+                          }
+                        }}
+                      >
+                        {item.name}
+                      </Box>
+                    )}
+                  </>
+                ))}
+              </Box>
+            </ClickAwayListener>
+          </Paper>
+        </Fade>
+      )}
+    </Popper>
   );
 
   // Submenu popper - now accepts full config object to reduce repetition
@@ -499,16 +654,11 @@ export default function Navbar({ light = false }) {
     </Popper>
   );
   // Simplify submenu renders by passing config objects
-  const renderServicesSubmenu = () => renderSubmenuWithPopper({
+  const renderServicesSubmenu = () => renderCarePricingSubmenu({
     id: servicesPopupId,
     open: servicesOpen,
     anchorEl: servicesAnchorEl,
-    handleClose: handleServicesMenuClose,
-    title: "Our Services",
-    description: "Professional laundry solutions for all your needs",
-    submenuItems: serviceSubmenu,
-    allLink: "/services",
-    allLinkText: "View All Services & Pricing"
+    handleClose: handleServicesMenuClose
   });
 
   const renderCommercialSubmenu = () => renderSubmenuWithPopper({
@@ -534,8 +684,19 @@ export default function Navbar({ light = false }) {
     allLink: null,
     allLinkText: null
   });
-  //drawer fixed too for location dropdown menu
-  
+
+  // Membership submenu
+  const renderMembershipSubmenu = () => renderSubmenuWithPopper({
+    id: membershipOpen ? 'membership-popup-menu' : undefined,
+    open: membershipOpen,
+    anchorEl: membershipAnchorEl,
+    handleClose: handleMembershipMenuClose,
+    title: 'Membership',
+    description: 'Exclusive benefits for FreshBox members',
+    submenuItems: membershipSubmenu,
+    allLink: '/membership',
+    allLinkText: 'See All Membership Benefits'
+  });
 
   // Replace renderLocationsSubmenu with a custom two-column grid
   const renderLocationsSubmenu = () => {
@@ -1099,230 +1260,43 @@ export default function Navbar({ light = false }) {
               }
             }
           }}>
-            {navItems.map((item) => (
+            {navItems.map((item) =>
               item.hasSubmenu ? (
-                <Box key={item.name}>
-                  <ListItem 
-                    button 
-                    onClick={
-                      item.name === 'FreshBox Care and Pricing' ? toggleMobileServicesMenu :
-                      item.name === 'Commercial' ? toggleMobileCommercialMenu :
-                      item.name === 'Getting Started' ? toggleMobileGettingStartedMenu :
-                      item.name === 'Locations' ? toggleMobileLocationsMenu : null
-                    }
-                    sx={{ 
-                      py: 1.5,
-                      bgcolor: (
-                        (item.name === 'FreshBox Care and Pricing' && mobileServicesOpen) ||
-                        (item.name === 'Commercial' && mobileCommercialOpen) ||
-                        (item.name === 'Getting Started' && mobileGettingStartedOpen) ||
-                        (item.name === 'Locations' && mobileLocationsOpen)
-                      ) ? 'rgba(40, 221, 205, 0.1)' : 'transparent',
-                    }}
-                  >
-                    <ListItemText 
-                      primary={item.name} 
-                      primaryTypographyProps={{ 
-                        fontWeight: 600, 
-                        fontSize: '1rem', 
-                        color: (
-                          (item.name === 'FreshBox Care and Pricing' && mobileServicesOpen) ||
-                          (item.name === 'Commercial' && mobileCommercialOpen) ||
-                          (item.name === 'Getting Started' && mobileGettingStartedOpen) ||
-                          (item.name === 'Locations' && mobileLocationsOpen)
-                        ) ? TURQUOISE : 'inherit'
-                      }}
-                    />
-                    {(
-                      (item.name === 'FreshBox Care and Pricing' && mobileServicesOpen) ||
-                      (item.name === 'Commercial' && mobileCommercialOpen) ||
-                      (item.name === 'Getting Started' && mobileGettingStartedOpen) ||
-                      (item.name === 'Locations' && mobileLocationsOpen)
-                    ) ? 
-                      <ExpandLessIcon sx={{ color: TURQUOISE }} /> : 
-                      <ExpandMoreIcon />
-                    }
-                  </ListItem>
-                  
-                  {/* Submenu for each category */}
-                  {item.name === 'FreshBox Care and Pricing' && (
-                    <Collapse in={mobileServicesOpen} timeout="auto" unmountOnExit>
-                      <List component="div" disablePadding>
-                        {serviceSubmenu.map((submenuItem) => (
-                          <ListItem 
-                            key={submenuItem.name}
-                            button
-                            component={Link}
-                            href={submenuItem.path}
-                            onClick={toggleDrawer(false)}
-                            sx={{ 
-                              pl: 4, 
-                              borderRadius: '8px', 
-                              mb: 0.5, 
-                              py: 1,
-                              transition: 'all 0.3s ease',
-                              '&:hover': {
-                                bgcolor: 'rgba(40, 221, 205, 0.1)',
-                                '& .MuiListItemIcon-root': {
-                                  color: DARK_TURQUOISE
-                                }
-                              }
-                            }}
-                          >
-                            <ListItemIcon sx={{ 
-                              minWidth: 40, 
-                              color: DARK_TURQUOISE,
-                              transition: 'all 0.3s ease'
-                            }}>
-                              {submenuItem.icon}
-                            </ListItemIcon>
-                            <ListItemText 
-                              primary={submenuItem.name}
-                              secondary={submenuItem.description}
-                              primaryTypographyProps={{ fontWeight: 500, fontSize: '0.95rem' }}
-                              secondaryTypographyProps={{ fontSize: '0.75rem' }}
-                            />
-                          </ListItem>
-                        ))}
-                        <Button
-                        disableElevation
-                          component={Link}
-                          href="/services"
-                          onClick={toggleDrawer(false)}
-                          fullWidth
-                          sx={{ 
-                            mt: 1, 
-                            mb: 1,
-                            ml: 2,
-                            borderRadius: '8px', 
-                            color: DARK_TURQUOISE,
-                            border: `1px solid ${TURQUOISE}`,
-                            '&:hover': {
-                              bgcolor: 'rgba(40, 221, 205, 0.05)'
-                            }
-                          }}
-                        >
-                          View All Services & Pricing
-                        </Button>
-                      </List>
-                    </Collapse>
-                  )}
-                  
-                  {item.name === 'Commercial' && (
-                    <Collapse in={mobileCommercialOpen} timeout="auto" unmountOnExit>
-                      <List component="div" disablePadding>
-                        {CommercialSubMenu.map((submenuItem) => (
-                          <ListItem 
-                            key={submenuItem.name}
-                            button
-                            component={Link}
-                            href={submenuItem.path}
-                            onClick={toggleDrawer(false)}
-                            sx={{ 
-                              pl: 4, 
-                              borderRadius: '8px', 
-                              mb: 0.5, 
-                              py: 1,
-                              color:DARK_TURQUOISE,
-                              bgColor:TURQUOISE,
-                              transition: 'all 0.3s ease',
-                              '&:hover': {
-                                bgcolor: 'rgba(40, 221, 205, 0.1)',
-                                '& .MuiListItemIcon-root': {
-                                  color: TURQUOISE
-                                }
-                              }
-                            }}
-                          >
-                            <ListItemIcon sx={{ 
-                              minWidth: 40, 
-                              color: 'text.secondary',
-                              transition: 'all 0.3s ease'
-                            }}>
-                              {submenuItem.icon}
-                            </ListItemIcon>
-                            <ListItemText 
-                              primary={submenuItem.name}
-                              secondary={submenuItem.description}
-                              primaryTypographyProps={{ fontWeight: 500, fontSize: '0.95rem' }}
-                              secondaryTypographyProps={{ fontSize: '0.75rem' }}
-                            />
-                          </ListItem>
-                        ))}
-                        <Button
-                        disableElevation
-                          component={Link}
-                          href="/commercial"
-                          onClick={toggleDrawer(false)}
-                          fullWidth
-                          sx={{ 
-                            mt: 1,
-                            mb: 1,
-                            ml: 2,
-                            borderRadius: '8px', 
-                            color: TURQUOISE,
-                            border: `1px solid ${TURQUOISE}`,
-                            '&:hover': {
-                              bgcolor: 'rgba(40, 221, 205, 0.05)'
-                            }
-                          }}
-                        >
-                          Learn More About Commercial Services
-                        </Button>
-                      </List>
-                    </Collapse>
-                  )}
-                  
-                  {item.name === 'Getting Started' && (
-                    <Collapse in={mobileGettingStartedOpen} timeout="auto" unmountOnExit>
-                      <List component="div" disablePadding>
-                        {GettingStartedSubMenu.map((submenuItem) => (
-                          <ListItem 
-                            key={submenuItem.name}
-                            button
-                            component={Link}
-                            href={submenuItem.path}
-                            onClick={toggleDrawer(false)}
-                            sx={{ 
-                              pl: 4, 
-                              borderRadius: '8px', 
-                              mb: 0.5, 
-                              py: 1,
-                              transition: 'all 0.3s ease',
-                              '&:hover': {
-                                bgcolor: '#2E7B5C',
-                                '& .MuiListItemIcon-root': {
-                                  color: TURQUOISE
-                                }
-                              }
-                            }}
-                          >
-                            <ListItemIcon sx={{ 
-                              minWidth: 40, 
-                              color: '#2E7B5C',
-                              transition: 'all 0.3s ease'
-                            }}>
-                              {submenuItem.icon}
-                            </ListItemIcon>
-                            <ListItemText 
-                              primary={submenuItem.name}
-                              secondary={submenuItem.description}
-                              primaryTypographyProps={{ fontWeight: 500, fontSize: '0.95rem' }}
-                              secondaryTypographyProps={{ fontSize: '0.75rem' }}
-                            />
-                          </ListItem>
-                        ))}
-                      </List>
-                    </Collapse>
-                  )}
-                  
-                  {item.name === 'Locations' && (
-                    <Collapse in={mobileLocationsOpen} timeout="auto" unmountOnExit>
-                      <List component="div" disablePadding>
-                        {renderMobileLocationsList(toggleDrawer(false))}
-                      </List>
-                    </Collapse>
-                  )}
+                <Box key={item.name}
+                  onMouseEnter={
+                    item.name === 'Care & Pricing' ? handleServicesMenuOpen :
+                    item.name === 'Commercial' ? handleCommercialMenuOpen :
+                    item.name === 'Getting Started' ? handleGettingStartedMenuOpen :
+                    item.name === 'Locations' ? handleLocationsMenuOpen :
+                    item.name === 'Membership' ? handleMembershipMenuOpen : undefined
+                  }
+                  onMouseLeave={
+                    item.name === 'Care & Pricing' ? handleServicesMenuClose :
+                    item.name === 'Commercial' ? handleCommercialMenuClose :
+                    item.name === 'Getting Started' ? handleGettingStartedMenuClose :
+                    item.name === 'Locations' ? handleLocationsMenuClose :
+                    item.name === 'Membership' ? handleMembershipMenuClose : undefined
+                  }
+                >
+                 <NavButton 
+                  scrolled={scrolled}
+                  light={light}
+                  endIcon={<ExpandMoreIcon />}
+                  aria-describedby={
+                    item.name === 'Care & Pricing' ? servicesPopupId :
+                    item.name === 'Commercial' ? commercialPopupId :
+                    item.name === 'Getting Started' ? gettingStartedPopupId :
+                    item.name === 'Locations' ? locationsPopupId :
+                    item.name === 'Membership' ? (membershipOpen ? 'membership-popup-menu' : undefined) : undefined
+                  }
+                >
+                  {item.name}
+                </NavButton>
+                {item.name === 'Care & Pricing' && renderServicesSubmenu()}
+                {item.name === 'Commercial' && renderCommercialSubmenu()}
+                {item.name === 'Getting Started' && renderGettingStartedSubmenu()}
+                {item.name === 'Locations' && renderLocationsSubmenu()}
+                {item.name === 'Membership' && renderMembershipSubmenu()}
                 </Box>
               ) : (
                 <ListItem 
@@ -1339,7 +1313,7 @@ export default function Navbar({ light = false }) {
                   />
                 </ListItem>
               )
-            ))}
+            )}
           </List>
         </Box>
 
@@ -1378,17 +1352,13 @@ export default function Navbar({ light = false }) {
         variant="outlined"
         component={Link}
         href="/auth/register"
-        startIcon={<SignUpIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
         sx={{ 
-          
           py: 0.75,
           px: { xs: 1.5, sm: 2 },
           fontWeight:'bolder',
           fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
           color: scrolled ? '#0a1929' : '#E3FEF7',
-                    
           bgcolor:scrolled ? '#ffaa00cc':'#ffaa00cc',
-          
           flexGrow: 1
         }}
       >
@@ -1630,43 +1600,54 @@ return (
               px: 2
             }}
           >
-            {navItems.map((item) => 
+            {navItems.map((item) =>
               item.hasSubmenu ? (
-                <Box key={item.name}>
+                <Box key={item.name}
+                  onMouseEnter={
+                    item.name === 'Care & Pricing' ? handleServicesMenuOpen :
+                    item.name === 'Commercial' ? handleCommercialMenuOpen :
+                    item.name === 'Getting Started' ? handleGettingStartedMenuOpen :
+                    item.name === 'Locations' ? handleLocationsMenuOpen :
+                    item.name === 'Membership' ? handleMembershipMenuOpen : undefined
+                  }
+                  onMouseLeave={
+                    item.name === 'Care & Pricing' ? handleServicesMenuClose :
+                    item.name === 'Commercial' ? handleCommercialMenuClose :
+                    item.name === 'Getting Started' ? handleGettingStartedMenuClose :
+                    item.name === 'Locations' ? handleLocationsMenuClose :
+                    item.name === 'Membership' ? handleMembershipMenuClose : undefined
+                  }
+                >
                  <NavButton 
-  scrolled={scrolled}
-  light={light}  // Add this line
-  endIcon={<ExpandMoreIcon />}
-  onClick={
-    item.name === 'FreshBox Care and Pricing' ? handleServicesMenuOpen :
-    item.name === 'Commercial' ? handleCommercialMenuOpen :
-    item.name === 'Getting Started' ? handleGettingStartedMenuOpen :
-    item.name === 'Locations' ? handleLocationsMenuOpen : null
-  }
-  aria-describedby={
-    item.name === 'FreshBox Care and Pricing' ? servicesPopupId :
-    item.name === 'Commercial' ? commercialPopupId :
-    item.name === 'Getting Started' ? gettingStartedPopupId :
-    item.name === 'Locations' ? locationsPopupId : undefined
-  }
->
-  {item.name}
-</NavButton>
-                  {item.name === 'FreshBox Care and Pricing' && renderServicesSubmenu()}
-                  {item.name === 'Commercial' && renderCommercialSubmenu()}
-                  {item.name === 'Getting Started' && renderGettingStartedSubmenu()}
-                  {item.name === 'Locations' && renderLocationsSubmenu()}
+                  scrolled={scrolled}
+                  light={light}
+                  endIcon={<ExpandMoreIcon />}
+                  aria-describedby={
+                    item.name === 'Care & Pricing' ? servicesPopupId :
+                    item.name === 'Commercial' ? commercialPopupId :
+                    item.name === 'Getting Started' ? gettingStartedPopupId :
+                    item.name === 'Locations' ? locationsPopupId :
+                    item.name === 'Membership' ? (membershipOpen ? 'membership-popup-menu' : undefined) : undefined
+                  }
+                >
+                  {item.name}
+                </NavButton>
+                {item.name === 'Care & Pricing' && renderServicesSubmenu()}
+                {item.name === 'Commercial' && renderCommercialSubmenu()}
+                {item.name === 'Getting Started' && renderGettingStartedSubmenu()}
+                {item.name === 'Locations' && renderLocationsSubmenu()}
+                {item.name === 'Membership' && renderMembershipSubmenu()}
                 </Box>
               ) : (
-                <NavButton 
-                key={item.name}
-                scrolled={scrolled}
-                light={light}  // Add this line
-                component={Link}
-                href={item.path}
-              >
-                {item.name}
-              </NavButton>
+                <NavButton
+                  key={item.name}
+                  scrolled={scrolled}
+                  light={light}
+                  component={Link}
+                  href={item.path}
+                >
+                  {item.name}
+                </NavButton>
               )
             )}
           </Box>
@@ -1735,20 +1716,17 @@ return (
                 </Button>
                 <Button
                 disableElevation
-                  variant="contained"
+                  variant="outlined"
                   component={Link}
                   href="/auth/register"
-                  startIcon={<SignUpIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
                   sx={{ 
-                    
                     py: 0.75,
                     px: { xs: 1.5, sm: 2 },
+                    fontWeight:'bolder',
                     fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
                     color: scrolled ? '#0a1929' : '#E3FEF7',
-                    
                     bgcolor:scrolled ? '#ffaa00cc':'#ffaa00cc',
-                    
-                    
+                    flexGrow: 1
                   }}
                 >
                   Schedule a Service

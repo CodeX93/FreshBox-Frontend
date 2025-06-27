@@ -25,6 +25,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/material/styles';
+import ProvidedLaundryImage from '../../Assets/provided-laundry-image.png';
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -32,13 +33,7 @@ export default function Home() {
   const theme = useTheme();
 
   useEffect(() => {
-    const hasSeenModal = localStorage.getItem('hasSeenWelcomeModal');
-    if (!hasSeenModal) {
-      const timer = setTimeout(() => {
-        setModalOpen(true);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
+    setModalOpen(true);
   }, []);
 
   const handleCloseModal = () => {
@@ -85,11 +80,9 @@ export default function Home() {
             overflow: 'hidden',
             boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
             position: 'fixed',
-            bottom: { xs: 'auto', sm: 24 },
-            left: { xs: '50%', sm: 24 },
-            right: { xs: 'auto', sm: 'auto' },
-            top: { xs: '50%', sm: 'auto' },
-            transform: { xs: 'translate(-50%, -50%)', sm: 'none' },
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
             maxWidth: { xs: '90vw', sm: 800 },
             width: { xs: '90vw', sm: 800 },
             zIndex: 1300,
@@ -146,7 +139,7 @@ export default function Home() {
               }}
             >
               <Image
-                src={SmartCleaningBanner}
+                src={ProvidedLaundryImage}
                 alt="Laundry Promo"
                 fill
                 style={{ objectFit: 'cover' }}
@@ -178,7 +171,7 @@ export default function Home() {
                   color: theme.palette.primary.darkBlue
                 }}
               >
-                Get $20 off
+                Get 20% Off
               </Typography>
               <Typography 
                 variant="h6" 
@@ -263,6 +256,40 @@ export default function Home() {
         </DialogContent>
       </Dialog>
 
+      {/* Floating Get $20 Off Button */}
+      {!modalOpen && (
+        <Box
+          sx={{
+            position: 'fixed',
+            bottom: 32,
+            left: 32,
+            zIndex: 1200,
+          }}
+        >
+          <Button
+            onClick={() => setModalOpen(true)}
+            sx={{
+              background: 'linear-gradient(90deg, #0099A8 0%, #16D9E3 100%)',
+              color: 'white',
+              fontWeight: 'bold',
+              fontSize: '1.2rem',
+              borderRadius: '20px',
+              px: 4,
+              py: 1.5,
+              boxShadow: '0 4px 16px rgba(0,0,0,0.10)',
+              minWidth: 0,
+              minHeight: 0,
+              textTransform: 'none',
+              '&:hover': {
+                background: 'linear-gradient(90deg, #16D9E3 0%, #0099A8 100%)',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.18)'
+              },
+            }}
+          >
+            Get 20% Off
+          </Button>
+        </Box>
+      )}
 
     </>
   );

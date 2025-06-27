@@ -135,7 +135,7 @@ const ProcessSection = () => {
               }
             }}
           >
-            How does our laundry service work?
+            How do our services work?
           </Typography>
           <Typography 
             variant="h6" 
@@ -150,7 +150,7 @@ const ProcessSection = () => {
               mt: 4
             }}
           >
-            We make laundry day easy! Laundry service delivered — at the click of a button.
+            Clean Home. Clean Clothes. Clean Life.
           </Typography>
         </Box>
         

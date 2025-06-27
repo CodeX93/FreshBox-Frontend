@@ -128,7 +128,7 @@ export default function Footer() {
           <Fade in={animateIn} timeout={800}>
             <Grid container spacing={4}>
               {/* Company Info Section */}
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} sm={6} md={2.4}>
                 <Box sx={{ mb: 3 }}>
                   <Box
                     sx={{
@@ -162,8 +162,7 @@ export default function Footer() {
                       maxWidth: '280px'
                     }}
                   >
-                    Professional laundry and cleaning services at your doorstep. 
-                    Making life easier, one wash at a time.
+                    FreshBox Pro is America's one-stop solution for a cleaner home, fresher wardrobe, and more free time. From sparkling spaces to spotless clothes—we bring the clean to you.
                   </Typography>
                 </Box>
 
@@ -211,38 +210,10 @@ export default function Footer() {
                     </Fade>
                   ))}
                 </Box>
-
-                {/* Social Media Icons */}
-                <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>
-                  {socialLinks.slice(0, 4).map((social, index) => (
-                    <Zoom in={animateIn} style={{ transitionDelay: `${300 + index * 100}ms` }} key={social.name}>
-                      <IconButton 
-                        component="a"
-                        href={social.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={social.name}
-                        sx={{ 
-                          color: 'white', 
-                          bgcolor: 'rgba(255, 255, 255, 0.1)',
-                          border: '1px solid rgba(255, 255, 255, 0.1)',
-                          transition: 'all 0.3s ease',
-                          '&:hover': { 
-                            bgcolor: social.color,
-                            transform: 'translateY(-4px) scale(1.1)',
-                            boxShadow: `0 8px 25px ${social.color}40`
-                          } 
-                        }}
-                      >
-                        {social.icon}
-                      </IconButton>
-                    </Zoom>
-                  ))}
-                </Box>
               </Grid>
               
               {/* Services Section */}
-              <Grid item xs={12} sm={6} md={2.5}>
+              <Grid item xs={12} sm={6} md={2.4}>
                 <Typography 
                   variant="h6" 
                   sx={{ 
@@ -314,7 +285,7 @@ export default function Footer() {
               </Grid>
               
               {/* Company Section */}
-              <Grid item xs={12} sm={6} md={2.5}>
+              <Grid item xs={12} sm={6} md={2.4}>
                 <Typography 
                   variant="h6" 
                   sx={{ 
@@ -385,8 +356,8 @@ export default function Footer() {
                 </List>
               </Grid>
 
-              {/* App Download & Newsletter Section */}
-              <Grid item xs={12} md={3}>
+              {/* Connect Section (Social Icons) */}
+              <Grid item xs={12} sm={6} md={2.4}>
                 <Typography 
                   variant="h6" 
                   sx={{ 
@@ -410,9 +381,126 @@ export default function Footer() {
                     }
                   }}
                 >
-                  Get Our App
+                  Connect
                 </Typography>
+                {/* Vertical list of social names as links */}
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mb: 2 }}>
+                  <Link href="https://www.instagram.com/freshboxpro" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                    <Typography variant="body1" sx={{ color: theme.palette.primary.main, fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>Instagram</Typography>
+                  </Link>
+                  <Link href="https://www.facebook.com/freshboxpro" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                    <Typography variant="body1" sx={{ color: theme.palette.primary.main, fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>Facebook</Typography>
+                  </Link>
+                  <Link href="https://www.youtube.com/freshboxpro" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                    <Typography variant="body1" sx={{ color: theme.palette.primary.main, fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>Youtube</Typography>
+                  </Link>
+                  <Link href="https://twitter.com/freshboxpro" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                    <Typography variant="body1" sx={{ color: theme.palette.primary.main, fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>X (Twitter)</Typography>
+                  </Link>
+                  <Link href="#" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                    <Typography variant="body1" sx={{ color: theme.palette.primary.main, fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>TikTok</Typography>
+                  </Link>
+                  <Link href="https://wa.me/12006009206" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                    <Typography variant="body1" sx={{ color: theme.palette.primary.main, fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>Whatsapp</Typography>
+                  </Link>
+                  <Link href="/support" style={{ textDecoration: 'none' }}>
+                    <Typography variant="body1" sx={{ color: theme.palette.primary.main, fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>Contact</Typography>
+                  </Link>
+                </Box>
+                {/* Horizontal grid of colored square social icons: 3 columns, 2 rows */}
+                <Box sx={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, 38px)',
+                  gap: 1.5,
+                  mb: 2,
+                  mt: 1,
+                  justifyContent: 'start',
+                }}>
+                  <IconButton component="a" href="https://www.facebook.com/freshboxpro" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#1877F2', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#145db2' } }}>
+                    <FacebookIcon sx={{ color: 'white', fontSize: 28 }} />
+                  </IconButton>
+                  <IconButton component="a" href="https://www.instagram.com/freshboxpro" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#E4405F', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#b92d4b' } }}>
+                    <InstagramIcon sx={{ color: 'white', fontSize: 28 }} />
+                  </IconButton>
+                  <IconButton component="a" href="https://www.youtube.com/freshboxpro" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#FF0000', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#b80000' } }}>
+                    <YouTubeIcon sx={{ color: 'white', fontSize: 28 }} />
+                  </IconButton>
+                  <IconButton component="a" href="https://wa.me/12006009206" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#25D366', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#1da851' } }}>
+                    <WhatsAppIcon sx={{ color: 'white', fontSize: 28 }} />
+                  </IconButton>
+                  <IconButton component="a" href="#" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#000000', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#222' } }}>
+                    {/* TikTok icon is not imported, use MusicNoteIcon as placeholder */}
+                    <MusicNoteIcon sx={{ color: 'white', fontSize: 28 }} />
+                  </IconButton>
+                  <IconButton component="a" href="https://twitter.com/freshboxpro" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#000000', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#222' } }}>
+                    <TwitterIcon sx={{ color: 'white', fontSize: 28 }} />
+                  </IconButton>
+                </Box>
+              </Grid>
 
+              {/* Redesigned Get Our App Section */}
+              <Grid item xs={12} sm={6} md={2.4}>
+                <Box sx={{
+                  bgcolor: '#2A7DB8',
+                  borderRadius: 3,
+                  p: 3,
+                  mb: 3,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  boxShadow: '0 4px 24px rgba(42,125,184,0.10)',
+                }}>
+                  <Typography 
+                    variant="h6" 
+                    sx={{ 
+                      fontWeight: '600', 
+                      mb: 2,
+                      fontSize: '1.1rem',
+                      color: 'white',
+                      textAlign: 'center',
+                    }}
+                  >
+                    Download Our App
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mb: 2 }}>
+                    <Box 
+                      component="a" 
+                      href="https://apps.apple.com/app/freshbox-pro" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      sx={{ 
+                        transition: 'transform 0.3s ease',
+                        '&:hover': { transform: 'scale(1.05)' }
+                      }}
+                    >
+                      <Image
+                        src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+                        alt="Download on the App Store"
+                        width={140}
+                        height={48}
+                        priority={false}
+                      />
+                    </Box>
+                    <Box 
+                      component="a" 
+                      href="https://play.google.com/store/apps/details?id=com.freshboxpro" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      sx={{ 
+                        transition: 'transform 0.3s ease',
+                        '&:hover': { transform: 'scale(1.05)' }
+                      }}
+                    >
+                      <Image
+                        src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
+                        alt="Get it on Google Play"
+                        width={160}
+                        height={62}
+                        priority={false}
+                      />
+                    </Box>
+                  </Box>
+                </Box>
                 {/* Newsletter Signup */}
                 <Grow in={animateIn} style={{ transformOrigin: '0 0' }}>
                   <Card
@@ -437,7 +525,6 @@ export default function Footer() {
                     <Typography variant="body2" sx={{ opacity: 0.8, mb: 2, lineHeight: 1.5 }}>
                       Get the latest offers and updates delivered to your inbox.
                     </Typography>
-                    
                     <Box component="form" onSubmit={handleSubscribe} sx={{ mb: 2 }}>
                       <TextField
                         fullWidth
@@ -479,52 +566,11 @@ export default function Footer() {
                           py: 1
                         }}
                       >
-                        {showThankYou ? 'Thank You!' : 'Subscribe'}
+                        {showThankYou ? 'Thank You!' : 'SUBSCRIBE'}
                       </Button>
                     </Box>
                   </Card>
                 </Grow>
-
-                {/* App Download Links */}
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                  <Box 
-                    component="a" 
-                    href="https://apps.apple.com/app/freshbox-pro" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    sx={{ 
-                      transition: 'transform 0.3s ease',
-                      '&:hover': { transform: 'scale(1.05)' }
-                    }}
-                  >
-                    <Image
-                      src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
-                      alt="Download on the App Store"
-                      width={140}
-                      height={48}
-                      priority={false}
-                    />
-                  </Box>
-
-                  <Box 
-                    component="a" 
-                    href="https://play.google.com/store/apps/details?id=com.freshboxpro" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    sx={{ 
-                      transition: 'transform 0.3s ease',
-                      '&:hover': { transform: 'scale(1.05)' }
-                    }}
-                  >
-                    <Image
-                      src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
-                      alt="Get it on Google Play"
-                      width={160}
-                      height={62}
-                      priority={false}
-                    />
-                  </Box>
-                </Box>
               </Grid>
             </Grid>
           </Fade>
