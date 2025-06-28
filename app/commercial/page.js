@@ -115,9 +115,9 @@ export default function CommercialPage() {
           <CommercialLaundrySection       handleClick={handleClick}  />
         </Box>
 
-        <Box id="airbnb" ref={airbnbRef} sx={sectionStyle}>
+        {/* <Box id="airbnb" ref={airbnbRef} sx={sectionStyle}>
           <AirbnbLaundrySection       handleClick={handleClick} />
-        </Box>
+        </Box> */}
 
         <Box id="spa" ref={spaRef} sx={sectionStyle}>
           <MassageSpaSection       handleClick={handleClick} />

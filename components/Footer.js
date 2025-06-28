@@ -385,7 +385,7 @@ export default function Footer() {
                 </Typography>
                 {/* Vertical list of social names as links */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mb: 2 }}>
-                  <Link href="https://www.instagram.com/freshboxpro" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                  <Link href="https://www.instagram.com/freshbox_clean" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                     <Typography variant="body1" sx={{ color: theme.palette.primary.main, fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>Instagram</Typography>
                   </Link>
                   <Link href="https://www.facebook.com/freshboxpro" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
@@ -394,11 +394,14 @@ export default function Footer() {
                   <Link href="https://www.youtube.com/freshboxpro" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                     <Typography variant="body1" sx={{ color: theme.palette.primary.main, fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>Youtube</Typography>
                   </Link>
-                  <Link href="https://twitter.com/freshboxpro" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                  <Link href="https://x.com/freshbox_clean" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                     <Typography variant="body1" sx={{ color: theme.palette.primary.main, fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>X (Twitter)</Typography>
                   </Link>
-                  <Link href="#" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                  <Link href="https://www.tiktok.com/@freshbo_clean" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                     <Typography variant="body1" sx={{ color: theme.palette.primary.main, fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>TikTok</Typography>
+                  </Link>
+                  <Link href="https://www.linkedin.com/company/freshboxtech/about/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                    <Typography variant="body1" sx={{ color: theme.palette.primary.main, fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>LinkedIn</Typography>
                   </Link>
                   <Link href="https://wa.me/12006009206" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                     <Typography variant="body1" sx={{ color: theme.palette.primary.main, fontWeight: 500, '&:hover': { textDecoration: 'underline' } }}>Whatsapp</Typography>
@@ -419,7 +422,7 @@ export default function Footer() {
                   <IconButton component="a" href="https://www.facebook.com/freshboxpro" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#1877F2', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#145db2' } }}>
                     <FacebookIcon sx={{ color: 'white', fontSize: 28 }} />
                   </IconButton>
-                  <IconButton component="a" href="https://www.instagram.com/freshboxpro" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#E4405F', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#b92d4b' } }}>
+                  <IconButton component="a" href="https://www.instagram.com/freshbox_clean" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#E4405F', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#b92d4b' } }}>
                     <InstagramIcon sx={{ color: 'white', fontSize: 28 }} />
                   </IconButton>
                   <IconButton component="a" href="https://www.youtube.com/freshboxpro" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#FF0000', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#b80000' } }}>
@@ -428,12 +431,15 @@ export default function Footer() {
                   <IconButton component="a" href="https://wa.me/12006009206" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#25D366', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#1da851' } }}>
                     <WhatsAppIcon sx={{ color: 'white', fontSize: 28 }} />
                   </IconButton>
-                  <IconButton component="a" href="#" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#000000', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#222' } }}>
+                  <IconButton component="a" href="https://www.tiktok.com/@freshbo_clean" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#000000', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#222' } }}>
                     {/* TikTok icon is not imported, use MusicNoteIcon as placeholder */}
                     <MusicNoteIcon sx={{ color: 'white', fontSize: 28 }} />
                   </IconButton>
-                  <IconButton component="a" href="https://twitter.com/freshboxpro" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#000000', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#222' } }}>
+                  <IconButton component="a" href="https://x.com/freshbox_clean" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#000000', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#222' } }}>
                     <TwitterIcon sx={{ color: 'white', fontSize: 28 }} />
+                  </IconButton>
+                  <IconButton component="a" href="https://www.linkedin.com/company/freshboxtech/about/" target="_blank" rel="noopener noreferrer" sx={{ bgcolor: '#0A66C2', borderRadius: 2, p: 0.5, width: 38, height: 38, '&:hover': { bgcolor: '#084482' } }}>
+                    <LinkedInIcon sx={{ color: 'white', fontSize: 28 }} />
                   </IconButton>
                 </Box>
               </Grid>
@@ -609,7 +615,7 @@ export default function Footer() {
               pt: 2
             }}>
               <Typography variant="body2" sx={{ opacity: 0.7, fontSize: '0.875rem' }}>
-                © {new Date().getFullYear()} FreshBox Pro. All rights reserved.
+                Copyright ©️ {new Date().getFullYear()} FreshBox Technologies LLC. All Rights Reserved.
               </Typography>
               <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
                 {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((item) => (

@@ -160,7 +160,7 @@ export default function HeroSection() {
               component="h2"
               sx={{
                 fontWeight: 'bolder',
-                fontFamily:'Anton',
+                fontFamily:'Montserrat',
                 mb: 1,
                 mt: 10,
                 fontSize: { xs: '2.2rem', sm: '2.6rem', md: '3rem' },
@@ -178,8 +178,8 @@ export default function HeroSection() {
                 opacity: 0.95,
                 mb: 2,
                 fontSize: { xs: '1rem', md: '1.3rem' },
-                fontWeight: 800,
-                fontFamily:'Courier New',
+                fontWeight: 'bold',
+                fontFamily:'Montserrat',
                 textShadow: '1px 1px 4px rgba(0, 0, 0, 0.3)',
                 maxWidth: '100%',
                 mx: 'auto',
